@@ -127,7 +127,7 @@ export default function BlogPostPage({
                 rehypePlugins: [
                   rehypeSlug,
                   [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-                  rehypeHighlight,
+                  rehypeHighlight as any,
                 ],
               },
             }}
