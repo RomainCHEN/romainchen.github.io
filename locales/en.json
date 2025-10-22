@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "projects": "Projects",
+    "resume": "Resume"
+  },
+  "home": {
+    "greeting": "Hi, I'm",
+    "name": "Romain Chen",
+    "title": "Researcher & Developer",
+    "description": "Welcome to my personal blog where I share insights on technology, research, and projects.",
+    "viewBlog": "View Blog",
+    "viewProjects": "View Projects"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Thoughts on technology, research, and development",
+    "readMore": "Read More",
+    "readTime": "min read",
+    "words": "words",
+    "allPosts": "All Posts",
+    "noPosts": "No posts available yet."
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "A collection of my work and research",
+    "viewProject": "View Project",
+    "sourceCode": "Source Code",
+    "noProjects": "No projects available yet."
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "builtWith": "Built with"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "switch": "中文"
+  }
+}
+

@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "home": "首页",
+    "blog": "博客",
+    "projects": "项目",
+    "resume": "简历"
+  },
+  "home": {
+    "greeting": "你好，我是",
+    "name": "Romain Chen",
+    "title": "研究员 & 开发者",
+    "description": "欢迎来到我的个人博客，在这里我分享关于技术、研究和项目的见解。",
+    "viewBlog": "查看博客",
+    "viewProjects": "查看项目"
+  },
+  "blog": {
+    "title": "博客",
+    "subtitle": "关于技术、研究和开发的思考",
+    "readMore": "阅读更多",
+    "readTime": "分钟阅读",
+    "words": "字",
+    "allPosts": "所有文章",
+    "noPosts": "暂无文章。"
+  },
+  "projects": {
+    "title": "项目",
+    "subtitle": "我的作品和研究集合",
+    "viewProject": "查看项目",
+    "sourceCode": "源代码",
+    "noProjects": "暂无项目。"
+  },
+  "footer": {
+    "rights": "版权所有。",
+    "builtWith": "构建工具"
+  },
+  "theme": {
+    "light": "浅色",
+    "dark": "深色"
+  },
+  "language": {
+    "switch": "EN"
+  }
+}
+
