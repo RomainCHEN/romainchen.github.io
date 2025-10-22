@@ -12,7 +12,7 @@ export default function Footer({ t }: FooterProps) {
   const socialLinks = [
     {
       name: 'GitHub',
-      url: 'https://github.com/RoaminCHEN',
+      url: 'https://github.com/RomainCHEN',
       icon: FiGithub,
     },
     {
