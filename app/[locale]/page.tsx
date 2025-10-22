@@ -9,7 +9,7 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
   const socialLinks = [
     {
       name: 'GitHub',
-      url: 'https://github.com/RoaminCHEN',
+      url: 'https://github.com/RomainCHEN',
       icon: FiGithub,
     },
     {
