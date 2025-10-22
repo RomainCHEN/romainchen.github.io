@@ -16,31 +16,31 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 'project-1',
+    id: 'personal-blog',
     title: {
-      en: 'Sample Project 1',
-      zh: '示例项目 1',
+      en: 'Personal Blog & Portfolio',
+      zh: '个人博客与作品集',
     },
     description: {
-      en: 'This is a sample project demonstrating the project showcase feature. Replace this with your actual projects.',
-      zh: '这是一个展示项目功能的示例项目。请用您的实际项目替换此内容。',
+      en: 'A modern bilingual blog built with Next.js, featuring technical articles, project showcases, and dark mode support. Deployed on GitHub Pages.',
+      zh: '使用 Next.js 构建的现代化双语博客，包含技术文章、项目展示和深色模式支持。部署在 GitHub Pages 上。',
     },
-    github: 'https://github.com/yourusername/project1',
-    tags: ['React', 'TypeScript', 'Next.js'],
+    link: 'https://romainchen.github.io',
+    github: 'https://github.com/RomainCHEN/romainchen.github.io',
+    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'MDX'],
   },
   {
-    id: 'project-2',
+    id: 'tech-research',
     title: {
-      en: 'Sample Project 2',
-      zh: '示例项目 2',
+      en: 'Technology Research',
+      zh: '技术研究',
     },
     description: {
-      en: 'Another sample project showcasing different technologies. Add your own projects here.',
-      zh: '另一个展示不同技术的示例项目。在此处添加您自己的项目。',
+      en: 'Research and exploration in web development, covering topics like React Hooks, Next.js best practices, and modern frontend architecture.',
+      zh: 'Web 开发领域的研究与探索，涵盖 React Hooks、Next.js 最佳实践以及现代前端架构等主题。',
     },
-    link: 'https://example.com',
-    github: 'https://github.com/yourusername/project2',
-    tags: ['Python', 'Machine Learning', 'Data Science'],
+    link: 'https://romainchen.github.io/en/blog',
+    tags: ['React', 'JavaScript', 'Web Development'],
   },
 ];
 
