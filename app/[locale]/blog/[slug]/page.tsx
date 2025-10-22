@@ -5,7 +5,6 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import remarkGfm from 'remark-gfm';
 import { FiClock, FiFileText, FiCalendar, FiArrowLeft } from 'react-icons/fi';
 import TableOfContents from '@/components/TableOfContents';
 import Link from 'next/link';
@@ -123,7 +122,7 @@ export default function BlogPostPage({
             source={post.content}
             options={{
               mdxOptions: {
-                remarkPlugins: [remarkGfm],
+                remarkPlugins: [],
                 rehypePlugins: [
                   rehypeSlug,
                   [rehypeAutolinkHeadings, { behavior: 'wrap' }],
