@@ -94,7 +94,7 @@ em{font-family:'Fraunces';font-style:italic;color:var(--accent)}
     <h2>What we set out to achieve</h2>
     <div class="accent-line"></div>
     <ul class="points" style="margin-top:32px">
-        <li><strong>Obj 1:</strong> Generate KET/PET exercises with ≥90% vocabulary compliance (Sem 1) <span class="g">✓ Achieved: 95.6%</span></li>
+        <li><strong>Obj 1:</strong> Generate KET/PET exercises with ≥90% vocabulary compliance (Sem 1) <span class="g">✓ Achieved: 97.0%</span></li>
         <li><strong>Obj 2:</strong> Multimodal generation (text + image) for speaking/writing tasks (Sem 1-2)</li>
         <li><strong>Obj 3:</strong> Web-based teacher interface with SUS ≥ 68 (Sem 2)</li>
         <li><strong>Obj 4:</strong> Classroom-ready export: Word worksheets + editable PPT (Sem 2)</li>
@@ -144,7 +144,7 @@ em{font-family:'Fraunces';font-style:italic;color:var(--accent)}
     <p class="kicker">System Architecture</p>
     <h2>Single Agent, Multiple Skills</h2>
     <div class="accent-line"></div>
-    <img src="system_architecture.png" style="width:100%;max-height:620px;margin-top:16px;object-fit:contain" alt="Architecture">
+    <img src="system_architecture.png" style="width:90%;max-height:550px;margin-top:16px;object-fit:contain" alt="Architecture">
 </div>
 
 <!-- 7 Prompt Engineering -->
@@ -185,7 +185,7 @@ em{font-family:'Fraunces';font-style:italic;color:var(--accent)}
             <li>Teacher has <strong>final approval power</strong></li>
         </ul>
     </div>
-    <div class="col"><img src="validation_pipeline.png" style="width:100%;border-radius:6px" alt="Pipeline"></div>
+    <div class="col"><img src="validation_pipeline.png" style="max-width:95%;max-height:450px;border-radius:6px;object-fit:contain" alt="Pipeline"></div>
 </div>
 
 <!-- 9 Testing Results -->
@@ -195,15 +195,15 @@ em{font-family:'Fraunces';font-style:italic;color:var(--accent)}
         <p class="kicker">Testing Results</p>
         <h2>Real API, real validation</h2>
         <div class="accent-line"></div>
-        <img src="terminal_screenshot.png" style="width:100%;border-radius:6px;margin-top:12px" alt="Test output">
+        <img src="terminal_screenshot.png" style="width:95%;max-height:380px;border-radius:6px;margin-top:12px;object-fit:contain" alt="Test output">
         <p style="font-size:14px;color:var(--light);margin-top:8px">10 exercises (5 KET + 5 PET) · DeepSeek v4-flash · Cambridge A2 vocab list (14,057 forms)</p>
     </div>
     <div class="col" style="flex:0.7">
         <div class="data-row">
-            <div><div class="data-value" style="color:var(--accent)">95.6%</div><div class="data-label">avg compliance (target: ≥90%)</div></div>
-            <div><div class="data-value" style="color:var(--green)">4.3s</div><div class="data-label">vs 30-60 min manual</div></div>
+            <div><div class="data-value" style="color:var(--accent)">97.0%</div><div class="data-label">avg compliance (target: ≥90%)</div></div>
+            <div><div class="data-value" style="color:var(--green)">4.9s</div><div class="data-label">vs 30-60 min manual</div></div>
             <div><div class="data-value">$0.00024</div><div class="data-label">per exercise</div></div>
-            <div><div class="data-value" style="color:var(--green)">9/10</div><div class="data-label">pass 90% threshold</div></div>
+            <div><div class="data-value" style="color:var(--green)">10/10</div><div class="data-label">pass 90% threshold</div></div>
         </div>
     </div>
 </div>
@@ -216,8 +216,8 @@ em{font-family:'Fraunces';font-style:italic;color:var(--accent)}
     <div class="accent-line"></div>
     <table class="tbl">
         <tr><th>Metric</th><th>DeepSeek v4-flash</th><th>MiMo v2.5-pro</th></tr>
-        <tr><td>Vocabulary Compliance</td><td class="yes">95.6%</td><td>92.0%</td></tr>
-        <tr><td>Latency</td><td class="yes">4.3s</td><td>15.1s</td></tr>
+        <tr><td>Vocabulary Compliance</td><td class="yes">97.0%</td><td>92.0%</td></tr>
+        <tr><td>Latency</td><td class="yes">4.9s</td><td>15.1s</td></tr>
         <tr><td>Cost/Exercise</td><td class="yes">$0.00024</td><td>$0.00149</td></tr>
         <tr><td>JSON Success</td><td class="yes">10/10</td><td>5/5</td></tr>
     </table>
