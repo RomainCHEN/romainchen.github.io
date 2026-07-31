@@ -18,7 +18,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const locale = asLocale((await params).locale);
   return {
-    title: `${SITE.name} — ${locale === 'en' ? 'learning tools as research objects' : '把学习工具做成研究对象'}`,
+    // Absolute, or the root layout's template appends the name a second time.
+    title: {
+      absolute: `${SITE.name} — ${
+        locale === 'en' ? 'learning tools as research objects' : '把学习工具做成研究对象'
+      }`,
+    },
     description: TAGLINE[locale],
     alternates: { canonical: path(locale) },
   };
