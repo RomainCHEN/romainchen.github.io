@@ -27,12 +27,7 @@ Chrome; set `CHROME_PATH` if the default path in the script is wrong.
   `instrumented`, `designed` and `planned` mean specific things (see README), and
   `tests/content.test.ts` pins several of them. If a study has not been run, the
   site says so.
-- Never state a study result — a SUS score, a sample size, a time saving — unless
-  the owner has supplied the number. A test greps for this pattern.
-
-## Loop conventions
-
-- Report-only week one (L1) before enabling auto-fix (L2)
-- See LOOP.md for cadence and human gates
-- Constraints in `loop-constraints.md` are binding; read them before acting
-- Append each run to `loop-run-log.md`
+- Never state a study result — a SUS score, a sample size, a time saving —
+  unless the owner has supplied the number. A test greps for this pattern.
+- Never write first-person prose that will publish under the owner's name
+  without asking. Draft it somewhere else and let him decide.
