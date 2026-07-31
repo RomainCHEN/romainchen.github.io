@@ -1,64 +1,39 @@
-import { getTranslations, isValidLocale, type Locale } from '@/lib/i18n';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import BackToTop from '@/components/BackToTop';
 import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
+import { Masthead } from '@/components/Masthead';
+import { Footer } from '@/components/Footer';
+import { UI } from '@/content/site';
+import { asLocale, isLocale, localeParams, HTML_LANG } from '@/lib/locale';
+import { hasNotes } from '@/lib/notes';
 
-export async function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'zh' }];
+export function generateStaticParams() {
+  return localeParams();
 }
 
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: { locale: string } 
-}): Promise<Metadata> {
-  const locale = params.locale as Locale;
-  const t = getTranslations(locale);
-  
-  return {
-    title: 'Romain Chen - Personal Blog',
-    description: t.home.description,
-    keywords: ['blog', 'technology', 'research', 'developer', 'Romain Chen'],
-    authors: [{ name: 'Romain Chen' }],
-    openGraph: {
-      title: 'Romain Chen - Personal Blog',
-      description: t.home.description,
-      type: 'website',
-      locale: locale === 'zh' ? 'zh_CN' : 'en_US',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Romain Chen - Personal Blog',
-      description: t.home.description,
-    },
-  };
-}
-
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  if (!isValidLocale(params.locale)) {
-    notFound();
-  }
-
-  const locale = params.locale as Locale;
-  const t = getTranslations(locale);
+  const { locale: raw } = await params;
+  if (!isLocale(raw)) notFound();
+  const locale = asLocale(raw);
+  const notes = hasNotes();
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar locale={locale} t={t} />
-      <main className="flex-1">
-        {children}
-      </main>
-      <Footer t={t} />
-      <BackToTop />
+    // The <html> lang attribute is set on the root; this mirrors it onto the
+    // subtree so screen readers switch voice on the Chinese pages.
+    <div lang={HTML_LANG[locale]}>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-ink focus:px-3 focus:py-2 focus:text-sm focus:text-paper"
+      >
+        {UI.skipToContent[locale]}
+      </a>
+      <Masthead locale={locale} hasNotes={notes} />
+      <main id="main">{children}</main>
+      <Footer locale={locale} />
     </div>
   );
 }
-
