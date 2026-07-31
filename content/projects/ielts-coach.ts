@@ -25,6 +25,15 @@ export const ieltsCoach: Project = {
     zh: '教学设计 · Agent 架构 · 语言测评',
   },
   tags: ['Agent skill', 'MCP', 'Python', 'Rubric alignment', 'Open source'],
+  hero: {
+    src: '/work/ielts-coach/terminal-session.webp',
+    w: 1600,
+    h: 868,
+    alt: {
+      en: 'A terminal session: the topic discovery server starts on localhost, waits for the learner to submit the form, writes their answers to JSON, and exits.',
+      zh: '一段终端会话：话题采集服务在本机启动、等待学习者提交表单、把答案写入 JSON，然后退出。',
+    },
+  },
   links: [
     {
       label: { en: 'Repository', zh: '代码仓库' },
@@ -76,15 +85,15 @@ export const ieltsCoach: Project = {
     {
       kind: 'figure',
       src: '/work/ielts-coach/form-filled.webp',
-      w: 700,
-      h: 600,
+      w: 900,
+      h: 1031,
       alt: {
-        en: "The elicitation form filled in with a learner's own recollections and opinions before any generation happens.",
-        zh: '采集表单被学习者自己的回忆与观点填满——这一切发生在任何生成之前。',
+        en: 'The topic discovery form for the topic Music, filled in with a learner\'s own recollections: what they listen to while working, and a song tied to a specific memory of a first interpreting competition.',
+        zh: '"音乐"话题的采集表单，填入了学习者自己的回忆：工作时听什么，以及一首与第一次交传比赛有关的歌。',
       },
       caption: {
-        en: 'Elicitation before generation. The form supports chart upload and clipboard paste so Writing Task 1 material enters the same pipeline, and answers persist as JSON so a topic never has to be re-interviewed.',
-        zh: '先采集，后生成。表单支持图表上传与剪贴板粘贴，使写作 Task 1 的材料进入同一条管线；答案以 JSON 持久化，因此同一个话题不必重复访谈。',
+        en: 'Elicitation before generation, running locally. Look at what the questions are actually after: not an opinion on music, but a specific afternoon in a car. The form supports chart upload and clipboard paste so Writing Task 1 material enters the same pipeline, and answers persist as JSON so a topic never has to be re-interviewed.',
+        zh: '先采集、后生成，全程在本机运行。注意这些问题真正想要的东西：不是关于音乐的看法，而是车里的某个具体下午。表单支持图表上传与剪贴板粘贴，使写作 Task 1 的材料进入同一条管线；答案以 JSON 持久化，因此同一个话题不必重复访谈。',
       },
     },
     {

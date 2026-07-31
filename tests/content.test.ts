@@ -161,7 +161,7 @@ describe('evidence claims', () => {
   });
 
   it('does not claim the transcreation comparison is complete', () => {
-    expect(stateOf('transcreation', 'output generation and comparison')).toBe('planned');
+    expect(stateOf('transcreation', 'Human–machine comparison')).toBe('planned');
   });
 
   it('never states a number for an unrun study', () => {

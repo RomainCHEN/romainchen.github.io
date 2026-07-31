@@ -29,12 +29,21 @@ export const transcreation: Project = {
     zh: '翻译研究 · 认知语言学 · 大模型评估',
   },
   tags: ['Cultural schema theory', 'Transcreation', 'Corpus study', 'LLM evaluation', 'Conceptual blending'],
+  hero: {
+    src: '/work/transcreation/corpus-dataset.webp',
+    w: 1500,
+    h: 1060,
+    alt: {
+      en: 'The Chinese-to-English corpus sheet: source title, year, genre, official English release title, and the renderings produced by DeepSeek R1 and Gemini 2.5 Pro, with poster references.',
+      zh: '汉译英语料表：原片名、上映年份、影片类型、英文官方译名，以及 DeepSeek R1 与 Gemini 2.5 Pro 的输出，附中英海报参照。',
+    },
+  },
   links: [],
   facts: [
     { label: { en: 'Corpus', zh: '语料' }, value: { en: '100 title pairs, both directions', zh: '100 对片名，双向' } },
+    { label: { en: 'Systems compared', zh: '对比对象' }, value: { en: 'Official human release titles vs two frontier models', zh: '官方人工译名 vs 两个前沿模型' } },
     { label: { en: 'Analytical model', zh: '分析模型' }, value: { en: 'Three tiers: strategy, cognition, schema', zh: '三层：策略、认知、图式' } },
-    { label: { en: 'Schema operations', zh: '图式操作类型' }, value: { en: '4 — match, adapt, create, reconstruct', zh: '4 类——匹配、调适、创建、重构' } },
-    { label: { en: 'Status', zh: '状态' }, value: { en: 'Paper in preparation', zh: '论文写作中' } },
+    { label: { en: 'Status', zh: '状态' }, value: { en: 'Corpus collected; coding in progress', zh: '语料已采集，编码进行中' } },
   ],
   featured: true,
   sections: [
@@ -67,6 +76,20 @@ export const transcreation: Project = {
       note: {
         en: 'Reference-overlap metrics penalise exactly the behaviour that constitutes expertise. That single observation is what makes the project necessary.',
         zh: '参考重叠类指标恰好惩罚了构成专业能力的那种行为。仅此一条观察，就足以说明这个项目为什么必要。',
+      },
+    },
+    {
+      kind: 'figure',
+      src: '/work/transcreation/course-poster.webp',
+      w: 1300,
+      h: 1836,
+      alt: {
+        en: 'The original course poster on Chinese–English film title translation, organising examples into ten labelled strategy categories.',
+        zh: '最初的课程展示海报《电影标题的中英翻译》，把案例归入十个带标签的策略类别。',
+      },
+      caption: {
+        en: 'Where this started: a course poster for an English–Chinese contrastive translation class, sorting film titles into ten strategy categories. The paper exists because of what is wrong with it. Categories at this level record **what was done** — literal rendering, domestication, adding context — and say nothing about why one choice worked and its neighbour did not. Moving from a label to a mechanism is the whole distance between that poster and the three-tier model.',
+        zh: '起点：一门英汉对比翻译课的展示海报，把片名归入十个策略类别。这篇论文之所以存在，恰恰源于这张海报的不足。这个层级的分类记录的是**做了什么**——直译、归化、增补语境——却完全没有说明为什么某个选择成立而相邻的那个不成立。从一个标签走到一套机制，就是这张海报与三层模型之间的全部距离。',
       },
     },
     {
@@ -146,6 +169,62 @@ export const transcreation: Project = {
       ],
     },
     {
+      kind: 'table',
+      heading: { en: 'The coding manual', zh: '编码手册' },
+      head: [
+        { en: 'Schema operation (Tier 3)', zh: '图式操作（第三层）' },
+        { en: 'Cognitive demand', zh: '认知需求' },
+        { en: 'Strategy codes (Tier 1)', zh: '策略代码（第一层）' },
+      ],
+      rows: [
+        [
+          { en: 'I. Matching', zh: 'I. 图式匹配' },
+          {
+            en: 'Lowest. Source and target schemas are shared or easily equated; the task is formal equivalence.',
+            zh: '最低。源语与目标语图式共享或易于对等，任务是形式对等。',
+          },
+          { en: '`LT` literal · `T` transliteration · `BOR` borrowing', zh: '`LT` 直译 · `T` 音译 · `BOR` 借用保留' },
+        ],
+        [
+          { en: 'II. Adjustment', zh: 'II. 图式调适' },
+          {
+            en: 'Moderate. Schemas partly overlap; a conflicting reading has to be suppressed and a wanted one strengthened.',
+            zh: '中等。图式部分重叠，需抑制冲突读法并强化目标读法。',
+          },
+          {
+            en: '`T/S` transliteration + sense · `DYN` dynamic–static shift · `PUN` pun reconstruction · `E/PARA` explicitation',
+            zh: '`T/S` 音意结合 · `DYN` 动静态转换 · `PUN` 双关重构 · `E/PARA` 显化释义',
+          },
+        ],
+        [
+          { en: 'III. Creation', zh: 'III. 图式创建' },
+          {
+            en: 'Highest. No corresponding schema exists in the target culture; a new image has to be constructed to carry the theme.',
+            zh: '最高。目标文化缺乏对应图式，需构造新意象来承载主题。',
+          },
+          {
+            en: '`TR` transcreation · `IDIO` idiomatic adaptation · `EMO` affective reconstruction · `P/NAR` poetic-to-narrative',
+            zh: '`TR` 译创 · `IDIO` 成语化改编 · `EMO` 情感重构 · `P/NAR` 诗意转叙事',
+          },
+        ],
+        [
+          { en: 'IV. Reconstruction / avoidance', zh: 'IV. 图式重构 / 规避' },
+          {
+            en: 'High. The source schema conflicts with target norms or values; the frame is replaced rather than adjusted.',
+            zh: '高。源语图式与目标文化规范或价值冲突，需整体更换认知框架而非微调。',
+          },
+          {
+            en: '`MRK` market reshaping · `ADD` added context · `Cultural Substitution` · `Domestication`',
+            zh: '`MRK` 市场化重塑 · `ADD` 增补语境 · `Cultural Substitution` 文化替代 · `Domestication` 归化',
+          },
+        ],
+      ],
+      caption: {
+        en: 'Each strategy code is defined against its relationship to the cultural schema rather than by surface form, which is what lets a single code mean the same thing across two coders and two translation directions.',
+        zh: '每个策略代码都以它与文化图式的关系来定义，而不是以表层形式定义——正因如此，同一个代码在两位编码者、两个翻译方向上才能指同一件事。',
+      },
+    },
+    {
       kind: 'prose',
       heading: { en: 'Why "free translation" is the wrong unit of analysis', zh: '为什么"意译"是错误的分析单位' },
       body: {
@@ -193,24 +272,32 @@ export const transcreation: Project = {
           label: { en: 'Corpus construction', zh: '语料构建' },
           state: 'shipped',
           detail: {
-            en: '100 title pairs in both directions, sampled for culture-specific items, contested renderings across Mainland, Hong Kong and Taiwan, and coverage of all four schema operations.',
-            zh: '双向共 100 对片名，按文化特有项、大陆/香港/台湾译名分歧、以及四种图式操作的覆盖度抽样。',
+            en: '100 title pairs in both directions, sampled for culture-specific items, contested renderings across Mainland, Hong Kong and Taiwan, and coverage of all four schema operations. Each row carries the source title, year, genre, the official human release title, and the poster art for both markets.',
+            zh: '双向共 100 对片名，按文化特有项、大陆/香港/台湾译名分歧、以及四种图式操作的覆盖度抽样。每一行包含原片名、上映年份、影片类型、官方人工译名，以及两地的海报图像。',
+          },
+        },
+        {
+          label: { en: 'LLM output collection', zh: 'LLM 输出采集' },
+          state: 'shipped',
+          detail: {
+            en: 'Two frontier models — DeepSeek R1 and Gemini 2.5 Pro — have been run across the corpus, so every source title now sits beside a human release title and two machine renderings in the same row. That side-by-side arrangement is the whole instrument.',
+            zh: '两个前沿模型——DeepSeek R1 与 Gemini 2.5 Pro——已在全部语料上运行，因此每个原片名现在都与官方人工译名及两份机器输出同行并列。这种并置本身就是整件仪器。',
           },
         },
         {
           label: { en: 'Coding manual and reliability check', zh: '编码手册与信度检验' },
           state: 'instrumented',
           detail: {
-            en: 'Three-tier coding scheme drafted and pre-coded on the hardest cases to test whether the theoretical definitions survive contact with data. Full inter-coder reliability is pending.',
-            zh: '三层编码方案已起草，并在最难的案例上做过预编码，用于检验理论定义能否经受数据的检验。完整的编码者间信度尚未完成。',
+            en: 'The three-tier scheme is written down to the level of named strategy codes, each defined by its relationship to the cultural schema, and pre-coded on the hardest cases to test whether the definitions survive contact with data. Full inter-coder reliability is pending.',
+            zh: '三层方案已细化到具名策略代码，每个代码以其与文化图式的关系来定义，并在最难的案例上做过预编码，以检验定义能否经受数据的检验。完整的编码者间信度尚未完成。',
           },
         },
         {
-          label: { en: 'LLM output generation and comparison', zh: 'LLM 输出生成与对比' },
+          label: { en: 'Human–machine comparison and findings', zh: '人机对比与结论' },
           state: 'planned',
           detail: {
-            en: 'Systematic generation across the full corpus and the human–machine comparison are the next phase.',
-            zh: '在完整语料上系统生成输出，以及人机对比分析，属于下一阶段工作。',
+            en: 'Coding the full corpus and reporting the distribution of operations across human and machine output is the next phase. Nothing on this page beyond the framework should be read as a result.',
+            zh: '对全部语料进行编码、并报告人机输出在各类操作上的分布，属于下一阶段工作。本页框架层以上的内容都不应被视为结论。',
           },
         },
       ],
