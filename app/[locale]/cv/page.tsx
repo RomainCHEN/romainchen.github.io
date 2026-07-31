@@ -19,8 +19,8 @@ export async function generateMetadata({
     title: UI.nav.cv[locale],
     description:
       locale === 'en'
-        ? `Curriculum vitae of ${SITE.name}: education, research, teaching and writing.`
-        : `${SITE.nameZh}的学术简历：教育背景、研究、教学与写作。`,
+        ? `Curriculum vitae of ${SITE.name}: dual degree in translation and computer science, research on human–AI complementarity in education, teaching, and writing.`
+        : `${SITE.nameZh}的学术简历：翻译与计算机科学双学位、教育中人机互补方向的研究经历、教学经历、写作与传播作品，以及技能与获奖情况。`,
     alternates: { canonical: path(locale, 'cv') },
   };
 }

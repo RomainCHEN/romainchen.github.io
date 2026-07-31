@@ -70,6 +70,24 @@ function serve() {
 const AUDIT = () => {
   const problems = [];
 
+  // Title and description. A duplicated site name means a page set a plain
+  // title string where the root layout's template also appends it.
+  const title = document.title;
+  if (!title || title.length < 8) problems.push(`title too short: "${title}"`);
+  const owner = 'Zeming (Romain) Chen';
+  if (title.split(owner).length - 1 > 1) problems.push(`site name repeated in title: "${title}"`);
+  const description = document
+    .querySelector('meta[name="description"]')
+    ?.getAttribute('content');
+  // CJK says the same thing in far fewer characters, so the floor differs.
+  const cjk = /[\u4e00-\u9fff]/.test(description ?? '');
+  const floorLength = cjk ? 24 : 40;
+  if (!description || description.length < floorLength) {
+    problems.push(
+      `missing or thin meta description (${description?.length ?? 0} < ${floorLength}): "${description ?? ''}"`,
+    );
+  }
+
   // Alt text
   document.querySelectorAll('img').forEach((img) => {
     if (!img.hasAttribute('alt')) problems.push(`img without alt: ${img.currentSrc || img.src}`);
