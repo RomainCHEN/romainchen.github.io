@@ -58,7 +58,6 @@ export const UI = {
   switchLang: { en: '中文', zh: 'EN' },
   switchLangLabel: { en: 'Switch to Chinese', zh: 'Switch to English' },
   menu: { en: 'Menu', zh: '菜单' },
-  close: { en: 'Close', zh: '关闭' },
   selectedWork: { en: 'Selected work', zh: '精选作品' },
   allWork: { en: 'All work', zh: '全部作品' },
   readCase: { en: 'Read the case study', zh: '阅读案例研究' },
@@ -70,7 +69,6 @@ export const UI = {
   contents: { en: 'Contents', zh: '本页目录' },
   role: { en: 'Role', zh: '角色' },
   period: { en: 'Period', zh: '时间' },
-  discipline: { en: 'Field', zh: '领域' },
   facts: { en: 'At a glance', zh: '概览' },
   nextProject: { en: 'Next', zh: '下一个' },
   prevProject: { en: 'Previous', zh: '上一个' },
@@ -79,7 +77,6 @@ export const UI = {
   downloadCvZh: { en: 'Chinese résumé (PDF)', zh: '中文简历（PDF）' },
   lastUpdated: { en: 'Last updated', zh: '最后更新' },
   builtWith: { en: 'Built with Next.js. Set in Newsreader and Instrument Sans.', zh: '基于 Next.js 构建，使用 Newsreader 与 Instrument Sans 排版。' },
-  sourceCode: { en: 'Source', zh: '源代码' },
   notFoundTitle: { en: 'No such page', zh: '页面不存在' },
   notFoundBody: {
     en: 'The address is wrong, or something moved. The index below still works.',
@@ -99,7 +96,6 @@ export const UI = {
   sourceTitle: { en: 'Source title', zh: '原片名' },
   humanTitle: { en: 'Human translator', zh: '人工译者' },
   machineTitle: { en: 'Literal / LLM default', zh: '直译 / LLM 默认输出' },
-  stageDetail: { en: 'Select a stage', zh: '选择一个阶段' },
   what: { en: 'What it does', zh: '做什么' },
   why: { en: 'Why it matters for the research', zh: '对研究的意义' },
   writingEmpty: {
