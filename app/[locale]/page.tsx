@@ -1,95 +1,129 @@
-import { getTranslations, type Locale } from '@/lib/i18n';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
-import { FiGithub, FiMail, FiInstagram, FiArrowRight } from 'react-icons/fi';
+import { Reveal } from '@/components/Reveal';
+import { WorkIndex } from '@/components/WorkIndex';
+import { PROJECTS } from '@/content/projects';
+import { CURRENTLY } from '@/content/about';
+import { RESEARCH_INTERESTS, ROLE_LINE, SITE, TAGLINE, UI, path } from '@/content/site';
+import { asLocale, localeParams } from '@/lib/locale';
 
-export default function HomePage({ params }: { params: { locale: Locale } }) {
-  const t = getTranslations(params.locale);
-
-  const socialLinks = [
-    {
-      name: 'GitHub',
-      url: 'https://github.com/RomainCHEN',
-      icon: FiGithub,
-    },
-    {
-      name: 'Email',
-      url: 'mailto:blog@woiwd.com',
-      icon: FiMail,
-    },
-    {
-      name: 'Instagram',
-      url: 'https://instagram.com/zaaming.can',
-      icon: FiInstagram,
-    },
-  ];
-
-  return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-      <div className="flex flex-col items-center text-center">
-        {/* Avatar */}
-        <div className="relative w-32 h-32 sm:w-40 sm:h-40 mb-8 rounded-full overflow-hidden border-4 border-gray-200 dark:border-gray-700">
-          <Image
-            src="/avatar.jpg"
-            alt="Romain Chen"
-            width={160}
-            height={160}
-            className="w-full h-full object-cover object-[center_20%]"
-            priority
-          />
-        </div>
-
-        {/* Introduction */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
-          {t.home.greeting}{' '}
-          <span className="text-gray-900 dark:text-white">
-            {t.home.name}
-          </span>
-        </h1>
-
-        <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-400 mb-6">
-          {t.home.title}
-        </p>
-
-        <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mb-8">
-          {t.home.description}
-        </p>
-
-        {/* Social Links */}
-        <div className="flex items-center gap-6 mb-12">
-          {socialLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-300 transition-colors"
-              aria-label={link.name}
-            >
-              <link.icon className="w-6 h-6" />
-            </a>
-          ))}
-        </div>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Link
-            href={`/${params.locale}/blog`}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-gray-100 hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-gray-900 rounded-lg font-medium transition-colors"
-          >
-            {t.home.viewBlog}
-            <FiArrowRight className="w-5 h-5" />
-          </Link>
-          <Link
-            href={`/${params.locale}/projects`}
-            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-gray-900 dark:border-gray-100 text-gray-900 dark:text-gray-100 hover:bg-gray-900 hover:text-white dark:hover:bg-gray-100 dark:hover:text-gray-900 rounded-lg font-medium transition-colors"
-          >
-            {t.home.viewProjects}
-            <FiArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+export function generateStaticParams() {
+  return localeParams();
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const locale = asLocale((await params).locale);
+  return {
+    title: `${SITE.name} — ${locale === 'en' ? 'learning tools as research objects' : '把学习工具做成研究对象'}`,
+    description: TAGLINE[locale],
+    alternates: { canonical: path(locale) },
+  };
+}
+
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const locale = asLocale((await params).locale);
+
+  return (
+    <>
+      {/* ------------------------------------------------------------------
+          Opening. One sentence, set as large as it can be read comfortably,
+          then the facts that qualify it. No portrait, no buttons — the first
+          thing a reader should get is the claim.
+         ------------------------------------------------------------------ */}
+      <section className="canvas pt-20 pb-24 sm:pt-28 lg:pt-36">
+        <div className="field">
+          <Reveal className="col-margin" as="div">
+            <p className="label">{locale === 'en' ? 'Zeming (Romain) Chen' : '陈泽铭'}</p>
+            <p className="mt-3 font-mono text-2xs leading-relaxed text-muted">
+              {locale === 'en' ? SITE.nameZh : SITE.name}
+            </p>
+          </Reveal>
+
+          <div className="col-body">
+            <Reveal>
+              <h1 className="max-w-3xl font-display text-3xl leading-[1.14] text-ink text-balance sm:text-4xl lg:text-5xl">
+                {TAGLINE[locale]}
+              </h1>
+            </Reveal>
+
+            <Reveal delay={90}>
+              <p className="mt-8 max-w-xl font-display text-lg text-ink-soft text-pretty">
+                {ROLE_LINE[locale]}
+              </p>
+            </Reveal>
+
+            <Reveal delay={150}>
+              <div className="mt-10 rule-tick pt-5">
+                <p className="label">{UI.interests[locale]}</p>
+                <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+                  {RESEARCH_INTERESTS.map((interest) => (
+                    <li key={interest.en} className="text-sm text-ink-soft">
+                      {interest[locale]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------------------
+          Work
+         ------------------------------------------------------------------ */}
+      <section className="canvas pb-24" aria-labelledby="work-heading">
+        <div className="field">
+          <div className="col-body mb-4 flex items-baseline justify-between border-b border-rule pb-3">
+            <h2 id="work-heading" className="label">
+              {UI.selectedWork[locale]}
+            </h2>
+            <Link
+              href={path(locale, 'work')}
+              className="link-draw font-mono text-2xs uppercase tracking-[0.14em] text-muted hover:text-ink"
+            >
+              {UI.allWork[locale]}
+            </Link>
+          </div>
+        </div>
+        <WorkIndex locale={locale} projects={PROJECTS} />
+      </section>
+
+      {/* ------------------------------------------------------------------
+          Currently
+         ------------------------------------------------------------------ */}
+      <section className="canvas pb-8" aria-labelledby="currently-heading">
+        <div className="field">
+          <Reveal className="col-margin" as="div">
+            <h2 id="currently-heading" className="label">
+              {UI.currently[locale]}
+            </h2>
+          </Reveal>
+          <Reveal className="col-body" as="div">
+            <ul className="space-y-4 border-t border-rule pt-6">
+              {CURRENTLY[locale].map((item, i) => (
+                <li key={i} className="flex gap-4">
+                  <span className="mt-2.5 h-px w-6 shrink-0 bg-accent" aria-hidden="true" />
+                  <span className="max-w-xl font-display text-lg text-ink-soft text-pretty">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-10">
+              <Link
+                href={path(locale, 'about')}
+                className="link-draw font-mono text-2xs uppercase tracking-[0.14em] text-ink"
+              >
+                {locale === 'en' ? 'More about me' : '更多关于我'}
+              </Link>
+            </p>
+          </Reveal>
+        </div>
+      </section>
+    </>
+  );
+}
