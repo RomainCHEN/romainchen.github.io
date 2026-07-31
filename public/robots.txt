@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://romainchen.github.io/sitemap.xml
-
+Sitemap: https://romain.is-a.dev/sitemap.xml

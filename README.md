@@ -1,98 +1,118 @@
-# Romain Chen's Personal Blog
+# romain.is-a.dev
 
-一个现代化的双语（中英文）个人博客，基于 Next.js 构建，部署在 GitHub Pages。
+Personal academic site of Zeming (Romain) Chen — case studies, CV, and notes,
+in English and Chinese. Static Next.js build deployed to GitHub Pages.
 
-A modern, bilingual (Chinese/English) personal blog built with Next.js and deployed on GitHub Pages.
-
-## 🚀 快速开始 Quick Start
-
-```bash
-# 安装依赖 Install dependencies
-npm install
-
-# 启动开发服务器 Start dev server
-npm run dev
-
-# 打开浏览器访问 Open browser
-# http://localhost:3000
-```
-
-详细说明请查看 [快速启动指南](./QUICKSTART.md) | See [Quick Start Guide](./QUICKSTART.md)
-
-## Features
-
-- 🌍 **Bilingual Support**: Full Chinese and English language support
-- 🌓 **Dark Mode**: Toggle between light and dark themes
-- 📝 **Markdown Blog**: Write posts in Markdown/MDX with syntax highlighting
-- 📱 **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
-- 🚀 **Fast Performance**: Static site generation for optimal loading speed
-- 🎨 **Modern UI**: Clean and professional design
-- 📊 **Reading Stats**: Word count and estimated reading time
-- 🔗 **Social Links**: Easy access to GitHub, Email, and Instagram
-
-## Getting Started
-
-### Installation
+## Running it
 
 ```bash
 npm install
+npm run dev          # http://localhost:3000
 ```
 
-### Development
+| Command | What it does |
+|---|---|
+| `npm run build` | Static export into `out/` |
+| `npm test` | Content integrity and bilingual parity tests |
+| `npm run lint` | ESLint |
+| `npm run qa` | Build, then audit every page: contrast, headings, alt text, overflow, console errors. Screenshots land in `.qa/` |
+| `npm run review` | Build, then capture small screenshots of key views into `.review/` for eyeballing |
+| `npm run cv` | Regenerate `public/cv-zeming-chen.pdf` and `CV.md` from `content/cv.ts` |
+| `npm run assets` | Re-encode images in `assets-src/` and `public/work/`, regenerate the OG card and icons |
+| `npm run check` | lint + test + build + qa |
 
-```bash
-npm run dev
+## How content works
+
+There is no CMS and no MDX for the case studies. Everything is typed data in
+`content/`, authored bilingually side by side:
+
+```
+content/
+├── types.ts              Section union type — the vocabulary a case study can use
+├── site.ts               Identity, links, UI strings
+├── about.ts              /about prose
+├── cv.ts                 Single source for /cv, the PDF, and CV.md
+├── projects.ts           Ordering and lookup
+├── projects/
+│   ├── papercraft.ts
+│   ├── transcreation.ts
+│   └── ielts-coach.ts
+└── notes/
+    └── <slug>.<en|zh>.md Markdown notes, one file per language
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the site locally.
+Every string is a `{ en, zh }` pair. `npm test` walks the whole content tree and
+fails if either language is missing or if a paragraph array has a different
+length in the two languages — which is how bilingual sites usually rot.
 
-### Build for Production
+A case study is a list of sections. Adding one means picking a `kind` from
+`content/types.ts`: `lede`, `prose`, `figure`, `metrics`, `pipeline`, `schemas`,
+`evidence`, `table`, `quote`, `refs`. `SectionRenderer` decides how each is laid
+out, so content files stay free of markup.
 
-```bash
-npm run build
-```
+### Evidence labels
 
-### Deploy to GitHub Pages
+`kind: 'evidence'` sections state how much empirical backing each claim has:
 
-The site is configured to automatically deploy to GitHub Pages. Just push to the main branch.
+| State | Meaning |
+|---|---|
+| `shipped` | Built, deployed, in real use |
+| `instrumented` | Built and instrumented, no data collected yet |
+| `designed` | Protocol and instruments written, study not run |
+| `planned` | Specified, not built |
 
-## Adding Content
+`tests/content.test.ts` pins the current state of several claims. If an edit
+upgrades one — say, marking the teacher study as run — the test fails. That is
+deliberate: overclaiming should require a conscious decision, not a typo.
 
-### Adding a Blog Post
+### Adding a note
 
-1. Create a new `.md` or `.mdx` file in `posts/` directory
-2. Add frontmatter with metadata:
+Create `content/notes/my-slug.en.md` and `content/notes/my-slug.zh.md` with
+front matter:
 
-```markdown
+```yaml
 ---
-title: "Your Post Title"
-date: "2025-10-22"
-description: "Brief description"
-lang: "en"
+title: 'Title'
+date: '2026-08-01'
+summary: 'One or two sentences.'
 ---
-
-Your content here...
 ```
 
-3. The post will automatically appear in the blog list
+The Notes link appears in the navigation only when at least one note exists.
+Note that a static export cannot prerender `notes/[slug]` with zero notes, so if
+you delete every note you must also delete `app/[locale]/notes/`. `npm test`
+says so explicitly if it happens.
 
-### Adding a Project
+## Design notes
 
-Edit the `data/projects.ts` file to add or modify projects.
+- Type: Newsreader for display and body, Instrument Sans for interface, IBM Plex
+  Mono for data and labels. Body copy is set in the serif because the site is for
+  reading.
+- Colour: warm paper and ink, one earth-red signal colour, one slate blue held in
+  reserve for diagrams. Semantic values live in `:root` / `.dark` in
+  `app/globals.css` and are mapped into Tailwind through `@theme inline`.
+- Layout: a 12-column field. Body text occupies columns 4–11; columns 1–3 are a
+  real margin for years, notes and contents, the way a monograph is set.
+- Motion: a 10px fade-up on first view, and nothing else. `prefers-reduced-motion`
+  removes it; a `<noscript>` rule makes everything visible if JavaScript never
+  runs.
+- Dark mode follows the OS until the visitor overrides it, and the toggle cycles
+  back to auto so they are never stranded.
+- The `/cv` page is the source of the PDF. Print styles in `app/globals.css`
+  collapse the screen scale to two A4 pages; there is no second document.
 
-## Project Structure
+## Deployment
 
-```
-├── app/              # Next.js app directory
-├── components/       # React components
-├── posts/           # Blog posts in Markdown
-├── public/          # Static assets (images, PDFs)
-├── lib/             # Utility functions
-├── data/            # Static data files
-└── locales/         # Translation files
-```
+`.github/workflows/deploy.yml` runs lint, tests and the build on every pull
+request, and deploys `out/` to GitHub Pages on push to `main`. It also asserts
+that the export contains the pages it should, including `CNAME` and `.nojekyll`,
+so a silent routing regression cannot ship.
 
-## License
+The custom domain lives in `public/CNAME`.
 
-MIT License - feel free to use this template for your own blog!
+## Privacy
 
+No analytics, no cookies, no third-party requests. Fonts are self-hosted at build
+time by `next/font`. To turn on Plausible later, set
+`SITE.analytics.plausibleDomain` in `content/site.ts`; while it is empty no script
+is emitted.
