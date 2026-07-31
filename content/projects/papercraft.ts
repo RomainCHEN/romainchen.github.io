@@ -217,6 +217,20 @@ export const papercraft: Project = {
       ],
     },
     {
+      kind: 'figure',
+      src: '/work/papercraft/paper-ket-picture-story.webp',
+      w: 1130,
+      h: 1600,
+      alt: {
+        en: 'A generated KET Part 7 picture story exercise as exported for the classroom: three sequential illustrations, the writing task, and a sample answer.',
+        zh: '一份已生成并导出用于课堂的 KET Part 7 看图写作练习：三张连续插图、写作任务与参考答案。',
+      },
+      caption: {
+        en: 'What actually comes out of the pipeline — a KET Part 7 picture story, exported ready to hand out. This is the multimodal branch: the images are synthesised first, then a vision model writes the task from the images it was given, because doing it the other way round produces prompts that do not match their own pictures.',
+        zh: '管线真正产出的东西——一份 KET Part 7 看图写作，导出即可发放。这条是多模态分支：先合成图像，再由视觉模型基于这些图像撰写任务；反过来做的话，题干会和自己的配图对不上。',
+      },
+    },
+    {
       kind: 'prose',
       heading: { en: 'What is being measured, and how', zh: '究竟在测什么，怎么测' },
       body: {
