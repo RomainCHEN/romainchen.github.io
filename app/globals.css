@@ -20,7 +20,7 @@
   --paper-sunk: #f4f1ea;
   --ink: #1b1a17;
   --ink-soft: #423f39;
-  /* 5.47:1 on paper, 5.06:1 on the sunk background — clears AA for the 11px
+  /* 5.47:1 on paper, 5.06:1 on the sunk background, clears AA for the 11px
      mono labels, which is the smallest type on the site. */
   --muted: #6b665c;
   --rule: #e3dfd6;
@@ -176,7 +176,7 @@
    --------------------------------------------------------------------------- */
 @layer components {
   /* The page canvas. An asymmetric 12-column field: body text sits in
-     columns 4–11, leaving a real margin for notes, years and figures — the
+     columns 4–11, leaving a real margin for notes, years and figures, the
      way a printed monograph is set. */
   .canvas {
     width: 100%;
@@ -239,7 +239,7 @@
     color: var(--muted);
   }
 
-  /* Hairline rule with a tick at the left — the "measurement" motif that
+  /* Hairline rule with a tick at the left, the "measurement" motif that
      recurs across the site. */
   .rule-tick {
     position: relative;

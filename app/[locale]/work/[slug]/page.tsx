@@ -24,7 +24,7 @@ export async function generateMetadata({
   const project = getProject(slug);
   if (!project) return {};
   return {
-    title: `${project.title} — ${project.subtitle[locale]}`,
+    title: `${project.title}: ${project.subtitle[locale]}`,
     description: project.blurb[locale],
     alternates: { canonical: path(locale, 'work', slug) },
     openGraph: {
@@ -138,14 +138,21 @@ export default async function CaseStudy({
          ------------------------------------------------------------------ */}
       {project.hero ? (
         <Reveal className="canvas pb-6">
-          <div className="relative overflow-hidden border border-rule bg-paper-sunk">
+          <div
+            className="relative overflow-hidden border border-rule bg-paper-sunk"
+            style={{
+              // Same reasoning as figures: never display wider than half the
+              // file's pixel width, or it goes soft on a high-density screen.
+              maxWidth: `${project.hero.maxW ?? Math.round((project.hero.w ?? 2400) / 2)}px`,
+            }}
+          >
             <Image
               src={project.hero.src}
               alt={project.hero.alt[locale]}
               width={project.hero.w ?? 2400}
               height={project.hero.h ?? 1500}
               priority
-              sizes="(min-width: 1280px) 76rem, 100vw"
+              sizes={`(min-width: ${project.hero.maxW ?? 1040}px) ${project.hero.maxW ?? 1040}px, 100vw`}
               className="h-auto w-full"
             />
           </div>
