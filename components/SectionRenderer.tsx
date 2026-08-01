@@ -4,6 +4,7 @@ import { Pipeline } from './Pipeline';
 import { Reveal } from './Reveal';
 import { SchemaCases } from './SchemaCases';
 import { UI } from '@/content/site';
+import { figureBox } from '@/lib/figure';
 import { inline } from '@/lib/inline';
 import type { Locale, Section } from '@/content/types';
 
@@ -50,7 +51,7 @@ export function SectionRenderer({
             {section.body[locale].map((paragraph, i) => (
               <p
                 key={i}
-                className={`max-w-2xl font-display text-pretty ${
+                className={`max-w-2xl measure-display font-display text-pretty ${
                   i === 0
                     ? 'text-xl leading-relaxed text-ink sm:text-2xl'
                     : 'mt-5 text-lg leading-relaxed text-ink-soft'
@@ -89,35 +90,25 @@ export function SectionRenderer({
 
     /* ------------------------------------------------------------------ */
     case 'figure': {
-      const width = section.w ?? 2400;
-      const height = section.h ?? 1500;
-      // Cap the display size so a screenshot is never asked to cover more CSS
-      // pixels than it has physical ones to spare on a 2x screen.
-      const cap = section.maxW ?? (section.w ? Math.round(section.w / 2) : undefined);
-      const style = cap ? { maxWidth: `${cap}px` } : undefined;
-      const sizes = cap
-        ? `(min-width: ${cap}px) ${cap}px, 100vw`
-        : section.wide
-          ? '(min-width: 1280px) 76rem, 100vw'
-          : '(min-width: 1024px) 44rem, 100vw';
+      const box = figureBox(section.w, section.h);
 
       return (
-        <Reveal as="section" className={section.wide ? 'canvas py-12' : 'canvas field py-12'}>
-          <figure className={section.wide ? '' : 'col-body'}>
+        <Reveal as="section" className="canvas field py-12">
+          <figure className="col-body">
             <div
               className="relative overflow-hidden border border-rule bg-paper-sunk"
-              style={style}
+              style={{ maxWidth: `${box.width}px` }}
             >
               <Image
                 src={section.src}
                 alt={section.alt[locale]}
-                width={width}
-                height={height}
-                sizes={sizes}
+                width={section.w ?? 2400}
+                height={section.h ?? 1500}
+                sizes={box.sizes}
                 className="h-auto w-full"
               />
             </div>
-            <figcaption className="mt-3 max-w-2xl text-sm leading-relaxed text-muted text-pretty">
+            <figcaption className="mt-3 measure text-sm leading-relaxed text-muted text-pretty">
               {inline(section.caption[locale])}
               {section.full ? (
                 <>
@@ -169,36 +160,32 @@ export function SectionRenderer({
     /* ------------------------------------------------------------------ */
     case 'pipeline':
       return (
-        <Reveal as="section" className="canvas py-12">
-          <div className="field">
-            <div className="col-body">
-              <Heading text={section.heading[locale]} id={id} />
-              <div className="prose-body">
-                {section.intro[locale].map((paragraph, i) => (
-                  <p key={i}>{inline(paragraph)}</p>
-                ))}
-              </div>
+        <Reveal as="section" className="canvas field py-12">
+          <div className="col-body">
+            <Heading text={section.heading[locale]} id={id} />
+            <div className="prose-body">
+              {section.intro[locale].map((paragraph, i) => (
+                <p key={i}>{inline(paragraph)}</p>
+              ))}
             </div>
+            <Pipeline stages={section.stages} locale={locale} />
           </div>
-          <Pipeline stages={section.stages} locale={locale} />
         </Reveal>
       );
 
     /* ------------------------------------------------------------------ */
     case 'schemas':
       return (
-        <Reveal as="section" className="canvas py-12">
-          <div className="field">
-            <div className="col-body">
-              <Heading text={section.heading[locale]} id={id} />
-              <div className="prose-body">
-                {section.intro[locale].map((paragraph, i) => (
-                  <p key={i}>{inline(paragraph)}</p>
-                ))}
-              </div>
+        <Reveal as="section" className="canvas field py-12">
+          <div className="col-body">
+            <Heading text={section.heading[locale]} id={id} />
+            <div className="prose-body">
+              {section.intro[locale].map((paragraph, i) => (
+                <p key={i}>{inline(paragraph)}</p>
+              ))}
             </div>
+            <SchemaCases cases={section.cases} locale={locale} />
           </div>
-          <SchemaCases cases={section.cases} locale={locale} />
         </Reveal>
       );
 
@@ -256,7 +243,7 @@ export function SectionRenderer({
               </table>
             </div>
             {section.caption ? (
-              <p className="mt-3 text-sm text-muted">{section.caption[locale]}</p>
+              <p className="mt-3 measure text-sm text-muted">{section.caption[locale]}</p>
             ) : null}
           </div>
         </Reveal>
@@ -267,7 +254,7 @@ export function SectionRenderer({
       return (
         <Reveal as="section" className="canvas field py-12">
           <blockquote className="col-body border-l-2 border-accent pl-6">
-            <p className="max-w-2xl font-display text-xl leading-relaxed text-ink text-pretty">
+            <p className="max-w-2xl measure-display font-display text-xl leading-relaxed text-ink text-pretty">
               {inline(section.body[locale])}
             </p>
             {section.cite ? (
@@ -287,7 +274,7 @@ export function SectionRenderer({
             <Heading text={section.heading[locale]} id={id} />
             <ol className="space-y-3 border-t border-rule pt-5">
               {section.items.map((item, i) => (
-                <li key={i} className="flex gap-4 text-sm leading-relaxed text-ink-soft">
+                <li key={i} className="flex measure gap-4 text-sm leading-relaxed text-ink-soft">
                   <span className="font-mono text-2xs text-muted tnum">
                     {String(i + 1).padStart(2, '0')}
                   </span>

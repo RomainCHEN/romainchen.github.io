@@ -56,11 +56,11 @@ export default async function NotesPage({ params }: { params: Promise<{ locale: 
                         </span>
                       ) : null}
                     </p>
-                    <h2 className="mt-2 max-w-2xl font-display text-2xl leading-snug text-ink text-pretty">
+                    <h2 className="mt-2 max-w-2xl measure-display font-display text-2xl leading-snug text-ink text-pretty">
                       <span className="link-draw">{note.title}</span>
                     </h2>
                     {note.summary ? (
-                      <p className="mt-2.5 max-w-2xl text-base leading-relaxed text-ink-soft text-pretty">
+                      <p className="mt-2.5 measure text-base leading-relaxed text-ink-soft text-pretty">
                         {note.summary}
                       </p>
                     ) : null}

@@ -33,7 +33,6 @@ export const papercraft: Project = {
     src: '/work/papercraft/workspace-generate.webp',
     w: 2400,
     h: 1500,
-    maxW: 1040,
     alt: {
       en: 'The PaperCraft authoring workspace, showing exercise type selection and generation controls.',
       zh: 'PaperCraft 出题工作区，左侧是题型与语法点选择，右侧是生成区。',
@@ -121,8 +120,6 @@ export const papercraft: Project = {
       src: '/work/papercraft/workspace-review.webp',
       w: 2400,
       h: 1500,
-      maxW: 1040,
-      wide: true,
       alt: {
         en: 'The review surface: a generated exercise shown beside its editing controls, with the approve, edit and reject decision.',
         zh: '审阅界面：生成的练习与编辑控件并列，下方是通过、修改、退回三个操作。',
@@ -233,9 +230,8 @@ export const papercraft: Project = {
     {
       kind: 'figure',
       src: '/work/papercraft/paper-ket-picture-story.webp',
-      w: 1130,
-      h: 1600,
-      maxW: 520,
+      w: 945,
+      h: 667,
       alt: {
         en: 'A generated KET Part 7 picture story exercise as exported for the classroom: three sequential illustrations, the writing task, and a sample answer.',
         zh: '一份已导出的 KET Part 7 看图写作练习：三张连续插图、写作任务和参考答案。',
@@ -270,8 +266,6 @@ export const papercraft: Project = {
       src: '/work/papercraft/workspace-item-analysis.webp',
       w: 2400,
       h: 1500,
-      maxW: 1040,
-      wide: true,
       alt: {
         en: 'The item analysis view: per-item difficulty and discrimination with distractor choice counts.',
         zh: '项目分析视图：逐题的难度与区分度，以及各干扰项的选择次数。',

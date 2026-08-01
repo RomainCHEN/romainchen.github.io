@@ -55,11 +55,11 @@ export default async function NotePage({
             {note.date}
             <span className="ml-3 normal-case tracking-normal">{note.readingMinutes} min</span>
           </p>
-          <h1 className="mt-4 max-w-2xl font-display text-4xl leading-[1.12] text-ink text-balance">
+          <h1 className="mt-4 max-w-2xl measure-display font-display text-4xl leading-[1.12] text-ink text-balance">
             {note.title}
           </h1>
           {note.summary ? (
-            <p className="mt-5 max-w-2xl font-display text-xl leading-relaxed text-ink-soft text-pretty">
+            <p className="mt-5 max-w-2xl measure-display font-display text-xl leading-relaxed text-ink-soft text-pretty">
               {note.summary}
             </p>
           ) : null}

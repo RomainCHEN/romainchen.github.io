@@ -543,6 +543,28 @@
 }
 
 @layer utilities {
+  /* Line length, measured in characters rather than pixels.
+     A fixed pixel width holds a different number of characters at every font
+     size, which is how the small print ended up running to 98 characters a line
+     inside a container sized for 19px prose. `ch` scales with the type, and it
+     works for CJK too, where a Han character is about two ch wide. */
+  .measure {
+    /* Calibrated against the rendered result, not the theory: one ch is the
+       width of a zero, which in this face is narrower than the average
+       character, so 68ch was holding 87 characters. 58ch lands near 74. */
+    max-width: 58ch;
+  }
+
+  .measure-tight {
+    max-width: 48ch;
+  }
+
+  /* Display sizes carry fewer characters per pixel, so they can run wider
+     without the line becoming hard to track. */
+  .measure-display {
+    max-width: 46ch;
+  }
+
   /* Anything sticky in the margin column hangs from the masthead. */
   .under-masthead {
     top: calc(var(--masthead-h) + 3rem);
