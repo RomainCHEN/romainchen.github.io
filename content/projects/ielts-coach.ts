@@ -24,7 +24,13 @@ export const ieltsCoach: Project = {
     en: 'Instructional design · Agent architecture · Language assessment',
     zh: '教学设计 · Agent 架构 · 语言测评',
   },
-  tags: ['Agent skill', 'MCP', 'Python', 'Rubric alignment', 'Open source'],
+  tags: [
+    { en: 'Agent skill', zh: 'Agent skill' },
+    'MCP',
+    'Python',
+    { en: 'Rubric alignment', zh: '对齐评分标准' },
+    { en: 'Open source', zh: '开源' },
+  ],
   hero: {
     src: '/work/ielts-coach/terminal-session.webp',
     w: 2280,
