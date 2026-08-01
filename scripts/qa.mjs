@@ -151,7 +151,7 @@ const AUDIT = () => {
       if (seen.has(key)) return;
       seen.add(key);
       problems.push(
-        `contrast ${ratio.toFixed(2)}:1 (need ${floor}) — ${style.color} at ${size}px — "${text.slice(0, 42)}"`,
+        `contrast ${ratio.toFixed(2)}:1 (need ${floor}), ${style.color} at ${size}px, "${text.slice(0, 42)}"`,
       );
     }
   });
@@ -173,7 +173,7 @@ const AUDIT = () => {
     });
     problems.push(
       `horizontal overflow: ${doc.scrollWidth} > ${doc.clientWidth}${
-        culprits.length ? ` — widest: ${culprits.slice(0, 4).join(' | ')}` : ''
+        culprits.length ? `, widest: ${culprits.slice(0, 4).join(' | ')}` : ''
       }`,
     );
   }

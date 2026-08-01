@@ -57,8 +57,8 @@ export function ThemeToggle({ locale }: { locale: Locale }) {
     <button
       type="button"
       onClick={cycle}
-      aria-label={`${UI.toggleTheme[locale]} — ${READABLE[mode]}`}
-      title={`${UI.toggleTheme[locale]} — ${READABLE[mode]}`}
+      aria-label={`${UI.toggleTheme[locale]}: ${READABLE[mode]}`}
+      title={`${UI.toggleTheme[locale]}: ${READABLE[mode]}`}
       className="flex h-8 w-8 items-center justify-center rounded-full border border-rule text-ink-soft transition-colors hover:border-rule-strong hover:text-ink"
     >
       <span aria-hidden="true" className="text-[0.7rem] leading-none">

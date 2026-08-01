@@ -26,8 +26,8 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — learning tools as research objects`,
-    template: `%s — ${SITE.name}`,
+    default: `${SITE.name} · learning tools as research objects`,
+    template: `%s · ${SITE.name}`,
   },
   description: TAGLINE.en,
   authors: [{ name: SITE.name, url: SITE.url }],

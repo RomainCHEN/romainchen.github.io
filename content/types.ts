@@ -41,12 +41,18 @@ export type Section =
       caption: L;
       /** Break out of the body column into the full canvas. */
       wide?: boolean;
-      /**
-       * Intrinsic pixel size. Small source images are never upscaled past
-       * these, which keeps screenshots crisp instead of soft.
-       */
+      /** Intrinsic pixel size of the file. */
       w?: number;
       h?: number;
+      /**
+       * Largest size in CSS pixels the image is allowed to be displayed at.
+       *
+       * Keep this at or below half of `w`. A high-density screen asks for two
+       * physical pixels per CSS pixel, so a 1600px file stretched across a
+       * 1200px column is visibly soft, which is exactly how the first version
+       * of this site shipped.
+       */
+      maxW?: number;
     }
   | {
       kind: 'metrics';
@@ -116,7 +122,7 @@ export interface Project {
   /** Short kicker describing the kind of work. */
   discipline: L;
   tags: string[];
-  hero?: { src: string; alt: L; w?: number; h?: number };
+  hero?: { src: string; alt: L; w?: number; h?: number; maxW?: number };
   links: ProjectLink[];
   /** Headline facts, shown as a spec block at the top of the case study. */
   facts: { label: L; value: L }[];

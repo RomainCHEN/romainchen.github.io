@@ -20,7 +20,7 @@ export async function generateMetadata({
   return {
     // Absolute, or the root layout's template appends the name a second time.
     title: {
-      absolute: `${SITE.name} — ${
+      absolute: `${SITE.name} · ${
         locale === 'en' ? 'learning tools as research objects' : '把学习工具做成研究对象'
       }`,
     },
@@ -36,7 +36,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     <>
       {/* ------------------------------------------------------------------
           Opening. One sentence, set as large as it can be read comfortably,
-          then the facts that qualify it. No portrait, no buttons — the first
+          then the facts that qualify it. No portrait, no buttons, the first
           thing a reader should get is the claim.
          ------------------------------------------------------------------ */}
       <section className="canvas pt-20 pb-24 sm:pt-28 lg:pt-36">

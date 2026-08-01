@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>IELTS Coach terminal figure</title>
+    <!--
+      Source for public/work/ielts-coach/terminal-session.webp.
+      Rendered by scripts/build-terminal-figure.mjs.
+
+      Every line below is real output from running
+      ielts-coach/scripts/topic_form_server.py against a topic config, filling
+      the form in a browser and submitting it. The counts come from the
+      answers.json that run produced. Do not add lines that were not observed.
+    -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+      html,
+      body {
+        margin: 0;
+        background: #fbfaf7;
+      }
+
+      /* Sized so the rendered plate is roughly 2x its display width on the
+         site, which is what keeps it sharp on a high-density screen. */
+      .frame {
+        width: 1100px;
+        padding: 20px;
+        background: #fbfaf7;
+      }
+
+      .panel {
+        background: #16150f;
+        border: 1px solid #2a2925;
+        padding: 22px 26px 26px;
+        font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+        font-size: 14px;
+        line-height: 1.68;
+        color: #d8d3c7;
+      }
+
+      .bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        border-bottom: 1px solid #2a2925;
+        padding-bottom: 10px;
+        margin-bottom: 16px;
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #7d786c;
+      }
+
+      pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .prompt {
+        color: #e08663;
+      }
+      .cmd {
+        color: #f2efe7;
+      }
+      .flag {
+        color: #a8a294;
+      }
+      .info {
+        color: #9aa8ae;
+      }
+      .done {
+        color: #8fbf9a;
+      }
+      .dim {
+        color: #6f6a5e;
+      }
+      .url {
+        color: #e0d9c6;
+        text-decoration: underline;
+        text-decoration-color: #4a463d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame">
+      <div class="panel">
+        <div class="bar">
+          <span>ielts-coach · topic discovery</span>
+          <span>local only · 127.0.0.1</span>
+        </div>
+        <pre><span class="prompt">$</span> <span class="cmd">python3 scripts/topic_form_server.py</span> <span class="flag">\
+      --config topic-config.json --answers answers.json \
+      --images-dir task1_charts --port 8765</span>
+
+<span class="info">[INFO]</span> Server started: <span class="url">http://127.0.0.1:8765/form</span>
+<span class="info">[INFO]</span> Answers will be saved to: answers.json
+<span class="info">[INFO]</span> Images will be saved to: task1_charts
+<span class="info">[INFO]</span> Waiting for user submission<span class="dim">...</span>
+
+<span class="dim"># the browser opens; the learner answers at their own pace and submits</span>
+
+<span class="done">[DONE]</span> Answers saved to: answers.json
+Server stopped.
+
+<span class="prompt">$</span> <span class="cmd">python3 -c</span> <span class="flag">"import json; d=json.load(open('answers.json')); \
+      print(len(d['answers']), 'answers captured for topic:', d['topic'])"</span>
+8 answers captured for topic: Music
+
+<span class="dim"># only now does generation begin, and it begins from that file</span></pre>
+      </div>
+    </div>
+  </body>
+</html>
