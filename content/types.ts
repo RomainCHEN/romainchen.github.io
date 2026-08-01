@@ -96,7 +96,10 @@ export type Section =
   | {
       kind: 'refs';
       heading: L;
+      /** Citations stay in their original language; you do not translate a reference. */
       items: { text: string; href?: string }[];
+      /** Prose belongs here, where it can be bilingual, not in the citation list. */
+      note?: L;
     };
 
 export interface ProjectLink {
@@ -118,7 +121,12 @@ export interface Project {
   role: L;
   /** Short kicker describing the kind of work. */
   discipline: L;
-  tags: string[];
+  /**
+   * Product and library names stay as they are; conceptual tags carry a
+   * translation, so a Chinese reader is not left with an English label next to a
+   * translated one.
+   */
+  tags: (string | L)[];
   hero?: { src: string; alt: L; w?: number; h?: number; full?: string };
   links: ProjectLink[];
   /** Headline facts, shown as a spec block at the top of the case study. */
