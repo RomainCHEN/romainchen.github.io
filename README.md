@@ -16,11 +16,12 @@ npm run dev          # http://localhost:3000
 | `npm test` | Content integrity and bilingual parity tests |
 | `npm run lint` | ESLint |
 | `npm run qa` | Build, then audit every page for correctness: contrast, headings, alt text, overflow, console errors, title and description. Screenshots land in `.qa/` |
+| `npm run zh` | Chinese style audit: filler phrases, template sentences, sentence length, punctuation, inline bold headings |
 | `npm run layout` | Build, then audit every page for typesetting: left-edge alignment, figure proportion and sharpness, line length, vertical rhythm, type scale. 15 routes x 4 widths |
 | `npm run review` | Build, then capture small screenshots of key views into `.review/` for eyeballing |
 | `npm run cv` | Regenerate `public/cv-zeming-chen.pdf` and `CV.md` from `content/cv.ts` |
 | `npm run assets` | Re-encode images in `assets-src/` and `public/work/`, regenerate the OG card and icons |
-| `npm run check` | lint + test + build + qa + layout |
+| `npm run check` | lint + test + zh + build + qa + layout |
 
 ## How content works
 

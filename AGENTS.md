@@ -10,6 +10,7 @@ npm run lint      # eslint
 npm run build     # static export to out/
 npm run qa        # build, then per-page contrast / heading / alt / overflow audit
 npm run layout    # build, then per-page alignment / measure / figure proportion audit
+npm run zh        # Chinese style audit: filler, template sentences, long sentences, punctuation
 npm run check     # all of the above
 npm run cv        # regenerate the CV PDF and CV.md from content/cv.ts
 npm run assets    # re-encode images, OG card, icons
@@ -39,3 +40,19 @@ Chrome; set `CHROME_PATH` if the default path in the script is wrong.
   unless the owner has supplied the number. A test greps for this pattern.
 - Never write first-person prose that will publish under the owner's name
   without asking. Draft it somewhere else and let him decide.
+
+## Chinese style
+
+`npm run zh` enforces what can be checked mechanically. It follows two published
+guides: `chinese-writing` (simple, human, clear) and `humanizer-zh` (the
+Wikipedia list of AI writing tells). The rules that matter most here:
+
+- No em dash, and no 破折号.
+- Do not open a paragraph with `**a bold label.**`. Several in a row is the most
+  recognisable AI structure there is. Absorb the label into the sentence.
+- Break sentences over 60 characters.
+- Space between Chinese and Latin or digits. Full-width punctuation in Chinese.
+- Avoid the 不是……而是…… template, filler openers, and 标志着 / 至关重要 /
+  彰显 / 奠定基础.
+- Watch for calques. 「教学法就住在那里」and「一件仪器」read as translations
+  because they are; Chinese says it differently.

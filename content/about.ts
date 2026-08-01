@@ -22,8 +22,8 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
       ],
       zh: [
         '2024 年我开始带两个 KET 小班，学生都是小学生，同一学期我还在上数据结构和翻译理论。每周手写一套练习，一套两小时上下，而我每周都心里没底：难度压不住，官方真题很快见底，剩下的话题又旧得让孩子提不起劲。',
-        '这只是个再普通不过的老师抱怨。有意思的地方在于，我后来发现自己真正想要的并不是“生成得更快”，而是想弄清**这份活里哪些部分是我的**：那两个小时里，哪些判断是模型做不出来的。这个问题是能测的，可几乎没人去测。于是我做了个工具，它存在的意义就是把答案记下来。',
-        '翻译那边等着我的是同一个问题。我的专业教的是一门“据说已经被机器翻译解决掉”的手艺，而常见的辩护是人类译者更“细腻”。这个说法没有仪器支撑。研究电影片名给了我一件仪器：把译者对文化图式做了什么归类，“诊断”和“套用默认模式”之间的差别就不再是各说各话。',
+        '这只是个再普通不过的老师抱怨。有意思的地方在于，我后来发现自己想要的并不是“生成得更快”。我想弄清的是**这份活里哪些部分是我的**：那两个小时里，哪些判断模型做不出来。这个问题是能测的，可几乎没人去测。于是我做了个工具，它存在的意义就是把答案记下来。',
+        '到了翻译那边，等着我的还是同一个问题。我的专业教的是一门“据说已经被机器翻译解决掉”的手艺，而常见的辩护是人类译者更“细腻”。可这个说法没有任何东西可以拿来量。研究电影片名给了我一把尺子：把译者对文化图式做了什么归类，“诊断”和“套用默认模式”之间的差别就不再是各说各话。',
       ],
     },
   },
@@ -31,14 +31,14 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
     heading: { en: 'What I am actually good at', zh: '我真正擅长的事' },
     body: {
       en: [
-        '**Turning a vague construct into something you can record.** "Teacher effort", "cultural sensitivity", "item quality": these are the words people wave at each other. Most of my work is the unglamorous step of deciding what would count as evidence, then building the thing that captures it.',
-        '**Shipping the whole stack alone when necessary.** Auth, database schema, LLM routing with typed repair, export to Word and PDF, deployment. Not because full-stack work is the point, but because a research instrument that nobody can use produces no data.',
-        '**Writing for people who do not already agree with me.** Six years of publishing, including technology essays with six-figure readerships, etymology pieces, alumni features and a short film, has mostly taught me to notice when an argument is being carried by tone rather than evidence, including my own.',
+        'Turning a vague construct into something you can record. "Teacher effort", "cultural sensitivity", "item quality": these are the words people wave at each other without defining. Most of my work is the unglamorous step of deciding what would count as evidence, then building the thing that captures it.',
+        'Shipping the whole stack alone when it comes to that. Auth, database schema, LLM routing with typed repair, export to Word and PDF, deployment. Full-stack work is not the point; a research instrument nobody can use produces no data.',
+        'Writing for people who do not already agree with me. Six years of it: technology essays with six-figure readerships, etymology pieces, alumni features, a short film. What it taught me was to notice when an argument is being carried by tone rather than evidence, including my own.',
       ],
       zh: [
-        '**把说不清的概念变成能记录的东西。** “教师投入”“文化敏感度”“题目质量”，这些词大家挥来挥去，谁也没给过定义。我的工作大半在那个不起眼的环节上：先想清楚什么才算证据，再把能采到它的东西做出来。',
-        '**需要时一个人把整套技术栈交付出来。** 登录鉴权、数据库结构、带类型修复的模型路由、导出 Word 和 PDF、上线部署。不是因为全栈本身有多重要，而是没人用得起来的研究仪器采不到任何数据。',
-        '**写给不同意我的人看。** 六年公开写作，有过十万级阅读的科技长文，也有词源随笔、校友专稿和一部短片。它教我最多的，是识别一个论证什么时候是靠语气而不是靠证据撑着，包括我自己写的。',
+        '第一件是把说不清的概念变成能记录的东西。“教师投入”“文化敏感度”“题目质量”，这些词大家挥来挥去，谁也没给过定义。我的工作大半在那个不起眼的环节上：先想清楚什么才算证据，再把能采到它的东西做出来。',
+        '第二件是必要时一个人把整套技术栈交付出来。登录鉴权、数据库结构、带类型修复的模型路由、导出 Word 和 PDF、上线部署。全栈本身没什么了不起，但没人用得起来的研究工具采不到任何数据。',
+        '第三件是写给不同意我的人看。六年公开写作：十万级阅读的科技长文、词源随笔、校友专稿，还有一部短片。它教我最多的，是识别一个论证什么时候靠语气撑着而不是靠证据，包括我自己写的。',
       ],
     },
   },
@@ -75,6 +75,6 @@ export const COLOPHON: Paragraphs = {
     'This site is a static Next.js build, deployed from GitHub Actions, with no analytics, no cookies and no third-party requests. Headings and body text are set in Newsreader, interface text in Instrument Sans, data in IBM Plex Mono.',
   ],
   zh: [
-    '本站是 Next.js 静态构建，由 GitHub Actions 部署，没有统计脚本、没有 cookie、不向第三方发请求。标题和正文用 Newsreader，界面文字用 Instrument Sans，数据用 IBM Plex Mono。',
+    '本站是 Next.js 静态构建，由 GitHub Actions 部署。没有统计脚本，没有 cookie，不向第三方发请求。标题和正文用 Newsreader，界面文字用 Instrument Sans，数据用 IBM Plex Mono。',
   ],
 };
