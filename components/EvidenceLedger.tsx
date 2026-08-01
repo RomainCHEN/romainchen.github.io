@@ -54,7 +54,7 @@ export function EvidenceLedger({
                 label={UI.evidenceStates[item.state][locale]}
               />
             </div>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft text-pretty">
+            <p className="mt-2 measure text-sm leading-relaxed text-ink-soft text-pretty">
               {item.detail[locale]}
             </p>
           </li>

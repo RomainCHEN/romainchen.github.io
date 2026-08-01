@@ -11,10 +11,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "assets": "node scripts/build-assets.mjs",
-    "check": "npm run lint && npm test && npm run build && node scripts/qa.mjs",
+    "check": "npm run lint && npm test && npm run build && node scripts/qa.mjs && node scripts/layout-audit.mjs",
     "cv": "npm run build && node scripts/build-cv.mjs",
     "qa": "npm run build && node scripts/qa.mjs",
-    "review": "npm run build && node scripts/review.mjs"
+    "review": "npm run build && node scripts/review.mjs",
+    "layout": "npm run build && node scripts/layout-audit.mjs"
   },
   "dependencies": {
     "gray-matter": "4.0.3",

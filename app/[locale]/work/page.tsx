@@ -52,7 +52,7 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
             {INTRO[locale].map((paragraph, i) => (
               <p
                 key={i}
-                className={`max-w-2xl font-display text-pretty ${
+                className={`max-w-2xl measure-display font-display text-pretty ${
                   i === 0
                     ? 'text-2xl leading-snug text-ink sm:text-3xl'
                     : 'mt-6 text-lg leading-relaxed text-ink-soft'
@@ -94,11 +94,11 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
                 </Link>
               </h2>
 
-              <p className="mt-4 max-w-2xl font-display text-xl leading-snug text-ink-soft text-pretty">
+              <p className="mt-4 max-w-2xl measure-display font-display text-xl leading-snug text-ink-soft text-pretty">
                 {project.subtitle[locale]}
               </p>
 
-              <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink-soft text-pretty">
+              <p className="mt-5 measure text-base leading-relaxed text-ink-soft text-pretty">
                 {project.blurb[locale]}
               </p>
 

@@ -8,6 +8,7 @@ import { SectionRenderer, sectionId } from '@/components/SectionRenderer';
 import { PROJECTS, getProject, projectNeighbours, projectSlugs } from '@/content/projects';
 import { UI, path } from '@/content/site';
 import { LOCALES } from '@/content/types';
+import { figureBox } from '@/lib/figure';
 import { asLocale } from '@/lib/locale';
 
 export function generateStaticParams() {
@@ -46,6 +47,7 @@ export default async function CaseStudy({
   if (!project) notFound();
 
   const neighbours = projectNeighbours(slug);
+  const heroBox = figureBox(project.hero?.w, project.hero?.h);
   const contents = project.sections
     .map((section, i) => ({ section, id: sectionId(section, i) }))
     .filter((entry) => 'heading' in entry.section && entry.section.heading)
@@ -83,7 +85,7 @@ export default async function CaseStudy({
             <h1 className="mt-5 max-w-3xl font-display text-4xl leading-[1.08] text-ink text-balance sm:text-5xl">
               {project.title}
             </h1>
-            <p className="mt-5 max-w-2xl font-display text-xl leading-snug text-ink-soft text-pretty sm:text-2xl">
+            <p className="mt-5 max-w-2xl measure-display font-display text-xl leading-snug text-ink-soft text-pretty sm:text-2xl">
               {project.subtitle[locale]}
             </p>
 
@@ -137,37 +139,35 @@ export default async function CaseStudy({
           Hero image
          ------------------------------------------------------------------ */}
       {project.hero ? (
-        <Reveal className="canvas pb-6">
-          <div
-            className="relative overflow-hidden border border-rule bg-paper-sunk"
-            style={{
-              // Same reasoning as figures: never display wider than half the
-              // file's pixel width, or it goes soft on a high-density screen.
-              maxWidth: `${project.hero.maxW ?? Math.round((project.hero.w ?? 2400) / 2)}px`,
-            }}
-          >
-            <Image
-              src={project.hero.src}
-              alt={project.hero.alt[locale]}
-              width={project.hero.w ?? 2400}
-              height={project.hero.h ?? 1500}
-              priority
-              sizes={`(min-width: ${project.hero.maxW ?? 1040}px) ${project.hero.maxW ?? 1040}px, 100vw`}
-              className="h-auto w-full"
-            />
+        <Reveal className="canvas field pb-6">
+          <div className="col-body">
+            <div
+              className="relative overflow-hidden border border-rule bg-paper-sunk"
+              style={{ maxWidth: `${heroBox.width}px` }}
+            >
+              <Image
+                src={project.hero.src}
+                alt={project.hero.alt[locale]}
+                width={project.hero.w ?? 2400}
+                height={project.hero.h ?? 1500}
+                priority
+                sizes={heroBox.sizes}
+                className="h-auto w-full"
+              />
+            </div>
+            {project.hero.full ? (
+              <p className="mt-3">
+                <a
+                  href={project.hero.full}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-draw font-mono text-2xs uppercase tracking-[0.12em] text-muted hover:text-ink"
+                >
+                  {UI.fullSize[locale]} ↗
+                </a>
+              </p>
+            ) : null}
           </div>
-          {project.hero.full ? (
-            <p className="mt-3">
-              <a
-                href={project.hero.full}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-draw font-mono text-2xs uppercase tracking-[0.12em] text-muted hover:text-ink"
-              >
-                {UI.fullSize[locale]} ↗
-              </a>
-            </p>
-          ) : null}
         </Reveal>
       ) : null}
 

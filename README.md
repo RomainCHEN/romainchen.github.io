@@ -15,11 +15,12 @@ npm run dev          # http://localhost:3000
 | `npm run build` | Static export into `out/` |
 | `npm test` | Content integrity and bilingual parity tests |
 | `npm run lint` | ESLint |
-| `npm run qa` | Build, then audit every page: contrast, headings, alt text, overflow, console errors. Screenshots land in `.qa/` |
+| `npm run qa` | Build, then audit every page for correctness: contrast, headings, alt text, overflow, console errors, title and description. Screenshots land in `.qa/` |
+| `npm run layout` | Build, then audit every page for typesetting: left-edge alignment, figure proportion and sharpness, line length, vertical rhythm, type scale. 15 routes x 4 widths |
 | `npm run review` | Build, then capture small screenshots of key views into `.review/` for eyeballing |
 | `npm run cv` | Regenerate `public/cv-zeming-chen.pdf` and `CV.md` from `content/cv.ts` |
 | `npm run assets` | Re-encode images in `assets-src/` and `public/work/`, regenerate the OG card and icons |
-| `npm run check` | lint + test + build + qa |
+| `npm run check` | lint + test + build + qa + layout |
 
 ## How content works
 
@@ -93,6 +94,13 @@ says so explicitly if it happens.
   `app/globals.css` and are mapped into Tailwind through `@theme inline`.
 - Layout: a 12-column field. Body text occupies columns 4–11; columns 1–3 are a
   real margin for years, notes and contents, the way a monograph is set.
+- Figures: one rule, in `lib/figure.ts`. Every figure and hero shares the body
+  column's left edge, is never displayed wider than half its pixel width, and is
+  never taller than 560px. Nothing is sized by hand, which is what previously
+  made figures look randomly offset and randomly scaled.
+- Line length is capped in characters, not pixels (`.measure` in `globals.css`).
+  A fixed pixel width holds a different number of characters at every font size,
+  which is how the small print ended up running to 98 characters a line.
 - Motion: a 10px fade-up on first view, and nothing else. `prefers-reduced-motion`
   removes it; a `<noscript>` rule makes everything visible if JavaScript never
   runs.
