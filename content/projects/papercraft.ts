@@ -89,12 +89,12 @@ export const papercraft: Project = {
         ],
         zh: [
           '最顺手的做法是做一个输入框，让它吐出考题。我觉得这个版本既没意思，更糟的是没法被证伪：输出看着像样就算成功，而题目到底能不能用、教师还得补多少活，你一点都不知道。',
-          '所以我换了个思路。真正有意思的对象不是生成器，而是模型和教师之间的**分工**；而分工要能测出来，才算得上一个设计主张。PaperCraft 这个工具的构造目标，就是让两件平常看不见的事变成数据：教师改了多少，以及这些题目在学生真正作答之后表现如何。',
+          '所以我换了个思路。真正有意思的对象是模型和教师之间的**分工**，不是生成器本身。而分工要能测出来，才算得上一个设计主张。PaperCraft 的构造目标，就是把两件平常看不见的事变成数据：教师改了多少，题目在学生作答之后表现如何。',
         ],
       },
       note: {
         en: 'This reframing is the whole project. Everything below follows from refusing to evaluate a generator by looking at its output.',
-        zh: '这次换思路就是整个项目。后面的一切，都来自一个拒绝：不靠看输出来评价生成器。',
+        zh: '换思路这件事就是整个项目。后面所有的设计，都从同一个决定出发：不靠看输出来评价生成器。',
       },
     },
     {
@@ -102,16 +102,16 @@ export const papercraft: Project = {
       heading: { en: 'What the design is answerable to', zh: '这个设计要对什么负责' },
       body: {
         en: [
-          '**Human–AI complementarity as a design requirement, not a slogan.** Holstein, McLaren and Aleven argue that classroom AI should be built around what teachers and machines are respectively good at, and that the complementarity has to be established empirically rather than assumed. In PaperCraft the teacher\'s adjudication is a hard gate in the pipeline, and the delta between the model draft and the teacher\'s version is recorded.',
-          '**Evidence-centred assessment design.** Mislevy, Steinberg and Almond treat assessment as a chain of reasoning from observable behaviour to claims about competence. That is why the system stores item-level responses and computes item statistics instead of a total score: the claim "this generated item is usable" needs evidence about the item, not about the generator.',
-          '**Formative use of the evidence.** Black and Wiliam, and later work on feedback by Hattie and Timperley, motivate returning per-question evidence to the teacher while instruction can still change, so practice is delivered before the exam rather than after it.',
-          '**Chained, inspectable steps.** Wu, Terry and Cai show that decomposing an LLM task into individually inspectable stages improves transparency and controllability over one monolithic prompt. Amershi and colleagues supply the interaction-level rationale for making system scope and correction paths visible.',
+          'Complementarity here is a requirement, not a slogan. Holstein, McLaren and Aleven argue that classroom AI should be built around what teachers and machines are respectively good at, and that the complementarity has to be established empirically rather than assumed. So the teacher\'s adjudication is a hard gate in the pipeline, and the delta between the model draft and the teacher\'s version is recorded.',
+          'Evidence-centred design supplies the second commitment. Mislevy, Steinberg and Almond treat assessment as a chain of reasoning from observable behaviour to claims about competence, so the system stores item-level responses and computes item statistics rather than a total score. The claim "this generated item is usable" needs evidence about the item, not about the generator.',
+          'The evidence then has to arrive in time to be useful. Black and Wiliam, and later work on feedback by Hattie and Timperley, argue for returning per-question evidence while instruction can still change. That is why practice is delivered before the exam rather than after it.',
+          'Finally, the pipeline is chained rather than monolithic. Wu, Terry and Cai show that decomposing an LLM task into individually inspectable stages improves transparency and controllability, and Amershi and colleagues supply the interaction-level rationale for making system scope and correction paths visible.',
         ],
         zh: [
-          '**人机互补是设计要求，不是口号。** Holstein、McLaren 和 Aleven 主张，课堂 AI 应该围绕教师和机器各自擅长的部分来设计，而这种互补必须靠实证确立，不能假定。在 PaperCraft 里，教师的裁决是管线上一道过不去的闸门，模型初稿和教师终稿之间的差值会被记下来。',
-          '**证据中心的测评设计（ECD）。** Mislevy、Steinberg 和 Almond 把测评看作一条推理链，从可观察的行为推向关于能力的主张。这就是系统为什么要存逐题作答、算项目统计量，而不是只记一个总分：要说“这道生成的题目可用”，需要的是关于这道题的证据，不是关于生成器的证据。',
-          '**证据要用在还来得及的时候。** Black 与 Wiliam，以及后来 Hattie 和 Timperley 关于反馈的研究，都支持在教学还能调整的时候就把逐题证据交回教师手上，所以练习安排在考试之前，而不是之后。',
-          '**分阶段，每段都能单独检查。** Wu、Terry 和 Cai 的工作说明，把一个大模型任务拆成可逐段检查的阶段，在透明度和可控性上都优于一个巨型 prompt。Amershi 等人的人机交互准则，则给出了“让系统边界和纠错路径可见”的交互层理由。',
+          '人机互补在这里是设计要求，不是口号。Holstein、McLaren 和 Aleven 主张，课堂 AI 应该围绕教师和机器各自擅长的部分来设计。互补不能假定，得靠实证确立。所以教师的裁决是管线上一道过不去的闸门，模型初稿和教师终稿之间的差值会被记下来。',
+          '第二条来自证据中心的测评设计。Mislevy、Steinberg 和 Almond 把测评看作一条推理链，从可观察的行为推向关于能力的主张。所以系统存的是逐题作答和项目统计量，不是一个总分。要说“这道生成的题目可用”，需要的是这道题的证据，不是生成器的证据。',
+          '证据还得赶在来得及的时候到手。Black 与 Wiliam 的工作，加上 Hattie 和 Timperley 关于反馈的研究，都指向同一件事：证据要在教学还能调整时就交回教师手上。所以练习安排在考试之前。',
+          '这条管线还是分段的，不是一整块。Wu、Terry 和 Cai 说明，把大模型任务拆成可逐段检查的阶段，比一个巨型 prompt 更透明也更可控；Amershi 等人的人机交互准则，则给出了“让系统边界和纠错路径可见”的交互层理由。',
         ],
       },
     },
@@ -126,7 +126,7 @@ export const papercraft: Project = {
       },
       caption: {
         en: 'The adjudication surface. Nothing reaches a classroom without an explicit approve, edit or reject decision, and rejection reasons are stored. This is a deliberate piece of friction: without a frozen pre-edit baseline, the teacher\'s contribution cannot be measured at all.',
-        zh: '裁决界面。任何内容进课堂之前，都必须经过一次明确的通过、修改或退回，退回的理由会存档。这道摩擦是故意留的：如果没有一份被冻结的编辑前底稿，教师的贡献根本无从测量。',
+        zh: '裁决界面。任何内容进课堂之前，都必须经过一次明确的通过、修改或退回，退回的理由会存档。这点阻力是故意留的。如果没有一份冻住的编辑前底稿，教师的贡献根本没法测。',
       },
     },
     {
@@ -137,7 +137,7 @@ export const papercraft: Project = {
           'Generation is a staged, typed chain with a human gate rather than one prompt. Each stage exists for a reason that can be argued with. Select a stage to see what it does and why it is there.',
         ],
         zh: [
-          '生成不是一个 prompt，而是一条分阶段、带类型约束、中间有人工闸门的链条。每个阶段的存在都有可以被反驳的理由。点任意一个阶段，看它做什么、为什么要有它。',
+          '生成不靠一个 prompt 完成。它是一条分阶段、带类型约束、中间有人工闸门的链条。每个阶段的存在都有可以被反驳的理由。点任意一个阶段，看它做什么、为什么要有它。',
         ],
       },
       stages: [
@@ -170,7 +170,7 @@ export const papercraft: Project = {
           title: { en: 'Construct-specialised instruction', zh: '构念专用指令集' },
           what: {
             en: 'One instruction set per Cambridge part, encoding published item-writing rules: paraphrase rather than lift distinctive vocabulary, build distractors by twisting text content, keep option sets to one word class.',
-            zh: '每个剑桥考试部分配一套独立指令，把已公开的命题规则写进去：特征词汇要改写不要照搬，干扰项要靠扭转原文内容来造，一组选项限定在同一词类内。',
+            zh: '每个剑桥考试部分配一套独立指令，把已公开的命题规则写进去。特征词汇要改写，不能照搬；干扰项靠扭转原文内容来造；一组选项限定在同一词类内。',
           },
           why: {
             en: 'Non-experts systematically under-specify prompts, so the specification burden belongs in the system rather than in a teacher\'s free text. Boundary: this enforces content-validity constraints, not construct validity.',
@@ -186,7 +186,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'Converts silent format defects into recoverable, logged events. A malformed item becomes a data point rather than a mystery.',
-            zh: '把闷不做声的格式错误，变成可恢复、有记录的事件。一道结构坏掉的题目从此是一个数据点，而不是一桩悬案。',
+            zh: '把不声不响的格式错误变成可恢复、有记录的事件。一道结构坏掉的题目，从此是一个数据点，不再是一桩悬案。',
           },
         },
         {
@@ -210,7 +210,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'CEFR-level control of generated text is unreliable, so the audit is a visible guardrail rather than a silent block. The 10% tolerance is deliberate: proper nouns and productive morphology legitimately fall outside a base wordlist. Boundary: lexical membership only, since syntax, cultural load and cognitive demand are not assessed.',
-            zh: '生成文本的 CEFR 等级控制本来就不可靠，所以这道审计是看得见的护栏，不是悄悄拦截。10% 的容差是刻意留的：专有名词和能产构词本来就合理地落在基础词表之外。边界在于它只看词汇是否在表内，句法难度、文化负载和认知需求都不在它的管辖范围。',
+            zh: '生成文本的 CEFR 等级控制本来就不可靠，所以这道审计是看得见的护栏，不是悄悄拦截。10% 的容差是刻意留的：专有名词和能产构词本来就合理地落在基础词表之外。它的边界很清楚：只看词汇在不在表内。句法难度、文化负载、认知需求，都不在它管的范围里。',
           },
         },
         {
@@ -222,7 +222,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'This is the measurement baseline for the whole project. It is also the only stage a teacher is required to be present for, which is the design claim stated as an architecture.',
-            zh: '这是整个项目的度量基线，也是唯一强制教师在场的阶段。换句话说，设计主张被直接写进了架构。',
+            zh: '这是整个项目的度量基线，也是唯一强制教师在场的阶段。设计主张就这样写进了架构里。',
           },
         },
       ],
@@ -246,19 +246,19 @@ export const papercraft: Project = {
       heading: { en: 'What is being measured, and how', zh: '到底在测什么，怎么测' },
       body: {
         en: [
-          '**Teacher intervention.** On approval, the frozen model draft and the teacher\'s final version are compared: word-level edit distance over a canonicalised serialisation, plus typed change flags for which part of the item moved, whether that is the passage, the stem, the options or the key. The question this answers is which Cambridge item types consume the most human editing, which is a claim about where the model is actually weak rather than where it looks weak.',
-          '**Item behaviour.** Once learners answer, the system computes proportion-correct difficulty, point-biserial discrimination, option choice counts and dead-distractor flags, and compares the difficulty the teacher requested with the difficulty observed. Classical test theory only: at a plausible sample size for this setting, item response theory would be pretending.',
-          '**Authoring cost and load.** A paired within-subject design against each teacher\'s own manual baseline, with SUS and NASA-TLX alongside a content-quality rubric and a semi-structured interview. Instruments are written. The study has not been run.',
+          'Teacher intervention is measured at the moment of approval: the frozen model draft and the teacher\'s final version are compared: word-level edit distance over a canonicalised serialisation, plus typed change flags for which part of the item moved, whether that is the passage, the stem, the options or the key. The question this answers is which Cambridge item types consume the most human editing, which is a claim about where the model is actually weak rather than where it looks weak.',
+          'Item behaviour is measured once learners answer: the system computes proportion-correct difficulty, point-biserial discrimination, option choice counts and dead-distractor flags, and compares the difficulty the teacher requested with the difficulty observed. Classical test theory only: at a plausible sample size for this setting, item response theory would be pretending.',
+          'Authoring cost and load are measured against practice: a paired within-subject design against each teacher\'s own manual baseline, with SUS and NASA-TLX alongside a content-quality rubric and a semi-structured interview. Instruments are written. The study has not been run.',
         ],
         zh: [
-          '**教师干预量。** 通过的那一刻，系统会把冻结的模型初稿和教师终稿做对比：在规范化后的序列上算词级编辑距离，再加一组类型化标记，标出被改动的是语篇、题干、选项还是答案键。它回答的问题是：哪些剑桥题型最耗人工编辑。这是在说模型**实际上**弱在哪里，而不是看起来弱在哪里。',
-          '**题目表现。** 学生作答之后，系统会算通过率难度、点二列区分度、各选项的选择次数和“死干扰项”标记，并把教师当初要求的难度和实际观察到的难度放在一起比。只用经典测验理论：在这个场景能预期的样本量下，上项目反应理论就是装样子。',
-          '**出题成本与认知负荷。** 采用被试内配对设计，以每位教师自己的手工流程作基线，配合 SUS、NASA-TLX、内容质量量表和半结构化访谈。工具已经写好，研究还没开跑。',
+          '教师干预量在通过的那一刻测。系统把冻结的模型初稿和教师终稿放在一起比。它在规范化后的序列上算词级编辑距离，再用一组标记指出改动落在哪里：语篇、题干、选项，还是答案键。它回答的问题是：哪些剑桥题型最耗人工编辑。这是在说模型**实际上**弱在哪里，而不是看起来弱在哪里。',
+          '题目表现要等学生作答之后才能测。系统算通过率难度、点二列区分度、各选项的选择次数，以及“死干扰项”标记。然后把教师当初要求的难度和实际观察到的难度放在一起比。只用经典测验理论：在这个场景能预期的样本量下，上项目反应理论就是装样子。',
+          '出题成本和认知负荷靠一次对照来测：被试内配对设计，以每位教师自己的手工流程作基线，配合 SUS、NASA-TLX、内容质量量表和半结构化访谈。工具已经写好，研究还没开跑。',
         ],
       },
       note: {
         en: 'Choosing classical test theory over IRT is a sample-size decision, not a shortcut. Reporting it as such is part of the work.',
-        zh: '选经典测验理论而不选 IRT，是样本量决定的，不是图省事。把这一点讲清楚，本身就是研究工作的一部分。',
+        zh: '选经典测验理论而不选 IRT，是样本量决定的，不是图省事。这一点得讲清楚。',
       },
     },
     {

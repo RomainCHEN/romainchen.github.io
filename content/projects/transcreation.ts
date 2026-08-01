@@ -42,7 +42,7 @@ export const transcreation: Project = {
     full: '/work/transcreation/corpus-dataset-full.webp',
     alt: {
       en: 'The first page of the Chinese-to-English corpus sheet: nine films, each with its source title, year, genre, official English release title, the renderings from DeepSeek R1 and Gemini 2.5 Pro, a selection rationale, and poster art for both markets.',
-      zh: '汉译英语料表的第一页：九部影片，每部都列出原片名、上映年份、影片类型、英文官方译名、DeepSeek R1 与 Gemini 2.5 Pro 的输出、选取理由，以及两地海报。',
+      zh: '汉译英语料表的第一页，九部影片。每一行先列原片名、年份、类型和英文官方译名，再列 DeepSeek R1 与 Gemini 2.5 Pro 的输出。末尾是选取理由和两地海报。',
     },
   },
   links: [],
@@ -78,7 +78,7 @@ export const transcreation: Project = {
         ],
         zh: [
           '电影片名是一道伪装成小问题的难题。它只有几个字，却要同时干三件互相打架的事：说清这是部什么电影，在一个并非孕育它的文化里打动人，还得把票卖出去。',
-          '所以片名是目前最干净的一把探针，用来问一个大家都吵得很糟的问题：译者放弃字面意思的时候，那是背离忠实，还是专业判断在起作用？以及，一个从未在某个文化里生活过的模型，能不能做同一件事？',
+          '所以要问一个大家都吵得很糟的问题，片名是目前最干净的切口：译者放弃字面意思的时候，那是背离忠实，还是专业判断在起作用？以及，一个从未在某个文化里生活过的模型，能不能做同一件事？',
         ],
       },
     },
@@ -87,7 +87,7 @@ export const transcreation: Project = {
       heading: { en: 'The measurement problem', zh: '难的不是翻译，是怎么量' },
       body: {
         en: [
-          'The standard machine translation metrics are useless here, and not by a small margin. BLEU and ROUGE score overlap with a reference string, so they actively penalise the divergence that defines a good title. *Ghost* rendered into Chinese as 人鬼情未了, roughly "the love between human and ghost was never finished", would score badly against any literal reference, and it is the correct answer.',
+          'The standard machine translation metrics are useless here, and not by a small margin. BLEU and ROUGE score overlap with a reference string, so they actively penalise the divergence that defines a good title. *Ghost* rendered into Chinese as 人鬼情未了， roughly "the love between human and ghost was never finished", would score badly against any literal reference, and it is the correct answer.',
           'So the study does not try to score outputs. It classifies the **operation** performed, and asks whether the operation was the right one for the cultural gap in front of it.',
         ],
         zh: [
@@ -120,16 +120,16 @@ export const transcreation: Project = {
       heading: { en: 'A three-tier model', zh: '三层分析模型' },
       body: {
         en: [
-          '**Tier 1, strategy.** What was done: literal rendering, domestication, foreignisation, transliteration, free translation, outright re-creation. This is the layer existing scholarship already describes well, and the layer that explains the least.',
-          '**Tier 2, cognitive operation.** How it was done: metaphor mapping, metonymy, image schemas, and above all conceptual blending. A good title is usually an emergent structure in a blended space rather than a transfer of one.',
-          '**Tier 3, cultural schema.** Why it worked or failed. Schemas determine which source domains are even available for a metaphor and whether a blend is culturally viable. We treat the translator\'s problem as one of four operations on schemas, and the amount of cognitive work they demand differs sharply.',
+          'The first tier is strategy, meaning what was done: literal rendering, domestication, foreignisation, transliteration, free translation, outright re-creation. This is the layer existing scholarship already describes well, and the layer that explains the least.',
+          'The second is the cognitive operation, meaning how it was done: metaphor mapping, metonymy, image schemas, and above all conceptual blending. A good title is usually an emergent structure in a blended space rather than a transfer of one.',
+          'The third is the cultural schema, which decides whether it worked. Schemas determine which source domains are even available for a metaphor and whether a blend is culturally viable. We treat the translator\'s problem as one of four operations on schemas, and the amount of cognitive work they demand differs sharply.',
           'The argument the tiers let us make is directional: a strategy at Tier 1 is a *means* of performing a cognitive operation at Tier 2, whose *goal* is handling a cultural schema at Tier 3. Most existing work stops at Tier 1 and therefore describes the surface of a decision without its mechanism.',
         ],
         zh: [
-          '**第一层，策略。** 做了什么：直译、归化、异化、音译、意译、彻底再创作。既有研究对这一层已经描述得很细，可它恰恰也是解释力最弱的一层。',
-          '**第二层，认知运作。** 怎么做的：隐喻映射、转喻、意象图式，以及最关键的概念整合。一个好片名往往是整合空间里长出来的新结构，而不是把某个结构原样搬过去。',
-          '**第三层，文化图式。** 为什么成了或者没成。图式决定了隐喻能用哪些源域，也决定了某次整合在文化上走不走得通。我们把译者面临的问题归成对图式的四种操作，而这四种操作所要求的认知工作量相差很大。',
-          '三层模型让我们能提出一个有方向的论断：第一层的策略是完成第二层认知运作的**手段**，而认知运作的**目的**是处理第三层的文化图式。多数既有研究停在第一层，所以只描述了决策的表面，没碰到它的机制。',
+          '第一层是策略，也就是做了什么：直译、归化、异化、音译、意译、彻底再创作。既有研究对这一层已经描述得很细，可它恰恰也是解释力最弱的一层。',
+          '第二层是认知运作，也就是怎么做的：隐喻映射、转喻、意象图式，以及最关键的概念整合。一个好片名往往是整合空间里长出来的新结构，而不是把某个结构原样搬过去。',
+          '第三层是文化图式，它决定了成或不成。图式决定了隐喻能用哪些源域，也决定了某次整合在文化上走不走得通。我们把译者面临的问题归成对图式的四种操作，而这四种操作所要求的认知工作量相差很大。',
+          '三层模型让我们能提出一个有方向的论断。第一层的策略是**手段**，用来完成第二层的认知运作；而认知运作的**目的**，是处理第三层的文化图式。多数既有研究停在第一层，所以只描述了决策的表面，没碰到它的机制。',
         ],
       },
     },
@@ -164,7 +164,7 @@ export const transcreation: Project = {
           machine: '鬼',
           reading: {
             en: 'The English schema here is a tender revenant in a romance; the Chinese 鬼 schema is primarily one of horror. The two overlap but conflict. The human translator diagnosed that the emotional focus is the love and not the ghost, suppressed the horror reading, and blended three inputs, human, ghost and unfinished love, into a structure that neither language contained on its own. The literal rendering activates the wrong schema and misfiles the genre.',
-            zh: '英语这边的图式是爱情故事里深情的亡灵，中文“鬼”的图式主要指向恐怖。两者有重叠，但也冲突。人工译者判断出情感焦点在“情”而不在“鬼”，压住了恐怖那一层，再把“人”“鬼”“情未了”三个输入整合成一个两种语言原本都没有的结构。字面直译激活的是错的图式，连片种都归错了。',
+            zh: '英语这边的图式是爱情故事里深情的亡灵，中文“鬼”的图式主要指向恐怖。两者有重叠，但也冲突。人工译者判断出情感焦点在“情”而不在“鬼”，先压住恐怖那一层。然后把“人”“鬼”“情未了”三个输入整合起来，得到一个两种语言原本都没有的结构。字面直译激活的是错的图式，连片种都归错了。',
           },
         },
         {
@@ -186,7 +186,7 @@ export const transcreation: Project = {
           machine: '洛丽塔',
           reading: {
             en: 'A line of classical Chinese poetry is recruited to carry a socially taboo subject, an old man and a young woman, with the indirection the taboo requires. The translator is acting as a cultural gatekeeper, making a normative judgement about what can be said and how. This is the operation a model is least equipped for, not because it lacks the words, but because it has no stake in the norm.',
-            zh: '译者搬来一句中国古诗，去承载一个社会禁忌题材：老夫与少女；而禁忌要求的那种含蓄，正好被这句诗保住了。这时译者扮演的是文化守门人，在替读者判断什么能说、能说到什么程度。这也是模型最难胜任的一种操作，不是因为它没词可用，而是因为它在这套规范里没有利害关系。',
+            zh: '译者搬来一句中国古诗，去承载一个社会禁忌题材：老夫与少女；而禁忌要求的那种含蓄，正好被这句诗保住了。这时译者扮演的是文化守门人，在替读者判断什么能说、能说到什么程度。这也是模型最难胜任的一种操作。它不缺词，缺的是在这套规范里的利害关系。',
           },
         },
       ],
@@ -307,7 +307,7 @@ export const transcreation: Project = {
           state: 'shipped',
           detail: {
             en: 'Two frontier models, DeepSeek R1 and Gemini 2.5 Pro, have been run across the corpus, so every source title now sits beside a human release title and two machine renderings in the same row. That side-by-side arrangement is the whole instrument.',
-            zh: 'DeepSeek R1 和 Gemini 2.5 Pro 两个前沿模型都已经在全部语料上跑过，所以每个原片名现在都和官方人工译名、两份机器输出并排在同一行里。这种并排摆法本身就是整件仪器。',
+            zh: 'DeepSeek R1 和 Gemini 2.5 Pro 都已经在全部语料上跑过。现在每个原片名都和官方人工译名、两份机器输出并排在同一行。这样摆开，本身就是这项研究的量具。',
           },
         },
         {
@@ -315,7 +315,7 @@ export const transcreation: Project = {
           state: 'instrumented',
           detail: {
             en: 'The three-tier scheme is written down to the level of named strategy codes, each defined by its relationship to the cultural schema, and pre-coded on the hardest cases to test whether the definitions survive contact with data. Full inter-coder reliability is pending.',
-            zh: '三层方案已经细到具名策略代码，每个代码都按它跟文化图式的关系来定义，并且在最难的几个案例上先试编过一遍，看这些定义碰上真实数据还立不立得住。完整的编码者间信度还没做。',
+            zh: '三层方案已经细到具名策略代码，每个代码都按它跟文化图式的关系来定义。我们先在最难的几个案例上试编了一遍，看这些定义碰上真实数据还立不立得住。完整的编码者间信度还没做。',
           },
         },
         {
@@ -338,8 +338,8 @@ export const transcreation: Project = {
           'The translation work is also where I learned that a construct has to be operationalised before it can be studied, which is the single most transferable thing I have taken into building learning systems.',
         ],
         zh: [
-          '它看着像三个里最不搭的一个：两个软件项目中间夹了一篇人文论文。其实它是同一个问题换了一件仪器。',
-          'PaperCraft 问的是：在生成管线内部，教师的判断在哪些地方仍然不可替代；它用编辑距离来回答。这项研究问的是：译者的文化判断在哪些地方仍然不可替代；它用图式操作来回答。两者都拒绝靠看输出来评价模型，也都把“人的贡献”放到因变量那一侧，让它能被测量，而不只是被断言。',
+          '它看着像三个里最不搭的一个：两个软件项目中间夹了一篇人文论文。其实它问的是同一个问题，只是换了一把尺子。',
+          'PaperCraft 问的是，在生成管线内部教师的判断哪里仍然不可替代，它用编辑距离回答。这项研究问的是译者的文化判断哪里仍然不可替代，它用图式操作回答。两者都拒绝靠看输出来评价模型，也都把“人的贡献”挪到因变量那一侧，让它能被量出来，而不是只被断言。',
           '翻译这条线还教了我一件事：一个概念必须先被操作化，才谈得上研究它。这是我带进学习系统开发里最管用的一条经验。',
         ],
       },
