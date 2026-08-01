@@ -1,3 +1,5 @@
+import softSources from './soft-sources.json';
+
 /**
  * Figure sizing, in one place.
  *
@@ -71,12 +73,7 @@ export function figureBox(w?: number, h?: number): FigureBox {
  * recaptured, not a licence to ship soft images, and tests/figures.test.ts
  * fails if anything not listed here drops below 2x.
  */
-export const SOFT_BY_NECESSITY: Record<string, string> = {
-  'html-answer-card.webp':
-    'The only capture of the study document that exists is 760px wide, taken from a real session. A fresh capture at 2x would let this be both larger and sharp.',
-  'paper-ket-picture-story.webp':
-    'The exercise export renders at 1130px, and trimming the blank paper leaves 945px. A larger export from the tool would fix it.',
-};
+export const SOFT_BY_NECESSITY: Record<string, string> = softSources;
 
 /** True when this file is a known-soft source rather than a new mistake. */
 export function isSoftByNecessity(src: string): boolean {
