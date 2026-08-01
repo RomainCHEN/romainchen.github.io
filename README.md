@@ -1,6 +1,6 @@
 # romain.is-a.dev
 
-Personal academic site of Zeming (Romain) Chen — case studies, CV, and notes,
+Personal academic site of Zeming (Romain) Chen, case studies, CV, and notes,
 in English and Chinese. Static Next.js build deployed to GitHub Pages.
 
 ## Running it
@@ -28,7 +28,7 @@ There is no CMS and no MDX for the case studies. Everything is typed data in
 
 ```
 content/
-├── types.ts              Section union type — the vocabulary a case study can use
+├── types.ts              Section union type, the vocabulary a case study can use
 ├── site.ts               Identity, links, UI strings
 ├── about.ts              /about prose
 ├── cv.ts                 Single source for /cv, the PDF, and CV.md
@@ -43,7 +43,7 @@ content/
 
 Every string is a `{ en, zh }` pair. `npm test` walks the whole content tree and
 fails if either language is missing or if a paragraph array has a different
-length in the two languages — which is how bilingual sites usually rot.
+length in the two languages, which is how bilingual sites usually rot.
 
 A case study is a list of sections. Adding one means picking a `kind` from
 `content/types.ts`: `lede`, `prose`, `figure`, `metrics`, `pipeline`, `schemas`,
@@ -62,7 +62,7 @@ out, so content files stay free of markup.
 | `planned` | Specified, not built |
 
 `tests/content.test.ts` pins the current state of several claims. If an edit
-upgrades one — say, marking the teacher study as run — the test fails. That is
+upgrades one, say, marking the teacher study as run, the test fails. That is
 deliberate: overclaiming should require a conscious decision, not a typo.
 
 ### Adding a note

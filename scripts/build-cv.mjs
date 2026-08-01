@@ -21,7 +21,7 @@ const ROOT = path.join(process.cwd(), 'out');
 const PORT = 4323;
 
 if (!fs.existsSync(ROOT)) {
-  console.error('out/ not found — run `npm run build` first.');
+  console.error('out/ not found, run `npm run build` first.');
   process.exit(1);
 }
 
@@ -103,7 +103,7 @@ lines.push(
   ].join(' · '),
   '',
 );
-lines.push(`**Research interests** — ${RESEARCH_INTERESTS.map((i) => i.en).join(' · ')}`, '');
+lines.push(`**Research interests**, ${RESEARCH_INTERESTS.map((i) => i.en).join(' · ')}`, '');
 
 for (const section of CV_SECTIONS) {
   lines.push(`## ${section.heading.en}`, '');
@@ -119,7 +119,7 @@ for (const section of CV_SECTIONS) {
 
 lines.push(`## ${SKILLS.heading.en}`, '');
 for (const group of SKILLS.groups) {
-  lines.push(`**${group.label.en}** — ${group.items.en.join(' · ')}`, '');
+  lines.push(`**${group.label.en}**, ${group.items.en.join(' · ')}`, '');
 }
 
 lines.push('---', '', `*Last updated ${CV_UPDATED}.*`, '');

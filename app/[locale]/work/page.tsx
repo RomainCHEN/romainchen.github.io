@@ -13,12 +13,12 @@ export function generateStaticParams() {
 
 const INTRO: L<string[]> = {
   en: [
-    'Three projects, one question: when a machine can produce a plausible version of the artefact, what exactly is the human contribution — and how would you know if it disappeared?',
-    'One answers it from the teacher\'s side with edit distances, one from the translator\'s side with cultural schemas, one from the learner\'s side by refusing to generate before it has listened. Each page states plainly what has been built, what has been measured, and what has not.',
+    'Three projects, one question: when a machine can produce a plausible version of the artefact, what exactly is the human contribution, and how would you know if it disappeared?',
+    "One answers it from the teacher's side with edit distances, one from the translator's side with cultural schemas, one from the learner's side by refusing to generate before it has listened. Each page states plainly what has been built, what has been measured, and what has not.",
   ],
   zh: [
-    '三个项目，一个问题：当机器已经能产出一个看起来像样的成品时，人的贡献究竟是什么——以及如果它消失了，你怎么会知道？',
-    '一个从教师侧用编辑距离回答，一个从译者侧用文化图式回答，一个从学习者侧用"先听完再动笔"回答。每个页面都明确写出：什么已经做出来了、什么已经被测量了、以及什么还没有。',
+    '三个项目，一个问题：当机器已经能做出一个看起来像样的成品时，人的贡献到底是什么？万一它消失了，你凭什么发现？',
+    '一个站在教师这边，用编辑距离回答；一个站在译者这边，用文化图式回答；一个站在学习者这边，靠“先听完再动笔”回答。每个页面都写清楚：哪些已经做出来了，哪些已经测过了，哪些还没有。',
   ],
 };
 
@@ -45,7 +45,7 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
           <div className="col-margin">
             <h1 className="label">
               {UI.nav.work[locale]}
-              <span className="sr-only"> — {SITE.name}</span>
+              <span className="sr-only">: {SITE.name}</span>
             </h1>
           </div>
           <div className="col-body">

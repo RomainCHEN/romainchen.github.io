@@ -90,27 +90,29 @@ export function SectionRenderer({
     case 'figure': {
       const width = section.w ?? 2400;
       const height = section.h ?? 1500;
-      // A screenshot that is only 700px wide should sit at 700px, not be
-      // stretched across the column and go soft.
-      const cap = section.w ? { maxWidth: `${section.w}px` } : undefined;
+      // Cap the display size so a screenshot is never asked to cover more CSS
+      // pixels than it has physical ones to spare on a 2x screen.
+      const cap = section.maxW ?? (section.w ? Math.round(section.w / 2) : undefined);
+      const style = cap ? { maxWidth: `${cap}px` } : undefined;
+      const sizes = cap
+        ? `(min-width: ${cap}px) ${cap}px, 100vw`
+        : section.wide
+          ? '(min-width: 1280px) 76rem, 100vw'
+          : '(min-width: 1024px) 44rem, 100vw';
 
       return (
         <Reveal as="section" className={section.wide ? 'canvas py-12' : 'canvas field py-12'}>
           <figure className={section.wide ? '' : 'col-body'}>
             <div
               className="relative overflow-hidden border border-rule bg-paper-sunk"
-              style={cap}
+              style={style}
             >
               <Image
                 src={section.src}
                 alt={section.alt[locale]}
                 width={width}
                 height={height}
-                sizes={
-                  section.wide
-                    ? '(min-width: 1280px) 76rem, 100vw'
-                    : '(min-width: 1024px) 44rem, 100vw'
-                }
+                sizes={sizes}
                 className="h-auto w-full"
               />
             </div>

@@ -19,11 +19,11 @@ export const SITE = {
 
 export const TAGLINE: L = {
   en: 'Translation × Computer Science. I design learning tools and instrument them as research objects.',
-  zh: '翻译 × 计算机科学。我设计学习工具，并把它们做成可测量的研究对象。',
+  zh: '翻译 × 计算机科学。我做学习工具，也把它们做成可以拿数据说话的研究对象。',
 };
 
 export const ROLE_LINE: L = {
-  en: 'Undergraduate, dual degree in Translation and Computer Science — Guangdong University of Foreign Studies & Macao Polytechnic University',
+  en: 'Undergraduate, dual degree in Translation and Computer Science, Guangdong University of Foreign Studies & Macao Polytechnic University',
   zh: '广东外语外贸大学（翻译学）× 澳门理工大学（计算机科学）双学位在读',
 };
 
@@ -32,7 +32,7 @@ export const RESEARCH_INTERESTS: L<string>[] = [
   { en: 'Learning analytics & psychometrics', zh: '学习分析与心理测量' },
   { en: 'Teacher-facing tools', zh: '面向教师的工具' },
   { en: 'Language assessment', zh: '语言测评' },
-  { en: 'Human-centered AI', zh: '以人为中心的人工智能' },
+  { en: 'Human-centered AI', zh: '以人为本的人工智能' },
 ];
 
 export const SOCIAL: { label: string; href: string; handle: string }[] = [
@@ -44,7 +44,7 @@ export const SOCIAL: { label: string; href: string; handle: string }[] = [
 
 /**
  * UI strings. Content strings live with their content; this dictionary is only
- * for chrome — navigation, buttons, labels.
+ * for chrome, navigation, buttons, labels.
  */
 export const UI = {
   nav: {
@@ -76,26 +76,26 @@ export const UI = {
   downloadCv: { en: 'Download CV (PDF)', zh: '下载简历（PDF）' },
   downloadCvZh: { en: 'Chinese résumé (PDF)', zh: '中文简历（PDF）' },
   lastUpdated: { en: 'Last updated', zh: '最后更新' },
-  builtWith: { en: 'Built with Next.js. Set in Newsreader and Instrument Sans.', zh: '基于 Next.js 构建，使用 Newsreader 与 Instrument Sans 排版。' },
+  builtWith: { en: 'Built with Next.js. Set in Newsreader and Instrument Sans.', zh: '用 Next.js 构建，Newsreader 与 Instrument Sans 排版。' },
   notFoundTitle: { en: 'No such page', zh: '页面不存在' },
   notFoundBody: {
     en: 'The address is wrong, or something moved. The index below still works.',
-    zh: '地址有误，或者内容已经移动。下面的目录仍然可用。',
+    zh: '地址不对，或者内容挪了位置。下面的目录还能用。',
   },
   evidenceLegend: {
     en: 'Every component below is labelled with how much empirical backing it has.',
-    zh: '下面每一项都标注了它目前拥有多少实证支撑。',
+    zh: '下面每一项都标了它现在有多少实证支撑。',
   },
   evidenceStates: {
-    shipped: { en: 'In use', zh: '已上线运行' },
-    instrumented: { en: 'Built, no data yet', zh: '已实现，尚无数据' },
-    designed: { en: 'Designed, not run', zh: '已设计，尚未开展' },
+    shipped: { en: 'In use', zh: '已在用' },
+    instrumented: { en: 'Built, no data yet', zh: '做完了，还没数据' },
+    designed: { en: 'Designed, not run', zh: '方案写好了，还没开跑' },
     planned: { en: 'Planned', zh: '计划中' },
   },
   cognitiveLoad: { en: 'Cognitive load', zh: '认知负荷' },
   sourceTitle: { en: 'Source title', zh: '原片名' },
   humanTitle: { en: 'Human translator', zh: '人工译者' },
-  machineTitle: { en: 'Literal / LLM default', zh: '直译 / LLM 默认输出' },
+  machineTitle: { en: 'Literal / LLM default', zh: '直译或模型默认输出' },
   what: { en: 'What it does', zh: '做什么' },
   why: { en: 'Why it matters for the research', zh: '对研究的意义' },
   writingEmpty: {

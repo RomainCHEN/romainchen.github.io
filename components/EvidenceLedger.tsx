@@ -10,7 +10,7 @@ const FILL: Record<Evidence, number> = {
 
 /**
  * A four-tick meter rather than a red/amber/green chip. Traffic lights imply a
- * value judgement — "planned" is not a failure — whereas a fill level reads as
+ * value judgement, "planned" is not a failure, whereas a fill level reads as
  * what it is: how far along the evidence goes.
  */
 function EvidenceMark({ state, label }: { state: Evidence; label: string }) {

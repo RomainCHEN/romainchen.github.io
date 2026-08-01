@@ -89,7 +89,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <div className="col-body">
             <h1 className="label">
               {UI.nav.about[locale]}
-              <span className="sr-only"> — {SITE.name}</span>
+              <span className="sr-only">: {SITE.name}</span>
             </h1>
             {ABOUT_LEDE[locale].map((paragraph, i) => (
               <p
