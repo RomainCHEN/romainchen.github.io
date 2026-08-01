@@ -29,7 +29,6 @@ export const ieltsCoach: Project = {
     src: '/work/ielts-coach/terminal-session.webp',
     w: 2280,
     h: 1162,
-    maxW: 1040,
     alt: {
       en: 'A terminal session: the topic discovery server starts on localhost, waits for the learner to submit the form, writes their answers to JSON, and exits.',
       zh: '一段终端会话：话题采集服务在本机启动，等学习者提交表单，把答案写进 JSON，然后退出。',
@@ -97,7 +96,6 @@ export const ieltsCoach: Project = {
       src: '/work/ielts-coach/form-filled.webp',
       w: 2460,
       h: 3093,
-      maxW: 720,
       alt: {
         en: "The topic discovery form for the topic Music, filled in with a learner's own recollections: what they listen to while working, and a song tied to a specific memory of a first interpreting competition.",
         zh: '“音乐”话题的采集表单，里面填的是学习者自己的回忆：工作时听什么，以及一首和第一次交传比赛有关的歌。',
@@ -128,7 +126,6 @@ export const ieltsCoach: Project = {
       src: '/work/ielts-coach/html-answer-card.webp',
       w: 760,
       h: 350,
-      maxW: 380,
       alt: {
         en: 'A generated answer card in the study document, with highlighted vocabulary and structure notes.',
         zh: '学习文档里的一张答案卡片，带高亮词汇和结构说明。',

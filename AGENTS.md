@@ -9,6 +9,7 @@ npm test          # content integrity + bilingual parity (vitest)
 npm run lint      # eslint
 npm run build     # static export to out/
 npm run qa        # build, then per-page contrast / heading / alt / overflow audit
+npm run layout    # build, then per-page alignment / measure / figure proportion audit
 npm run check     # all of the above
 npm run cv        # regenerate the CV PDF and CV.md from content/cv.ts
 npm run assets    # re-encode images, OG card, icons
@@ -16,6 +17,13 @@ npm run assets    # re-encode images, OG card, icons
 
 Run `npm run check` before proposing any change. `npm run qa` needs a local
 Chrome; set `CHROME_PATH` if the default path in the script is wrong.
+
+## Layout rules
+
+- Figure sizing lives in `lib/figure.ts`. Do not hand-set widths on figures; if
+  one looks wrong, the rule or the source image is wrong.
+- Declared `w`/`h` on a figure must match the file on disk. `npm test` asserts it.
+- Cap line length with `.measure`, never with a pixel width.
 
 ## Content rules
 

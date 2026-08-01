@@ -37,13 +37,12 @@ export const transcreation: Project = {
   ],
   hero: {
     src: '/work/transcreation/corpus-dataset.webp',
-    w: 2657,
-    h: 1801,
-    maxW: 1180,
+    w: 1800,
+    h: 1018,
     full: '/work/transcreation/corpus-dataset-full.webp',
     alt: {
-      en: 'Six rows of the Chinese-to-English corpus sheet, showing for each film the source title, genre, official English release title, and the renderings produced by DeepSeek R1 and Gemini 2.5 Pro.',
-      zh: '汉译英语料表的六行：每部影片的原片名、影片类型、英文官方译名，以及 DeepSeek R1 和 Gemini 2.5 Pro 各自给出的译名。',
+      en: 'The first page of the Chinese-to-English corpus sheet: nine films, each with its source title, year, genre, official English release title, the renderings from DeepSeek R1 and Gemini 2.5 Pro, a selection rationale, and poster art for both markets.',
+      zh: '汉译英语料表的第一页：九部影片，每部都列出原片名、上映年份、影片类型、英文官方译名、DeepSeek R1 与 Gemini 2.5 Pro 的输出、选取理由，以及两地海报。',
     },
   },
   links: [],
@@ -104,18 +103,16 @@ export const transcreation: Project = {
     {
       kind: 'figure',
       src: '/work/transcreation/course-poster.webp',
-      w: 2675,
-      h: 1825,
-      maxW: 1040,
-      wide: true,
+      w: 1200,
+      h: 1697,
       full: '/work/transcreation/course-poster-full.webp',
       alt: {
-        en: 'A detail of the original course poster on Chinese-English film title translation: the title, and the first of ten labelled strategy categories with its strategy, theoretical basis, examples and comparison against machine translation.',
-        zh: '最初那张课程海报《电影标题的中英翻译》的局部：标题，以及十个策略类别中的第一个，含策略、理论依据、示例，以及与机器翻译的对比。',
+        en: 'The original course poster on Chinese-English film title translation, laid out as a scrapbook: ten numbered strategy categories, each with its strategy, theoretical basis, examples, and a comparison against machine translation.',
+        zh: '最初那张课程海报《电影标题的中英翻译》，做成剪贴簿的样子：十个编号的策略类别，每一类都写了策略、理论依据、示例，以及与机器翻译的对比。',
       },
       caption: {
-        en: 'Where this started: a course poster for an English-Chinese contrastive translation class. It already did more than sort titles into ten categories. Each category carries a stated rationale and a comparison against machine output, so the human-versus-AI question was there from the beginning. What it does not have is a mechanism. The rationale is asserted case by case, which means the categories cannot predict anything about a title they have not already seen. Turning those assertions into an account of what the translator is doing cognitively is the whole distance between this poster and the three-tier model.',
-        zh: '起点是这张海报：英汉对比翻译课上的小组展示。它做的其实不止是把片名分成十类，每一类下面都写了理论依据，还附了跟机器翻译的对比，所以"人对 AI"这个问题从一开始就在。它缺的是机制。理由是一例一说的，于是这套分类对没见过的片名什么也预测不了。把这些逐例的说法，换成一套关于译者在认知上究竟做了什么的解释，就是这张海报和三层模型之间的全部距离。',
+        en: 'Where this started: a course poster for an English-Chinese contrastive translation class. It is printed small, so open the full sheet to read it. It already did more than sort titles into ten categories. Each category carries a stated rationale and a comparison against machine output, so the human-versus-AI question was there from the beginning. What it does not have is a mechanism. The rationale is asserted case by case, which means the categories cannot predict anything about a title they have not already seen. Turning those assertions into an account of what the translator is doing cognitively is the whole distance between this poster and the three-tier model.',
+        zh: '起点是这张海报：英汉对比翻译课上的小组展示。原件排得很密，正文要点开完整原图才看得清。它做的其实不止是把片名分成十类，每一类下面都写了理论依据，还附了跟机器翻译的对比，所以"人对 AI"这个问题从一开始就在。它缺的是机制。理由是一例一说的，于是这套分类对没见过的片名什么也预测不了。把这些逐例的说法，换成一套关于译者在认知上究竟做了什么的解释，就是这张海报和三层模型之间的全部距离。',
       },
     },
     {
