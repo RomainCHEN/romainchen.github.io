@@ -17,7 +17,7 @@ export const transcreation: Project = {
   },
   blurb: {
     en: 'A corpus study of film title translation that uses cultural schema theory to locate exactly which cognitive operations humans perform and LLMs cannot.',
-    zh: '一项电影片名翻译的语料研究，用文化图式理论定位：哪些认知操作人做得到，而大模型做不到。',
+    zh: '一项电影片名翻译的语料研究，用文化图式理论去定位哪些认知操作人做得到、而大模型做不到。',
   },
   period: { en: 'Oct 2025 to present', zh: '2025 年 10 月至今' },
   role: {
@@ -77,8 +77,8 @@ export const transcreation: Project = {
           'This is why titles are the cleanest available probe for the question everyone is arguing about badly. When a translator abandons the literal meaning, is that a failure of fidelity or an act of expertise? And can a model that has never lived inside a culture do the same thing?',
         ],
         zh: [
-          '电影片名是一道伪装成小问题的难题。它只有几个字，却要同时干三件互相打架的事：说清这是部什么电影，在一个并非孕育它的文化里打动人，还得把票卖出去。',
-          '所以要问一个大家都吵得很糟的问题，片名是目前最干净的切口：译者放弃字面意思的时候，那是背离忠实，还是专业判断在起作用？以及，一个从未在某个文化里生活过的模型，能不能做同一件事？',
+          '电影片名是一道伪装成小问题的难题。它只有几个字，却要同时干三件互相打架的事。说清这是部什么电影，在一个并非孕育它的文化里打动人，还得把票卖出去。',
+          '有个问题吵了很多年也没吵明白。译者放弃字面意思，到底算不忠实，还是本来就是专业判断？片名是最适合拿来问这个问题的材料，短，而且争议集中。再往下还有一问，一个从没在那个文化里生活过的模型，做不做得到同样的事？',
         ],
       },
     },
@@ -92,7 +92,7 @@ export const transcreation: Project = {
         ],
         zh: [
           '常用的机器翻译指标在这里完全不管用，而且差得很远。BLEU 和 ROUGE 衡量的是跟参考译文的重叠度，于是它们扣分扣的，正好是好片名之所以好的那个偏离。《Ghost》译成《人鬼情未了》，对着任何字面参考都拿不到分，可它偏偏是对的。',
-          '所以这项研究不给输出打分，而是给译者做出的**操作**分类，再问一句：面对眼前这道文化沟壑，这个操作选对了吗？',
+          '所以这项研究不给输出打分，只给译者做出的**操作**分类，然后问一句。面对眼前这道文化沟壑，这个操作选对了吗？',
         ],
       },
       note: {
@@ -108,11 +108,11 @@ export const transcreation: Project = {
       full: '/work/transcreation/course-poster-full.webp',
       alt: {
         en: 'The original course poster on Chinese-English film title translation, laid out as a scrapbook: ten numbered strategy categories, each with its strategy, theoretical basis, examples, and a comparison against machine translation.',
-        zh: '最初那张课程海报《电影标题的中英翻译》，做成剪贴簿的样子：十个编号的策略类别，每一类都写了策略、理论依据、示例，以及与机器翻译的对比。',
+        zh: '最初那张课程海报《电影标题的中英翻译》，做成剪贴簿的样子，十个编号的策略类别。每一类都写了策略、理论依据、示例，以及与机器翻译的对比。',
       },
       caption: {
         en: 'Where this started: a course poster for an English-Chinese contrastive translation class. It is printed small, so open the full sheet to read it. It already did more than sort titles into ten categories. Each category carries a stated rationale and a comparison against machine output, so the human-versus-AI question was there from the beginning. What it does not have is a mechanism. The rationale is asserted case by case, which means the categories cannot predict anything about a title they have not already seen. Turning those assertions into an account of what the translator is doing cognitively is the whole distance between this poster and the three-tier model.',
-        zh: '起点是这张海报：英汉对比翻译课上的小组展示。原件排得很密，正文要点开完整原图才看得清。它做的其实不止是把片名分成十类，每一类下面都写了理论依据，还附了跟机器翻译的对比，所以"人对 AI"这个问题从一开始就在。它缺的是机制。理由是一例一说的，于是这套分类对没见过的片名什么也预测不了。把这些逐例的说法，换成一套关于译者在认知上究竟做了什么的解释，就是这张海报和三层模型之间的全部距离。',
+        zh: '起点是这张海报，英汉对比翻译课上的小组展示。原件排得很密，正文要点开完整原图才看得清。它做的其实不止是把片名分成十类，每一类下面都写了理论依据，还附了跟机器翻译的对比，所以人对 AI 这个问题从一开始就在。它缺的是机制。理由是一例一说的，于是这套分类对没见过的片名什么也预测不了。把这些逐例的说法，换成一套关于译者在认知上究竟做了什么的解释，就是这张海报和三层模型之间的全部距离。',
       },
     },
     {
@@ -153,7 +153,7 @@ export const transcreation: Project = {
           machine: '狮子王',
           reading: {
             en: 'The lion-as-sovereign schema is shared across both cultures, so a direct metaphor mapping suffices and no blending is required. Machine and human converge, because statistical association is enough when the schemas already align. Any evaluation built only on cases like this will conclude that the problem is solved.',
-            zh: '“狮子即王者”这套图式两种文化都有，所以直接做隐喻映射就够了，用不上概念整合。人机在这里会重合，因为图式本来就对齐时，统计关联已经够用。只拿这类案例做评估，一定会得出“问题已经解决”的结论。',
+            zh: '“狮子即王者”这套图式两种文化都有，所以直接做隐喻映射就够了，用不上概念整合。人机在这里会重合，因为图式本来就对齐时，统计关联已经够用。只拿这类案例做评估，一定会得出问题已经解决的结论。',
           },
         },
         {
@@ -175,7 +175,7 @@ export const transcreation: Project = {
           machine: 'Rivers and Lakes',
           reading: {
             en: 'The 江湖 schema, an itinerant world with its own code of loyalty and violence, is simply absent in English. There is no source domain to map onto. The human translator gave up the literal level entirely, identified what the film is actually about, and constructed a new image capable of carrying it. The literal output is not merely worse: "Rivers and Lakes" activates a geographical schema, turning a dense cultural signifier into an empty one. This is the widest human-machine gap in the corpus.',
-            zh: '“江湖”这套图式，一个自有忠义与暴力法则的流动世界，在英语里根本没有对应，也就没有源域可供映射。人工译者索性放弃字面层，先想清影片究竟在讲什么，再造一个能承载它的新意象。字面输出不只是差一点：Rivers and Lakes 激活的是地理图式，把一个密度极高的文化符号变成了空壳。这是语料里人机差距最大的一类。',
+            zh: '“江湖”这套图式，一个自有忠义与暴力法则的流动世界，在英语里根本没有对应，也就没有源域可供映射。人工译者索性放弃字面层，先想清影片究竟在讲什么，再造一个能承载它的新意象。字面输出不只是差一点。Rivers and Lakes 激活的是地理图式，把一个密度极高的文化符号变成了空壳。这是语料里人机差距最大的一类。',
           },
         },
         {
@@ -186,7 +186,7 @@ export const transcreation: Project = {
           machine: '洛丽塔',
           reading: {
             en: 'A line of classical Chinese poetry is recruited to carry a socially taboo subject, an old man and a young woman, with the indirection the taboo requires. The translator is acting as a cultural gatekeeper, making a normative judgement about what can be said and how. This is the operation a model is least equipped for, not because it lacks the words, but because it has no stake in the norm.',
-            zh: '译者搬来一句中国古诗，去承载一个社会禁忌题材：老夫与少女；而禁忌要求的那种含蓄，正好被这句诗保住了。这时译者扮演的是文化守门人，在替读者判断什么能说、能说到什么程度。这也是模型最难胜任的一种操作。它不缺词，缺的是在这套规范里的利害关系。',
+            zh: '译者搬来一句中国古诗，去承载老夫与少女这个禁忌题材。禁忌要求的那种含蓄，正好被这句诗保住了。这时译者扮演的是文化守门人，在替读者判断什么能说、能说到什么程度。这也是模型最难胜任的一种操作。它不缺词，缺的是在这套规范里的利害关系。',
           },
         },
       ],
@@ -252,7 +252,7 @@ export const transcreation: Project = {
     },
     {
       kind: 'prose',
-      heading: { en: 'Why "free translation" is the wrong unit of analysis', zh: '为什么“意译”不该当分析单位' },
+      heading: { en: 'Why "free translation" is the wrong unit of analysis', zh: '为什么意译不该当分析单位' },
       body: {
         en: [
           'Traditional translation theory loads far too much onto the term *free translation*. It covers everything from mild paraphrase to total re-creation, which makes it a black box: naming it explains nothing about what happened inside.',
@@ -260,9 +260,9 @@ export const transcreation: Project = {
           'Framed this way, the interesting difference between human and machine output is not quality but *character*. Human decisions in the corpus are diagnostic and staged. Machine decisions are arbitrary in a specific technical sense: a default mapping is applied without first testing whether the source schema survives the crossing.',
         ],
         zh: [
-          '传统翻译理论往“意译”这个词上堆了太多东西。从轻度改写到彻底再创作全都算，于是它成了一个黑箱：叫出这个名字，对箱子里发生了什么毫无解释力。',
+          '传统翻译理论往意译这个词上堆了太多东西。从轻度改写到彻底再创作全都算，于是它成了一个黑箱。你说出这个名字，等于什么都没说。',
           '换成**译创**，并把它理解为一次认知与文化上的组构，这个现象才有了机制。译者先诊断原文是怎么把意思立起来的，再判断这个结构能不能在目标文化里落地，最后才重组。这是三种可以分开检验的能力，而模型在每一种上都可能以不同方式失手。',
-          '这样看，人机输出之间真正有意思的差别不在质量，而在**性质**。语料里人的决策是诊断式的、分步的；机器的决策则在一个很具体的技术意义上是武断的：它直接套用默认映射，并没有先检验源图式能否活着穿过这道边界。',
+          '这样看，人机输出之间真正有意思的差别不在质量，而在**性质**。语料里人的决策是诊断式的、分步的；机器的决策则是武断的，而且武断得很具体：它直接套用默认映射，没有先检验源图式能否活着穿过这道边界。',
         ],
       },
     },
@@ -283,7 +283,7 @@ export const transcreation: Project = {
           state: 'shipped',
           detail: {
             en: 'Three-tier model defined, four schema operations specified, transcreation adopted as the organising construct.',
-            zh: '三层模型已定义，四种图式操作已界定，并确定用“译创”作为统领全文的构念。',
+            zh: '三层模型已定义，四种图式操作已界定，并确定用译创作为统领全文的构念。',
           },
         },
         {
@@ -299,7 +299,7 @@ export const transcreation: Project = {
           state: 'shipped',
           detail: {
             en: '100 title pairs in both directions, sampled for culture-specific items, contested renderings across Mainland, Hong Kong and Taiwan, and coverage of all four schema operations. Each row carries the source title, year, genre, the official human release title, and the poster art for both markets.',
-            zh: '双向共 100 对片名，按文化特有项、大陆港台三地译名分歧、以及四种图式操作的覆盖度来抽样。每一行都带原片名、上映年份、影片类型、官方人工译名，以及两地的海报图。',
+            zh: '双向共 100 对片名，抽样时看三样东西，文化特有项、大陆港台三地的译名分歧，以及四种图式操作的覆盖度。每一行都带原片名、上映年份、影片类型、官方人工译名，以及两地的海报图。',
           },
         },
         {
@@ -338,9 +338,9 @@ export const transcreation: Project = {
           'The translation work is also where I learned that a construct has to be operationalised before it can be studied, which is the single most transferable thing I have taken into building learning systems.',
         ],
         zh: [
-          '它看着像三个里最不搭的一个：两个软件项目中间夹了一篇人文论文。其实它问的是同一个问题，只是换了一把尺子。',
-          'PaperCraft 问的是，在生成管线内部教师的判断哪里仍然不可替代，它用编辑距离回答。这项研究问的是译者的文化判断哪里仍然不可替代，它用图式操作回答。两者都拒绝靠看输出来评价模型，也都把“人的贡献”挪到因变量那一侧，让它能被量出来，而不是只被断言。',
-          '翻译这条线还教了我一件事：一个概念必须先被操作化，才谈得上研究它。这是我带进学习系统开发里最管用的一条经验。',
+          '它看着像三个里最不搭的一个，两个软件项目中间夹了一篇人文论文。其实它问的是同一个问题，只是换了一把尺子。',
+          'PaperCraft 问的是，在生成管线内部教师的判断哪里仍然不可替代，它用编辑距离回答。这项研究问的是译者的文化判断哪里仍然不可替代，它用图式操作回答。两者都拒绝靠看输出来评价模型，也都把人的贡献挪到因变量那一侧，让它能被量出来，而不是只被断言。',
+          '翻译这条线还教了我一件事，一个概念必须先被操作化，才谈得上研究它。这是我带进学习系统开发里最管用的一条经验。',
         ],
       },
     },
