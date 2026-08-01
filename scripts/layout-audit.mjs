@@ -23,7 +23,10 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import puppeteer from 'puppeteer-core';
-import { SOFT_BY_NECESSITY } from '../lib/figure.ts';
+
+const SOFT_BY_NECESSITY = JSON.parse(
+  fs.readFileSync(new URL('../lib/soft-sources.json', import.meta.url), 'utf8'),
+);
 
 const CHROME =
   process.env.CHROME_PATH ??

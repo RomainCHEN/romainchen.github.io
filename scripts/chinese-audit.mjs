@@ -139,15 +139,29 @@ const RULES = [
 /* 收集：直接读源文件里的字符串字面量，避免 ESM 解析扩展名的麻烦，
    顺便也能抓到本该是英文的位置混进了中文的情况。                    */
 
-const SOURCES = [
-  'content/site.ts',
-  'content/about.ts',
-  'content/cv.ts',
-  'content/projects/papercraft.ts',
-  'content/projects/transcreation.ts',
-  'content/projects/ielts-coach.ts',
-  'app/[locale]/work/page.tsx',
-];
+/**
+ * 自动发现：凡是 app/、components/、content/、lib/ 下含中文的文件都要检查。
+ * 之前这里是一份手写清单，结果漏掉了六个面向用户的文件。清单会漂移，扫描不会。
+ */
+const SEARCH_DIRS = ['app', 'components', 'content', 'lib'];
+const CODE_EXT = new Set(['.ts', '.tsx', '.md']);
+const hasCJKFile = new RegExp(`[${CJK}]`);
+
+function walk(dir, out = []) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) walk(full, out);
+    else if (CODE_EXT.has(path.extname(entry.name))) out.push(full);
+  }
+  return out;
+}
+
+const SOURCES = SEARCH_DIRS.filter((d) => fs.existsSync(d))
+  .flatMap((d) => walk(d))
+  .filter((f) => !f.endsWith('.zh.md') && !f.endsWith('.en.md'))
+  .filter((f) => hasCJKFile.test(fs.readFileSync(f, 'utf8')))
+  .map((f) => path.relative(process.cwd(), f))
+  .sort();
 
 const STRINGS = [];
 const hasCJK = new RegExp(`[${CJK}]`);

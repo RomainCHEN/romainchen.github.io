@@ -295,6 +295,11 @@ export function SectionRenderer({
                 </li>
               ))}
             </ol>
+            {section.note ? (
+              <p className="mt-5 measure text-sm leading-relaxed text-muted text-pretty">
+                {inline(section.note[locale])}
+              </p>
+            ) : null}
           </div>
         </Reveal>
       );

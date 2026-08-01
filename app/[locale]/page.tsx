@@ -123,7 +123,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 href={path(locale, 'about')}
                 className="link-draw font-mono text-2xs uppercase tracking-[0.14em] text-ink"
               >
-                {locale === 'en' ? 'More about me' : '更多关于我'}
+                {locale === 'en' ? 'More about me' : '了解更多'}
               </Link>
             </p>
           </Reveal>

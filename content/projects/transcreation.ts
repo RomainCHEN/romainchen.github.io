@@ -29,11 +29,11 @@ export const transcreation: Project = {
     zh: '翻译研究 · 认知语言学 · 大模型评估',
   },
   tags: [
-    'Cultural schema theory',
-    'Transcreation',
-    'Corpus study',
-    'LLM evaluation',
-    'Conceptual blending',
+    { en: 'Cultural schema theory', zh: '文化图式理论' },
+    { en: 'Transcreation', zh: '译创' },
+    { en: 'Corpus study', zh: '语料研究' },
+    { en: 'LLM evaluation', zh: '大模型评估' },
+    { en: 'Conceptual blending', zh: '概念整合' },
   ],
   hero: {
     src: '/work/transcreation/corpus-dataset.webp',

@@ -28,7 +28,14 @@ export const papercraft: Project = {
     en: 'Learning engineering · Human–AI interaction · Language assessment',
     zh: '学习工程 · 人机交互 · 语言测评',
   },
-  tags: ['Next.js', 'TypeScript', 'Supabase', 'LLM pipeline', 'Psychometrics', 'CEFR'],
+  tags: [
+    'Next.js',
+    'TypeScript',
+    'Supabase',
+    { en: 'LLM pipeline', zh: '大模型管线' },
+    { en: 'Psychometrics', zh: '心理测量' },
+    'CEFR',
+  ],
   hero: {
     src: '/work/papercraft/workspace-generate.webp',
     w: 2400,
@@ -385,10 +392,11 @@ export const papercraft: Project = {
           text: 'Wu, T., Terry, M., & Cai, C. J. AI Chains: transparent and controllable human–AI interaction by chaining LLM prompts.',
         },
         { text: 'Amershi, S., et al. Guidelines for human–AI interaction.' },
-        {
-          text: 'Full reference list with resolved DOIs is maintained with the thesis working material.',
-        },
       ],
+      note: {
+        en: 'Citations are left in the original. The full list, with every DOI resolved against Crossref, is kept with the thesis working material.',
+        zh: '文献条目保留原文，不做翻译。完整清单以及逐条核对过 Crossref 的 DOI，都放在论文的工作材料里。',
+      },
     },
   ],
 };

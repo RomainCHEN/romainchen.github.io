@@ -122,14 +122,17 @@ export default async function CaseStudy({
             ) : null}
 
             <ul className="mt-8 flex flex-wrap gap-x-2.5 gap-y-2">
-              {project.tags.map((tag) => (
-                <li
-                  key={tag}
-                  className="border border-rule px-2.5 py-1 font-mono text-2xs text-muted"
-                >
-                  {tag}
-                </li>
-              ))}
+              {project.tags.map((tag) => {
+                const label = typeof tag === 'string' ? tag : tag[locale];
+                return (
+                  <li
+                    key={typeof tag === 'string' ? tag : tag.en}
+                    className="border border-rule px-2.5 py-1 font-mono text-2xs text-muted"
+                  >
+                    {label}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
