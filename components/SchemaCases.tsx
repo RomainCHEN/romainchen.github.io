@@ -124,7 +124,7 @@ export function SchemaCases({ cases, locale }: { cases: SchemaCase[]; locale: Lo
           </div>
         </div>
 
-        <p className="mt-6 max-w-2xl font-display text-lg leading-relaxed text-ink-soft text-pretty">
+        <p className="mt-6 max-w-2xl measure-display font-display text-lg leading-relaxed text-ink-soft text-pretty">
           {active.reading[locale]}
         </p>
       </div>

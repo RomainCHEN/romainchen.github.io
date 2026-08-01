@@ -94,17 +94,17 @@ export function Pipeline({ stages, locale }: { stages: Stage[]; locale: Locale }
         id={`stage-panel-${active.id}`}
         aria-labelledby={`stage-tab-${active.id}`}
         tabIndex={0}
-        className="grid gap-x-10 gap-y-6 pt-8 sm:grid-cols-2"
+        className="grid gap-x-10 gap-y-6 pt-8 xl:grid-cols-2"
       >
         <div>
           <p className="label">{UI.what[locale]}</p>
-          <p className="mt-2.5 font-display text-lg leading-relaxed text-ink text-pretty">
+          <p className="mt-2.5 measure font-display text-lg leading-relaxed text-ink text-pretty">
             {active.what[locale]}
           </p>
         </div>
         <div>
           <p className="label">{UI.why[locale]}</p>
-          <p className="mt-2.5 font-display text-lg leading-relaxed text-ink-soft text-pretty">
+          <p className="mt-2.5 measure font-display text-lg leading-relaxed text-ink-soft text-pretty">
             {active.why[locale]}
           </p>
         </div>

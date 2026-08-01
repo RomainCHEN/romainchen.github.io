@@ -45,7 +45,7 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
               {SITE.name}
             </h1>
             <p className="mt-2 font-display text-xl text-muted">{SITE.nameZh}</p>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink-soft text-pretty">
+            <p className="mt-5 measure text-base leading-relaxed text-ink-soft text-pretty">
               {ROLE_LINE[locale]}
             </p>
 
@@ -96,7 +96,7 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
             {section.entries.map((entry) => (
               <div key={entry.title.en} className="border-b border-rule py-6">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
-                  <h3 className="max-w-2xl font-display text-lg leading-snug text-ink text-pretty">
+                  <h3 className="max-w-2xl measure-display font-display text-lg leading-snug text-ink text-pretty">
                     {entry.title[locale]}
                   </h3>
                   <p className="whitespace-nowrap font-mono text-2xs uppercase tracking-[0.1em] text-muted">
@@ -105,14 +105,14 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
                 </div>
 
                 {entry.org ? (
-                  <p className="mt-1.5 max-w-2xl text-sm text-muted text-pretty">
+                  <p className="mt-1.5 measure text-sm text-muted text-pretty">
                     {entry.org[locale]}
                     {entry.place ? ` · ${entry.place[locale]}` : ''}
                   </p>
                 ) : null}
 
                 {entry.points[locale].length > 0 ? (
-                  <ul className="mt-3 max-w-2xl space-y-1.5">
+                  <ul className="mt-3 max-w-2xl measure-display space-y-1.5">
                     {entry.points[locale].map((point, j) => (
                       <li key={j} className="flex gap-3 text-sm leading-relaxed text-ink-soft">
                         <span

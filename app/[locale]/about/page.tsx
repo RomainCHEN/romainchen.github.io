@@ -35,14 +35,14 @@ function EntryList({ section, locale }: { section: CvSection; locale: Locale }) 
           <p className="font-mono text-2xs uppercase tracking-[0.12em] text-muted">
             {entry.when[locale]}
           </p>
-          <h3 className="mt-2 max-w-2xl font-display text-lg leading-snug text-ink text-pretty">
+          <h3 className="mt-2 max-w-2xl measure-display font-display text-lg leading-snug text-ink text-pretty">
             {entry.title[locale]}
           </h3>
           {entry.org ? (
             <p className="mt-1 text-sm text-muted text-pretty">{entry.org[locale]}</p>
           ) : null}
           {entry.points[locale].length > 0 ? (
-            <ul className="mt-3 max-w-2xl space-y-1.5">
+            <ul className="mt-3 max-w-2xl measure-display space-y-1.5">
               {entry.points[locale].map((point, i) => (
                 <li key={i} className="flex gap-3 text-sm leading-relaxed text-ink-soft">
                   <span aria-hidden="true" className="mt-2.5 h-px w-3 shrink-0 bg-rule-strong" />
@@ -94,7 +94,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             {ABOUT_LEDE[locale].map((paragraph, i) => (
               <p
                 key={i}
-                className={`max-w-2xl font-display text-pretty ${
+                className={`max-w-2xl measure-display font-display text-pretty ${
                   i === 0
                     ? 'mt-4 text-2xl leading-snug text-ink sm:text-3xl'
                     : 'mt-6 text-lg leading-relaxed text-ink-soft'
@@ -142,7 +142,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             {CURRENTLY[locale].map((item, i) => (
               <li key={i} className="flex gap-3.5 text-base leading-relaxed text-ink-soft">
                 <span aria-hidden="true" className="mt-3 h-px w-5 shrink-0 bg-accent" />
-                <span className="max-w-2xl text-pretty">{item}</span>
+                <span className="max-w-2xl measure-display text-pretty">{item}</span>
               </li>
             ))}
           </ul>
@@ -193,7 +193,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
       <section className="canvas field py-10">
         <div className="col-body border-t border-rule pt-6">
-          <p className="max-w-2xl font-mono text-2xs leading-relaxed text-muted">
+          <p className="measure font-mono text-2xs leading-relaxed text-muted">
             {COLOPHON[locale][0]}
           </p>
         </div>

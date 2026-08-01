@@ -54,25 +54,37 @@ CORPUS = Path(
 # Header sits at y=48 and rows repeat every 48 pt, so y=370 closes the sixth
 # row cleanly. x=578 is the column rule before the rationale column, which
 # keeps the right edge from cutting a cell in half.
-CORPUS_CROP = fitz.Rect(100, 46, 578, 370)
+# Show the whole page. An excerpt read as a broken screenshot rather than as a
+# deliberate detail, and completeness matters more here than on-page legibility,
+# which the full-size link covers.
+CORPUS_CROP = None
 
 # Poster: the title block, the bilingual subtitle and the first labelled
 # category in full. The title spans x=53 to x=209, so the crop has to reach
 # past it. Section 二 is clipped at the right edge on purpose, which reads as a
 # detail rather than a whole, and y=146 stops just above the next heading
 # instead of slicing through it.
-POSTER_CROP = fitz.Rect(0, 0, 214, 146)
+POSTER_CROP = None
 
+# (source, crop, dpi, output stem, trim, target width in px)
+#
+# Target widths are set from how large the figure is actually displayed, times
+# two for a high-density screen, and no more. Rendering at 400 dpi and then
+# shipping 4400 px for an 800 px slot is how the poster ended up as a 1.3 MB
+# page weight for no visible benefit.
 JOBS = [
-    # (source, crop, dpi, output stem)
-    (CORPUS, CORPUS_CROP, 400, "corpus-dataset"),
-    (CORPUS, None, 300, "corpus-dataset-full"),
-    (POSTER, POSTER_CROP, 900, "course-poster"),
-    (POSTER, None, 500, "course-poster-full"),
+    # The on-page figures are trimmed to their content so the frame is not
+    # mostly paper margin. The -full variants are the zoom targets behind the
+    # "full sheet" link, rendered high enough that the 5.5 pt cells and the
+    # 3.1 pt poster body are actually readable.
+    (CORPUS, CORPUS_CROP, 400, "corpus-dataset", True, 1800),
+    (CORPUS, None, 700, "corpus-dataset-full", False, 5200),
+    (POSTER, POSTER_CROP, 500, "course-poster", True, 1200),
+    (POSTER, None, 700, "course-poster-full", False, 3100),
 ]
 
 
-def render(src: Path, crop, dpi: int, stem: str) -> None:
+def render(src: Path, crop, dpi: int, stem: str, trim: bool, width: int) -> None:
     if not src.exists():
         sys.exit(f"missing source PDF: {src}")
 
@@ -86,7 +98,9 @@ def render(src: Path, crop, dpi: int, stem: str) -> None:
     target = OUT / f"{stem}.webp"
     # sharp is already a dependency of the site, so reuse it for the encode
     # rather than adding a Python imaging stack.
-    quality = "90" if crop is not None else "82"
+    quality = "86" if trim else "72"
+    pipeline = ".trim({threshold:6})" if trim else ""
+    pipeline += f".resize({{width:{width},withoutEnlargement:true}})"
     subprocess.run(
         [
             "node",
@@ -94,6 +108,7 @@ def render(src: Path, crop, dpi: int, stem: str) -> None:
             (
                 "const sharp=require('sharp');"
                 f"sharp({raw.as_posix()!r})"
+                f"{pipeline}"
                 f".webp({{quality:{quality},effort:6}})"
                 f".toFile({target.as_posix()!r})"
                 ".then(i=>console.log(`  ${i.width}x${i.height}`));"
@@ -109,9 +124,9 @@ def render(src: Path, crop, dpi: int, stem: str) -> None:
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for src, crop, dpi, stem in JOBS:
-        print(f"{stem}: {src.name} @ {dpi} dpi" + (f" clip {crop}" if crop else " full page"))
-        render(src, crop, dpi, stem)
+    for src, crop, dpi, stem, trim, width in JOBS:
+        print(f"{stem}: {src.name} @ {dpi} dpi -> {width}px" + (f" clip {crop}" if crop else " full page"))
+        render(src, crop, dpi, stem, trim, width)
 
 
 if __name__ == "__main__":
