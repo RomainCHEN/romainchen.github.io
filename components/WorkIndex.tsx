@@ -10,7 +10,7 @@ import type { Locale, Project } from '@/content/types';
  * The work index, set as a table of contents rather than a grid of cards.
  *
  * On a wide screen, pointing at an entry brings its screenshot and its facts
- * into the left margin and dims the others — the interaction a printed index
+ * into the left margin and dims the others, the interaction a printed index
  * would have if it could. On narrow screens there is no margin, so each entry
  * simply carries its own thumbnail and nothing depends on hover.
  */

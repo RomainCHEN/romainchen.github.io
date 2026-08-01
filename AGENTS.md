@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Personal academic site — static Next.js export to GitHub Pages (romain.is-a.dev).
+Personal academic site, static Next.js export to GitHub Pages (romain.is-a.dev).
 
 ## Commands
 
@@ -19,7 +19,7 @@ Chrome; set `CHROME_PATH` if the default path in the script is wrong.
 
 ## Content rules
 
-- All prose is bilingual `{ en, zh }`. Never add one language only — the tests
+- All prose is bilingual `{ en, zh }`. Never add one language only, the tests
   fail, and that is intentional.
 - Case-study content is typed data in `content/`, not markup. Pick a section
   `kind` from `content/types.ts`.
@@ -27,7 +27,7 @@ Chrome; set `CHROME_PATH` if the default path in the script is wrong.
   `instrumented`, `designed` and `planned` mean specific things (see README), and
   `tests/content.test.ts` pins several of them. If a study has not been run, the
   site says so.
-- Never state a study result — a SUS score, a sample size, a time saving —
+- Never state a study result, a SUS score, a sample size, a time saving , 
   unless the owner has supplied the number. A test greps for this pattern.
 - Never write first-person prose that will publish under the owner's name
   without asking. Draft it somewhere else and let him decide.

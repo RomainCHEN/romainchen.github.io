@@ -33,7 +33,7 @@ export default async function NotesPage({ params }: { params: Promise<{ locale: 
         <div className="col-margin">
           <h1 className="label">
             {UI.nav.writing[locale]}
-            <span className="sr-only"> — {SITE.name}</span>
+            <span className="sr-only">: {SITE.name}</span>
           </h1>
         </div>
 

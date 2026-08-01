@@ -15,7 +15,7 @@ describe('notes', () => {
   it('has at least one note, or the static export of /notes/[slug] will fail', () => {
     expect(
       hasNotes(),
-      'content/notes is empty. Either add a note, or delete app/[locale]/notes/ entirely — a dynamic route with zero params cannot be statically exported.',
+      'content/notes is empty. Either add a note, or delete app/[locale]/notes/ entirely, a dynamic route with zero params cannot be statically exported.',
     ).toBe(true);
   });
 
