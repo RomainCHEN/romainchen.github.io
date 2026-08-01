@@ -3,6 +3,7 @@ import { EvidenceLedger } from './EvidenceLedger';
 import { Pipeline } from './Pipeline';
 import { Reveal } from './Reveal';
 import { SchemaCases } from './SchemaCases';
+import { UI } from '@/content/site';
 import { inline } from '@/lib/inline';
 import type { Locale, Section } from '@/content/types';
 
@@ -118,6 +119,19 @@ export function SectionRenderer({
             </div>
             <figcaption className="mt-3 max-w-2xl text-sm leading-relaxed text-muted text-pretty">
               {inline(section.caption[locale])}
+              {section.full ? (
+                <>
+                  {' '}
+                  <a
+                    href={section.full}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-draw whitespace-nowrap font-mono text-2xs uppercase tracking-[0.12em] text-ink"
+                  >
+                    {UI.fullSize[locale]} ↗
+                  </a>
+                </>
+              ) : null}
             </figcaption>
           </figure>
         </Reveal>

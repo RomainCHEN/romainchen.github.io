@@ -53,6 +53,14 @@ export type Section =
        * of this site shipped.
        */
       maxW?: number;
+      /**
+       * Path to a full-resolution version, linked from the caption.
+       *
+       * Use it when the figure is a crop of a dense document: the crop keeps the
+       * type readable on the page, and this lets a reader who wants the whole
+       * sheet go and get it.
+       */
+      full?: string;
     }
   | {
       kind: 'metrics';
@@ -122,7 +130,7 @@ export interface Project {
   /** Short kicker describing the kind of work. */
   discipline: L;
   tags: string[];
-  hero?: { src: string; alt: L; w?: number; h?: number; maxW?: number };
+  hero?: { src: string; alt: L; w?: number; h?: number; maxW?: number; full?: string };
   links: ProjectLink[];
   /** Headline facts, shown as a spec block at the top of the case study. */
   facts: { label: L; value: L }[];
