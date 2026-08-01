@@ -156,6 +156,18 @@ export default async function CaseStudy({
               className="h-auto w-full"
             />
           </div>
+          {project.hero.full ? (
+            <p className="mt-3">
+              <a
+                href={project.hero.full}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-draw font-mono text-2xs uppercase tracking-[0.12em] text-muted hover:text-ink"
+              >
+                {UI.fullSize[locale]} ↗
+              </a>
+            </p>
+          ) : null}
         </Reveal>
       ) : null}
 
