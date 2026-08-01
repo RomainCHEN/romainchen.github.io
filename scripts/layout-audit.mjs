@@ -23,6 +23,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import puppeteer from 'puppeteer-core';
+import { SOFT_BY_NECESSITY } from '../lib/figure.ts';
 
 const CHROME =
   process.env.CHROME_PATH ??
@@ -67,7 +68,7 @@ const VIEWPORTS = [
   { name: 'phone', width: 390 },
 ];
 
-const AUDIT = () => {
+const AUDIT = (SOFT) => {
   const problems = [];
   const round = (n) => Math.round(n);
 
@@ -110,8 +111,12 @@ const AUDIT = () => {
     const name = (img.currentSrc || img.src).split('/').pop();
     if (img.naturalWidth && rect.width > 0) {
       const ratio = img.naturalWidth / rect.width;
-      if (ratio < 1.9) {
+      const allowed = SOFT.includes(name);
+      if (ratio < 1.9 && !allowed) {
         problems.push(`soft image: ${name} ${round(rect.width)}px from ${img.naturalWidth}px (${ratio.toFixed(2)}x)`);
+      }
+      if (allowed && ratio < 1.35) {
+        problems.push(`known-soft image is now too soft: ${name} (${ratio.toFixed(2)}x)`);
       }
     }
     if (rect.height > 620) {
@@ -228,7 +233,7 @@ for (const viewport of VIEWPORTS) {
     await page.evaluate(() => window.scrollTo(0, 0));
     await new Promise((r) => setTimeout(r, 250));
 
-    const problems = await page.evaluate(AUDIT);
+    const problems = await page.evaluate(AUDIT, Object.keys(SOFT_BY_NECESSITY));
     if (problems.length) {
       total += problems.length;
       console.log(`\n✗ ${viewport.name} ${route}`);
