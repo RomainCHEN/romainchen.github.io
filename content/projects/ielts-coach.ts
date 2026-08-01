@@ -82,13 +82,13 @@ export const ieltsCoach: Project = {
         ],
         zh: [
           '一篇范文要同时满足两个互相拉扯的条件。它得对齐一个外部标准，也就是雅思公开的四项：任务回应、连贯与衔接、词汇资源、语法多样性与准确性。同时它还得让某一个具体的人，在几个月之后、在考场的时间压力下**调得出来**。',
-          '通用生成满足了前者，忽略了后者。要修的不是文笔，而是重新划定模型可以发明的范围：论点、例子和立场都来自学习者，模型只负责校准和打磨。这跟我在教师那边研究的是同一种分工，只是换到了学生身上。',
-          '结果是一种确实不一样的交互。每个新话题都会先做一次结构化的小访谈，形式是多步网页表单，而不是聊天式追问，因为表单允许你按自己的节奏想、想错了还能改，对话轮次做不到这一点。只有在这之后生成才开始，而且是从你自己的材料开始。',
+          '通用生成满足了前者，忽略了后者。要修的不是文笔。要重新划定模型可以发明的范围：论点、例子和立场都来自学习者，模型只负责校准和打磨。这跟我在教师那边研究的是同一种分工，只是换到了学生身上。',
+          '结果是一种确实不一样的交互。每个新话题都会先做一次结构化的小访谈，形式是多步网页表单，不是聊天式追问。表单允许你按自己的节奏想，想错了还能回头改；对话轮次做不到这一点。只有在这之后生成才开始，而且是从你自己的材料开始。',
         ],
       },
       note: {
         en: 'The elicitation step is not a UX nicety. It is where the pedagogy lives.',
-        zh: '“先采集”这一步不是界面上的锦上添花，教学法就住在那里。',
+        zh: '“先采集”这一步不是界面上的锦上添花。教学法就在这一步里。',
       },
     },
     {
@@ -102,7 +102,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'Elicitation before generation, running locally. Look at what the questions are actually after: not an opinion on music, but a specific afternoon in a car. The form supports chart upload and clipboard paste so Writing Task 1 material enters the same pipeline, and answers persist as JSON so a topic never has to be re-interviewed.',
-        zh: '先采集再生成，全程跑在本机。注意这些问题真正想问的东西：不是你对音乐的看法，而是车里那个具体的下午。表单支持上传图表和粘贴剪贴板，让写作 Task 1 的材料走同一条管线；答案以 JSON 存下来，同一个话题不用再访谈第二遍。',
+        zh: '先采集再生成，全程跑在本机。注意这些问题真正想问的东西：车里那个具体的下午，而不是你对音乐的看法。表单支持上传图表和粘贴剪贴板，让写作 Task 1 的材料走同一条管线；答案以 JSON 存下来，同一个话题不用再访谈第二遍。',
       },
     },
     {
@@ -110,14 +110,14 @@ export const ieltsCoach: Project = {
       heading: { en: 'Three problems worth naming', zh: '三个值得点名的问题' },
       body: {
         en: [
-          '**Detectability is a design target, not an afterthought.** The skill explicitly screens its own output for the tells: dashes used as interruptions, scare quotes, mechanical linkers, "this essay will discuss" openings. Enforcing an anti-pattern list at generation time works better than asking a model to "write naturally", because the list is checkable and the instruction is not.',
-          '**A study plan that survives a missed day.** Learners miss sessions; a plan that does not reschedule is abandoned after the first slip. State is kept in JSON across sessions, so missed items are redistributed and weak areas are pushed forward rather than silently dropped.',
-          '**Vision capability should not dictate model choice.** Writing Task 1 requires reading a chart, which locks a learner into a multimodal model. The skill ships a small MCP server that proxies images through a separate vision endpoint, so a text-only model can still handle chart tasks. It is a plumbing decision, but it is the difference between the tool being usable on the model you already have and not.',
+          'Detectability is a design target rather than an afterthought. The skill explicitly screens its own output for the tells: dashes used as interruptions, scare quotes, mechanical linkers, "this essay will discuss" openings. Enforcing an anti-pattern list at generation time works better than asking a model to "write naturally", because the list is checkable and the instruction is not.',
+          'The study plan has to survive a missed day. Learners miss sessions, a plan that does not reschedule is abandoned after the first slip. State is kept in JSON across sessions, so missed items are redistributed and weak areas are pushed forward rather than silently dropped.',
+          'Vision capability should not dictate which model a learner uses. Writing Task 1 requires reading a chart, which locks a learner into a multimodal model. The skill ships a small MCP server that proxies images through a separate vision endpoint, so a text-only model can still handle chart tasks. It is a plumbing decision, but it is the difference between the tool being usable on the model you already have and not.',
         ],
         zh: [
-          '**把“被看出是 AI 写的”这件事当成设计目标来处理，而不是事后补救。** 这个 skill 会主动筛查自己输出里的破绽：当插入语用的破折号、带讽刺意味的引号、机械的连接词、“this essay will discuss”这类开头。在生成时执行一份反模式清单，比让模型“写得自然一点”有效得多，因为清单能核查，那句指令不能。',
-          '**一个漏掉一天也还活着的学习计划。** 学习者一定会漏练；不会自动重排的计划，第一次中断之后就被扔掉了。状态跨会话存在 JSON 里，漏掉的内容会重新分配，薄弱环节会被往前提，而不是悄悄消失。',
-          '**有没有视觉能力，不该反过来决定你用哪个模型。** 写作 Task 1 需要读图，这就把学习者锁在多模态模型上。这个 skill 自带一个小的 MCP 服务，把图片转给单独的视觉端点处理，于是纯文本模型也能做图表题。这只是管道层面的决定，但它决定了这个工具在你手上现有的模型上跑不跑得起来。',
+          '“会不会被看出是 AI 写的”是个设计目标，不是事后补救。这个 skill 会主动筛查自己输出里的破绽：当插入语用的破折号、带讽刺意味的引号、机械的连接词，还有“this essay will discuss”这类开头。在生成时执行一份反模式清单，比让模型“写得自然一点”有效得多，因为清单能核查，那句指令不能。',
+          '学习计划得扛住“漏掉一天”。学习者一定会漏练，不会自动重排的计划，第一次中断之后就被扔掉了。状态跨会话存在 JSON 里，漏掉的内容会重新分配，薄弱环节会被往前提，而不是悄悄消失。',
+          '有没有视觉能力，不该反过来决定你用哪个模型。写作 Task 1 需要读图，这就把学习者锁在多模态模型上。这个 skill 自带一个小的 MCP 服务，把图片转给单独的视觉端点处理，于是纯文本模型也能做图表题。这只是管道层面的决定，但它决定了这个工具在你手上现有的模型上跑不跑得起来。',
         ],
       },
     },

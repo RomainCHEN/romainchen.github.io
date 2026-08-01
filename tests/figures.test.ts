@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import { PROJECTS } from '@/content/projects';
-import { figureBox } from '@/lib/figure';
+import { figureBox, isSoftByNecessity, SOFT_BY_NECESSITY } from '@/lib/figure';
 
 const PUBLIC = path.join(process.cwd(), 'public');
 
@@ -96,11 +96,27 @@ describe('figures', () => {
     expect(wrong).toEqual([]);
   });
 
-  it('never display wider than half their pixel width', () => {
-    const soft = ENTRIES.filter((e) => e.w && figureBox(e.w, e.h).width > e.w / 2).map(
-      (e) => `${e.label}: ${figureBox(e.w, e.h).width}px from a ${e.w}px file`,
-    );
+  it('never display wider than half their pixel width, unless listed as an exception', () => {
+    const soft = ENTRIES.filter(
+      (e) => e.w && figureBox(e.w, e.h).width > e.w / 2 && !isSoftByNecessity(e.src),
+    ).map((e) => `${e.label}: ${figureBox(e.w, e.h).width}px from a ${e.w}px file`);
     expect(soft).toEqual([]);
+  });
+
+  it('keeps the soft-source exception list honest', () => {
+    // Every listed file must still exist and must still actually need the
+    // exception, so the list cannot rot into a pile of stale excuses.
+    for (const [name, reason] of Object.entries(SOFT_BY_NECESSITY)) {
+      const entry = ENTRIES.find((e) => e.src.endsWith(name));
+      expect(entry, `${name} is listed but no figure uses it`).toBeDefined();
+      expect(reason.length, `${name} needs a reason`).toBeGreaterThan(40);
+      if (entry?.w) {
+        expect(
+          figureBox(entry.w, entry.h).width,
+          `${name} no longer needs the exception; remove it from the list`,
+        ).toBeGreaterThan(entry.w / 2);
+      }
+    }
   });
 
   it('keep every figure inside the height budget', () => {
