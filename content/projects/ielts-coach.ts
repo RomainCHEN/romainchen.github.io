@@ -121,7 +121,7 @@ export const ieltsCoach: Project = {
           'Vision capability should not dictate which model a learner uses. Writing Task 1 requires reading a chart, which locks a learner into a multimodal model. The skill ships a small MCP server that proxies images through a separate vision endpoint, so a text-only model can still handle chart tasks. It is a plumbing decision, but it is the difference between the tool being usable on the model you already have and not.',
         ],
         zh: [
-          '会不会被看出是 AI 写的，这是个设计目标，不是事后补救。这个 skill 会主动筛查自己输出里的几种破绽。当插入语用的破折号、带讽刺意味的引号、机械的连接词，都在名单上。this essay will discuss 这类开头也在。在生成时跑一份反模式清单，比让模型写得自然一点有效得多，因为清单能核查，那句指令不能。',
+          '会不会被看出是 AI 写的，这从一开始就是个设计目标，不是最后打补丁。这个 skill 会筛自己的输出，名单上有当插入语用的破折号、带讽刺意味的引号、机械的连接词，还有 this essay will discuss 这一类开头。与其叮嘱模型写得自然一点，不如在生成时直接跑一遍这份清单，因为清单能核查，那句叮嘱不能。',
           '学习计划得扛住漏练。学习者一定会漏，而不会自动重排的计划，第一次中断之后就被扔掉了。状态跨会话存在 JSON 里，漏掉的内容会重新分配，薄弱环节会被往前提，而不是悄悄消失。',
           '有没有视觉能力，不该反过来决定你用哪个模型。写作 Task 1 需要读图，这就把学习者锁在多模态模型上。这个 skill 自带一个小的 MCP 服务，把图片转给单独的视觉端点处理，于是纯文本模型也能做图表题。这只是管道层面的取舍，可它决定了这个工具在你手上现有的模型上跑不跑得起来。',
         ],
@@ -149,7 +149,7 @@ export const ieltsCoach: Project = {
           'This is a working, published tool with a defensible design argument and no evidence that it improves scores. I am not going to pretend otherwise, and the honest version is more useful anyway: it names the study that would settle it.',
         ],
         zh: [
-          '这是一个已经发布、能用的工具，设计论证站得住，但没有任何证据说明它能提分。我不打算装作有。说实话反而更有用，因为它顺带说清了什么样的研究才能给出结论。',
+          '工具已经发布，也能用，设计上的论证我认为站得住，但要说它能提分，目前没有任何证据。我不打算装作有。说实话反而更有用，因为顺带就说清了什么样的研究才能给出结论。',
         ],
       },
       items: [
@@ -188,7 +188,7 @@ export const ieltsCoach: Project = {
           state: 'planned',
           detail: {
             en: 'The repository describes detection risk as near-zero. That is a design intention, not a measurement, and I would drop the claim before I would defend it. Testing it against actual detectors is straightforward and pending.',
-            zh: '仓库文档把被识别的风险写成接近零。那是设计意图，不是测量结果。要我在这个说法和撤掉它之间选，我会撤掉。拿真实检测器去测很容易，只是还没做。',
+            zh: '仓库文档里把被识别的风险写成接近零，那是设计意图，不是测量结果。真要我在留着这句话和删掉它之间选，我会删掉。拿真实的检测器去跑一遍并不难，只是还没做。',
           },
         },
       ],
