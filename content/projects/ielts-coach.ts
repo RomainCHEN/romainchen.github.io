@@ -72,8 +72,8 @@ export const ieltsCoach: Project = {
           'So this tool inverts the interaction. Before it writes a single sentence, it interviews you.',
         ],
         zh: [
-          '找任何一个助手要一篇雅思作文，四秒钟就能拿到 250 个通顺的英文词。Firstly、Secondly、In conclusion。它在机器读的评分表上分数不低，可它会害了考生。道理很简单，考场上你只调得出属于自己的东西。',
-          '所以这个工具把顺序倒过来了。它写第一句话之前，先访谈你。',
+          '随便找个助手要一篇雅思作文，四秒钟就能拿到 250 个通顺的英文词，Firstly、Secondly、In conclusion 一应俱全。这种东西在机器读的评分表上分数不低，可它会害了考生，因为考场上你只调得出属于自己的东西。',
+          '所以这个工具把顺序倒过来了，动笔之前先访谈你。',
         ],
       },
     },
@@ -87,9 +87,9 @@ export const ieltsCoach: Project = {
           'The consequence is a genuinely different interaction. Each new topic opens a structured mini-interview, delivered as a multi-step web form rather than a chat interrogation, because a form lets you think at your own pace and revise, which a conversational turn does not. Only then does generation begin, and it begins from your material.',
         ],
         zh: [
-          '一篇范文要同时满足两个互相拉扯的条件。一头是外部标准，也就是雅思公开的四项，任务回应、连贯与衔接、词汇资源、语法多样性与准确性。同时它还得让某一个具体的人，在几个月之后、在考场的时间压力下**调得出来**。',
-          '通用生成满足了前者，忽略了后者。要修的不是文笔。得重新划定模型可以发明的范围。论点、例子、立场都来自学习者，模型只负责校准和打磨。这跟我在教师那边研究的是同一种分工，只是换到了学生身上。',
-          '结果是一种确实不一样的交互。每个新话题都会先做一次结构化的小访谈，形式是多步网页表单，不是聊天式追问。表单允许你按自己的节奏想，想错了还能回头改；对话轮次做不到这一点。只有在这之后生成才开始，而且是从你自己的材料开始。',
+          '一篇范文得同时满足两个互相拉扯的条件。一头是外部标准，也就是雅思公开的那四项，任务回应、连贯与衔接、词汇资源、语法多样性与准确性。另一头是它还得让某个具体的人，在几个月之后、在考场的时间压力底下**调得出来**。',
+          '通用生成把前一头满足了，后一头压根没管。要修的不是文笔，是重新划定模型可以发明的范围，论点、例子、立场统统来自学习者，模型只管校准和打磨。这跟我在教师那边研究的是同一种分工，只是换到了学生身上。',
+          '这么一来交互就真的不一样了。每碰到一个新话题，它先做一次结构化的小访谈，形式是多步网页表单，不是聊天式追问，因为表单让你按自己的节奏慢慢想，想错了还能回头改，对话轮次做不到这些。这一步走完，生成才开始，而且是从你自己的材料开始。',
         ],
       },
       note: {
@@ -108,7 +108,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'Elicitation before generation, running locally. Look at what the questions are actually after: not an opinion on music, but a specific afternoon in a car. The form supports chart upload and clipboard paste so Writing Task 1 material enters the same pipeline, and answers persist as JSON so a topic never has to be re-interviewed.',
-        zh: '先采集再生成，全程跑在本机。注意这些问题真正想问的东西。它要的是车里那个具体的下午，不是你对音乐的看法。表单支持上传图表和粘贴剪贴板，写作 Task 1 的材料走同一条管线。答案以 JSON 存下来，同一个话题不用再访谈第二遍。',
+        zh: '先采集再生成，全程跑在本机。留意这些问题真正想问的东西，它要的是车里那个具体的下午，不是你对音乐的看法。表单还支持上传图表和粘贴剪贴板，写作 Task 1 的材料走的是同一条管线；答案以 JSON 存着，同一个话题不用再访谈第二遍。',
       },
     },
     {
@@ -122,8 +122,8 @@ export const ieltsCoach: Project = {
         ],
         zh: [
           '会不会被看出是 AI 写的，这从一开始就是个设计目标，不是最后打补丁。这个 skill 会筛自己的输出，名单上有当插入语用的破折号、带讽刺意味的引号、机械的连接词，还有 this essay will discuss 这一类开头。与其叮嘱模型写得自然一点，不如在生成时直接跑一遍这份清单，因为清单能核查，那句叮嘱不能。',
-          '学习计划得扛住漏练。学习者一定会漏，而不会自动重排的计划，第一次中断之后就被扔掉了。状态跨会话存在 JSON 里，漏掉的内容会重新分配，薄弱环节会被往前提，而不是悄悄消失。',
-          '有没有视觉能力，不该反过来决定你用哪个模型。写作 Task 1 需要读图，这就把学习者锁在多模态模型上。这个 skill 自带一个小的 MCP 服务，把图片转给单独的视觉端点处理，于是纯文本模型也能做图表题。这只是管道层面的取舍，可它决定了这个工具在你手上现有的模型上跑不跑得起来。',
+          '学习计划还得扛住漏练。人一定会漏，而一个不会自动重排的计划，第一次中断之后基本就被扔掉了。状态跨会话存在 JSON 里，漏掉的内容会重新分配，薄弱的环节往前提，不会悄悄消失。',
+          '有没有视觉能力，不该反过来决定你用哪个模型。写作 Task 1 要读图，这一条就把学习者锁死在多模态模型上了。所以这个 skill 自带一个小的 MCP 服务，把图片转给单独的视觉端点去处理，纯文本模型也就能做图表题。说到底只是管道层面的取舍，可它决定了这工具在你手上现有的模型上跑不跑得起来。',
         ],
       },
     },

@@ -81,7 +81,7 @@ export const papercraft: Project = {
           'Three things were wrong, and none of them was speed. Difficulty was not something I could control: I could aim for "a bit easier than the exam" and miss. Official past papers ran out fast, so the same texts came round again. And the topics that did exist were stale, so students had no reason to care about them, which is a motivation problem dressed up as a materials problem.',
         ],
         zh: [
-          '读计算机学位的同时，我带着两个剑桥 KET 小班，一共六个学生。每周花两小时左右手写一套练习，写完从来都不放心。',
+          '读计算机学位那阵子，我同时带着两个剑桥 KET 小班，一共六个学生。练习是我自己手写的，一周一套，每套要花两个小时上下，写完从来没放心过。',
           '出问题的有三件事，都跟慢没关系。头一件是难度压不住，我想让它比真考稍容易一点，结果照样偏。再就是官方真题很快见底，同一篇语篇只能反复用。最后是现成话题太旧，孩子根本没有理由在意，说到底这是学习动机的问题，只是看着像材料不够。',
         ],
       },
@@ -95,13 +95,13 @@ export const papercraft: Project = {
           'So I framed it differently. The interesting object is not the generator. It is the **division of labour** between the model and the teacher, and that division is only a design claim if you can measure it. PaperCraft is an authoring tool built so that two things which are usually invisible become data: how much the teacher had to change, and how the resulting items actually behave when learners answer them.',
         ],
         zh: [
-          '最顺手的做法是做一个输入框，让它吐出考题。我觉得这个版本没意思，更要紧的是它没法证伪。输出看着像样就算成功，可题目到底能不能用、教师还得补多少活，你一点都不知道。',
-          '所以我换了个思路。真正有意思的对象是模型和教师之间的**分工**，不是生成器本身。而分工要能测出来，才算得上一个设计主张。PaperCraft 的构造目标，就是把两件平常看不见的事变成数据：教师改了多少，题目在学生作答之后表现如何。',
+          '最顺手的做法当然是做一个输入框，让它吐考题出来。可这个版本我觉得没意思，更要紧的是它压根没法证伪：输出看着像样就算成功，至于题目到底能不能用、老师还得补多少活，你一点都不知道。',
+          '所以我换了个思路。真正值得研究的是模型和教师之间的**分工**，不是生成器；而分工只有能测出来，才配叫一个设计主张。PaperCraft 这个工具就是为了把两件平常看不见的事变成数据，一件是教师改了多少，另一件是题目在学生作答之后表现如何。',
         ],
       },
       note: {
         en: 'This reframing is the whole project. Everything below follows from refusing to evaluate a generator by looking at its output.',
-        zh: '这个项目的分量全在这次换思路上。后面所有的设计都从同一个决定出发，就是不靠看输出来评价生成器。',
+        zh: '这个项目的分量全在这次换思路上。后面所有的设计都从同一个决定长出来，就是不靠看输出来评价生成器。',
       },
     },
     {
@@ -115,10 +115,10 @@ export const papercraft: Project = {
           'Finally, the pipeline is chained rather than monolithic. Wu, Terry and Cai show that decomposing an LLM task into individually inspectable stages improves transparency and controllability, and Amershi and colleagues supply the interaction-level rationale for making system scope and correction paths visible.',
         ],
         zh: [
-          '人机互补在这里是设计要求，不是口号。Holstein、McLaren 和 Aleven 主张，课堂 AI 应该围绕教师和机器各自擅长的部分来设计。互补不能假定，得靠实证确立。所以教师的裁决是管线上一道过不去的闸门，模型初稿和教师终稿之间的差值会被记下来。',
-          '另一条依据是证据中心的测评设计。Mislevy、Steinberg 和 Almond 把测评看作一条推理链，从可观察的行为推向关于能力的主张。所以系统存的是逐题作答和项目统计量，不是一个总分。要说“这道生成的题目可用”，需要的是这道题的证据，不是生成器的证据。',
-          '证据还得来得及用上。Black 与 Wiliam 的工作，加上 Hattie 和 Timperley 关于反馈的研究，都指向同一件事：证据要在教学还能调整时就交回教师手上。所以练习安排在考试之前。',
-          '管线本身也是分段的，不是一整块。Wu、Terry 和 Cai 说明，把大模型任务拆成可逐段检查的阶段，比一个巨型 prompt 更透明也更可控；Amershi 等人的人机交互准则，则给出了“让系统边界和纠错路径可见”的交互层理由。',
+          '人机互补在这里是个设计要求，不是口号。Holstein、McLaren 和 Aleven 主张课堂 AI 要围着教师和机器各自擅长的地方来设计，而互补这回事不能假定，得靠实证一点点确立。所以我把教师的裁决做成管线上一道过不去的闸门，模型初稿和教师终稿之间差了多少，全都记下来。',
+          '另一条依据来自证据中心的测评设计。Mislevy、Steinberg 和 Almond 把测评看成一条推理链，从看得见的行为一路推到关于能力的主张，所以系统存下来的是逐题作答和项目统计量，而不是一个总分。你要说这道生成的题目可用，得拿出这道题的证据，拿生成器的证据不算。',
+          '证据还得来得及用上。Black 与 Wiliam 的工作，加上 Hattie 和 Timperley 关于反馈的研究，指的都是同一件事，证据要在教学还来得及调整的时候就交回教师手上。所以练习安排在考试之前，不是之后。',
+          '管线本身也是分段的，不是一整块。Wu、Terry 和 Cai 说明过，把大模型任务拆成可以逐段检查的阶段，比一个巨型 prompt 更透明也更好控；Amershi 等人的人机交互准则，则从交互层面说清了为什么要让系统的边界和纠错路径看得见。',
         ],
       },
     },
@@ -258,9 +258,9 @@ export const papercraft: Project = {
           'Authoring cost and load are measured against practice: a paired within-subject design against each teacher\'s own manual baseline, with SUS and NASA-TLX alongside a content-quality rubric and a semi-structured interview. Instruments are written. The study has not been run.',
         ],
         zh: [
-          '教师干预量在通过的那一刻测。系统把冻结的模型初稿和教师终稿放在一起比。它在规范化后的序列上算词级编辑距离，再用一组标记指出改动落在哪里，语篇、题干、选项还是答案键。它要回答的是哪些剑桥题型最耗人工编辑。这是在说模型**实际上**弱在哪里，而不是看起来弱在哪里。',
-          '题目表现要等学生作答之后才能测。系统算通过率难度、点二列区分度、各选项的选择次数，以及死干扰项标记，再把教师当初要求的难度和实际观察到的难度放在一起比。只用经典测验理论。这个场景能预期的样本量下，上项目反应理论就是装样子。',
-          '出题成本和认知负荷靠一次对照来测。被试内配对设计，以每位教师自己的手工流程作基线，配合 SUS、NASA-TLX、内容质量量表和半结构化访谈。工具已经写好，研究还没开跑。',
+          '教师干预量在点通过的那一刻就测好了。系统把冻结的模型初稿和教师终稿放在一起，在规范化后的序列上算词级编辑距离，再用一组标记指出改动落在哪儿，语篇、题干、选项还是答案键。这些数据攒起来要回答的是哪些剑桥题型最耗人工编辑，也就是模型**实际上**弱在哪里，而不是看起来弱在哪里。',
+          '题目表现得等学生作答之后才有。系统会算通过率难度、点二列区分度、各选项被选了多少次，以及死干扰项标记，再拿教师当初要的难度和实际观察到的难度对一对。这里只用经典测验理论，这个场景能预期的样本量下，硬上项目反应理论就是装样子。',
+          '出题成本和认知负荷得靠一次对照才测得出来。被试内配对设计，以每位教师自己的手工流程作基线，再配 SUS、NASA-TLX、内容质量量表和半结构化访谈。量表和流程都写好了，研究还没开跑。',
         ],
       },
       note: {
@@ -290,7 +290,7 @@ export const papercraft: Project = {
           'Research projects are easy to oversell in a portfolio, so here is the ledger. A system that is built is not a system that has been evaluated, and the difference is the interesting part.',
         ],
         zh: [
-          '研究项目在作品集里很容易被吹过头，所以这里直接摊开记账。做好的系统不等于评估过的系统，而这个差别才是有意思的地方。',
+          '研究项目放进作品集，很容易被吹过头，所以这里干脆摊开记账。做好的系统不等于评估过的系统，而这个差别恰恰是最有意思的地方。',
         ],
       },
       items: [
@@ -323,7 +323,7 @@ export const papercraft: Project = {
           state: 'shipped',
           detail: {
             en: 'The retrieval mechanism runs in production. Whether it reduces subsequent editing is an open question, because that comparison needs intervention data that does not exist yet.',
-            zh: '检索机制已经在生产环境跑着。它究竟有没有减少后续编辑量还不知道，因为这个对比要用的干预数据目前还不存在。',
+            zh: '检索机制已经在生产环境跑着了。至于它究竟有没有减少后续的编辑量，现在还不知道，因为这个对比要用的干预数据压根还不存在。',
           },
         },
         {
@@ -339,7 +339,7 @@ export const papercraft: Project = {
           state: 'instrumented',
           detail: {
             en: 'Difficulty, discrimination and distractor analysis are implemented end to end. Awaiting a learner response pool large enough to say anything.',
-            zh: '难度、区分度和干扰项分析已经端到端做完，还在等一个足够大的学生作答池，否则说什么都站不住。',
+            zh: '难度、区分度和干扰项分析已经端到端做完了，现在等的是一个足够大的学生作答池，不然说什么都站不住。',
           },
         },
         {
@@ -370,9 +370,9 @@ export const papercraft: Project = {
           'And the intervention metric measures edit *magnitude* well and edit *significance* poorly. Rewriting one word of a key changes the item completely; rewriting a sentence of a passage may change nothing that matters. The typed change flags are a partial answer, and the qualitative coding of change types is there because the number alone would mislead.',
         ],
         zh: [
-          '词汇审计查的是词有没有在表里。一段文本可以完全合规却依然太难，因为句法、文化负载和认知需求它一概不管。我把数字摆出来，也标明了它管不到什么；但如果评审说这道护栏比看起来窄，那他说得对。',
-          '按考试部分写入命题规则，换来的是内容效度，不是构念效度。要证明这些题目测到了剑桥各部分本来想测的东西，需要在一个远超本项目体量的作答池上拿到结构性证据。',
-          '还有，干预度量能测准编辑的**幅度**，测不准编辑的**分量**。改答案键上的一个词，题目就全变了；重写语篇里的一整句，可能什么要紧的都没变。类型化的变更标记只是半个答案，而变更类型的质性编码之所以要做，就是因为单看数字会把人带偏。',
+          '词汇审计查的只是词在不在表里。一段文本可以完全合规却还是太难，因为句法、文化负载、认知需求它一概不管。我把数字摆出来，也标明了它管不到什么，可要是评审说这道护栏比看上去窄，那他说得对。',
+          '按考试部分把命题规则编进去，换来的是内容效度，构念效度还差得远。要证明这些题目真测到了剑桥各部分本来想测的东西，得在一个远超本项目体量的作答池上拿到结构性证据。',
+          '还有一点，干预度量能测准编辑的**幅度**，却测不准编辑的**分量**。答案键上改一个词，整道题就变了；语篇里重写一整句，反倒可能什么要紧的都没变。类型化的变更标记只算半个答案，所以变更类型的质性编码非做不可，不然单看数字会把人带偏。',
         ],
       },
     },
