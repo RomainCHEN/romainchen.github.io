@@ -82,7 +82,7 @@ export const papercraft: Project = {
         ],
         zh: [
           '读计算机学位的同时，我带着两个剑桥 KET 小班，一共六个学生。每周花两小时左右手写一套练习，写完从来都不放心。',
-          '出问题的有三件事，都跟慢没关系。头一件是难度压不住。我想让它比真考稍容易一点，结果照样偏。第二是官方真题很快见底，同一篇语篇只能反复用。第三是现成话题太旧，孩子没有理由在意。说到底这是学习动机的问题，只是看着像材料不够。',
+          '出问题的有三件事，都跟慢没关系。头一件是难度压不住，我想让它比真考稍容易一点，结果照样偏。再就是官方真题很快见底，同一篇语篇只能反复用。最后是现成话题太旧，孩子根本没有理由在意，说到底这是学习动机的问题，只是看着像材料不够。',
         ],
       },
     },
@@ -144,7 +144,7 @@ export const papercraft: Project = {
           'Generation is a staged, typed chain with a human gate rather than one prompt. Each stage exists for a reason that can be argued with. Select a stage to see what it does and why it is there.',
         ],
         zh: [
-          '出题不是丢一个 prompt 就完事。它是一条分阶段、带类型约束、中间有人工闸门的链条。每个阶段的存在都有可以被反驳的理由。点任意一个阶段，看它做什么、为什么要有它。',
+          '出题不是丢一个 prompt 就完事。它是一条分阶段、带类型约束、中间还留了一道人工闸门的链条，每个阶段为什么存在，理由都摆得出来、也都可以被反驳。点任意一个阶段看看。',
         ],
       },
       stages: [
