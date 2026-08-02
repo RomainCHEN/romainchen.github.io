@@ -121,7 +121,7 @@ export const ieltsCoach: Project = {
           'Vision capability should not dictate which model a learner uses. Writing Task 1 requires reading a chart, which locks a learner into a multimodal model. The skill ships a small MCP server that proxies images through a separate vision endpoint, so a text-only model can still handle chart tasks. It is a plumbing decision, but it is the difference between the tool being usable on the model you already have and not.',
         ],
         zh: [
-          '会不会被看出是 AI 写的，这是个设计目标，不是事后补救。这个 skill 会主动筛查自己输出里的破绽。当插入语用的破折号、带讽刺意味的引号、机械的连接词，还有 this essay will discuss 这类开头。在生成时跑一份反模式清单，比让模型写得自然一点有效得多，因为清单能核查，那句指令不能。',
+          '会不会被看出是 AI 写的，这是个设计目标，不是事后补救。这个 skill 会主动筛查自己输出里的几种破绽。当插入语用的破折号、带讽刺意味的引号、机械的连接词，都在名单上。this essay will discuss 这类开头也在。在生成时跑一份反模式清单，比让模型写得自然一点有效得多，因为清单能核查，那句指令不能。',
           '学习计划得扛住漏练。学习者一定会漏，而不会自动重排的计划，第一次中断之后就被扔掉了。状态跨会话存在 JSON 里，漏掉的内容会重新分配，薄弱环节会被往前提，而不是悄悄消失。',
           '有没有视觉能力，不该反过来决定你用哪个模型。写作 Task 1 需要读图，这就把学习者锁在多模态模型上。这个 skill 自带一个小的 MCP 服务，把图片转给单独的视觉端点处理，于是纯文本模型也能做图表题。这只是管道层面的取舍，可它决定了这个工具在你手上现有的模型上跑不跑得起来。',
         ],
