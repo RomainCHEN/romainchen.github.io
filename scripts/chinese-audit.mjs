@@ -82,7 +82,7 @@ const RULES = [
   },
   {
     id: '句子过长',
-    why: '一句只讲一个意思；超过 60 字应拆开',
+    why: '超过 85 字基本读不动。上限不能压太低，否则所有句子一样长，反而读出机器味',
     test: (t) => {
       // 以英文为主的句子（正文是英文、只夹了中文片名）不按中文长度判断；
       // 含 · 或反引号的是表格里的并列项，不是句子。
@@ -92,8 +92,26 @@ const RULES = [
       return t
         .split(/[。！？；：]/)
         .map((s) => s.trim())
-        .filter((s) => new RegExp(`[${CJK}]`).test(s) && s.length > 60)
+        .filter((s) => new RegExp(`[${CJK}]`).test(s) && s.length > 85)
         .map((s) => `${s.length} 字：${s.slice(0, 24)}…`);
+    },
+  },
+  {
+    id: '节奏单调',
+    why: 'humanizer-zh 要求长短句混用。连续四句长度都挤在同一区间，读起来就是机器在打点',
+    test: (t) => {
+      const sents = t
+        .split(/(?<=[。？！])/)
+        .map((x) => x.trim())
+        .filter((x) => new RegExp(`[${CJK}]`).test(x) && x.length >= 6)
+        .map((x) => x.length);
+      if (sents.length < 4) return [];
+      for (let i = 0; i + 3 < sents.length; i += 1) {
+        const win = sents.slice(i, i + 4);
+        const spread = Math.max(...win) - Math.min(...win);
+        if (spread <= 8) return [`第 ${i + 1} 到 ${i + 4} 句长度 ${win.join('/')}，几乎一样`];
+      }
+      return [];
     },
   },
   {
