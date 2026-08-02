@@ -144,7 +144,7 @@ export const papercraft: Project = {
           'Generation is a staged, typed chain with a human gate rather than one prompt. Each stage exists for a reason that can be argued with. Select a stage to see what it does and why it is there.',
         ],
         zh: [
-          '生成不靠一个 prompt 完成。它是一条分阶段、带类型约束、中间有人工闸门的链条。每个阶段的存在都有可以被反驳的理由。点任意一个阶段，看它做什么、为什么要有它。',
+          '出题不是丢一个 prompt 就完事。它是一条分阶段、带类型约束、中间有人工闸门的链条。每个阶段的存在都有可以被反驳的理由。点任意一个阶段，看它做什么、为什么要有它。',
         ],
       },
       stages: [

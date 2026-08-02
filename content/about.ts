@@ -6,8 +6,8 @@ export const ABOUT_LEDE: Paragraphs = {
     'Both disciplines have spent the last three years being told that a machine can now do the thing they train people to do. Neither has a satisfying answer to the obvious follow-up: then what exactly is the human contribution, and how would you know if it disappeared?',
   ],
   zh: [
-    '我在一所学校读翻译，在另一所读计算机。这听着像是选专业时出的岔子，后来却成了我做事的出发点。',
-    '这三年里，两个专业都被反复告知同一件事，机器已经能做我们花四年学的那件事了。可紧接着的问题，两边都答不好。人到底还剩下什么贡献？万一这份贡献真的没了，你凭什么发现？',
+    '我在一所学校读翻译，在另一所读计算机。当初看着像是志愿填报时出的岔子，后来才发现，我做的事全从这儿长出来。',
+    '这三年里，我在两边听到的是同一句话：机器已经能做我们花四年学的这件事了。可紧接着该问的那个问题，两边都答不好。人到底还剩下什么？万一这份贡献真的没了，你凭什么发现？',
   ],
 };
 
@@ -21,9 +21,9 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
         'The same question was waiting for me in translation. My programme trains us in a craft that machine translation is supposed to have solved, and the defence usually offered, that human translators are more "sensitive", is a claim without an instrument. Working on film titles gave me one. Classify what the translator did to the cultural schema, and the difference between diagnosis and default pattern-matching stops being a matter of taste.',
       ],
       zh: [
-        '2024 年我开始带两个 KET 小班，学生都是小学生，同一学期我还在上数据结构和翻译理论。每周手写一套练习，一套两小时上下，而我每周都心里没底：难度压不住，官方真题很快见底，剩下的话题又旧得让孩子提不起劲。',
-        '这只是个再普通不过的老师抱怨。有意思的地方在于，我后来发现自己想要的并不是“生成得更快”。我想弄清的是**这份活里哪些部分是我的**，也就是那两个小时里哪些判断模型做不出来。这个问题是能测的，可几乎没人去测。于是我做了个工具，它存在的意义就是把答案记下来。',
-        '到了翻译那边，等着我的还是同一个问题。我的专业教的是一门据说已经被机器翻译解决掉的手艺，而常见的辩护是人类译者更细腻。可这个说法没有任何东西可以拿来量。研究电影片名给了我一把尺子。把译者对文化图式做了什么归类，诊断和套用默认模式之间的差别就不再是各说各话。',
+        '2024 年我开始带两个 KET 小班，学生都是小学生；那个学期我自己还在上数据结构和翻译理论。练习每周手写一套，一套两小时上下，写完总是心里没底。难度压不住，官方真题很快见底，剩下的话题又旧得让孩子提不起劲。',
+        '这种抱怨每个老师都有，不值一提。但我后来想明白，我要的其实不是生成得更快。我想知道**这份活里哪些部分是我的**，也就是那两个小时里，哪些判断模型做不出来。这件事是能测的，可几乎没人去测。于是我做了个工具，就是为了把答案记下来。',
+        '到了翻译那边，等着我的还是同一个问题。我学的这门手艺，外面都说机器翻译已经把它做完了；系统里常见的辩护是人比机器细腻。可细腻这事，谁也拿不出东西来量。研究电影片名给了我一把尺子：先把译者在文化图式上做过哪些处理分类，再看谁是诊断出来的、谁是套了默认答案，这就有了判据，不用再靠嘴上争。',
       ],
     },
   },
@@ -36,9 +36,9 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
         'Writing for people who do not already agree with me. Six years of it: technology essays with six-figure readerships, etymology pieces, alumni features, a short film. What it taught me was to notice when an argument is being carried by tone rather than evidence, including my own.',
       ],
       zh: [
-        '第一件是把说不清的概念变成能记录的东西。教师投入、文化敏感度、题目质量，这些词大家挥来挥去，谁也没给过定义。我的工作大半在那个不起眼的环节上，先想清楚什么才算证据，再把能采到它的东西做出来。',
-        '第二件是必要时一个人把整套技术栈交付出来。登录鉴权、数据库结构、带类型修复的模型路由、导出 Word 和 PDF、上线部署。全栈本身没什么了不起，但没人用得起来的研究工具采不到任何数据。',
-        '第三件是写给不同意我的人看。六年公开写作：十万级阅读的科技长文、词源随笔、校友专稿，还有一部短片。它教我最多的，是识别一个论证什么时候靠语气撑着而不是靠证据，包括我自己写的。',
+        '第一件是把说不清的概念变成能记录的东西。教师投入、文化敏感度、题目质量，这些词人人都在用，可谁也没说清它们到底指什么。我的活大半就在这一步上，不体面也不好看：先想清楚什么才算证据，再把能采到它的东西做出来。',
+        '第二件是必要时一个人把整套东西做完。登录鉴权、数据库结构、带类型修复的模型路由、导出 Word 和 PDF、上线部署。会全栈本身没什么了不起，可工具要是没人用得起来，就一条数据也采不到。',
+        '第三件是写给不同意我的人看。六年下来写过十万级阅读的科技长文、词源随笔、校友专稿，还拍过一部短片。写得久了，我最大的收获是能看出一个论证到底靠语气撑着还是靠证据，我自己写的也一样看。',
       ],
     },
   },
@@ -50,8 +50,8 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
         'The honest gap in my portfolio is evidence. I have built systems and specified the studies; I have not yet run them. That is the thing I most want to fix, and it is why graduate study rather than another product.',
       ],
       zh: [
-        '我想继续待在这三个项目共同指向的位置上。做能让人的贡献显形的工具，然后真去做那些检验设计对不对的研究。我缺的是把后半段做扎实的训练，测量、实验设计，还有在样本量足以让统计量说得上话的规模上做学习分析。',
-        '我作品集里最实在的短板就是证据。系统我做出来了，研究方案我也写好了，但还没真跑过。这是我最想补上的一块，也是我选择读研而不是再做一个产品的原因。',
+        '这三个项目其实指着同一个位置，我想继续待在那儿：做能让人的贡献显形的工具，然后真去做研究，看这个设计到底对不对。我缺的是把后半段做扎实的训练，测量、实验设计，以及在样本量够大、统计量说得上话的时候做学习分析。',
+        '我作品集里真正的短板是证据。系统做出来了，研究方案也写好了，可还没真跑过。这一块我最想补上，也正因为如此，我选择去读研，而不是再做一个产品。',
       ],
     },
   },
@@ -64,8 +64,8 @@ export const CURRENTLY: L<string[]> = {
     'Reading on evidence-centred design and item response theory.',
   ],
   zh: [
-    '收尾 PaperCraft 的评估方案，同时在找愿意参与的 KET / PET 老师。',
-    '按三层方案给电影片名语料做编码。',
+    '在收尾 PaperCraft 的评估方案，同时找愿意参加的 KET / PET 老师。',
+    '在按三层方案给电影片名语料做编码。',
     '在读证据中心设计和项目反应理论的文献。',
   ],
 };
@@ -75,6 +75,6 @@ export const COLOPHON: Paragraphs = {
     'This site is a static Next.js build, deployed from GitHub Actions, with no analytics, no cookies and no third-party requests. Headings and body text are set in Newsreader, interface text in Instrument Sans, data in IBM Plex Mono.',
   ],
   zh: [
-    '本站是 Next.js 静态构建，由 GitHub Actions 部署。没有统计脚本，没有 cookie，不向第三方发请求。标题和正文用 Newsreader，界面文字用 Instrument Sans，数据用 IBM Plex Mono。',
+    '本站用 Next.js 做静态构建，由 GitHub Actions 部署。没有统计脚本，没有 cookie，也不向第三方发请求。标题和正文用 Newsreader，界面文字用 Instrument Sans，数据用 IBM Plex Mono。',
   ],
 };
