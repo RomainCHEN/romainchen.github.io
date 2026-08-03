@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Reveal } from '@/components/Reveal';
-import { ABOUT_BODY, ABOUT_LEDE, COLOPHON, CURRENTLY } from '@/content/about';
-import { TEACHING, WRITING_MEDIA } from '@/content/cv';
+import { ABOUT_BODY, ABOUT_LEDE, CURRENTLY } from '@/content/about';
+import { EXPERIENCE, TEACHING, WRITING_MEDIA } from '@/content/cv';
 import { RESEARCH_INTERESTS, ROLE_LINE, SITE, SOCIAL, UI, path } from '@/content/site';
 import { inline } from '@/lib/inline';
 import { asLocale, localeParams } from '@/lib/locale';
@@ -157,6 +157,15 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <Reveal as="section" className="canvas field py-10">
         <div className="col-body">
           <h2 className="font-display text-2xl leading-tight text-ink sm:text-3xl">
+            {EXPERIENCE.heading[locale]}
+          </h2>
+          <EntryList section={EXPERIENCE} locale={locale} />
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="canvas field py-10">
+        <div className="col-body">
+          <h2 className="font-display text-2xl leading-tight text-ink sm:text-3xl">
             {TEACHING.heading[locale]}
           </h2>
           <EntryList section={TEACHING} locale={locale} />
@@ -191,13 +200,6 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </Reveal>
 
-      <section className="canvas field py-10">
-        <div className="col-body border-t border-rule pt-6">
-          <p className="measure font-mono text-2xs leading-relaxed text-muted">
-            {COLOPHON[locale][0]}
-          </p>
-        </div>
-      </section>
     </>
   );
 }
