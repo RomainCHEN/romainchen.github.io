@@ -17,8 +17,8 @@ const INTRO: L<string[]> = {
     "One answers it from the teacher's side with edit distances, one from the translator's side with cultural schemas, one from the learner's side by refusing to generate before it has listened. Each page states plainly what has been built, what has been measured, and what has not.",
   ],
   zh: [
-    '三个项目问的是同一件事。机器已经能做出看起来像样的成品了，那人的贡献到底还剩什么，而万一它消失了，你凭什么发现。',
-    '一个站在教师这边，用编辑距离回答；一个站在译者这边，用文化图式回答；还有一个站在学习者这边，靠先听完再动笔来回答。每一页都写清楚了哪些已经做出来、哪些已经测过、哪些还没有。',
+    '这三个项目都在问同一件事：机器已经能做出像样的成品了，那人还往里面放了什么？万一有一天这份东西悄悄没了，谁能察觉？',
+    '一个从教师的角度切进去，量编辑距离；一个从译者的角度切进去，量文化图式操作；第三个从学习者的角度切进去，要求系统听完再动笔。做了什么、测了什么、还没测什么，每一页都摊开说。',
   ],
 };
 
