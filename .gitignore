@@ -30,3 +30,6 @@ INTAKE.md
 # local QA output
 .qa/
 .review/
+
+# 含手机号的投递版简历，不入库、不上线
+resume-zh-private.pdf
