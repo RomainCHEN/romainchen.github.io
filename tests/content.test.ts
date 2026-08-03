@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import { PROJECTS, getProject, projectSlugs } from '@/content/projects';
-import { CV_SECTIONS, SKILLS } from '@/content/cv';
+import { CV_SECTIONS, SKILLS, WRITING_MEDIA } from '@/content/cv';
 import { ABOUT_BODY, ABOUT_LEDE, CURRENTLY } from '@/content/about';
 import { RESEARCH_INTERESTS, SOCIAL, TAGLINE, UI } from '@/content/site';
 import { LOCALES } from '@/content/types';
@@ -48,6 +48,7 @@ describe('bilingual parity', () => {
   const sources: [string, unknown][] = [
     ['projects', PROJECTS],
     ['cv', CV_SECTIONS],
+    ['cv.writing', WRITING_MEDIA],
     ['skills', SKILLS],
     ['about.lede', ABOUT_LEDE],
     ['about.body', ABOUT_BODY],

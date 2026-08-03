@@ -411,7 +411,7 @@
   }
 
   body {
-    font-size: 10.5pt;
+    font-size: 9.5pt;
   }
 
   .canvas {
@@ -434,14 +434,26 @@
     position: static !important;
   }
 
+  /* Each section heading already carries a rule beneath it. The body's own top
+     border then lands 7pt below it and reads as a smudged double line. */
+  .col-body {
+    border-top: 0 !important;
+  }
+
+  /* Sections must be allowed to break. Forbidding it pushes a whole section
+     to the next page and leaves a hand-sized hole at the foot of this one,
+     which is how a one-page CV silently became two. Individual entries are
+     protected instead, so a heading never strands from its bullets. */
   section {
-    padding-block: 0.35rem !important;
-    break-inside: avoid;
+    padding-block: 0.15rem !important;
+  }
+
+  section [class*='border-b'] {
+    break-inside: auto;
   }
 
   /* Keep a heading with the entry it introduces. */
   h1,
-  h2,
   h3 {
     break-after: avoid;
   }
@@ -464,24 +476,24 @@
   }
 
   h1 {
-    font-size: 19pt !important;
-    line-height: 1.08 !important;
+    font-size: 16pt !important;
+    line-height: 1.05 !important;
   }
 
   h2 {
-    font-size: 9pt !important;
+    font-size: 8pt !important;
     font-family: var(--font-sans);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-top: 9pt !important;
-    padding-bottom: 2pt;
+    margin-top: 4pt !important;
+    padding-bottom: 1.5pt;
     border-bottom: 0.5pt solid var(--rule);
   }
 
   h3 {
-    font-size: 10pt !important;
-    line-height: 1.25 !important;
+    font-size: 9.2pt !important;
+    line-height: 1.2 !important;
   }
 
   p,
@@ -490,8 +502,8 @@
   dd,
   cite,
   figcaption {
-    font-size: 9pt !important;
-    line-height: 1.34 !important;
+    font-size: 8.4pt !important;
+    line-height: 1.26 !important;
   }
 
   .label,
@@ -506,9 +518,10 @@
   [class*='py-8'],
   [class*='py-10'],
   [class*='py-14'],
+  [class*='pt-6'],
   [class*='pt-16'],
   [class*='pt-24'] {
-    padding-block: 3pt !important;
+    padding-block: 1pt !important;
   }
 
   [class*='mt-1'],
@@ -520,25 +533,53 @@
   [class*='mt-7'],
   [class*='mt-8'],
   [class*='mt-10'] {
-    margin-top: 3pt !important;
+    margin-top: 2pt !important;
   }
 
   [class*='space-y'] > * + * {
-    margin-top: 2pt !important;
+    margin-top: 1.5pt !important;
   }
 
   ul {
     margin-top: 2pt !important;
   }
 
+  /* The measure classes exist to stop a screen reader's eye travelling too far
+     on a wide viewport. On A4 at 8.4pt the column is already narrow, so keeping
+     a 46ch cap here just wraps every bullet twice and spends the page on white
+     space. Released for print only. */
   .max-w-2xl,
-  .max-w-xl {
+  .max-w-xl,
+  .measure,
+  .measure-tight,
+  .measure-display {
     max-width: none !important;
   }
 
   /* Section label sits inline above its entries rather than in a margin. */
   .col-margin h2 {
-    margin-top: 8pt !important;
+    margin-top: 3.5pt !important;
+  }
+
+  /* Skills: on screen a two-column grid, on paper one row per group. The grid
+     spent two rows and a column of white space on twelve words. */
+  [data-skills] {
+    display: block !important;
+  }
+
+  [data-skills] > div {
+    display: flex;
+    align-items: baseline;
+    gap: 8pt;
+    margin-top: 1.5pt !important;
+  }
+
+  [data-skills] dt {
+    flex: 0 0 82pt;
+  }
+
+  [data-skills] dd {
+    margin-top: 0 !important;
   }
 }
 

@@ -17,6 +17,8 @@ const CHROME =
   process.env.CHROME_PATH ??
   `${process.env.HOME}/.cache/puppeteer/chrome/mac_arm-149.0.7827.22/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing`;
 
+const { CV_UPDATED } = await import('../content/cv.ts');
+
 const ROOT = path.join(process.cwd(), 'out');
 const PORT = 4323;
 
@@ -72,11 +74,11 @@ await page.pdf({
   path: target,
   format: 'a4',
   printBackground: false,
-  margin: { top: '18mm', bottom: '16mm', left: '18mm', right: '18mm' },
+  margin: { top: '11mm', bottom: '9mm', left: '13mm', right: '13mm' },
   displayHeaderFooter: true,
   headerTemplate: '<div></div>',
   footerTemplate:
-    '<div style="width:100%;font-family:Helvetica,Arial,sans-serif;font-size:7pt;color:#777;padding:0 18mm;display:flex;justify-content:space-between;"><span>Zeming (Romain) Chen · romain.is-a.dev</span><span class="pageNumber"></span></div>',
+    `<div style="width:100%;font-family:Helvetica,Arial,sans-serif;font-size:7pt;color:#777;padding:0 13mm;display:flex;justify-content:space-between;"><span>Zeming (Romain) Chen · romain.is-a.dev</span><span>Updated ${CV_UPDATED}</span></div>`,
 });
 
 const { size } = fs.statSync(target);
@@ -89,7 +91,7 @@ server.close();
 /* Markdown                                                                  */
 /* ------------------------------------------------------------------------- */
 // Imported after the browser work so a Chrome failure does not block this.
-const { CV_SECTIONS, CV_UPDATED, SKILLS } = await import('../content/cv.ts');
+const { CV_SECTIONS, SKILLS } = await import('../content/cv.ts');
 const { SITE, ROLE_LINE, SOCIAL, RESEARCH_INTERESTS } = await import('../content/site.ts');
 
 const lines = [];

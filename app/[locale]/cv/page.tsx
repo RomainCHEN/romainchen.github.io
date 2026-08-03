@@ -36,7 +36,9 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
             <p className="label" data-print="hide">
               {UI.nav.cv[locale]}
             </p>
-            <p className="mt-3 font-mono text-2xs leading-relaxed text-muted">
+            {/* On paper this moves into the running footer, where it costs no
+                line of the single page it has to fit on. */}
+            <p className="mt-3 font-mono text-2xs leading-relaxed text-muted" data-print="hide">
               {UI.lastUpdated[locale]} {CV_UPDATED}
             </p>
           </div>
@@ -61,6 +63,9 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  /* On paper, keep the two links an admissions reader may
+                     actually open. sspai and Instagram are on /about. */
+                  data-print={s.label === 'sspai' || s.label === 'Instagram' ? 'hide' : undefined}
                   className="link-draw hover:text-ink"
                 >
                   {s.href.replace('https://', '').replace('www.', '')}
@@ -77,7 +82,7 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
                 <span aria-hidden="true">↓</span>
               </a>
               <a
-                href="/resume_zh.pdf"
+                href="/resume-zh.pdf"
                 className="link-draw text-sm text-ink-soft hover:text-ink"
               >
                 {UI.downloadCvZh[locale]}
@@ -135,7 +140,7 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
           <h2 className="sticky under-masthead label">{SKILLS.heading[locale]}</h2>
         </div>
         <div className="col-body border-t border-rule pt-6">
-          <dl className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
+          <dl data-skills className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
             {SKILLS.groups.map((group) => (
               <div key={group.label.en}>
                 <dt className="label">{group.label[locale]}</dt>
