@@ -13,11 +13,11 @@ export const transcreation: Project = {
   title: 'Transcreation in the Age of Generative AI',
   subtitle: {
     en: 'Where a language model stops being a translator and starts being a pattern matcher',
-    zh: '语言模型从哪一刻起不再是译者，而只是个模式匹配器',
+    zh: '语言模型能翻片名吗？到哪一步就翻不动了？',
   },
   blurb: {
     en: 'A corpus study of film title translation that uses cultural schema theory to locate exactly which cognitive operations humans perform and LLMs cannot.',
-    zh: '一项电影片名翻译的语料研究，用文化图式理论去定位哪些认知操作人做得到、而大模型做不到。',
+    zh: '一项电影片名翻译的语料研究。用文化图式理论拆开译者的认知操作，看哪些步骤大模型跟得上，哪些跟不上。',
   },
   period: { en: 'Oct 2025 to present', zh: '2025 年 10 月至今' },
   role: {
@@ -78,7 +78,7 @@ export const transcreation: Project = {
         ],
         zh: [
           '电影片名看着是小事，其实是道难题。就那么几个字，却要同时干三件互相打架的事，既得说清这是部什么电影，又得在一个并非孕育它的文化里打动人，最后还得把票卖出去。',
-          '有个问题吵了很多年也没吵明白，译者放弃字面意思，到底算不忠实，还是本来就是专业判断。片名短，争议又集中，是最适合拿来问这个问题的材料。往下还连着一问，一个从没在那个文化里生活过的模型，做不做得到同样的事。',
+          '翻译圈吵了很多年也没个定论，译者放弃字面意思，到底算不忠实还是本来就该这样。片名短，争议集中，最适合拿来做这个题目。紧接着还能多问一句：一个从没在那个文化里生活过的模型，做得到同样的事吗。',
         ],
       },
     },
@@ -92,12 +92,12 @@ export const transcreation: Project = {
         ],
         zh: [
           '常用的那套机器翻译指标在这里完全不管用，而且不是差一点。BLEU 和 ROUGE 衡量的是跟参考译文重叠了多少，于是它们扣分扣掉的，恰恰是一个好片名之所以好的那处偏离。《Ghost》译成《人鬼情未了》，对着任何字面参考都拿不到分，可它偏偏就是对的。',
-          '所以这项研究不给输出打分，只把译者做出的**操作**归类，然后问一句，面对眼前这道文化沟壑，他这一步选对了吗。',
+          '所以这项研究不给输出打分，只把译者做出的**操作**归类，归完之后再问：面对这道文化沟壑，他这一步走对了没有。',
         ],
       },
       note: {
         en: 'Reference-overlap metrics penalise exactly the behaviour that constitutes expertise. That single observation is what makes the project necessary.',
-        zh: '看重叠度的指标，罚的恰恰是专业能力本身。就这一条，就够说明这个项目为什么有必要做。',
+        zh: '一套拿重叠度打分的指标，罚的恰恰是专业能力本身，光这一条就够说明为什么得换一把尺子。',
       },
     },
     {
@@ -129,7 +129,7 @@ export const transcreation: Project = {
           '第一层是策略，也就是做了什么，直译、归化、异化、音译、意译，一直到彻底再创作。既有研究把这一层描述得很细了，可它恰恰是解释力最弱的一层。',
           '第二层是认知运作，也就是怎么做的，隐喻映射、转喻、意象图式，还有最关键的概念整合。一个好片名往往是在整合空间里新长出来的结构，不是把原来那个结构原样搬过去。',
           '第三层是文化图式，成或不成最后都归到这里。图式管着隐喻能用哪些源域，也管着某次整合在文化上走不走得通。我们把译者面临的问题归成对图式的四种操作，这四种要求的认知工作量相差很大。',
-          '三层摆开之后，就能提出一个有方向的论断。第一层的策略是**手段**，用来完成第二层的认知运作，而认知运作的**目的**在第三层，是把文化图式处理掉。多数既有研究停在第一层，描述的只是决策的表面，没碰到里头的机制。',
+          '三层摆开了就好办。策略是**手段**，认知运作是**过程**，文化图式才是**目的地**，译者最终要处理的就是第三层。多数既有研究停在第一层，描述的只是表面，碰不到里头的机制。',
         ],
       },
     },
@@ -153,7 +153,7 @@ export const transcreation: Project = {
           machine: '狮子王',
           reading: {
             en: 'The lion-as-sovereign schema is shared across both cultures, so a direct metaphor mapping suffices and no blending is required. Machine and human converge, because statistical association is enough when the schemas already align. Any evaluation built only on cases like this will conclude that the problem is solved.',
-            zh: '狮子就是王者，这套图式两种文化里都有，所以直接做隐喻映射就够了，用不上概念整合。人和机器在这里会撞出同一个答案，因为图式本来就对齐的时候，统计关联已经够用了。要是只拿这类案例做评估，结论一定是问题已经解决。',
+            zh: '狮子就是王者，这套图式两边文化里都有，直接做隐喻映射就行，用不上概念整合。图式一旦对齐，统计关联就够用了，所以人和机器在这里会给出同一个答案。评估要是只挑这类案例，结论自然是问题已经解决。',
           },
         },
         {
@@ -164,7 +164,7 @@ export const transcreation: Project = {
           machine: '鬼',
           reading: {
             en: 'The English schema here is a tender revenant in a romance; the Chinese 鬼 schema is primarily one of horror. The two overlap but conflict. The human translator diagnosed that the emotional focus is the love and not the ghost, suppressed the horror reading, and blended three inputs, human, ghost and unfinished love, into a structure that neither language contained on its own. The literal rendering activates the wrong schema and misfiles the genre.',
-            zh: '英语这边的图式是爱情故事里那个深情的亡灵，中文里的“鬼”却主要指向恐怖，两套图式有重叠，可也打架。人工译者判断出情感焦点在“情”不在“鬼”，先把恐怖那一层压下去，再把“人”“鬼”“情未了”三样东西整合到一起，最后得出一个两种语言原本都没有的结构。字面直译激活的是错的那套图式，连片种都归错了。',
+            zh: '英语这边的图式是爱情故事里深情的亡灵，中文里“鬼”却主要指向恐怖，两套图式有重叠也有冲突。译者判断出重心在“情”不在“鬼”，先把恐怖那层压住，再把“人”“鬼”“情未了”整合到一起，得出一个两种语言原本都没有的结构。字面直译会激活错的图式，连片种都归错。',
           },
         },
         {
@@ -175,7 +175,7 @@ export const transcreation: Project = {
           machine: 'Rivers and Lakes',
           reading: {
             en: 'The 江湖 schema, an itinerant world with its own code of loyalty and violence, is simply absent in English. There is no source domain to map onto. The human translator gave up the literal level entirely, identified what the film is actually about, and constructed a new image capable of carrying it. The literal output is not merely worse: "Rivers and Lakes" activates a geographical schema, turning a dense cultural signifier into an empty one. This is the widest human-machine gap in the corpus.',
-            zh: '“江湖”是一个自有忠义与暴力法则的流动世界，这套图式在英语里根本没有对应的东西，也就没有源域可以映射。人工译者索性把字面层整个放掉，先想清影片到底在讲什么，再造一个能承载它的新意象。字面输出不是差一点的问题，Rivers and Lakes 激活的是地理图式，一个密度极高的文化符号就这么变成了空壳。这也是全部语料里人机差距最大的一类。',
+            zh: '“江湖”这套图式，一个自有忠义与暴力法则的流动世界，英语里压根没有对应的东西，连源域都找不到。译者索性把字面层整个丢掉，先想清楚这部片子到底在讲什么，再造一个全新的意象去承载它。直译出来的 Rivers and Lakes 激活的是地理图式，一个密度极高的文化符号直接变成空壳。这是整份语料里人机差距拉得最开的一类。',
           },
         },
         {
@@ -186,7 +186,7 @@ export const transcreation: Project = {
           machine: '洛丽塔',
           reading: {
             en: 'A line of classical Chinese poetry is recruited to carry a socially taboo subject, an old man and a young woman, with the indirection the taboo requires. The translator is acting as a cultural gatekeeper, making a normative judgement about what can be said and how. This is the operation a model is least equipped for, not because it lacks the words, but because it has no stake in the norm.',
-            zh: '译者搬来一句中国古诗，用它去承载老夫与少女这个禁忌题材，而禁忌要求的那种含蓄，恰好被这句诗保住了。这时候译者做的是文化守门人，替读者判断什么能说、能说到什么程度。这也是模型最难胜任的一种操作，它不缺词，缺的是在这套规范里的利害关系。',
+            zh: '译者搬来一句中国古诗，用它去承载老夫与少女这个禁忌题材。禁忌要求含蓄，这句诗恰好保住了。这时译者充当的是文化守门人，替读者把关什么能说、说到什么分寸为止。模型最难胜任的就是这种操作，不是缺词，是它在这套规范里没有利害关系。',
           },
         },
       ],
@@ -237,7 +237,7 @@ export const transcreation: Project = {
           { en: 'IV. Reconstruction or avoidance', zh: 'IV. 图式重构或规避' },
           {
             en: 'High. The source schema conflicts with target norms or values; the frame is replaced rather than adjusted.',
-            zh: '高。源语图式和目标文化的规范或价值观冲突，需要整个换掉框架，而不是微调。',
+            zh: '高。源语图式跟目标文化的规范或价值观打架，只能整个换掉框架，微调不解决问题。',
           },
           {
             en: '`MRK` market reshaping · `ADD` added context · `Cultural Substitution` · `Domestication`',
@@ -247,7 +247,7 @@ export const transcreation: Project = {
       ],
       caption: {
         en: 'Each strategy code is defined against its relationship to the cultural schema rather than by surface form, which is what lets a single code mean the same thing across two coders and two translation directions.',
-        zh: '每个策略代码都按它跟文化图式的关系来定义，而不是按表面形式。正因如此，同一个代码在两位编码者手里、在两个翻译方向上，指的才是同一件事。',
+        zh: '策略代码的定义依据是它跟文化图式的关系，不是表面形式。所以同一个代码，换个编码者、换个翻译方向，指的仍然是同一件事。',
       },
     },
     {
@@ -262,7 +262,7 @@ export const transcreation: Project = {
         zh: [
           '传统翻译理论往意译这个词上堆了太多东西，从轻度改写一直堆到彻底再创作，最后它成了一个黑箱。你说出这个名字，等于什么都没说。',
           '换成**译创**，再把它理解成一次认知与文化上的组构，这个现象才算有了机制。译者先诊断原文是怎么把意思立起来的，然后判断这个结构能不能在目标文化里落地，最后才动手重组。这里头是三种可以分开检验的能力，模型在每一种上都可能以不同方式失手。',
-          '这样看下来，人机输出之间真正有意思的差别不在质量，在**性质**。语料里人的决策是诊断式的，一步一步走；机器的决策则是武断的。武断在哪儿？它直接套用默认映射，没先看看源图式能不能活着穿过这道边界。',
+          '看下来会发现，人机输出之间真正有意思的差别不在好坏，在**性质**。人的决策是诊断式的，一步一步走；机器的决策是武断的，直接套默认映射，不管源图式能不能活着穿过那道边界。',
         ],
       },
     },
@@ -338,9 +338,9 @@ export const transcreation: Project = {
           'The translation work is also where I learned that a construct has to be operationalised before it can be studied, which is the single most transferable thing I have taken into building learning systems.',
         ],
         zh: [
-          '这个项目看着像三个里最不搭的，两个软件中间夹了一篇人文论文。其实它问的是同一个问题，只是换了一把尺子来量。',
-          'PaperCraft 问的是在生成管线内部，教师的判断哪里仍然不可替代，它用编辑距离来回答；这项研究问的是译者的文化判断哪里仍然不可替代，它用图式操作来回答。两边都不肯靠看输出来评价模型，也都把人的贡献挪到因变量那一侧，好让它能被量出来，不是只被嘴上断言。',
-          '翻译这条线还教了我一件事，一个概念必须先被操作化，才谈得上研究它。这是我带进学习系统开发里最管用的一条经验。',
+          '两个软件项目中间夹一篇人文论文，看着最不搭。可它问的是同一个问题，只不过换了一把尺子。',
+          'PaperCraft 量的是教师的判断在生成管线内部还有多少不可替代，工具是编辑距离；这项研究量的是译者的文化判断还有多少不可替代，工具是图式操作。两边都不靠看输出来评价模型，也都把人的贡献放到因变量那一侧，让它能被测出来，不只是嘴上断言。',
+          '翻译这条线还教了我一件事：概念得先操作化，才有研究的可能。这也是我做学习系统时最受用的一条经验。',
         ],
       },
     },
