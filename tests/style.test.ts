@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { PROJECTS } from '@/content/projects';
 import { CV_SECTIONS, SKILLS, WRITING_MEDIA } from '@/content/cv';
-import { ABOUT_BODY, ABOUT_LEDE, COLOPHON, CURRENTLY } from '@/content/about';
+import { ABOUT_BODY, ABOUT_LEDE, CURRENTLY } from '@/content/about';
 import { RESEARCH_INTERESTS, ROLE_LINE, TAGLINE, UI } from '@/content/site';
 import { LOCALES, type Locale } from '@/content/types';
 
@@ -45,7 +45,6 @@ const SOURCES: [string, unknown][] = [
   ['about.lede', ABOUT_LEDE],
   ['about.body', ABOUT_BODY],
   ['about.currently', CURRENTLY],
-  ['about.colophon', COLOPHON],
   ['site.tagline', TAGLINE],
   ['site.role', ROLE_LINE],
   ['site.interests', RESEARCH_INTERESTS],

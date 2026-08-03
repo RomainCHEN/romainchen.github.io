@@ -220,7 +220,7 @@ export const AWARDS: CvSection = {
  */
 export const WRITING_MEDIA: CvSection = {
   id: 'communication',
-  heading: { en: 'Teaching & communication', zh: '教学与传播' },
+  heading: { en: 'Writing & communication', zh: '写作与传播' },
   entries: [
     {
       when: { en: 'Apr 2025 to May 2025', zh: '2025.04 至 2025.05' },
