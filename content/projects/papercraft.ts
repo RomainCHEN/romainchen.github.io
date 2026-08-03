@@ -13,11 +13,11 @@ export const papercraft: Project = {
   title: 'PaperCraft',
   subtitle: {
     en: 'Making the division of labour between a teacher and a language model measurable',
-    zh: '把教师和语言模型之间的分工变成可以测量的东西',
+    zh: '教师和语言模型之间的分工，量出来是什么样',
   },
   blurb: {
     en: "A teacher-in-the-loop authoring tool for Cambridge KET/PET exercises, instrumented so that the teacher's remaining work becomes data.",
-    zh: '一个面向剑桥 KET / PET 的出题工具。教师必须在环，而他改动了什么会被记录成数据。',
+    zh: '一个面向剑桥 KET / PET 的出题工具。教师必须在环，他改了什么、改了多少，全都记成数据。',
   },
   period: { en: 'May 2026 to present', zh: '2026 年 5 月至今' },
   role: {
@@ -81,7 +81,7 @@ export const papercraft: Project = {
           'Three things were wrong, and none of them was speed. Difficulty was not something I could control: I could aim for "a bit easier than the exam" and miss. Official past papers ran out fast, so the same texts came round again. And the topics that did exist were stale, so students had no reason to care about them, which is a motivation problem dressed up as a materials problem.',
         ],
         zh: [
-          '读计算机学位那阵子，我同时带着两个剑桥 KET 小班，一共六个学生。练习是我自己手写的，一周一套，每套要花两个小时上下，写完从来没放心过。',
+          '读计算机学位那阵子我同时带着两个剑桥 KET 小班，六个学生。练习是自己手写的，一周一套，一套要花两个小时上下，写完从来没放心过。',
           '出问题的有三件事，都跟慢没关系。头一件是难度压不住，我想让它比真考稍容易一点，结果照样偏。再就是官方真题很快见底，同一篇语篇只能反复用。最后是现成话题太旧，孩子根本没有理由在意，说到底这是学习动机的问题，只是看着像材料不够。',
         ],
       },
@@ -95,13 +95,13 @@ export const papercraft: Project = {
           'So I framed it differently. The interesting object is not the generator. It is the **division of labour** between the model and the teacher, and that division is only a design claim if you can measure it. PaperCraft is an authoring tool built so that two things which are usually invisible become data: how much the teacher had to change, and how the resulting items actually behave when learners answer them.',
         ],
         zh: [
-          '最顺手的做法当然是做一个输入框，让它吐考题出来。可这个版本我觉得没意思，更要紧的是它压根没法证伪：输出看着像样就算成功，至于题目到底能不能用、老师还得补多少活，你一点都不知道。',
-          '所以我换了个思路。真正值得研究的是模型和教师之间的**分工**，不是生成器；而分工只有能测出来，才配叫一个设计主张。PaperCraft 这个工具就是为了把两件平常看不见的事变成数据，一件是教师改了多少，另一件是题目在学生作答之后表现如何。',
+          '最顺手的做法当然是做一个输入框，让它吐考题出来。可这个版本没意思，更要紧的是它没法证伪，输出看着像样就算成功，题目到底能不能用、老师还得补多少活，全都不知道。',
+          '所以我换了个思路。真正值得研究的是模型和教师之间的**分工**，不是生成器本身。分工得能测出来，才配叫设计主张。PaperCraft 这个工具的目的，就是把两件平常看不见的事变成数据，一件是教师改了多少，以及题目发给学生之后表现怎样。',
         ],
       },
       note: {
         en: 'This reframing is the whole project. Everything below follows from refusing to evaluate a generator by looking at its output.',
-        zh: '这个项目的分量全在这次换思路上。后面所有的设计都从同一个决定长出来，就是不靠看输出来评价生成器。',
+        zh: '整个项目的分量全压在这次换思路上面。后面所有设计都从同一个决定长出来：不靠看输出来评价生成器。',
       },
     },
     {
@@ -115,10 +115,10 @@ export const papercraft: Project = {
           'Finally, the pipeline is chained rather than monolithic. Wu, Terry and Cai show that decomposing an LLM task into individually inspectable stages improves transparency and controllability, and Amershi and colleagues supply the interaction-level rationale for making system scope and correction paths visible.',
         ],
         zh: [
-          '人机互补在这里是个设计要求，不是口号。Holstein、McLaren 和 Aleven 主张课堂 AI 要围着教师和机器各自擅长的地方来设计，而互补这回事不能假定，得靠实证一点点确立。所以我把教师的裁决做成管线上一道过不去的闸门，模型初稿和教师终稿之间差了多少，全都记下来。',
-          '另一条依据来自证据中心的测评设计。Mislevy、Steinberg 和 Almond 把测评看成一条推理链，从看得见的行为一路推到关于能力的主张，所以系统存下来的是逐题作答和项目统计量，而不是一个总分。你要说这道生成的题目可用，得拿出这道题的证据，拿生成器的证据不算。',
-          '证据还得来得及用上。Black 与 Wiliam 的工作，加上 Hattie 和 Timperley 关于反馈的研究，指的都是同一件事，证据要在教学还来得及调整的时候就交回教师手上。所以练习安排在考试之前，不是之后。',
-          '管线本身也是分段的，不是一整块。Wu、Terry 和 Cai 说明过，把大模型任务拆成可以逐段检查的阶段，比一个巨型 prompt 更透明也更好控；Amershi 等人的人机交互准则，则从交互层面说清了为什么要让系统的边界和纠错路径看得见。',
+          '人机互补在这里是个设计要求，不是一句口号。Holstein、McLaren 和 Aleven 说过，课堂 AI 要围着教师和机器各自擅长的地方来设计；但互补不能假定，得靠实证一步步确立。所以教师的裁决被做成了管线上一道过不去的闸门，模型初稿和教师终稿之间差了多少，全都记下来。',
+          '另一条依据来自证据中心的测评设计。Mislevy、Steinberg 和 Almond 把测评看成一条推理链，从看得见的行为一路推到关于能力的主张。因此系统存的是逐题作答和项目统计量，不存总分。你要说这道生成的题可用，得拿这道题自己的证据来，生成器的笼统证据不作数。',
+          '证据还得来得及用上。Black 与 Wiliam 的工作，加上 Hattie 和 Timperley 关于反馈的研究，说的都是同一回事，证据得在教学还来得及调整的时候就交回教师手上。所以练习安排在考前，不是考后。',
+          '管线本身也是分段的，不是铁板一块。Wu、Terry 和 Cai 说明过，大模型任务拆成可逐段检查的阶段比一个巨型 prompt 更透明、更好控。Amershi 等人的人机交互准则则从交互层面给出了理由：系统的边界和纠错路径必须看得见。',
         ],
       },
     },
@@ -181,7 +181,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'Non-experts systematically under-specify prompts, so the specification burden belongs in the system rather than in a teacher\'s free text. Boundary: this enforces content-validity constraints, not construct validity.',
-            zh: '非专家写 prompt 总是写得太笼统，所以这份规格化的活应该由系统来干，而不是丢给教师自己敲。它的边界也很清楚，约束的是内容效度，不等于构念效度。',
+            zh: '非专家写 prompt 总是写得太笼统，这份规格化的活该系统干，不该丢给教师自己敲。它的边界也很清楚，管的是内容效度，构念效度管不到。',
           },
         },
         {
@@ -217,7 +217,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'CEFR-level control of generated text is unreliable, so the audit is a visible guardrail rather than a silent block. The 10% tolerance is deliberate: proper nouns and productive morphology legitimately fall outside a base wordlist. Boundary: lexical membership only, since syntax, cultural load and cognitive demand are not assessed.',
-            zh: '生成文本的 CEFR 等级控制本来就不可靠，所以这道审计是看得见的护栏，不是悄悄拦截。10% 的容差是刻意留的，因为专有名词和能产构词本来就合理地落在基础词表之外。它能管的也就是词汇在不在表内，句法难度、文化负载、认知需求都不在里面。',
+            zh: '生成文本的 CEFR 等级控制本来就不可靠，所以这道审计做成看得见的护栏，不做成悄悄拦截。10% 的容差是刻意留的，专有名词和能产构词本来就合理地落在基础词表外面。它管得到的也就是词在不在表里，句法难度、文化负载、认知需求一概管不到。',
           },
         },
         {
@@ -245,7 +245,7 @@ export const papercraft: Project = {
       },
       caption: {
         en: 'What actually comes out of the pipeline: a KET Part 7 picture story, exported ready to hand out. This is the multimodal branch. The images are synthesised first, then a vision model writes the task from the images it was given, because doing it the other way round produces prompts that do not match their own pictures.',
-        zh: '管线真正产出的东西就是这个，一份 KET Part 7 看图写作，导出就能发给学生。这条走的是多模态分支，先合成图像，再让视觉模型照着图写题目。反过来做，题干常常和自己的配图对不上。',
+        zh: '这就是管线出来的东西，一份 KET Part 7 看图写作，导出就能发给学生。这条走的是多模态分支，先合成图像，再让视觉模型照着图出题。顺序反过来的话，题干常常和配图对不上。',
       },
     },
     {
@@ -265,7 +265,7 @@ export const papercraft: Project = {
       },
       note: {
         en: 'Choosing classical test theory over IRT is a sample-size decision, not a shortcut. Reporting it as such is part of the work.',
-        zh: '选经典测验理论而不选 IRT，是样本量决定的，不是图省事。这一点得讲清楚。',
+        zh: '选经典测验理论不选 IRT，纯粹是样本量决定的，跟图省事无关。这一点得讲清楚。',
       },
     },
     {
@@ -279,7 +279,7 @@ export const papercraft: Project = {
       },
       caption: {
         en: 'Item analysis, built and wired to live response data. The screenshot shows the surface running against development data. The point of the view is that "usable item" becomes a question with an answer, per item, rather than an impression of the generator.',
-        zh: '项目分析已经做好，也接进了作答数据的链路；截图里跑的是开发数据。这个视图的意义在于，这道题能不能用变成了一个逐题可以回答的问题，而不是对生成器的整体印象。',
+        zh: '项目分析已经做好，也接进了作答数据的链路；截图里跑的是开发数据。有了这个视图，"这道题能不能用"就变成逐题可以回答的问题了，不再只是对生成器的整体印象。',
       },
     },
     {
@@ -290,7 +290,7 @@ export const papercraft: Project = {
           'Research projects are easy to oversell in a portfolio, so here is the ledger. A system that is built is not a system that has been evaluated, and the difference is the interesting part.',
         ],
         zh: [
-          '研究项目放进作品集，很容易被吹过头，所以这里干脆摊开记账。做好的系统不等于评估过的系统，而这个差别恰恰是最有意思的地方。',
+          '研究项目放进作品集，很容易被吹过头，所以干脆摊开记账。系统做好了不等于评估过了，而恰恰是这个差别最有意思。',
         ],
       },
       items: [
