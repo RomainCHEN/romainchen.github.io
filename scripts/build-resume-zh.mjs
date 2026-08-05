@@ -106,7 +106,7 @@ const html = `<!doctype html>
   .contacts b { color: var(--muted); font-weight: 400; margin-right: 3pt; }
 
   /* ---------- 分节 ---------- */
-  section { margin-top: 5pt; }
+  section { margin-top: 4pt; }
 
   h2 {
     font-size: 9.4pt;
@@ -161,7 +161,7 @@ const html = `<!doctype html>
   /* ---------- 技能表 ---------- */
   .skills { margin-top: 4pt; }
 
-  .skillrow { display: flex; gap: 8pt; margin-top: 2pt; }
+  .skillrow { display: flex; gap: 8pt; margin-top: 1pt; }
 
   .skillrow dt {
     flex: 0 0 34pt;
