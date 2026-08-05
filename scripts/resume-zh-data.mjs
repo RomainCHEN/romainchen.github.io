@@ -14,7 +14,7 @@
  *   新东方的正式名称是新东方教育科技集团，不是科技教育集团。
  */
 
-export const UPDATED = '2026-08-03';
+export const UPDATED = '2026-08-05';
 
 export const HEADER = {
   name: '陈泽铭',

@@ -75,14 +75,14 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
 
             <div className="mt-8 flex flex-wrap items-center gap-4" data-print="hide">
               <a
-                href="/cv-zeming-chen.pdf"
+                href={`/cv-zeming-chen.pdf?v=${CV_UPDATED}`}
                 className="inline-flex items-center gap-2 border border-ink bg-ink px-4 py-2 text-sm text-paper transition-colors hover:border-accent hover:bg-accent"
               >
                 {UI.downloadCv[locale]}
                 <span aria-hidden="true">↓</span>
               </a>
               <a
-                href="/resume-zh.pdf"
+                href={`/resume-zh.pdf?v=${CV_UPDATED}`}
                 className="link-draw text-sm text-ink-soft hover:text-ink"
               >
                 {UI.downloadCvZh[locale]}
