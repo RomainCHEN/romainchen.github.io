@@ -16,7 +16,7 @@ export interface CvSection {
   entries: CvEntry[];
 }
 
-export const CV_UPDATED = '2026-08-03';
+export const CV_UPDATED = '2026-08-05';
 
 /**
  * This is the academic CV, written for graduate admissions in learning
