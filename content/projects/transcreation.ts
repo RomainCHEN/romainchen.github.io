@@ -91,13 +91,13 @@ export const transcreation: Project = {
           'So the study does not try to score outputs. It classifies the **operation** performed, and asks whether the operation was the right one for the cultural gap in front of it.',
         ],
         zh: [
-          '常用的那套机器翻译指标在这里完全不管用，而且不是差一点。BLEU 和 ROUGE 衡量的是跟参考译文重叠了多少，于是它们扣分扣掉的，恰恰是一个好片名之所以好的那处偏离。《Ghost》译成《人鬼情未了》，对着任何字面参考都拿不到分，可它偏偏就是对的。',
+          '常用的那套机器翻译指标在这里完全不管用，而且不是差一点。BLEU 和 ROUGE 衡量的是跟参考译文重叠了多少，于是它们扣分扣掉的，就是一个好片名之所以好的那处偏离。《Ghost》译成《人鬼情未了》，对着任何字面参考都拿不到分，可它偏偏就是对的。',
           '所以这项研究不给输出打分，只把译者做出的**操作**归类，归完之后再问：面对这道文化沟壑，他这一步走对了没有。',
         ],
       },
       note: {
         en: 'Reference-overlap metrics penalise exactly the behaviour that constitutes expertise. That single observation is what makes the project necessary.',
-        zh: '一套拿重叠度打分的指标，罚的恰恰是专业能力本身，光这一条就够说明为什么得换一把尺子。',
+        zh: '一套拿重叠度打分的指标，罚的就是专业能力本身，光这一条就够说明为什么得换一把尺子。',
       },
     },
     {
@@ -126,7 +126,7 @@ export const transcreation: Project = {
           'The argument the tiers let us make is directional: a strategy at Tier 1 is a *means* of performing a cognitive operation at Tier 2, whose *goal* is handling a cultural schema at Tier 3. Most existing work stops at Tier 1 and therefore describes the surface of a decision without its mechanism.',
         ],
         zh: [
-          '第一层是策略，也就是做了什么，直译、归化、异化、音译、意译，一直到彻底再创作。既有研究把这一层描述得很细了，可它恰恰是解释力最弱的一层。',
+          '第一层是策略，也就是做了什么，直译、归化、异化、音译、意译，一直到彻底再创作。既有研究把这一层描述得很细了，可它偏偏是解释力最弱的一层。',
           '第二层是认知运作，也就是怎么做的，隐喻映射、转喻、意象图式，还有最关键的概念整合。一个好片名往往是在整合空间里新长出来的结构，不是把原来那个结构原样搬过去。',
           '第三层是文化图式，成或不成最后都归到这里。图式管着隐喻能用哪些源域，也管着某次整合在文化上走不走得通。我们把译者面临的问题归成对图式的四种操作，这四种要求的认知工作量相差很大。',
           '三层摆开了就好办。策略是**手段**，认知运作是**过程**，文化图式才是**目的地**，译者最终要处理的就是第三层。多数既有研究停在第一层，描述的只是表面，碰不到里头的机制。',
@@ -262,7 +262,7 @@ export const transcreation: Project = {
         zh: [
           '传统翻译理论往意译这个词上堆了太多东西，从轻度改写一直堆到彻底再创作，最后它成了一个黑箱。你说出这个名字，等于什么都没说。',
           '换成**译创**，再把它理解成一次认知与文化上的组构，这个现象才算有了机制。译者先诊断原文是怎么把意思立起来的，然后判断这个结构能不能在目标文化里落地，最后才动手重组。这里头是三种可以分开检验的能力，模型在每一种上都可能以不同方式失手。',
-          '看下来会发现，人机输出之间真正有意思的差别不在好坏，在**性质**。人的决策是诊断式的，一步一步走；机器的决策是武断的，直接套默认映射，不管源图式能不能活着穿过那道边界。',
+          '看下来会发现，人机输出之间值得注意的差别在**性质**，不在好坏。人的决策是诊断式的，一步一步走；机器的决策是武断的，直接套默认映射，不管源图式能不能活着穿过那道边界。',
         ],
       },
     },

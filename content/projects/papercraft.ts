@@ -290,7 +290,7 @@ export const papercraft: Project = {
           'Research projects are easy to oversell in a portfolio, so here is the ledger. A system that is built is not a system that has been evaluated, and the difference is the interesting part.',
         ],
         zh: [
-          '研究项目放进作品集，很容易被吹过头，所以干脆摊开记账。系统做好了不等于评估过了，而恰恰是这个差别最有意思。',
+          '研究项目放进作品集，很容易被吹过头，所以干脆摊开记账。系统做好了不等于评估过了，这个差别本身才有意思。',
         ],
       },
       items: [
