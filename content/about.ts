@@ -6,7 +6,7 @@ export const ABOUT_LEDE: Paragraphs = {
     'Both disciplines have spent the last three years being told that a machine can now do the thing they train people to do. Neither has a satisfying answer to the obvious follow-up: then what exactly is the human contribution, and how would you know if it disappeared?',
   ],
   zh: [
-    '我在广外读翻译，在澳门理工读计算机，两个学校各上一半课。当初凑成这么个双学位没什么打算，报名那会儿也想不到它会往哪儿走。念到第三年才发现，我真感兴趣的问题全长在两门课中间那块地上。',
+    '广外读翻译，澳门理工读计算机。双学位当初纯属偶然，到第三年才发现，自己感兴趣的问题刚好长在两门课中间。',
     '这几年翻译课和计算机课上都出现过同一句话，说这些活儿机器已经会干了。人还剩下哪一部分，两边的老师都说不太清楚。我更在意的是，假如这一部分某天真的没了，我们靠什么发现。',
   ],
 };
