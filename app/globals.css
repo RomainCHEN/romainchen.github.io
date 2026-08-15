@@ -257,6 +257,25 @@
   }
 
   /* Prose. Set in the display serif: this is a site for reading. */
+  /* Highlighted keywords: strong gets an accent underline wash,
+     em gets the accent colour. Both are used sparingly in content to
+     draw the eye to key claims and terms. */
+  section strong,
+  main strong {
+    font-weight: 600;
+    background: linear-gradient(to top, var(--accent-wash) 38%, transparent 38%);
+    padding-inline: 1px;
+    border-radius: 1px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  section em,
+  main em {
+    font-style: normal;
+    color: var(--accent-ink);
+  }
+
   .prose-body {
     font-family: var(--font-display);
     font-size: var(--text-lg);
@@ -285,7 +304,6 @@
 
   .prose-body strong {
     color: var(--ink);
-    font-weight: 600;
   }
 
   .prose-body a {
