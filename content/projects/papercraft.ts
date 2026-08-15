@@ -81,8 +81,8 @@ export const papercraft: Project = {
           'Three things were wrong, and none of them was speed. Difficulty was not something I could control: I could aim for "a bit easier than the exam" and miss. Official past papers ran out fast, so the same texts came round again. And the topics that did exist were stale, so students had no reason to care about them, which is a motivation problem dressed up as a materials problem.',
         ],
         zh: [
-          '读计算机学位那阵子我同时带着两个剑桥 KET 小班，六个学生。练习是自己手写的，一周一套，一套要花两个小时上下，写完从来没放心过。',
-          '出问题的有三件事，都跟慢没关系。头一件是难度压不住，我想让它比真考稍容易一点，结果照样偏。再就是官方真题很快见底，同一篇语篇只能反复用。最后是现成话题太旧，孩子根本没有理由在意，说到底这是学习动机的问题，只是看着像材料不够。',
+          '读计算机学位那阵子我同时带了两个剑桥 KET 小班，六个学生。每周手写一套练习，一套下来差不多两个小时，写完心里从来没底。',
+          '出问题的有三件事，都跟慢没关系。难度压不住，我照着"比真考容易一点"去写，照样偏。官方真题数量有限，很快就用完。现成话题又太旧，九岁的孩子没理由在意一篇讲"给笔友写信"的短文。这三样说到底都是学习动机层面的问题，只是看着像材料不够。',
         ],
       },
     },
@@ -95,13 +95,13 @@ export const papercraft: Project = {
           'So I framed it differently. The interesting object is not the generator. It is the **division of labour** between the model and the teacher, and that division is only a design claim if you can measure it. PaperCraft is an authoring tool built so that two things which are usually invisible become data: how much the teacher had to change, and how the resulting items actually behave when learners answer them.',
         ],
         zh: [
-          '最顺手的做法当然是做一个输入框，让它吐考题出来。可这个版本没意思，更要紧的是它没法证伪，输出看着像样就算成功，题目到底能不能用、老师还得补多少活，全都不知道。',
-          '所以我换了个思路。真正值得研究的是模型和教师之间的**分工**，不是生成器本身。分工得能测出来，才配叫设计主张。PaperCraft 这个工具的目的，就是把两件平常看不见的事变成数据，一件是教师改了多少，以及题目发给学生之后表现怎样。',
+          '最省事的做法当然是做一个输入框让模型吐题。可这样一来，输出看着像样就算成功，题目到底能不能用、老师还得补多少活，完全无从知晓。',
+          '我换了个思路。值得做的研究对象是模型和教师之间的**分工**，生成器本身不够有趣。分工必须能测出来才算设计主张。PaperCraft 的目的就是把两件平时看不见的事变成数据：教师改了多少，以及题目发给学生之后表现怎样。',
         ],
       },
       note: {
         en: 'This reframing is the whole project. Everything below follows from refusing to evaluate a generator by looking at its output.',
-        zh: '整个项目的分量全压在这次换思路上面。后面所有设计都从同一个决定长出来：不靠看输出来评价生成器。',
+        zh: '后面所有设计都从同一个决定长出来：不靠看输出来评价生成器。这个转向决定了整个项目的走向。',
       },
     },
     {
@@ -290,7 +290,7 @@ export const papercraft: Project = {
           'Research projects are easy to oversell in a portfolio, so here is the ledger. A system that is built is not a system that has been evaluated, and the difference is the interesting part.',
         ],
         zh: [
-          '研究项目放进作品集，很容易被吹过头，所以干脆摊开记账。系统做好了不等于评估过了，这个差别本身才有意思。',
+          '研究项目放作品集，容易被吹过头。所以这里干脆摊开记账，系统做好了和评估做完了是两回事。',
         ],
       },
       items: [
