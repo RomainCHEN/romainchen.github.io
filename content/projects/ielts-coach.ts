@@ -72,8 +72,8 @@ export const ieltsCoach: Project = {
           'So this tool inverts the interaction. Before it writes a single sentence, it interviews you.',
         ],
         zh: [
-          '随便找个助手要一篇雅思作文，四秒钟 250 个通顺的英文词就出来了，Firstly、Secondly、In conclusion 一应俱全。机器评分表上它分数不低，可它会害人，因为考场上你只调得出属于自己的东西。',
-          '所以这个工具把顺序反过来，动笔之前先问你。',
+          '随便找个 AI 助手要一篇雅思作文，四秒钟就能出来 250 个通顺的英文词，Firstly、Secondly、In conclusion 齐活。机器评分表上它分不低，可它会害人，考场那种压力下，你只调得出属于自己的东西。',
+          '所以这个工具把顺序反过来：先问你，再动笔。',
         ],
       },
     },
@@ -87,14 +87,14 @@ export const ieltsCoach: Project = {
           'The consequence is a genuinely different interaction. Each new topic opens a structured mini-interview, delivered as a multi-step web form rather than a chat interrogation, because a form lets you think at your own pace and revise, which a conversational turn does not. Only then does generation begin, and it begins from your material.',
         ],
         zh: [
-          '一篇范文同时得满足两头。一头是外部标准，雅思公开的四项，任务回应、连贯与衔接、词汇资源、语法多样性与准确性。另一头更难：这篇东西得让某个具体的人，几个月之后在考场的时间压力底下**还能调出来**。',
-          '通用生成把前一头满足了，后一头压根不管。要修的不是文笔，是模型可以发明的范围，论点、例子、立场统统来自学习者，模型只负责校准和打磨。这和我在教师那边研究的分工是同一类，只不过角色换成了学生。',
-          '这么一来交互就真的不一样了。每碰到一个新话题，它会先做一轮结构化的小访谈，用的是多步网页表单，不是聊天式追问，表单让你按自己的节奏想，想错了能回头改，聊天做不到。访谈做完，生成才开始，而且是从你自己的材料开始。',
+          '一篇范文得同时满足两头。外部标准那一头有雅思公开的四项（任务回应、连贯与衔接、词汇资源、语法多样性与准确性），不难满足。难的是另一头：这篇东西得让某个具体的人在几个月后的考场上**还能调出来**。',
+          '通用生成满足了前一头，后一头完全不管。要调整的是模型可以发明的边界，论点、例子、立场都来自学习者本人，模型只管校准和打磨。这和我在教师那边做的分工研究是同一类问题，角色从教师换成了学生。',
+          '交互因此完全不同。碰到新话题，系统会先做一轮结构化访谈，用多步网页表单而不是聊天式追问。表单的好处是你能按自己的节奏想，想错了可以回头改。访谈做完再生成，而且是从你自己的素材生成。',
         ],
       },
       note: {
         en: 'The elicitation step is not a UX nicety. It is where the pedagogy lives.',
-        zh: '先采集这一步不是锦上添花，教学法就长在这里。',
+        zh: '先采集再生成，教学法就在这一步里面。',
       },
     },
     {
