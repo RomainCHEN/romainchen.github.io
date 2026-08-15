@@ -77,8 +77,8 @@ export const transcreation: Project = {
           'This is why titles are the cleanest available probe for the question everyone is arguing about badly. When a translator abandons the literal meaning, is that a failure of fidelity or an act of expertise? And can a model that has never lived inside a culture do the same thing?',
         ],
         zh: [
-          '电影片名看着是小事，其实是道难题。就那么几个字，却要同时干三件互相打架的事，既得说清这是部什么电影，又得在一个并非孕育它的文化里打动人，最后还得把票卖出去。',
-          '翻译圈吵了很多年也没个定论，译者放弃字面意思，到底算不忠实还是本来就该这样。片名短，争议集中，最适合拿来做这个题目。紧接着还能多问一句：一个从没在那个文化里生活过的模型，做得到同样的事吗。',
+          '电影片名就几个字，看着是小事。可它同时得告诉观众这是什么片子、在另一种文化里打动人、还要把票卖出去，三件事互相打架。',
+          '翻译圈吵了很多年没有定论，译者放弃字面意思到底算不忠实还是本来就该这样。片名短、争议集中，最适合拿来做这个题目。顺着往下还能追一句，一个从没在目标文化里生活过的模型，做得到同样的事吗。',
         ],
       },
     },
@@ -338,9 +338,9 @@ export const transcreation: Project = {
           'The translation work is also where I learned that a construct has to be operationalised before it can be studied, which is the single most transferable thing I have taken into building learning systems.',
         ],
         zh: [
-          '两个软件项目中间夹一篇人文论文，看着最不搭。可它问的是同一个问题，只不过换了一把尺子。',
-          'PaperCraft 量的是教师的判断在生成管线内部还有多少不可替代，工具是编辑距离；这项研究量的是译者的文化判断还有多少不可替代，工具是图式操作。两边都不靠看输出来评价模型，也都把人的贡献放到因变量那一侧，让它能被测出来，不只是嘴上断言。',
-          '翻译这条线还教了我一件事：概念得先操作化，才有研究的可能。这也是我做学习系统时最受用的一条经验。',
+          '两个软件项目中间放一篇人文论文，看着不搭。可问的是同一个问题，换了一把尺子而已。',
+          'PaperCraft 量的是教师判断在生成管线内部有多少不可替代的部分，量具是编辑距离。这项研究量的是译者文化判断有多少不可替代的部分，量具是图式操作。两边都把人的贡献放到因变量那一侧，让它能被测出来，而不只是一个断言。',
+          '翻译这条线教了我一件事：概念如果不操作化，就没法研究。这也是我后来做学习系统时最受用的经验。',
         ],
       },
     },
