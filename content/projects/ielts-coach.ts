@@ -12,11 +12,11 @@ export const ieltsCoach: Project = {
   title: 'IELTS Coach',
   subtitle: {
     en: 'An agent that refuses to write until it has interviewed you',
-    zh: '一个不先访谈你就不肯动笔的 agent',
+    zh: '一个不先访谈你就不肯动笔的写作辅导 Agent',
   },
   blurb: {
     en: 'An open-source agent skill for IELTS speaking and writing, built on the premise that a model answer you cannot remember is worthless.',
-    zh: '一个面向雅思口语和写作的开源 agent skill。出发点很简单：你记不住的范文等于白写。',
+    zh: '一个面向雅思口语和写作的开源 agent skill。前提很简单，一篇你记不住的范文毫无价值。',
   },
   period: { en: 'July 2026', zh: '2026 年 7 月' },
   role: { en: 'Sole author', zh: '独立完成' },
@@ -59,7 +59,7 @@ export const ieltsCoach: Project = {
     },
     {
       label: { en: 'Efficacy evidence', zh: '效果证据' },
-      value: { en: 'None. See below.', zh: '没有，下面会说清楚。' },
+      value: { en: 'None. See below.', zh: '暂无，下文说明。' },
     },
   ],
   featured: true,
@@ -72,8 +72,8 @@ export const ieltsCoach: Project = {
           'So this tool inverts the interaction. Before it writes a single sentence, it interviews you.',
         ],
         zh: [
-          '随便找个 AI 助手要一篇雅思作文，四秒钟就能出来 250 个通顺的英文词，Firstly、Secondly、In conclusion 齐活。机器评分表上它分不低，可它会害人，考场那种压力下，你只调得出属于自己的东西。',
-          '所以这个工具把顺序反过来：先问你，再动笔。',
+          '随便找个 AI 助手要一篇雅思作文，四秒钟就能生成 250 个通顺的英文词，Firstly、Secondly、In conclusion 一应俱全。在机器评分表上它得分不低，却会害了考生，原因只有一个，考场那种压力下，你只调得出属于自己的东西。',
+          '所以这个工具把顺序颠倒过来，先访谈你，再动笔。',
         ],
       },
     },
@@ -87,14 +87,14 @@ export const ieltsCoach: Project = {
           'The consequence is a genuinely different interaction. Each new topic opens a structured mini-interview, delivered as a multi-step web form rather than a chat interrogation, because a form lets you think at your own pace and revise, which a conversational turn does not. Only then does generation begin, and it begins from your material.',
         ],
         zh: [
-          '一篇范文得同时满足两头。外部标准那一头有雅思公开的四项（任务回应、连贯与衔接、词汇资源、语法多样性与准确性），不难满足。难的是另一头：这篇东西得让某个具体的人在几个月后的考场上**还能调出来**。',
-          '通用生成满足了前一头，后一头完全不管。要调整的是模型可以发明的边界，论点、例子、立场都来自学习者本人，模型只管校准和打磨。这和我在教师那边做的分工研究是同一类问题，角色从教师换成了学生。',
-          '交互因此完全不同。碰到新话题，系统会先做一轮结构化访谈，用多步网页表单而不是聊天式追问。表单的好处是你能按自己的节奏想，想错了可以回头改。访谈做完再生成，而且是从你自己的素材生成。',
+          '一篇范文得同时满足两个互相拉扯的要求。一头是外部标准，也就是雅思公开的四项，任务回应、连贯与衔接、词汇资源、语法多样性与准确性。另一头更难，这篇东西得让某个具体的人在几个月后的考场上**还能调出来**。',
+          '通用生成只顾了前一头，后一头压根没管。要改的不是文笔，是模型能发明什么。论点、例子、立场都出自学习者本人，模型只管校准和打磨。这跟我在教师那一侧研究的分工是同一类问题，角色从教师换成了学生。',
+          '交互也因此完全变了样。每碰到一个新话题，系统先做一轮结构化的小访谈，形式是多步网页表单，不是聊天式追问。表单的好处是你能按自己的节奏想，想岔了还能回头改，一问一答的对话做不到这点。访谈做完才开始生成，而且是从你自己的素材生成。',
         ],
       },
       note: {
         en: 'The elicitation step is not a UX nicety. It is where the pedagogy lives.',
-        zh: '先采集再生成，教学法就在这一步里面。',
+        zh: '先采集再生成，教学法就藏在这一步里。它不是可有可无的交互点缀。',
       },
     },
     {
@@ -108,7 +108,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'Elicitation before generation, running locally. Look at what the questions are actually after: not an opinion on music, but a specific afternoon in a car. The form supports chart upload and clipboard paste so Writing Task 1 material enters the same pipeline, and answers persist as JSON so a topic never has to be re-interviewed.',
-        zh: '先采集再生成，全程跑在本机。注意这些问题到底想问什么，它要的是车里那个具体的下午，不是你对音乐的笼统看法。表单支持上传图表、粘贴剪贴板，写作 Task 1 的材料走同一条管线。答案用 JSON 存着，同一个话题不用第二次访谈。',
+        zh: '先采集再生成，全程运行在本机。注意这些问题究竟想问什么，它要的是车里那个具体的下午，而不是你对音乐的笼统看法。表单支持上传图表、粘贴剪贴板，写作 Task 1 的材料走同一条管线。答案以 JSON 存储，同一个话题无需第二次访谈。',
       },
     },
     {
@@ -121,9 +121,9 @@ export const ieltsCoach: Project = {
           'Vision capability should not dictate which model a learner uses. Writing Task 1 requires reading a chart, which locks a learner into a multimodal model. The skill ships a small MCP server that proxies images through a separate vision endpoint, so a text-only model can still handle chart tasks. It is a plumbing decision, but it is the difference between the tool being usable on the model you already have and not.',
         ],
         zh: [
-          '会不会被看出是 AI 写的，这从一开始就是个设计目标，不是最后打补丁。这个 skill 会筛自己的输出，名单上有当插入语用的破折号、带讽刺意味的引号、机械的连接词，还有 this essay will discuss 这一类开头。与其叮嘱模型写得自然一点，不如在生成时直接跑一遍这份清单，因为清单能核查，那句叮嘱不能。',
-          '学习计划还得扛住漏练，人一定会漏。一个不会自动重排的计划，第一次中断之后基本就废了。状态跨会话存在 JSON 里，漏掉的内容会重新排进去，薄弱环节往前提，不会悄悄消失。',
-          '有没有视觉能力不该反过来决定你用哪个模型。写作 Task 1 要读图，这一条会把学习者锁死在多模态模型上。所以这个 skill 自带一个小 MCP 服务，把图片转给单独的视觉端点处理，纯文本模型也能做图表题。管道层面一个小取舍，却决定了这工具在你手头现有模型上能不能跑。',
+          '会不会被看出是 AI 写的，这从一开始就是个设计目标，不是事后补的补丁。这个 skill 会筛自己的输出，清单上列着当插入语用的破折号、带讽刺味的引号、机械的连接词，还有 this essay will discuss 这类开头。与其叮嘱模型写自然点，不如生成时直接跑一遍这份清单。清单能核查，那句叮嘱不能。',
+          '学习计划还得扛得住漏练，人肯定会漏。一个不会自动重排的计划，头一次中断之后基本就废了。状态跨会话存在 JSON 里，漏掉的内容会重新排进去，薄弱环节往前提，不会悄没声地消失。',
+          '有没有视觉能力，不该反过来决定你用哪个模型。写作 Task 1 要读图，这一条会把学习者锁死在多模态模型上。所以这个 skill 自带一个小 MCP 服务，把图片转给单独的视觉端点去处理，纯文本模型也能做图表题。这只是管道层面的一个小取舍，却决定了这工具在你手头现有的模型上跑不跑得起来。',
         ],
       },
     },
@@ -138,7 +138,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'Output is a printable document, not a chat log. Answers stay reviewable months later, which is the only timescale that matters for exam preparation.',
-        zh: '产出的是一份可打印的文档，不是一段聊天记录。几个月后还能翻出来复习，备考在意的就是这个时间尺度。',
+        zh: '产出的是一份可打印的文档，而非一段聊天记录。答案在几个月后仍可翻出复习，备考在意的正是这个时间尺度。',
       },
     },
     {
@@ -149,7 +149,7 @@ export const ieltsCoach: Project = {
           'This is a working, published tool with a defensible design argument and no evidence that it improves scores. I am not going to pretend otherwise, and the honest version is more useful anyway: it names the study that would settle it.',
         ],
         zh: [
-          '工具已经发布，也能用，设计上的论证我认为站得住，但要说它能提分，目前没有任何证据。我不打算装作有。说实话反而更有用，因为顺带就说清了什么样的研究才能给出结论。',
+          '工具已经发布，也可以使用，设计上的论证我认为站得住，但要说它能提分，目前没有任何证据。我不打算假装有。说实话反而更有用，因为顺带就讲清了什么样的研究才能给出结论。',
         ],
       },
       items: [
@@ -161,7 +161,7 @@ export const ieltsCoach: Project = {
           state: 'shipped',
           detail: {
             en: 'Published under MIT, documented in English and Chinese, in real personal use.',
-            zh: '以 MIT 许可发布，中英文文档齐备，自己在真用。',
+            zh: '以 MIT 许可发布，中英文文档齐备，我自己在真实使用。',
           },
         },
         {
@@ -180,7 +180,7 @@ export const ieltsCoach: Project = {
           state: 'planned',
           detail: {
             en: 'Untested. The design borrows from well-supported ideas about personal relevance and generation effects, but borrowing a rationale is not evidence. A within-subject comparison of recall for self-sourced versus model-sourced answers would be the cheapest informative study, and it has not been run.',
-            zh: '没测过。设计借用了关于个人相关性和生成效应的成熟观点，但借来一个理由不等于有证据。最省钱又有信息量的做法，是用被试内设计比一比自己出的素材和模型出的素材，哪个记得更牢。这个实验还没做。',
+            zh: '尚未验证。设计借鉴了关于个人相关性和生成效应的成熟观点，但借来一个理由并不等于有证据。最省钱又有信息量的做法，是用被试内设计比较自己产出的素材与模型产出的素材，看哪一种记得更牢。这个实验还没有开展。',
           },
         },
         {
@@ -188,7 +188,7 @@ export const ieltsCoach: Project = {
           state: 'planned',
           detail: {
             en: 'The repository describes detection risk as near-zero. That is a design intention, not a measurement, and I would drop the claim before I would defend it. Testing it against actual detectors is straightforward and pending.',
-            zh: '仓库文档里把被识别的风险写成接近零，那是设计意图，不是测量结果。真要我在留着这句话和删掉它之间选，我会删掉。拿真实的检测器去跑一遍并不难，只是还没做。',
+            zh: '仓库文档里把被识别的风险写成接近于零，那是设计意图，不是测量结果。若真要我在保留和删除这句话之间做选择，我会删掉。拿真实的检测器去跑一遍并不难，只是还没做。',
           },
         },
       ],
