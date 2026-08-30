@@ -62,7 +62,6 @@ export function Footer({ locale }: { locale: Locale }) {
           <p>
             © {year} {SITE.name} · {SITE.nameZh}
           </p>
-          <p>{UI.builtWith[locale]}</p>
         </div>
       </div>
     </footer>

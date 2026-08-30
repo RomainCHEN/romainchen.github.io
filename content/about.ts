@@ -6,8 +6,8 @@ export const ABOUT_LEDE: Paragraphs = {
     'Both disciplines have spent the last three years being told that a machine can now do the thing they train people to do. Neither has a satisfying answer to the obvious follow-up: then what exactly is the human contribution, and how would you know if it disappeared?',
   ],
   zh: [
-    '广外读翻译，澳门理工读计算机。双学位当初纯属偶然，到第三年才发现，自己感兴趣的问题刚好长在两门课中间。',
-    '这几年翻译课和计算机课上都出现过同一句话，说这些活儿机器已经会干了。人还剩下哪一部分，两边的老师都说不太清楚。我更在意的是，假如这一部分某天真的没了，我们靠什么发现。',
+    '我在一所大学读翻译，又在另一所读计算机。这个双学位当初近乎偶然，读到第三年才发现，我真正感兴趣的问题恰好长在两门学科的交界处。',
+    '过去三年，翻译课和计算机课上反复出现同一种说法，说这些活儿机器现在都能做了。可人到底还剩下哪一部分贡献，两边的老师都答不上来。我更想追问的是后面那句，这部分贡献要是哪天真没了，我们凭什么发现。',
   ],
 };
 
@@ -21,9 +21,9 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
         'The same question was waiting for me in translation. My programme trains us in a craft that machine translation is supposed to have solved, and the defence usually offered, that human translators are more "sensitive", is a claim without an instrument. Working on film titles gave me one. Classify what the translator did to the cultural schema, and the difference between diagnosis and default pattern-matching stops being a matter of taste.',
       ],
       zh: [
-        '2024 年我带过两个 KET 小班，一共六个孩子，那学期自己还在上数据结构和翻译理论。练习都是我一份份手写的，一周一套，一套两个小时。写完心里从来没底。难度压不准，本想比真考简单一点，出来常常偏；官方真题总量有限，用完就没了，剩下能挑的话题旧得连我自己都看不下去，孩子更别提。',
-        '这种抱怨每个老师都有，不值一提。让我停下来的是另一件事，**那两个小时里，哪些判断只有我能做**，哪些换成模型也一样。这个问题本来测得出来，可几乎没人去测。我后来干脆做了个工具，就为了把答案记下来。',
-        '翻译那边等着我的还是同一个问题。我学的这门手艺，外头早有人说机器翻译替掉了，系里最常听到的回应是人比机器细腻。细腻在哪儿，谁也拿不出东西来量。做电影片名之后我手上算是有了一把尺子，把译者在文化图式上动过的每一处分好类，再看哪些是真诊断出来的，哪些只是套了默认答案。这样一比就有依据，不用靠嘴硬。',
+        '2024 年那学期，我一边上数据结构和翻译理论，一边带两个剑桥 KET 小班。练习都是我自己一份份手写的，一周一套，一套要两个小时。写完心里总是不踏实。难度不好拿捏，本想比真考略容易些，出来常常又偏了。官方真题就那么多，很快就用完。剩下能选的话题也旧，孩子提不起兴趣，连我自己都读不下去。',
+        '这种抱怨每个老师都有，本不值一提。真正让我停下来的是另一件事。**那两个小时里，到底哪些判断只有我能做**，哪些换成模型也一样。这问题本来测得出来，却几乎没人去测。后来我干脆做了个工具，就为了把答案记下来。',
+        '翻译这边，等着我的还是同一个问题。我学的这门手艺，外面早有人说机器翻译已经替代了。系里最常见的辩护是人比机器细腻，可细腻到底体现在哪，谁也拿不出能衡量的东西。做过电影片名之后，我总算有了一把尺子。把译者在文化图式上的每一处处理都归好类，哪些是真诊断，哪些只是套了默认答案，就不再是各说各话的事了。',
       ],
     },
   },
@@ -36,9 +36,9 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
         'Writing for people who do not already agree with me. Six years of it: technology essays with six-figure readerships, etymology pieces, alumni features, a short film. What it taught me was to notice when an argument is being carried by tone rather than evidence, including my own.',
       ],
       zh: [
-        '我手上比较硬的一项本事，是把说不清的概念变成能记录的东西。教师投入、文化敏感度、题目质量，这些词人人在用，问到底指什么就没人接得上。我的活大半耗在这一步，既不体面也不出彩，先想清楚什么才算证据，再把能采到它的东西一点点做出来。',
-        '需要的时候我一个人也能把整套做完，登录鉴权、数据库结构、带类型修复的模型路由、导出 Word 和 PDF、上线部署。会全栈没什么了不起。可工具要是没人用得起来，一条数据也采不到，所以这些活我只能自己扛。今年夏天我把同一套本事换了个场地用，在一家上市公司的内网里跑量化后的开源模型，没去调别人的 API。',
-        '还有一点，我习惯写给不同意我的人看。六年里写过十万阅读量的科技长文，写过词源随笔和校友专稿，也拍过一部短片。写久了眼睛变毒，一个论证是靠语气撑着还是真有证据，一眼能看出来，看自己的稿子也一样。',
+        '我比较拿得出手的一件事，是把说不清的概念做成能记录的东西。教师投入、文化敏感度、题目质量，这些词人人都在用，可一追问具体指什么，就没人接得上。我的活大半花在这一步上，既不体面也不显眼。先想清楚什么才算证据，再一点点做出能把它采下来的东西。',
+        '真到要做，我一个人也能把整套系统啃下来。登录鉴权、数据库结构、带类型修复的模型路由、导出 Word 和 PDF、上线部署，都是自己来。会全栈本身没什么了不起。可研究工具要是没人用得起来，一条数据都采不到，所以这些活我只能自己扛。今年夏天我把同一套本事挪了个地方用，在一家上市公司的内网里跑开源模型，而不是去调别人的 API。',
+        '还有一点，我习惯写给不认同我的人看。这么写了六年，有阅读量过十万的科技长文，有词源随笔，有校友专稿，还拍过一部短片。写久了眼睛会变尖。一个论证是靠语气在撑，还是真有证据，一眼就看得出来。看自己的稿子也一样。',
       ],
     },
   },
@@ -50,8 +50,8 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
         'The honest gap in my portfolio is evidence. I have built systems and specified the studies; I have not yet run them. That is the thing I most want to fix, and it is why graduate study rather than another product.',
       ],
       zh: [
-        '三个项目其实都落在同一个位置上，我想接着待在那儿，一手做能把人的贡献记下来的工具，一手把研究跑起来，看设计站不站得住。我缺的是后半段的训练，测量怎么做，实验怎么设计，样本量上去之后数据该怎么读。',
-        '作品集里最空的一格是证据。系统做出来了，研究方案也写好了，可到今天一次都没真跑过。这块我最想补上，去读研也是为了这个，再做一个产品补不上。',
+        '这三个项目其实落在同一个交点上，我想接着待在那儿。一手做工具，把人的贡献显出来，一手真把研究跑起来，看设计到底站不站得住。我缺的是后半段的训练。测量怎么做，实验怎么设计，样本量上去以后数据又该怎么读。',
+        '作品集里最空的一格是证据。系统做出来了，研究方案也写好了，可到今天一次都还没真跑过。这是我最想补的一块。去读研而不是再做一个产品，也正是为了这个。',
       ],
     },
   },
@@ -60,14 +60,14 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
 export const CURRENTLY: L<string[]> = {
   en: [
     'Finishing the PaperCraft evaluation protocol and recruiting KET/PET teachers for the study.',
-    'Interning in the IT department at Guangdong Dowstone this summer, deploying quantised open-source models on the company network and building a retrieval-augmented knowledge base over internal documents.',
+    'Interning on the IT team at Guangdong Dowstone, working on on-premise LLM deployment and a document-retrieval knowledge base.',
     'Coding the film title corpus against the three-tier scheme.',
     'Reading on evidence-centred design and item response theory.',
   ],
   zh: [
-    '在把 PaperCraft 的评估方案收尾，同时找愿意参加的 KET / PET 老师。',
-    '这个夏天在广东道氏技术的 IT 部实习，在企业内网部署量化后的开源模型，再拿内部文档搭一个检索增强的知识库。',
-    '按三层方案给电影片名语料做编码。',
-    '在读证据中心设计和项目反应理论那一路的文献。',
+    '推进 PaperCraft 评估方案的收尾工作，并招募有意向的 KET / PET 教师参与研究。',
+    '在广东道氏技术 IT 部实习，负责本地大模型部署，并基于内部文档构建检索增强（RAG）知识库。',
+    '基于三层标注方案，对电影片名语料进行编码。',
+    '研读以证据为中心的设计（ECD）与项目反应理论（IRT）方向的文献。',
   ],
 };

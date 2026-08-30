@@ -101,11 +101,11 @@ export const RESEARCH: CvSection = {
       points: {
         en: [
           'Developed the cognitive-linguistic framework: a three-tier model separating translation strategy from cognitive operation from cultural schema, with four schema operations ranked by cognitive load.',
-          'Synthesised the literature on functionalist title translation, regional norm divergence across Greater China and cultural bias in frontier models, verifying every DOI against Crossref. Argued that reference-overlap metrics such as BLEU are structurally unsuited to transcreation, because they penalise precisely the divergence that constitutes professional judgement.',
+          'Synthesised the literature on functionalist title translation, regional norm divergence across Greater China and cultural bias in frontier models. Argued that reference-overlap metrics such as BLEU are structurally unsuited to transcreation, because they penalise precisely the divergence that constitutes professional judgement.',
         ],
         zh: [
           '提出认知语言学层面的分析框架：三层模型把翻译策略、认知运作和文化图式分开来看，并按认知负荷给四种图式操作排序。',
-          '完成文献综述，覆盖功能主义片名翻译、大中华区内部的规范差异，以及前沿模型已被记录的文化偏见，全部 DOI 逐条核对 Crossref。并论证 BLEU 这类看重叠度的指标从根上不适合评译创，因为它们扣的分就是专业判断的体现。',
+          '完成文献综述，覆盖功能主义片名翻译、大中华区内部的规范差异，以及前沿模型已被记录的文化偏见。并论证 BLEU 这类看重叠度的指标从根本上不适合评估译创，因为它们扣掉的分恰恰是专业判断的体现。',
         ],
       },
     },
@@ -128,7 +128,7 @@ export const TEACHING: CvSection = {
         ],
         zh: [
           '带两个剑桥 KET 小班，同时教新概念英语，教案、课件和每周一套练习都是自己手写，一套大约两小时。',
-          '通过课堂练习和阶段性测试追踪学生对 KET 考点的掌握情况，据此调整进度。出题负担加上官方真题有限、难度压不住，后来就有了 PaperCraft。',
+          '通过课堂练习和阶段性测试追踪学生对 KET 考点的掌握情况，据此调整进度。出题负担，加上官方真题有限、难度难以把控，正是 PaperCraft 试图研究的问题。',
         ],
       },
     },
