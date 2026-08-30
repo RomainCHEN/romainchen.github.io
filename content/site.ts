@@ -19,7 +19,7 @@ export const SITE = {
 
 export const TAGLINE: L = {
   en: 'Translation × Computer Science. I design learning tools and instrument them as research objects.',
-  zh: '翻译 × 计算机科学。我做学习工具，也把它们做成可以拿数据说话的研究对象。',
+  zh: '翻译 × 计算机科学。我开发学习工具，并把它们转化为数据驱动的实证研究对象。',
 };
 
 export const ROLE_LINE: L = {
@@ -38,7 +38,7 @@ export const RESEARCH_INTERESTS: L<string>[] = [
 export const SOCIAL: { label: string; href: string; handle: string }[] = [
   { label: 'GitHub', href: 'https://github.com/RomainCHEN', handle: 'RomainCHEN' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/zaamingcan', handle: 'zaamingcan' },
-  { label: 'sspai', href: 'https://sspai.com/u/f60fywrz', handle: 'Matrix author' },
+  { label: 'sspai', href: 'https://sspai.com/u/f60fywrz', handle: 'Matrix 作者' },
   { label: 'Instagram', href: 'https://instagram.com/zaaming.can', handle: 'zaaming.can' },
 ];
 
@@ -76,21 +76,20 @@ export const UI = {
   downloadCv: { en: 'Download CV (PDF)', zh: '下载简历（PDF）' },
   downloadCvZh: { en: 'Chinese résumé (PDF)', zh: '中文简历（PDF）' },
   lastUpdated: { en: 'Last updated', zh: '最后更新' },
-  builtWith: { en: 'Built with Next.js. Set in Newsreader and Instrument Sans.', zh: '用 Next.js 构建，Newsreader 与 Instrument Sans 排版。' },
   notFoundTitle: { en: 'No such page', zh: '页面不存在' },
   notFoundBody: {
     en: 'The address is wrong, or something moved. The index below still works.',
-    zh: '地址不对，或者内容挪了位置。下面的目录还能用。',
+    zh: '地址有误，或者内容已经迁移。下面的目录仍然可用。',
   },
   evidenceLegend: {
     en: 'Every component below is labelled with how much empirical backing it has.',
-    zh: '下面每一项都标了它现在有多少实证支撑。',
+    zh: '下面每一项都标注了它目前获得的实证支撑程度。',
   },
   evidenceStates: {
-    shipped: { en: 'In use', zh: '已在用' },
-    instrumented: { en: 'Built, no data yet', zh: '做完了，还没数据' },
-    designed: { en: 'Designed, not run', zh: '方案写好了，还没开跑' },
-    planned: { en: 'Planned', zh: '计划中' },
+    shipped: { en: 'In use', zh: '已投入使用' },
+    instrumented: { en: 'Built, no data yet', zh: '已建成，暂无数据' },
+    designed: { en: 'Designed, not run', zh: '方案已定，尚未开展' },
+    planned: { en: 'Planned', zh: '规划中' },
   },
   cognitiveLoad: { en: 'Cognitive load', zh: '认知负荷' },
   sourceTitle: { en: 'Source title', zh: '原片名' },
