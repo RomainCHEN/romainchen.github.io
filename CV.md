@@ -27,7 +27,7 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 *Co-authored paper in preparation · three-person faculty-advised team · Oct 2025 to present*
 
 - Developed the cognitive-linguistic framework: a three-tier model separating translation strategy from cognitive operation from cultural schema, with four schema operations ranked by cognitive load.
-- Synthesised the literature on functionalist title translation, regional norm divergence across Greater China and cultural bias in frontier models, verifying every DOI against Crossref. Argued that reference-overlap metrics such as BLEU are structurally unsuited to transcreation, because they penalise precisely the divergence that constitutes professional judgement.
+- Synthesised the literature on functionalist title translation, regional norm divergence across Greater China and cultural bias in frontier models. Argued that reference-overlap metrics such as BLEU are structurally unsuited to transcreation, because they penalise precisely the divergence that constitutes professional judgement.
 
 ## Teaching
 
