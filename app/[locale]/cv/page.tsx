@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Reveal } from '@/components/Reveal';
-import { CV_SECTIONS, CV_UPDATED, SKILLS } from '@/content/cv';
+import { CV_SECTIONS, CV_UPDATED, RESUME_UPDATED, SKILLS } from '@/content/cv';
 import { ROLE_LINE, SITE, SOCIAL, UI, path } from '@/content/site';
 import { inline } from '@/lib/inline';
 import { asLocale, localeParams } from '@/lib/locale';
@@ -82,7 +82,7 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
                 <span aria-hidden="true">↓</span>
               </a>
               <a
-                href={`/resume-zh.pdf?v=${CV_UPDATED}`}
+                href={`/resume-zh.pdf?v=${RESUME_UPDATED}`}
                 className="link-draw text-sm text-ink-soft hover:text-ink"
               >
                 {UI.downloadCvZh[locale]}
