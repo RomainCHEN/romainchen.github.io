@@ -14,7 +14,13 @@
  *   新东方的正式名称是新东方教育科技集团，不是科技教育集团。
  */
 
-export const UPDATED = '2026-09-16';
+/**
+ * Version stamp. The download link appends it to invalidate caches, so it has to
+ * change whenever the PDF does. A date alone cannot: a single day can hold
+ * several rebuilds, and the second one would keep the first one's URL and be
+ * served from cache. The footer prints only the date part.
+ */
+export const UPDATED = '2026-09-16T00:31';
 
 export const HEADER = {
   name: '陈泽铭',
@@ -152,16 +158,16 @@ export const SKILLS = [
   {
     label: '技能',
     value:
-      'Python · Java · TypeScript · React / Next.js · PostgreSQL / Supabase · 大模型部署与量化（Ollama） · RAG 与 Agent 工作流 · SQL · R · Git / Linux · Final Cut Pro',
+      'Python · Java · TypeScript · React / Next.js · PostgreSQL / Supabase · 大模型部署与量化 (Ollama) · RAG 与 Agent 工作流 · SQL · R · Git / Linux · Final Cut Pro',
   },
   {
     label: '语言',
-    value: '粤语（母语） · 普通话（二级甲等） · 英语（IELTS 7.5） · 日语（JLPT N4）',
+    value: '粤语 (母语) · 普通话 (二级甲等) · 英语 (IELTS 7.5) · 日语 (JLPT N4)',
   },
   {
     label: '证书',
     value:
-      '全国计算机等级考试三级（Linux 应用与开发技术） · Google Analytics 初级认证 · 英语专业四级',
+      '全国计算机等级考试三级 (Linux 应用与开发技术) · Google Analytics 初级认证 · 英语专业四级',
   },
   {
     label: '获奖',

@@ -26,9 +26,13 @@ export const CV_UPDATED = '2026-08-05';
  * borrow CV_UPDATED for its download link, so a rebuilt résumé kept advertising
  * the CV's date and returning readers were served a cached copy. The test in
  * tests/content.test.ts pins this to the UPDATED constant the build script
- * prints on the file, so the two cannot drift apart again.
+ * carries, so the two cannot drift apart again.
+ *
+ * That constant is a timestamp rather than a date: the link's whole job is to
+ * change when the file changes, and a date cannot distinguish two rebuilds in
+ * one day. The résumé prints only its date part.
  */
-export const RESUME_UPDATED = '2026-09-16';
+export const RESUME_UPDATED = '2026-09-16T00:31';
 
 /**
  * This is the academic CV, written for graduate admissions in learning
