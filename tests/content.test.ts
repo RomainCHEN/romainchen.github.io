@@ -149,7 +149,10 @@ describe('evidence claims', () => {
   }
 
   it('does not claim the PaperCraft teacher study has been run', () => {
-    expect(stateOf('papercraft', 'usability and efficacy study')).toBe('designed');
+    // The label was renamed from "usability and efficacy study": the study is
+    // qualitative and has no control arm, so efficacy is not something it can
+    // report. The state it pins is unchanged.
+    expect(stateOf('papercraft', 'usability study')).toBe('designed');
   });
 
   it('does not claim intervention or item data exists', () => {

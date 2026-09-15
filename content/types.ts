@@ -103,6 +103,19 @@ export type Section =
       caption?: L;
     }
   | {
+      kind: 'exhibit';
+      heading?: L;
+      intro?: Paragraphs;
+      /**
+       * Text quoted verbatim from the application source. Unlike every other
+       * string on a case study this is not translated and not rewritten: it is
+       * the artefact itself. `source` names the file it was read out of so a
+       * reader can check the quotation rather than take it on trust.
+       */
+      blocks: { label: L; source: string; text: string }[];
+      caption?: L;
+    }
+  | {
       kind: 'quote';
       body: L;
       cite?: L;
