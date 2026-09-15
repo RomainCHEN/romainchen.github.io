@@ -19,9 +19,9 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 ### PaperCraft: a teacher-in-the-loop LLM authoring tool for Cambridge KET/PET
 *Final year project · sole developer and research design · May 2026 to present*
 
-- Designed it as an agent rather than a prompt: the model runs inside a purpose-built harness, with a fixed call sequence, a machine-checkable output shape and typed repair of a named failure.
-- Gave it a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules, and folds the ones they accept into later generations, per teacher and across 15 item types.
-- Evaluated the output with structural gates on every draft and an independent audit on every rule.
+- Built an agent, not a prompt: the model runs inside a purpose-built harness, with a fixed call sequence, machine-checkable output and typed repair of a named failure.
+- Gave it a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules, and folds accepted ones into later drafts. Per teacher, across 15 item types.
+- Evaluated the output two ways: structural gates on every draft, an independent audit on every rule.
 
 ### IELTS Coach: an open-source agent that interviews the learner before it writes
 *Open-source learning tool (MIT) · sole developer · Jul 2026*

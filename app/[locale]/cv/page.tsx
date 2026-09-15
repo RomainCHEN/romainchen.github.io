@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Reveal } from '@/components/Reveal';
-import { CV_SECTIONS, CV_UPDATED, RESUME_UPDATED, SKILLS } from '@/content/cv';
+import { CV_SECTIONS, CV_UPDATED, CV_UPDATED_ON, RESUME_UPDATED, SKILLS } from '@/content/cv';
 import { ROLE_LINE, SITE, SOCIAL, UI, path } from '@/content/site';
 import { inline } from '@/lib/inline';
 import { asLocale, localeParams } from '@/lib/locale';
@@ -39,7 +39,7 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
             {/* On paper this moves into the running footer, where it costs no
                 line of the single page it has to fit on. */}
             <p className="mt-3 font-mono text-2xs leading-relaxed text-muted" data-print="hide">
-              {UI.lastUpdated[locale]} {CV_UPDATED}
+              {UI.lastUpdated[locale]} {CV_UPDATED_ON}
             </p>
           </div>
           <div className="col-body">
