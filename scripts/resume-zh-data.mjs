@@ -14,7 +14,7 @@
  *   新东方的正式名称是新东方教育科技集团，不是科技教育集团。
  */
 
-export const UPDATED = '2026-08-05';
+export const UPDATED = '2026-09-15';
 
 export const HEADER = {
   name: '陈泽铭',
@@ -156,7 +156,7 @@ export const SKILLS = [
   },
   {
     label: '语言',
-    value: '粤语（母语）· 普通话（二级甲等）· 英语（专业四级，可作工作语言）· 日语（JLPT N4）',
+    value: '粤语（母语）· 普通话（二级甲等）· 英语（IELTS 7.5）· 日语（JLPT N4）',
   },
   {
     label: '证书',
