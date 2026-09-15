@@ -19,6 +19,18 @@ export interface CvSection {
 export const CV_UPDATED = '2026-08-05';
 
 /**
+ * Version stamp for the Chinese job résumé (public/resume-zh.pdf).
+ *
+ * That PDF is a different document, built by scripts/build-resume-zh.mjs from
+ * scripts/resume-zh-data.mjs, and it is rebuilt on its own schedule. It used to
+ * borrow CV_UPDATED for its download link, so a rebuilt résumé kept advertising
+ * the CV's date and returning readers were served a cached copy. The test in
+ * tests/content.test.ts pins this to the UPDATED constant the build script
+ * prints on the file, so the two cannot drift apart again.
+ */
+export const RESUME_UPDATED = '2026-09-15';
+
+/**
  * This is the academic CV, written for graduate admissions in learning
  * engineering, educational technology and HCI. It is deliberately not a
  * job résumé: media production, marketing metrics and student-society

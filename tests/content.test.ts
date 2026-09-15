@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import { PROJECTS, getProject, projectSlugs } from '@/content/projects';
-import { CV_SECTIONS, SKILLS, WRITING_MEDIA } from '@/content/cv';
+import { CV_SECTIONS, RESUME_UPDATED, SKILLS, WRITING_MEDIA } from '@/content/cv';
 import { ABOUT_BODY, ABOUT_LEDE, CURRENTLY } from '@/content/about';
 import { RESEARCH_INTERESTS, SOCIAL, TAGLINE, UI } from '@/content/site';
 import { LOCALES } from '@/content/types';
@@ -130,6 +130,27 @@ describe('projects', () => {
         }
       }
     }
+  });
+});
+
+/**
+ * The Chinese résumé is a separate document built by its own script, and it is
+ * rebuilt on its own schedule. Its download link has to carry its own version
+ * stamp: it used to borrow the academic CV's date, so a rebuilt PDF kept
+ * advertising a stale one and browsers served the cached copy.
+ *
+ * The stamp is read from the script that prints it on the file, anchored to a
+ * line start so a comment quoting the line cannot satisfy the check.
+ */
+describe('resume version stamp', () => {
+  it('matches the version the résumé build script writes into the PDF', () => {
+    const source = fs.readFileSync(
+      path.join(process.cwd(), 'scripts', 'resume-zh-data.mjs'),
+      'utf8',
+    );
+    const declared = source.match(/^export const UPDATED = '([^']+)'/m)?.[1];
+    expect(declared).toBeDefined();
+    expect(RESUME_UPDATED).toBe(declared);
   });
 });
 
