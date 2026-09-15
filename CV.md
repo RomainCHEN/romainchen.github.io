@@ -77,4 +77,4 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 
 ---
 
-*Last updated 2026-09-02.*
+*Last updated 2026-09-16.*
