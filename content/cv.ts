@@ -17,15 +17,17 @@ export interface CvSection {
 }
 
 /**
- * The CV's version stamp. It is shown to the reader and appended to the
- * download link, so it has to move whenever the CV does: with it unchanged, a
- * rebuilt PDF keeps the old URL and the CDN answers that URL from cache.
- *
- * A date is enough here because the CV is rebuilt rarely. The job résumé is
- * rebuilt often enough that two rebuilds can land on one day, so its stamp
- * carries a time and prints only the date (see RESUME_UPDATED below).
+ * The CV's version stamp. It is what the download link appends to invalidate
+ * caches, so it has to change whenever the PDF does. A date cannot: the CV was
+ * rebuilt twice on one day and the second rebuild kept the first one's URL, so
+ * the CDN answered that URL with the older file. It carries a time for that
+ * reason, as the job résumé's does (see RESUME_UPDATED below), and the reader
+ * sees only the date.
  */
-export const CV_UPDATED = '2026-09-16';
+export const CV_UPDATED = '2026-09-16T01:07';
+
+/** The stamp's date part, which is what gets shown. */
+export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
 
 /**
  * Version stamp for the Chinese job résumé (public/resume-zh.pdf).
@@ -102,14 +104,14 @@ export const RESEARCH: CvSection = {
       },
       points: {
         en: [
-          'Designed it as an agent rather than a prompt: the model runs inside a purpose-built harness, with a fixed call sequence, a machine-checkable output shape and typed repair of a named failure.',
-          'Gave it a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules, and folds the ones they accept into later generations, per teacher and across 15 item types.',
-          'Evaluated the output with structural gates on every draft and an independent audit on every rule.',
+          'Built an agent, not a prompt: the model runs inside a purpose-built harness, with a fixed call sequence, machine-checkable output and typed repair of a named failure.',
+          'Gave it a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules, and folds accepted ones into later drafts. Per teacher, across 15 item types.',
+          'Evaluated the output two ways: structural gates on every draft, an independent audit on every rule.',
         ],
         zh: [
-          '作为 agent 设计：模型运行在专为该场景定制的 harness 中，调用顺序固定、输出受机器校验、失败按类型修复。',
-          '加入自进化回路：离线环节读取教师的批改记录、归纳候选规则，教师采纳的那些进入后续生成；规则按教师隔离，覆盖 15 种题型。',
-          '评测分两层：每份初稿都过结构闸门，每条候选规则都要通过独立审计才能被采纳。',
+          '做的是一个 agent，不是提示词框：模型跑在专为该场景定制的 harness 里，调用顺序固定、输出受机器校验、失败按类型修复。',
+          '再加一条自进化回路：离线环节读教师的批改记录、归纳候选规则，被采纳的进入后续出题。按教师隔离，覆盖 15 种题型。',
+          '评测分两层：每份初稿都过结构闸门，每条规则都要过独立审计。',
         ],
       },
     },

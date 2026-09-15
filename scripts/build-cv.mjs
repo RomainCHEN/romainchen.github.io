@@ -17,7 +17,7 @@ const CHROME =
   process.env.CHROME_PATH ??
   `${process.env.HOME}/.cache/puppeteer/chrome/mac_arm-149.0.7827.22/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing`;
 
-const { CV_UPDATED } = await import('../content/cv.ts');
+const { CV_UPDATED_ON } = await import('../content/cv.ts');
 
 const ROOT = path.join(process.cwd(), 'out');
 const PORT = 4323;
@@ -78,7 +78,7 @@ await page.pdf({
   displayHeaderFooter: true,
   headerTemplate: '<div></div>',
   footerTemplate:
-    `<div style="width:100%;font-family:Helvetica,Arial,sans-serif;font-size:7pt;color:#777;padding:0 13mm;display:flex;justify-content:space-between;"><span>Zeming (Romain) Chen · romain.is-a.dev</span><span>Updated ${CV_UPDATED}</span></div>`,
+    `<div style="width:100%;font-family:Helvetica,Arial,sans-serif;font-size:7pt;color:#777;padding:0 13mm;display:flex;justify-content:space-between;"><span>Zeming (Romain) Chen · romain.is-a.dev</span><span>Updated ${CV_UPDATED_ON}</span></div>`,
 });
 
 const { size } = fs.statSync(target);
@@ -124,7 +124,7 @@ for (const group of SKILLS.groups) {
   lines.push(`**${group.label.en}**, ${group.items.en.join(' · ')}`, '');
 }
 
-lines.push('---', '', `*Last updated ${CV_UPDATED}.*`, '');
+lines.push('---', '', `*Last updated ${CV_UPDATED_ON}.*`, '');
 
 await writeFile(path.join(process.cwd(), 'CV.md'), lines.join('\n'), 'utf8');
 console.log('CV.md');
