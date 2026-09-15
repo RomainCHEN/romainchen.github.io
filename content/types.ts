@@ -76,6 +76,20 @@ export type Section =
       }[];
     }
   | {
+      kind: 'loops';
+      heading: L;
+      intro: Paragraphs;
+      /** Short description for assistive technology; the caption carries the prose. */
+      alt: L;
+      /** Nodes of the online band, in the order the work happens. */
+      online: { title: L; detail?: L; tone?: 'check' | 'teacher' }[];
+      /** Nodes of the offline band, written in the order the work happens. */
+      offline: { title: L; detail?: L; tone?: 'check' | 'teacher' }[];
+      bandLabels: { online: L; offline: L };
+      edgeLabels: { corrections: L; rules: L; repair: L };
+      caption: L;
+    }
+  | {
       kind: 'evidence';
       heading: L;
       intro: Paragraphs;

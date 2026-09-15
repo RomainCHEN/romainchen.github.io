@@ -219,9 +219,20 @@
     display: none;
   }
 
+  /* A wide plate: keeps the body column's left edge and runs out to the right
+     edge of the canvas, for a diagram that needs more width than prose without
+     breaking the page's single left margin. */
+  .col-wide {
+    grid-column: 1 / -1;
+  }
+
   @media (min-width: 1024px) {
     .col-body {
       grid-column: 4 / 12;
+    }
+
+    .col-wide {
+      grid-column: 4 / -1;
     }
 
     .col-margin {
