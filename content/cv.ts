@@ -93,14 +93,14 @@ export const RESEARCH: CvSection = {
       },
       points: {
         en: [
-          'Built the system around the teacher: adjudication is a required gate, and the draft and every edit are recorded, so the teacher’s contribution is measurable.',
-          'Ran the model inside a purpose-built harness rather than as a product: fixed call sequence, machine-checkable output, typed repair. An offline loop induces rules from the teacher’s corrections across 15 Cambridge item types.',
-          'Rules must survive an independent audit before adoption, held per teacher.',
+          'Designed it as an agent rather than a prompt: the model runs inside a purpose-built harness, with a fixed call sequence, a machine-checkable output shape and typed repair of a named failure.',
+          'Gave it a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules, and folds the ones they accept into later generations, per teacher and across 15 item types.',
+          'Evaluated the output with structural gates on every draft and an independent audit on every rule.',
         ],
         zh: [
-          '把系统建在教师这一侧：裁决是不可跳过的必经环节，初稿与每一次改动全部留痕，教师贡献因此可被量化。',
-          '模型运行在专为该场景定制的 harness 中：固定调用顺序、输出受机器校验、失败按类型修复；离线回路从教师自己的批改记录归纳规则，覆盖 15 种剑桥题型。',
-          '候选规则必须先通过独立审计的证伪才能被采纳，规则按教师隔离。',
+          '作为 agent 设计：模型运行在专为该场景定制的 harness 中，调用顺序固定、输出受机器校验、失败按类型修复。',
+          '加入自进化回路：离线环节读取教师的批改记录、归纳候选规则，教师采纳的那些进入后续生成；规则按教师隔离，覆盖 15 种题型。',
+          '评测分两层：每份初稿都过结构闸门，每条候选规则都要通过独立审计才能被采纳。',
         ],
       },
     },
