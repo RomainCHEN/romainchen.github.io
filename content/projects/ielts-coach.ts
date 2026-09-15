@@ -88,13 +88,13 @@ export const ieltsCoach: Project = {
         ],
         zh: [
           '一篇范文得同时满足两个互相拉扯的要求。一头是外部标准，也就是雅思公开的四项，任务回应、连贯与衔接、词汇资源、语法多样性与准确性。另一头更难，这篇东西得让某个具体的人在几个月后的考场上**还能调出来**。',
-          '通用生成只顾了前一头，后一头压根没管。要改的不是文笔，是模型能发明什么。论点、例子、立场都出自学习者本人，模型只管校准和打磨。这跟我在教师那一侧研究的分工是同一类问题，角色从教师换成了学生。',
-          '交互也因此完全变了样。每碰到一个新话题，系统先做一轮结构化的小访谈，形式是多步网页表单，不是聊天式追问。表单的好处是你能按自己的节奏想，想岔了还能回头改，一问一答的对话做不到这点。访谈做完才开始生成，而且是从你自己的素材生成。',
+          '通用生成只顾了前一头，后一头压根没管。真正要改的是模型能发明什么。论点、例子、立场都出自学习者本人，模型只管校准和打磨。这跟我在教师那一侧研究的分工是同一类问题，角色从教师换成了学生。',
+          '交互也因此完全变了样。每碰到一个新话题，系统先做一轮结构化的小访谈，形式是多步网页表单，不用聊天式追问。表单的好处是你能按自己的节奏想，想岔了还能回头改，一问一答的对话做不到这点。访谈做完才开始生成，而且是从你自己的素材生成。',
         ],
       },
       note: {
         en: 'The elicitation step is not a UX nicety. It is where the pedagogy lives.',
-        zh: '先采集再生成，教学法就藏在这一步里。它不是可有可无的交互点缀。',
+        zh: '先采集再生成，教学法就藏在这一步里；模型之后能校准的，只有这一步交出来的东西。',
       },
     },
     {
@@ -108,7 +108,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'Elicitation before generation, running locally. Look at what the questions are actually after: not an opinion on music, but a specific afternoon in a car. The form supports chart upload and clipboard paste so Writing Task 1 material enters the same pipeline, and answers persist as JSON so a topic never has to be re-interviewed.',
-        zh: '先采集再生成，全程运行在本机。注意这些问题究竟想问什么，它要的是车里那个具体的下午，而不是你对音乐的笼统看法。表单支持上传图表、粘贴剪贴板，写作 Task 1 的材料走同一条管线。答案以 JSON 存储，同一个话题无需第二次访谈。',
+        zh: '先采集再生成，全程运行在本机。注意这些问题究竟想问什么，它要的是车里那个具体的下午，对音乐的笼统看法不算数。表单支持上传图表、粘贴剪贴板，写作 Task 1 的材料走同一条管线。答案以 JSON 存储，同一个话题无需第二次访谈。',
       },
     },
     {
@@ -121,7 +121,7 @@ export const ieltsCoach: Project = {
           'Vision capability should not dictate which model a learner uses. Writing Task 1 requires reading a chart, which locks a learner into a multimodal model. The skill ships a small MCP server that proxies images through a separate vision endpoint, so a text-only model can still handle chart tasks. It is a plumbing decision, but it is the difference between the tool being usable on the model you already have and not.',
         ],
         zh: [
-          '会不会被看出是 AI 写的，这从一开始就是个设计目标，不是事后补的补丁。这个 skill 会筛自己的输出，清单上列着当插入语用的破折号、带讽刺味的引号、机械的连接词，还有 this essay will discuss 这类开头。与其叮嘱模型写自然点，不如生成时直接跑一遍这份清单。清单能核查，那句叮嘱不能。',
+          '会不会被看出是 AI 写的，这从一开始就是设计目标，动手写之前就定下了。这个 skill 会筛自己的输出，清单上列着当插入语用的破折号、带讽刺味的引号、机械的连接词，还有 this essay will discuss 这类开头。与其叮嘱模型写自然点，不如生成时直接跑一遍这份清单。清单能核查，那句叮嘱不能。',
           '学习计划还得扛得住漏练，人肯定会漏。一个不会自动重排的计划，头一次中断之后基本就废了。状态跨会话存在 JSON 里，漏掉的内容会重新排进去，薄弱环节往前提，不会悄没声地消失。',
           '有没有视觉能力，不该反过来决定你用哪个模型。写作 Task 1 要读图，这一条会把学习者锁死在多模态模型上。所以这个 skill 自带一个小 MCP 服务，把图片转给单独的视觉端点去处理，纯文本模型也能做图表题。这只是管道层面的一个小取舍，却决定了这工具在你手头现有的模型上跑不跑得起来。',
         ],
@@ -138,7 +138,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'Output is a printable document, not a chat log. Answers stay reviewable months later, which is the only timescale that matters for exam preparation.',
-        zh: '产出的是一份可打印的文档，而非一段聊天记录。答案在几个月后仍可翻出复习，备考在意的正是这个时间尺度。',
+        zh: '产出的是一份可打印的文档，不留在一段对话记录里。答案在几个月后仍可翻出复习，备考在意的正是这个时间尺度。',
       },
     },
     {
@@ -188,7 +188,7 @@ export const ieltsCoach: Project = {
           state: 'planned',
           detail: {
             en: 'The repository describes detection risk as near-zero. That is a design intention, not a measurement, and I would drop the claim before I would defend it. Testing it against actual detectors is straightforward and pending.',
-            zh: '仓库文档里把被识别的风险写成接近于零，那是设计意图，不是测量结果。若真要我在保留和删除这句话之间做选择，我会删掉。拿真实的检测器去跑一遍并不难，只是还没做。',
+            zh: '仓库文档里把被识别的风险写成接近于零，那是设计意图，没有实测过。若真要我在保留和删除这句话之间做选择，我会删掉。拿真实的检测器去跑一遍并不难，只是还没做。',
           },
         },
       ],
