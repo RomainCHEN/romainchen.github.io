@@ -20,7 +20,7 @@
  * several rebuilds, and the second one would keep the first one's URL and be
  * served from cache. The footer prints only the date part.
  */
-export const UPDATED = '2026-09-16T00:31';
+export const UPDATED = '2026-09-16T00:35';
 
 export const HEADER = {
   name: '陈泽铭',
@@ -138,7 +138,7 @@ export const SECTIONS = [
         when: '2017.08 – 至今',
         where: '',
         points: [
-          '在少数派发布 4 篇原创长文，累计阅读 17.9 万；公众号从英语词源角度讲单词与历史故事。',
+          '在少数派发布 4 篇原创长文，累计阅读 18.1 万+；公众号从英语词源角度讲单词与历史故事。',
         ],
       },
       {
