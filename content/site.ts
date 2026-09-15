@@ -29,10 +29,12 @@ export const ROLE_LINE: L = {
 
 export const RESEARCH_INTERESTS: L<string>[] = [
   { en: 'Human–AI complementarity in education', zh: '教育中的人机互补' },
-  { en: 'Learning analytics & psychometrics', zh: '学习分析与心理测量' },
+  { en: 'Learning analytics', zh: '学习分析' },
   { en: 'Teacher-facing tools', zh: '面向教师的工具' },
   { en: 'Language assessment', zh: '语言测评' },
   { en: 'Human-centered AI', zh: '以人为本的人工智能' },
+  { en: 'Agent design & evaluation', zh: 'Agent 设计与评估' },
+  { en: 'Self-improving agent loops', zh: '自改进 Agent 回路' },
 ];
 
 export const SOCIAL: { label: string; href: string; handle: string }[] = [
