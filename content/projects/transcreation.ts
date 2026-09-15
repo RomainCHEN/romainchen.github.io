@@ -84,7 +84,7 @@ export const transcreation: Project = {
     },
     {
       kind: 'prose',
-      heading: { en: 'The measurement problem', zh: '难的不是翻译，是怎么量' },
+      heading: { en: 'The measurement problem', zh: '难在怎么量' },
       body: {
         en: [
           'The standard machine translation metrics are useless here, and not by a small margin. BLEU and ROUGE score overlap with a reference string, so they actively penalise the divergence that defines a good title. *Ghost* rendered into Chinese as 人鬼情未了， roughly "the love between human and ghost was never finished", would score badly against any literal reference, and it is the correct answer.',
@@ -127,7 +127,7 @@ export const transcreation: Project = {
         ],
         zh: [
           '第一层是策略，也就是做了什么。直译、归化、异化、音译、意译，再到彻底的再创作。这一层既有研究描述得很细，可它偏偏解释力最弱。',
-          '第二层是认知运作，也就是怎么做的。隐喻映射、转喻、意象图式，还有最要紧的概念整合。好片名往往是在整合空间里新长出来的结构，不是把原来那个结构原样搬过去。',
+          '第二层是认知运作，也就是怎么做的。隐喻映射、转喻、意象图式，还有最要紧的概念整合。好片名往往是在整合空间里新长出来的结构，照搬原来那一套长不出来。',
           '第三层是文化图式，成不成最后都落到这儿。隐喻能调用哪些源域，一次整合在文化上走不走得通，都由图式说了算。我们把译者面对的问题归成对图式的四种操作，这四种要的认知工作量相差很大。',
           '三层铺开，脉络就清楚了。策略是**手段**，认知运作是**过程**，文化图式才是**目的地**，译者最后要处理的正是第三层。多数既有研究停在第一层，描述的只是表面，碰不到里头的机制。',
         ],
@@ -186,7 +186,7 @@ export const transcreation: Project = {
           machine: '洛丽塔',
           reading: {
             en: 'A line of classical Chinese poetry is recruited to carry a socially taboo subject, an old man and a young woman, with the indirection the taboo requires. The translator is acting as a cultural gatekeeper, making a normative judgement about what can be said and how. This is the operation a model is least equipped for, not because it lacks the words, but because it has no stake in the norm.',
-            zh: '译者搬来一句中国古诗，用它托住老夫与少女这个禁忌题材。禁忌要含蓄，这句诗恰好保住了含蓄。这时译者当的是文化守门人，替读者把关什么能说、说到什么分寸。这种操作模型最难上手，不是缺词，是它在这套规范里没有半点利害关系。',
+            zh: '译者搬来一句中国古诗，用它托住老夫与少女这个禁忌题材。禁忌要含蓄，这句诗恰好保住了含蓄。这时译者当的是文化守门人，替读者把关什么能说、说到什么分寸。这种操作模型最难上手；它不缺词，缺的是在这套规范里的利害关系。',
           },
         },
       ],
@@ -247,7 +247,7 @@ export const transcreation: Project = {
       ],
       caption: {
         en: 'Each strategy code is defined against its relationship to the cultural schema rather than by surface form, which is what lets a single code mean the same thing across two coders and two translation directions.',
-        zh: '策略代码的定义依据是它与文化图式的关系，而非表面形式。所以同一个代码，换个编码者、换个翻译方向，指的仍是同一件事。',
+        zh: '策略代码按它与文化图式的关系来定义，不看表面形式。所以同一个代码，换个编码者、换个翻译方向，指的仍是同一件事。',
       },
     },
     {
@@ -339,7 +339,7 @@ export const transcreation: Project = {
         ],
         zh: [
           '两个软件项目中间夹一篇人文论文，看着不搭。可它问的是同一个问题，只是换了把尺子。',
-          'PaperCraft 量的是教师判断在生成管线里有多少不可替代，尺子是编辑距离。这项研究量的是译者的文化判断有多少不可替代，尺子是图式操作。两边都不肯靠看输出来评价模型，也都把人的贡献挪到因变量那一侧，让它能被测出来，而不只是嘴上一说。',
+          'PaperCraft 量的是教师判断在生成管线里有多少不可替代，尺子是编辑距离。这项研究量的是译者的文化判断有多少不可替代，尺子是图式操作。两边都不肯靠看输出来评价模型，也都把人的贡献挪到因变量那一侧，好让它真的能被测出来，不止于口头主张。',
           '翻译这条线还教了我一件事，概念不先操作化就没法研究。这也是我后来做学习系统时最受用的一条。',
         ],
       },
