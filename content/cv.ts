@@ -16,7 +16,16 @@ export interface CvSection {
   entries: CvEntry[];
 }
 
-export const CV_UPDATED = '2026-09-02';
+/**
+ * The CV's version stamp. It is shown to the reader and appended to the
+ * download link, so it has to move whenever the CV does: with it unchanged, a
+ * rebuilt PDF keeps the old URL and the CDN answers that URL from cache.
+ *
+ * A date is enough here because the CV is rebuilt rarely. The job résumé is
+ * rebuilt often enough that two rebuilds can land on one day, so its stamp
+ * carries a time and prints only the date (see RESUME_UPDATED below).
+ */
+export const CV_UPDATED = '2026-09-16';
 
 /**
  * Version stamp for the Chinese job résumé (public/resume-zh.pdf).
