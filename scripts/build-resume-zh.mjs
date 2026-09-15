@@ -215,7 +215,7 @@ const html = `<!doctype html>
     </dl>
   </section>
 
-  <footer><span>${esc(HEADER.name)} · romain.is-a.dev</span><span>更新于 ${esc(UPDATED)}</span></footer>
+  <footer><span>${esc(HEADER.name)} · romain.is-a.dev</span><span>更新于 ${esc(UPDATED.split('T')[0])}</span></footer>
 </div></body></html>`;
 
 /* 用本地 HTTP 服务而不是 data: URL，方便 Chrome 正常解析字体与布局。 */
