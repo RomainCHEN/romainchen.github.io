@@ -1,4 +1,10 @@
-import type { Project } from '../types';
+import type { L, Project } from '../types';
+
+/**
+ * Exam and part names are the examination's own, so both languages carry the
+ * same string rather than a translation.
+ */
+const same = (text: string): L => ({ en: text, zh: text });
 
 /**
  * PaperCraft. The spine of the portfolio.
@@ -231,17 +237,155 @@ export const papercraft: Project = {
       ],
     },
     {
-      kind: 'figure',
-      src: '/work/papercraft/paper-ket-picture-story.webp',
-      w: 945,
-      h: 667,
-      alt: {
-        en: 'A generated KET Part 7 picture story exercise as exported for the classroom: three sequential illustrations, the writing task and its hints.',
-        zh: '一份已导出的 KET Part 7 看图写作练习，含三张连续插图、写作任务与提示。',
-      },
+      kind: 'table',
+      heading: { en: 'What each gate decides, and what it cannot see', zh: '每道闸门判定什么，看不见什么' },
+      head: [
+        { en: 'Gate', zh: '闸门' },
+        { en: 'What it decides', zh: '判定什么' },
+        { en: 'On failure', zh: '失败时' },
+        { en: 'What it cannot see', zh: '看不见什么' },
+      ],
+      rows: [
+        [
+          { en: 'JSON schema', zh: '结构校验' },
+          { en: 'Whether the answer has the required shape', zh: '答案的结构是否合规' },
+          { en: 'Retry, up to three times', zh: '最多重试三次' },
+          { en: 'Whether the exercise is the exam task', zh: '这道题是不是手册里那个任务' },
+        ],
+        [
+          { en: 'Handbook specification', zh: '手册规格闸门' },
+          { en: 'Whether it is the published task', zh: '是不是已公开的那个任务' },
+          { en: 'Retry, then reported', zh: '重试，之后如实报告' },
+          { en: 'Whether the answer is right', zh: '答案对不对' },
+        ],
+        [
+          { en: 'CEFR vocabulary', zh: 'CEFR 词汇审计' },
+          { en: 'Whether the words are on the level\'s list', zh: '词是否在该等级的词表内' },
+          { en: 'Warn the teacher', zh: '向教师告警' },
+          { en: 'Syntactic complexity', zh: '句法复杂度' },
+        ],
+        [
+          { en: 'Vision inspection', zh: '视觉检查' },
+          { en: 'Whether a picture is exam material', zh: '配图是否符合考试材料的样子' },
+          { en: 'Redraw, fall back, or warn', zh: '重绘、降级，或者告警' },
+          { en: 'Anything about the text', zh: '与文字有关的任何问题' },
+        ],
+        [
+          { en: 'Answer key spread', zh: '答案键分布' },
+          { en: 'Whether the key varies across the set', zh: '整套题的答案键是否有变化' },
+          { en: 'Warn the teacher', zh: '向教师告警' },
+          { en: 'Whether any single answer is right', zh: '任何一道题的答案对不对' },
+        ],
+      ],
       caption: {
-        en: 'A KET Part 7 picture story as exported for a class. The three images are synthesised first, and the writing task is written from them.',
-        zh: '一份导出后即可发给学生的 KET Part 7 看图写作。三张图先合成出来，写作任务再据图写出。',
+        en: 'Transcribed from the checks as they run, so the table cannot drift from the implementation. The last column is the gap that a check on one question leaves behind.',
+        zh: '按实际运行的检查转写，表格不会与实现脱节。最后一列是逐题检查留下的缺口。',
+      },
+    },
+    {
+      kind: 'table',
+      heading: { en: 'Fifteen item types, two ways of marking', zh: '15 种题型，两种判分方式' },
+      head: [
+        { en: 'Exam', zh: '考试' },
+        { en: 'Part', zh: '部分' },
+        { en: 'Primary skill area', zh: '主要技能领域' },
+        { en: 'Marking', zh: '判分方式' },
+      ],
+      rows: [
+        [
+          same('A2 Key'),
+          same('P1 Notices'),
+          { en: 'Reading · signs and short messages', zh: '阅读 · 标识与短消息' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('A2 Key'),
+          same('P2 Matching'),
+          { en: 'Reading · scanning and matching', zh: '阅读 · 略读与匹配' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('A2 Key'),
+          same('P3 Reading MC'),
+          { en: 'Reading · detailed comprehension', zh: '阅读 · 细节理解' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('A2 Key'),
+          same('P4 Cloze MC'),
+          { en: 'Vocabulary and collocation', zh: '词汇与搭配' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('A2 Key'),
+          same('P5 Open cloze'),
+          { en: 'Grammar · function words', zh: '语法 · 功能词' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('A2 Key'),
+          same('P6 Email'),
+          { en: 'Extended writing', zh: '写作' },
+          { en: 'Teacher', zh: '教师手改' },
+        ],
+        [
+          same('A2 Key'),
+          same('P7 Picture story'),
+          { en: 'Extended writing, image-based', zh: '写作，图片题' },
+          { en: 'Teacher', zh: '教师手改' },
+        ],
+        [
+          same('B1 Preliminary'),
+          same('R1 Short texts'),
+          { en: 'Reading · signs and short messages', zh: '阅读 · 标识与短消息' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('B1 Preliminary'),
+          same('R2 Matching'),
+          { en: 'Reading · scanning and matching', zh: '阅读 · 略读与匹配' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('B1 Preliminary'),
+          same('R3 Reading MC'),
+          { en: 'Reading · detailed comprehension', zh: '阅读 · 细节理解' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('B1 Preliminary'),
+          same('R4 Gapped text'),
+          { en: 'Reading · text cohesion', zh: '阅读 · 语篇衔接' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('B1 Preliminary'),
+          same('R5 Cloze MC'),
+          { en: 'Vocabulary and collocation', zh: '词汇与搭配' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('B1 Preliminary'),
+          same('R6 Open cloze'),
+          { en: 'Grammar · function words', zh: '语法 · 功能词' },
+          { en: 'Automatic', zh: '自动判分' },
+        ],
+        [
+          same('B1 Preliminary'),
+          same('W1 Email'),
+          { en: 'Extended writing', zh: '写作' },
+          { en: 'Teacher', zh: '教师手改' },
+        ],
+        [
+          same('B1 Preliminary'),
+          same('W2 Article / Story'),
+          { en: 'Extended writing', zh: '写作' },
+          { en: 'Teacher', zh: '教师手改' },
+        ],
+      ],
+      caption: {
+        en: 'Eleven of the fifteen take lettered or short answers and are marked automatically, so item statistics can be computed for them. A teacher marks the four writing tasks, so no such statistic exists there, and the picture story is the only image-based item. The mapping is transcribed from the grading and diagnosis code.',
+        zh: '15 种题型里，11 种是字母选项或短答，可以自动判分，因而能算出项目统计量。四个写作任务由教师评分，没有这类统计量；看图写作是其中唯一的图片题。映射转写自评分与技能诊断代码。',
       },
     },
     {
@@ -264,6 +408,79 @@ export const papercraft: Project = {
           '同一条站得住的规则跑三次，审计两次接受、一次拒绝，理由是「一致的替换模式也可能是特定情境下的修正，而非普遍规则」。这是对同一份证据的另一种读法。',
           '审计当时只拿到改动的值，而蒸馏器手里还有规格和教师的备注；把蒸馏器那一整包交给它之后，三个刚连出三次拒绝的题型给出了三条被接受的建议。拒掉一条好规则只是多跑一轮蒸馏，放进一条坏规则，就是往之后每一次 prompt 里塞进一条凭空造出来的约束。',
         ],
+      },
+    },
+    {
+      kind: 'loops',
+      heading: { en: 'One circuit, two halves', zh: '一个回路，两半分工' },
+      intro: {
+        en: [
+          'The two halves form one circuit. While a draft is being made the work travels left to right; what the teacher changed travels back along the lower band, and an accepted rule re-enters at prompt assembly.',
+        ],
+        zh: [
+          '两半合起来是一个回路。初稿的制作从左往右走，教师的改动沿下带回流，被接受的规则再从 prompt 装配处重新进入。',
+        ],
+      },
+      alt: {
+        en: 'Two bands. Online, per request: task specification, prompt assembly, generation, deterministic checks, then the teacher\'s decision. Offline, written right to left: the edit log feeds distillation, then the audit, then the teacher\'s decision, which returns as accepted rules to prompt assembly.',
+        zh: '上下两条带。在线部分按请求推进，依次是任务规格化、prompt 装配、生成、确定性检查，再到教师裁决。离线部分自右向左，从批改日志进入蒸馏，再到审计与教师决定，最后以被接受的规则回到 prompt 装配。',
+      },
+      online: [
+        {
+          title: { en: 'Task specification', zh: '任务规格化' },
+          detail: { en: 'exam · part · topic', zh: '考试 · 部分 · 话题' },
+        },
+        {
+          title: { en: 'Prompt assembly', zh: 'prompt 装配' },
+          detail: { en: 'this teacher\'s rules', zh: '这位教师的规则' },
+        },
+        {
+          title: { en: 'Generation', zh: '生成' },
+          detail: { en: 'typed repair · pictures', zh: '类型修复 · 配图' },
+        },
+        {
+          title: { en: 'Checks', zh: '确定性检查' },
+          detail: { en: 'schema · handbook · lexis', zh: '结构 · 手册 · 词表' },
+          tone: 'check',
+        },
+        {
+          title: { en: 'Teacher decides', zh: '教师裁决' },
+          detail: { en: 'approve · edit · reject', zh: '通过 · 修改 · 退回' },
+          tone: 'teacher',
+        },
+      ],
+      offline: [
+        {
+          title: { en: 'Edit log', zh: '批改日志' },
+          detail: { en: 'append-only', zh: '只追加' },
+        },
+        {
+          title: { en: 'Distil', zh: '蒸馏' },
+          detail: { en: 'three or more generations', zh: '至少三次生成' },
+        },
+        {
+          title: { en: 'Audit', zh: '审计' },
+          detail: { en: 'another vendor refutes', zh: '另一家厂商证伪' },
+          tone: 'check',
+        },
+        {
+          title: { en: 'Teacher accepts', zh: '教师决定' },
+          detail: { en: 'per teacher, not pooled', zh: '按教师隔离' },
+          tone: 'teacher',
+        },
+      ],
+      bandLabels: {
+        online: { en: 'Online · per request', zh: '在线 · 每次请求' },
+        offline: { en: 'Offline · on a schedule or on demand', zh: '离线 · 按日程或按需' },
+      },
+      edgeLabels: {
+        corrections: { en: 'every correction', zh: '每一次批改' },
+        rules: { en: 'accepted rules', zh: '被接受的规则' },
+        repair: { en: 'bounded repair', zh: '有上限的修复' },
+      },
+      caption: {
+        en: 'Nothing in the lower band can write an exercise, and nothing in the upper band can settle a rule. The teacher appears once on each side, and that is where the two halves meet.',
+        zh: '下带里的任何一环都写不了题，上带里的任何一环也决定不了规则。教师在两侧各出现一次，两半就在那里接上。',
       },
     },
     {
