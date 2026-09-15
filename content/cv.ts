@@ -16,7 +16,7 @@ export interface CvSection {
   entries: CvEntry[];
 }
 
-export const CV_UPDATED = '2026-08-05';
+export const CV_UPDATED = '2026-09-02';
 
 /**
  * Version stamp for the Chinese job résumé (public/resume-zh.pdf).
@@ -32,7 +32,7 @@ export const CV_UPDATED = '2026-08-05';
  * change when the file changes, and a date cannot distinguish two rebuilds in
  * one day. The résumé prints only its date part.
  */
-export const RESUME_UPDATED = '2026-09-16T00:31';
+export const RESUME_UPDATED = '2026-09-16T00:35';
 
 /**
  * This is the academic CV, written for graduate admissions in learning
@@ -93,14 +93,35 @@ export const RESEARCH: CvSection = {
       },
       points: {
         en: [
-          'Designed a seven-stage generation pipeline in which teacher adjudication is a required gate, encoded published item-writing rules for 15 Cambridge item types, and audited generated text against CEFR A2/B1 wordlists.',
-          'Instrumented the workflow so that teacher edit distance and classical item statistics (difficulty, point-biserial discrimination, distractor analysis) are captured as a by-product of ordinary use.',
-          'Specified the evaluation protocol: within-subject task timing against each teacher’s own manual workflow, SUS, NASA-TLX, a content-quality rubric and interviews. Instruments are complete; data collection has not begun.',
+          'Built the system around the teacher: adjudication is a required gate, and the draft and every edit are recorded, so the teacher’s contribution is measurable.',
+          'Ran the model inside a purpose-built harness rather than as a product: fixed call sequence, machine-checkable output, typed repair. An offline loop induces rules from the teacher’s corrections across 15 Cambridge item types.',
+          'Rules must survive an independent audit before adoption, held per teacher.',
         ],
         zh: [
-          '设计七阶段生成管线，把教师裁决设为不可跳过的闸门；为 15 种剑桥题型写入已公开的命题规则，并按 CEFR A2 / B1 词表审计生成文本。',
-          '给工作流加了埋点，教师的编辑距离和经典项目统计量（难度、点二列区分度、干扰项分析）在日常使用中自动产生，不额外增加教师负担。',
-          '写完整套评估方案：以每位教师自己的手工流程作基线做被试内任务计时，配 SUS、NASA-TLX、内容质量量表和半结构化访谈。量表与流程已就绪，数据收集还没开始。',
+          '把系统建在教师这一侧：裁决是不可跳过的必经环节，初稿与每一次改动全部留痕，教师贡献因此可被量化。',
+          '模型运行在专为该场景定制的 harness 中：固定调用顺序、输出受机器校验、失败按类型修复；离线回路从教师自己的批改记录归纳规则，覆盖 15 种剑桥题型。',
+          '候选规则必须先通过独立审计的证伪才能被采纳，规则按教师隔离。',
+        ],
+      },
+    },
+    {
+      when: { en: 'Jul 2026', zh: '2026.07' },
+      title: {
+        en: 'IELTS Coach: an open-source agent that interviews the learner before it writes',
+        zh: 'IELTS Coach：先访谈学习者、再生成作答的开源学习工具',
+      },
+      org: {
+        en: 'Open-source learning tool (MIT) · sole developer',
+        zh: '开源学习工具（MIT 许可）· 独立开发',
+      },
+      points: {
+        en: [
+          'Designed and released (MIT) an agent that elicits the learner’s own material through a structured multi-step form before generating answers constrained to the four IELTS band criteria across 102 topics.',
+          'Implemented persistent per-topic state in JSON to carry study plans across sessions; built an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.',
+        ],
+        zh: [
+          '设计并以 MIT 许可开源一个 agent，先经结构化多步表单采集学习者自身素材，再生成受 IELTS 四项评分标准约束的作答，覆盖 102 个话题。',
+          '以 JSON 实现按话题持久化的状态，使学习计划跨会话延续；搭建 MCP 服务器，经视觉接口代理图表图像，使纯文本模型亦可处理写作 Task 1。',
         ],
       },
     },
@@ -116,12 +137,12 @@ export const RESEARCH: CvSection = {
       },
       points: {
         en: [
-          'Developed the cognitive-linguistic framework: a three-tier model separating translation strategy from cognitive operation from cultural schema, with four schema operations ranked by cognitive load.',
-          'Synthesised the literature on functionalist title translation, regional norm divergence across Greater China and cultural bias in frontier models. Argued that reference-overlap metrics such as BLEU are structurally unsuited to transcreation, because they penalise precisely the divergence that constitutes professional judgement.',
+          'Developed a three-tier cognitive-linguistic framework separating translation strategy, cognitive operation and cultural schema, ranking four schema operations by cognitive load.',
+          'Synthesised the literature on functionalist title translation, regional norm divergence across Greater China and cultural bias in frontier models. Argued that reference-overlap metrics such as BLEU are structurally unsuited to transcreation, since they penalise precisely the divergence that constitutes professional judgement.',
         ],
         zh: [
-          '提出认知语言学层面的分析框架：三层模型把翻译策略、认知运作和文化图式分开来看，并按认知负荷给四种图式操作排序。',
-          '完成文献综述，覆盖功能主义片名翻译、大中华区内部的规范差异，以及前沿模型已被记录的文化偏见。并论证 BLEU 这类看重叠度的指标从根本上不适合评估译创，因为它们扣掉的分恰恰是专业判断的体现。',
+          '构建三层认知语言学分析框架，区分翻译策略、认知操作与文化图式，并按认知负荷对四种图式操作进行排序。',
+          '完成文献综述，涵盖功能主义片名翻译、大中华区内部的规范差异及前沿模型已被记录的文化偏见；论证 BLEU 等基于参考重叠度的指标从根本上不适用于译创评估，因其所惩罚者恰为专业判断所在。',
         ],
       },
     },
@@ -139,12 +160,12 @@ export const TEACHING: CvSection = {
       place: { en: 'Guangzhou', zh: '广州' },
       points: {
         en: [
-          'Taught two small Cambridge KET classes and New Concept English, writing all lesson plans, courseware and weekly practice sets by hand, about two hours a set.',
-          'Tracked mastery of KET item types through classwork and periodic tests, adjusting pacing accordingly. That authoring burden, and the inability to control item difficulty from a small pool of past papers, is the problem PaperCraft was built to study.',
+          'Taught two Cambridge KET classes and New Concept English; authored all lesson plans, courseware and weekly practice sets.',
+          'Tracked mastery of KET item types through classwork and periodic assessments; adjusted instructional pacing accordingly.',
         ],
         zh: [
-          '带两个剑桥 KET 小班，同时教新概念英语，教案、课件和每周一套练习都是自己手写，一套大约两小时。',
-          '通过课堂练习和阶段性测试追踪学生对 KET 考点的掌握情况，据此调整进度。出题负担，加上官方真题有限、难度难以把控，正是 PaperCraft 试图研究的问题。',
+          '讲授两个剑桥 KET 班级及新概念英语课程；独立编写全部教案、课件与每周练习。',
+          '通过课堂练习与阶段性测评追踪学生对 KET 各题型的掌握情况，据此调整教学进度。',
         ],
       },
     },
@@ -161,10 +182,10 @@ export const TEACHING: CvSection = {
       place: { en: 'Foshan', zh: '佛山' },
       points: {
         en: [
-          'Supported middle-school English instruction and courseware production, kept a quantitative record of interaction frequency and mastery by topic, and ran differentiated one-to-one support with error-attribution analysis reported to parents.',
+          'Supported middle-school English instruction; maintained a quantitative record of interaction frequency and topic-level mastery; delivered differentiated one-to-one tutoring with error-attribution analysis for parents.',
         ],
         zh: [
-          '配合主讲教师开展中学英语教学，协助制作课件，建立量化记录追踪学生的互动频次与知识点掌握度，并做分层一对一辅导，把错题归因分析反馈给家长。',
+          '协助主讲教师开展中学英语教学；建立量化记录，追踪学生互动频次与各知识点掌握程度；实施分层一对一辅导，并向家长反馈错题归因分析。',
         ],
       },
     },
@@ -185,12 +206,12 @@ export const EXPERIENCE: CvSection = {
       place: { en: 'Foshan', zh: '佛山' },
       points: {
         en: [
-          'Deployed and tested quantised open-source LLMs on premises with Ollama, measuring inference throughput.',
-          'Helped build a retrieval-augmented generation knowledge base over internal business documents, covering preprocessing and ingestion; also supported ERP and WMS maintenance and testing.',
+          'Deployed and tested quantised open-source LLMs on premises via Ollama; benchmarked inference throughput across configurations to inform model selection.',
+          'Helped build a retrieval-augmented generation knowledge base over internal business documents, covering preprocessing and ingestion; supported ERP and WMS maintenance and testing.',
         ],
         zh: [
-          '用 Ollama 与量化技术在企业内网部署并测试开源大模型，比较不同配置下的推理吞吐。',
-          '参与搭建基于本地模型的企业知识库（RAG），负责业务文档的预处理与接入，同时协助 ERP 与 WMS 的维护测试。',
+          '经 Ollama 在企业内网部署并测试量化开源大模型，跨配置基准测试推理吞吐量，为选型提供依据。',
+          '参与搭建基于本地模型的企业知识库（RAG），负责业务文档的预处理与接入；协助 ERP 与 WMS 的维护及测试。',
         ],
       },
     },
@@ -265,9 +286,9 @@ export const WRITING_MEDIA: CvSection = {
       title: { en: 'Contracted author, sspai Matrix', zh: '少数派 Matrix 签约作者' },
       points: {
         en: [
-          'Long-form technology and digital-practice essays on a leading Chinese technology platform; four pieces, around 179,000 cumulative reads.',
+          'Long-form technology and digital-practice essays on a leading Chinese technology platform; four pieces, more than 181,000 cumulative reads.',
         ],
-        zh: ['为国内主要科技媒体写技术与数字生活类长文，四篇累计阅读约 17.9 万。'],
+        zh: ['为国内主要科技媒体写技术与数字生活类长文，四篇累计阅读 18.1 万+。'],
       },
     },
     {
@@ -308,15 +329,15 @@ export const SKILLS = {
       items: {
         en: [
           'Cantonese (native)',
-          'Mandarin (PSC Level 2-A)',
-          'English (TEM-4, working language)',
-          'Japanese (JLPT N4)',
+          'Mandarin Chinese (native)',
+          'English (fluent)',
+          'Japanese (intermediate)',
         ],
         zh: [
           '粤语（母语）',
-          '普通话（二级甲等）',
-          '英语（专业四级，可作工作语言）',
-          '日语（JLPT N4）',
+          '普通话（母语）',
+          '英语（流利）',
+          '日语（中级）',
         ],
       } as L<string[]>,
     },
