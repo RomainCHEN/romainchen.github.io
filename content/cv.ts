@@ -28,7 +28,7 @@ export const CV_UPDATED = '2026-08-05';
  * tests/content.test.ts pins this to the UPDATED constant the build script
  * prints on the file, so the two cannot drift apart again.
  */
-export const RESUME_UPDATED = '2026-09-15';
+export const RESUME_UPDATED = '2026-09-16';
 
 /**
  * This is the academic CV, written for graduate admissions in learning
