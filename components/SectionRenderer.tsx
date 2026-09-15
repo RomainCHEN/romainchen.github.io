@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { EvidenceLedger } from './EvidenceLedger';
+import { Exhibit } from './Exhibit';
 import { LoopDiagram } from './LoopDiagram';
 import { Pipeline } from './Pipeline';
 import { Reveal } from './Reveal';
@@ -237,6 +238,30 @@ export function SectionRenderer({
       );
 
     /* ------------------------------------------------------------------ */
+    case 'exhibit':
+      return (
+        <Reveal as="section" className="canvas field py-12">
+          <div className="col-body">
+            {section.heading ? <Heading text={section.heading[locale]} id={id} /> : null}
+            {section.intro ? (
+              <div className="prose-body">
+                {section.intro[locale].map((paragraph, i) => (
+                  <p key={i}>{inline(paragraph)}</p>
+                ))}
+              </div>
+            ) : null}
+            <div className="mt-8">
+              <Exhibit blocks={section.blocks} locale={locale} />
+            </div>
+            {section.caption ? (
+              <p className="mt-4 measure text-sm leading-relaxed text-muted text-pretty">
+                {inline(section.caption[locale])}
+              </p>
+            ) : null}
+          </div>
+        </Reveal>
+      );
+
     case 'table':
       return (
         <Reveal as="section" className="canvas field py-12">

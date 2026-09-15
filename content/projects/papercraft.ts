@@ -33,7 +33,7 @@ export const papercraft: Project = {
     'TypeScript',
     'Supabase',
     { en: 'LLM pipeline', zh: '大模型管线' },
-    { en: 'Psychometrics', zh: '心理测量' },
+    { en: 'Human-in-the-loop', zh: '人在回路' },
     'CEFR',
   ],
   hero: {
@@ -59,8 +59,8 @@ export const papercraft: Project = {
       value: { en: '15 item types (KET 7 · PET 8)', zh: '15 种题型（KET 7 种 · PET 8 种）' },
     },
     {
-      label: { en: 'Pipeline', zh: '生成管线' },
-      value: { en: '7 stages, one of them human', zh: '7 个阶段，其中一个是人' },
+      label: { en: 'Design', zh: '设计' },
+      value: { en: 'A model inside a harness; 7 stages, one of them human', zh: '模型套在 harness 里跑，7 个阶段，其中一个是人' },
     },
     {
       label: { en: 'Prompt', zh: '提示词' },
@@ -88,33 +88,23 @@ export const papercraft: Project = {
           'I taught two small Cambridge KET classes while doing a computer science degree, and wrote a set of practice exercises most weeks. Three things were wrong, and none of them was speed: I could not control difficulty, past papers ran out, and the topics were stale.',
         ],
         zh: [
-          '读计算机学位期间我带着两个剑桥 KET 小班，自己出练习。出问题的地方有三处，都不在速度上：难度控制不住，真题很快用尽，现成的话题又太旧。',
+          '读计算机学位期间我带着两个剑桥 KET 小班，自己出练习。有三件事一直不好办，都不是出题速度的问题：难度控制不住，真题很快用尽，现成的话题又太旧。',
         ],
       },
     },
     {
       kind: 'prose',
-      heading: { en: 'The wrong version of this project', zh: '这个项目的错误做法' },
+      heading: { en: 'What kind of system this is', zh: '这是一个什么样的系统' },
       body: {
         en: [
-          'A prompt box that returns exam questions is unfalsifiable. Plausible output counts as success, so nothing is learned about whether the items work or how much the teacher still has to do. PaperCraft records both, which makes the **division of labour** between model and teacher measurable instead of assumed.',
+          'PaperCraft is an agent system in a narrow sense: a language model placed inside a harness rather than used as a product. It is called in a defined sequence, held to a machine-checkable output shape, checked by ordinary code between the calls, and asked to repair a named failure instead of generating again in the hope of a better result. It writes exercises, induces rules from what the teacher changed, and hands each proposal to something built to refute it.',
+          'Three parties decide, and the line between them is the design. The model writes and induces. Ordinary code settles what is decidable: whether a part has three options or four, whether the words are on the level\'s list, whether the answers are spread across the letters. The teacher settles what is a judgement about their own teaching, and no rule reaches a prompt without them.',
+          'The claim this design makes about agent systems is how much it declines to decide. A model is asked to judge only where the question cannot be computed, which in this loop means whether two of a teacher\'s rules contradict each other; the rest of what it does is writing. Structure buys that control and brings failure modes of its own, such as a component that reads a frequency as an endorsement, and those are designed for rather than discovered later.',
         ],
         zh: [
-          '给个输入框让模型直接出题，这条路没法证伪：输出看着像样就算成功，题目能不能用、教师还要补多少，都无从知道。PaperCraft 把这两件事都记下来，模型与教师之间的**分工**因此可测，用不着谁先假定。',
-        ],
-      },
-    },
-    {
-      kind: 'prose',
-      heading: { en: 'What the design is answerable to', zh: '这个设计要对什么负责' },
-      body: {
-        en: [
-          'Holstein, McLaren and Aleven argue that complementarity between teacher and machine has to be established empirically, so adjudication is a hard gate and the gap between draft and final version is recorded. Mislevy, Steinberg and Almond treat assessment as a chain of reasoning from observable behaviour to claims about competence, so the system keeps item-level responses rather than a total score.',
-          'Black and Wiliam, and later Hattie and Timperley, argue that evidence has to arrive while teaching can still change, so practice comes before the exam. Wu, Terry and Cai, with Amershi and colleagues, give the case for a chained pipeline whose stages can each be inspected and corrected.',
-        ],
-        zh: [
-          'Holstein、McLaren 和 Aleven 主张，教师与机器之间的互补要由实证确立，所以裁决是一道绕不过的闸门，初稿与终稿之间的差距全部记录。Mislevy、Steinberg 和 Almond 把测评看成一条从可观察行为推到能力判断的推理链，所以系统存逐题作答，不存总分。',
-          'Black 和 Wiliam，以及后来 Hattie 与 Timperley 关于反馈的研究，都主张证据要在教学还来得及调整时送到教师手里，所以练习安排在考前。Wu、Terry 和 Cai 与 Amershi 等人则给出了分段管线的理由：每一段都能被检查、被纠正。',
+          'PaperCraft 是一个范围很窄的 agent 系统。语言模型被放进一套 harness 里跑，调用顺序是固定的，输出必须是机器能校验的结构，两次调用之间由普通代码把关；出了问题，它不能重新生成一次碰运气，得照着已经点明的那一处去修。它负责写题，也从教师的改动里归纳规则，再把每条建议交给一道独立的审计去证伪。',
+          '做决定的有三方，界线划在哪里，就是这套设计本身。模型只管写和归纳；凡是能判定的事都交给普通代码，比如一个部分有三个选项还是四个、词在不在该级别的词表内、答案在各字母之间是否分散。剩下的属于教学判断，交给教师；规则想进 prompt，必须先过他们这一关。',
+          '这套设计对 agent 系统的主张是：它拒绝自己决定的事情足够多。只有算不出来的问题才交给模型判断，在这个回路里只有一件，就是两条规则是否互相矛盾；其余的它只管写。结构换来了这种控制，也带来了结构自己的毛病，比如某个组件会把「频率」当成「认可」。这些在设计时就考虑过了。',
         ],
       },
     },
@@ -128,8 +118,8 @@ export const papercraft: Project = {
         zh: '一份生成初稿的底部：最后两道题与标出答案的选项、写错因的备注框、报告文本有多少落在 A2 词表内的横条，以及通过、退回、重新生成三个操作。',
       },
       caption: {
-        en: 'The adjudication surface. Nothing reaches a classroom without an approve, edit or reject decision, and the reason for a rejection is kept, which is what makes the teacher\'s contribution measurable.',
-        zh: '裁决界面。任何内容进入课堂前，都要有人明确点一次通过、修改或退回，退回的理由一并保留。教师的贡献因此可测。',
+        en: 'Nothing reaches a classroom without an approve or reject recorded here, and the reason for a rejection is kept, which is what makes the teacher\'s contribution measurable. Editing the draft happens in the fields above, through the Edit control at the head of the panel.',
+        zh: '任何内容进入课堂前，都要有人在这里明确点一次通过或退回，退回的理由一并保留，教师的贡献因此可测。修改初稿在它上面的字段里进行，入口是初稿抬头右侧的 Edit。',
       },
     },
     {
@@ -153,19 +143,19 @@ export const papercraft: Project = {
           },
           why: {
             en: 'Makes every generation reproducible and loggable. Nothing that was not recorded as structured input can be analysed later.',
-            zh: '让每次生成都可复现、可记录。没有记成结构化输入的东西，事后无法分析。',
+            zh: '让每次生成都能复现、能查。没记成结构化输入的东西，事后没法分析。',
           },
         },
         {
           id: 'S2',
           title: { en: 'Personalised prompt assembly', zh: '个性化 prompt 装配' },
           what: {
-            en: "Retrieves this teacher's preference summary, previously approved exemplars, and recent rejection reasons.",
-            zh: '取回这位教师的偏好摘要、先前通过的范例，以及最近的退回原因。',
+            en: "Retrieves this teacher's own material: the rules they approved, what usually needs fixing on this part, their earlier corrections, their usual topics and grammar, the reasons they rejected earlier drafts, and example exercises.",
+            zh: '取回这位教师自己的材料：他接受的规则、这个题型上通常要改什么、他早先的改动、他常用的话题与语法、他退回初稿的理由，以及范例题。',
           },
           why: {
-            en: 'Personalises in context, without fine-tuning. The part of the prompt that never changes for this teacher is placed where the provider can cache it: on the provider\'s counters, the second of two requests sharing that block returned 4,096 cached tokens of 4,336, where the earlier order returned none.',
-            zh: '不做微调，个性化全靠上下文里带的材料。对这位教师永不改变的那部分提示词放在供应商能缓存的位置。按供应商自己的计数，两次共享同一区块的请求，第二次命中了 4,336 个 token 里的 4,096，旧排法一个都没命中。',
+            en: 'Personalises in context, without fine-tuning, and orders the block so a provider can reuse it: everything invariant for this teacher and part precedes the task line, the only line that changes between drafts. The second of two requests sharing it returns 4,096 cached tokens of 4,336, where the earlier order returned none.',
+            zh: '不做微调，个性化全靠上下文里带的材料，排列顺序也照复用来定：对他和这个题型不变的部分放在最前，任务行压在末尾，那是两次生成之间唯一会变的一行。两次共享这一段的请求，第二次命中 4,336 个 token 里的 4,096，旧排法一个都没命中。',
           },
         },
         {
@@ -177,7 +167,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'Non-experts under-specify prompts, so the specification belongs in the system rather than in a teacher\'s free text. Boundary: content-validity constraints only; construct validity is outside it.',
-            zh: '非专家写 prompt 往往太笼统，这份规格化的活该由系统做，不该留给教师自己敲字。它能管的只有内容效度，构念效度不在其中。',
+            zh: '非专家写的 prompt 往往太笼统，这份规格化的活该由系统承担，不该留给教师自己敲字。它能管住的只有内容效度，构念效度管不着。',
           },
         },
         {
@@ -188,8 +178,8 @@ export const papercraft: Project = {
             zh: '先做结构校验，把校验报错重新塞回 prompt，重试次数有上限，并在多家模型之间路由。',
           },
           why: {
-            en: 'Converts silent format defects into recoverable, logged events, so a malformed item is recorded instead of disappearing.',
-            zh: '格式错误会留下一条可恢复、可查的记录，不再凭空消失。',
+            en: 'Converts silent format defects into recoverable, logged events, so a malformed item is recorded instead of disappearing. The retry carries the validation error back with it, so the model repairs a named failure rather than being asked to try again and hope.',
+            zh: '格式错误会留下一条可恢复、可查的记录，不再凭空消失。重试时把校验报错一并送回去，模型修的是一个被点明的失败，不是再赌一次。',
           },
         },
         {
@@ -200,8 +190,8 @@ export const papercraft: Project = {
             zh: '先拆分场景，再合成图像，然后由视觉模型依据这几张图撰写作文题。',
           },
           why: {
-            en: 'KET picture-story and picture-matching items need text and image to agree. Writing the prompt from the generated image, not the other way round, is what keeps them aligned; reordering the fallback providers cut the worst observed request from 230 seconds to 134.',
-            zh: '看图写作和图片匹配题要求文字与图像一致。先出图、再据图命题，两者才不会对不上。备用供应商重排过之后，最差的一次请求从 230 秒降到 134 秒。',
+            en: 'KET picture-story and picture-matching items need text and image to agree. Writing the prompt from the generated image, and not the other way round, is what keeps them aligned.',
+            zh: '看图写作和图片匹配题要求文字与图像一致。先出图、再据图命题，两者才不会对不上。',
           },
         },
         {
@@ -212,8 +202,8 @@ export const papercraft: Project = {
             zh: '实义词逐个比对该等级词表，允许最多 10% 超纲，并把合规率显示给教师。',
           },
           why: {
-            en: 'CEFR-level control of generated text is unreliable, so the audit is a visible guardrail rather than a silent block. The 10% tolerance is deliberate, because proper nouns and productive morphology fall outside a base wordlist. Boundary: lexical membership only, since syntax, cultural load and cognitive demand are not assessed.',
-            zh: '生成文本的 CEFR 等级控制本就不可靠，所以这道审计与其悄悄拦下，不如做成看得见的护栏。10% 的容差是刻意的，专有名词和能产构词本来就落在基础词表外。它只能判断词在不在表内，句法难度、文化负载、认知需求都管不到。',
+            en: 'CEFR control of generated text is unreliable, so the audit is a visible guardrail rather than a silent block; the 10% tolerance covers proper nouns and productive morphology. It judges lexical membership only.',
+            zh: '生成文本的 CEFR 等级控制本就不可靠，所以这道审计与其悄悄拦下，不如做成看得见的护栏；10% 的容差留给专有名词和能产构词。它只能判断词在不在表内。',
           },
         },
         {
@@ -235,14 +225,12 @@ export const papercraft: Project = {
       heading: { en: 'How a prompt is built', zh: '提示词是怎么拼出来的' },
       body: {
         en: [
-          'The prompt for a part is assembled rather than written by hand. Eight sections go into it, and six of them appear in every one of the fifteen item types. The section that decides item quality is the validity rules: the conditions an item must not fail. Every clause in it came from an item an examiner marked wrong, and the handbooks were then read line by line to establish which of those rules they actually state.',
-          'The picture branch is where a prompt is most visibly written against failures that happened. It forbids storyboard frames, grids and panel numbers, because the model\'s default reading of a three-picture story is one composite image with the panels circled.',
-          'It permits no text in the image, because a model asked to draw a shop will label it, and printed words turn a writing task into a reading task. The first panel also names the two children in unusual detail, down to age and hair colour, because an ambiguity there propagates into every later panel.',
+          'The prompt for a part is assembled rather than written by hand. Eight sections go into it, and six of them appear in every one of the fifteen item types. The section that decides item quality is the validity rules, the conditions an item must not fail. Every clause in it came from an item an examiner marked wrong, and the handbooks were then read line by line to establish which of those rules they actually state, because a handbook describes the task and not the ways an item fails.',
+          'Two decisions shape the teacher\'s half of that assembly. Approved rules go in grouped by the stage of writing they govern, because the same rules as one flat list perform measurably worse; and the line about what usually needs fixing is a count computed by code rather than a model\'s estimate, because a model accepts a stated number almost without question.',
         ],
         zh: [
-          '一个题型的提示词靠拼装得来，没有一份是手写的。八段构成一份，其中六段在十五种题型里每份都有。真正决定题目质量的是「有效性规则」那一段，写的是一道题不许违反哪些条件。那一段里的每一条，都来自某道出过错的题，然后再逐行翻手册，确认剑桥到底写明了其中哪几条。',
-          '图形题那一支最能看出，提示词是照着实际发生过的失败写的。它禁止分镜框、网格和面板编号，因为面对三张图的故事，模型的默认理解就是拼成一张合成图、还在上面画圈标号。',
-          '它也不允许图上出现文字，因为让模型画一间商店，它会顺手把店名写上去，而画面里的字会把一道写作题变成阅读理解题。第一格还要求把两个孩子的年龄、发色写清楚，因为这一处含糊会传染到后面每一格。',
+          '每道题的提示词都是拼出来的，没有一份手写。一份提示词分八段，其中六段十五种题型通用。真正决定题目质量的是「有效性规则」，它规定一道题不许违反什么。这些规则条条有来历，都来自判错的题，定完再逐条翻手册，看剑桥究竟写明了哪几条。手册只交代这个部分考什么，不管一道题会栽在哪里。',
+          '属于教师的那一半有两个讲究。已通过的规则按它管的是写作哪一步分组放进提示词，同样一批规则平铺着给，效果会明显变差；「通常要改什么」那一行由代码数出来，不让模型估，因为摆在面前的数字，模型几乎照单全收。',
         ],
       },
     },
@@ -298,7 +286,37 @@ export const papercraft: Project = {
       ],
       caption: {
         en: 'Counted from the live prompts by a script when the report is built, not typed in by hand. That script is also the instrument that once reported three PET parts had no validity rules at all; they had them, under headings it did not recognise. It now matches the shape of a heading rather than a list of the headings someone happened to notice.',
-        zh: '这些计数由脚本在写报告时从实际提示词里数出来，没有人手填。同一个脚本曾经报出三个 PET 题型完全没有有效性规则，其实有，只是标题写法它不认识。现在它按标题的形状匹配，不再依赖某个人碰巧见过的标题清单。',
+        zh: '这些计数由脚本从实际提示词里数出来，没有人手填。同一个脚本曾经报出三个 PET 题型完全没有有效性规则，其实有，只是标题写法它不认识。现在它按标题的形状来认，不再靠某个人碰巧见过的那几个写法。',
+      },
+    },
+    {
+      kind: 'exhibit',
+      intro: {
+        en: [
+          'Two fragments, quoted from the source rather than described. The first is the distractor rule from the A2 Reading and Writing Part 1 prompt; the second keeps the three pictures of a picture story showing the same two children.',
+        ],
+        zh: [
+          '下面两段直接从源码里引出，不做转述。第一段是 A2 Reading and Writing Part 1 提示词里的干扰项规则；第二段让三格看图故事始终画着同两个孩子。',
+        ],
+      },
+      blocks: [
+        {
+          label: { en: 'Distractor rules, A2 Reading Part 1', zh: 'A2 Reading Part 1 的干扰项规则' },
+          source: 'src/lib/prompt-assembly.ts',
+          text: '- Each of the two wrong options must reuse AT LEAST ONE word or idea that actually appears in the text, but recombine it into a meaning the text does NOT state.\n- Distractors must be plausible misreadings, never obviously unrelated (that makes the item too easy).\n- The correct option must reflect the STATED meaning, not a possible later outcome.\n- All 3 options must be similar in length and register so length gives nothing away.',
+        },
+        {
+          label: {
+            en: 'Character consistency, three-panel picture story',
+            zh: '三格看图故事的人物一致性约束',
+          },
+          source: 'src/lib/image-generation.ts',
+          text: 'Use the reference image ONLY as the guide for who the characters are and how they are drawn: identical faces, hairstyles, clothing and colours, same line weight, same plain white background with no colour wash or sepia tint. Do NOT copy the reference image\'s composition or framing. Draw ONE single new scene filling the whole frame, with no panels, frames, grids, dividing lines or numbers. Do not write any words, letters or numbers anywhere in the picture.',
+        },
+      ],
+      caption: {
+        en: 'Both are quoted as they stand. The second is what the picture branch looks like in practice: three images are three separate calls, so the two children have to be held fixed by hand, and the drawing model has to be told not to label the shop it was asked to draw.',
+        zh: '两段都照原样引出。第二段是图形题那一支的实际样子：三张图是三次独立调用，两个孩子只能靠提示词固定住；同时还要明说，不许给它画的那间商店写上店名。',
       },
     },
     {
@@ -358,7 +376,7 @@ export const papercraft: Project = {
       },
       caption: {
         en: 'Every generation leaves a record, and the teacher can open it: one accepted rule was applied, the writing took 2.5 seconds, and both deterministic checks passed. The pipeline is built to be auditable rather than trusted, which is why the record sits on the draft and not only in a log.',
-        zh: '每次生成都会留下记录，教师可以直接打开，看到应用了一条他已接受的规则、写作耗时 2.5 秒、两道确定性检查都通过。这条管线要能被查，不能只靠相信，所以记录就摆在初稿上，教师打开就能看到，不必去翻日志。',
+        zh: '每次生成都留一份记录，教师随手就能打开：应用了他已接受的一条规则，写作耗时 2.5 秒，两道确定性检查都通过。这条管线要能被查，不能只靠相信，所以记录就摆在初稿上，不用去翻日志。',
       },
     },
     {
@@ -366,16 +384,18 @@ export const papercraft: Project = {
       heading: { en: 'The other half of the system', zh: '系统的另一半' },
       body: {
         en: [
-          'Generation is half of what this does. The other half reads the correction log instead of writing exercises; it runs offline on a schedule or when the teacher asks. A pattern has to recur in at least three different exercises before it can become a candidate rule, counted by distinct generations rather than by events, because four option edits inside one exercise are one decision. The distiller gets the handbook specification for the part along with the edits; without it, the most it can infer is that some text changed.',
+          'Generation is half of what this does. The other half reads the correction log instead of writing exercises, and runs offline on a schedule or when the teacher asks. A pattern has to recur in at least three distinct exercises before it becomes a candidate rule, counted by generations and not by events, because four option edits inside one exercise are one decision. The distiller also gets the handbook specification for that part, without which the most it can infer is that some text changed.',
           'A candidate rule does not reach the teacher on its own reasoning. It goes to an audit running inside distillation on a different vendor\'s model at temperature zero, told to refute the rule rather than improve it, and required to name a ground when it refuses. It can refuse or pass, never write, edit or apply. Silence is refusal, and an unreachable or truncated audit proposes nothing. Rules stay with the teacher who accepted them and are not pooled across users.',
-          'Three arbitrary substitutions, in which nine became ten, red became blue and a park became a beach, led the distiller to a rule that factual details should be accurate. The evidence held nothing but those substitutions: no source material, and nothing saying any original value was wrong. The audit refused the rule, because its rationale asserted a fact the evidence did not contain.',
-          'Run three times on a sound rule, the audit accepted it twice. It had also been handed the changed values alone while the distiller had the specification and the teacher\'s notes; given the distiller\'s bundle, three parts that had just produced three refusals produced three accepted proposals. Refusing a sound rule costs a round of distillation; admitting an unsound one puts an invented constraint into every later prompt.',
+          'Three substitutions written for a test, in which nine became ten, red became blue and a park became a beach, led the distiller to a rule that factual details should be accurate. The evidence held nothing but those substitutions, with no source material and nothing saying an original value was wrong. The audit refused it, because the rationale asserted a fact the evidence did not contain, and the case establishes the failure mode rather than its frequency.',
+          'Run three times on a sound rule, the audit accepted it twice. What it is shown matters. Handed the changed values alone it refused rules that it accepted once the distiller\'s full bundle arrived, and three parts that had just produced three refusals then produced three accepted proposals. Refusing a sound rule costs a round of distillation; admitting an unsound one puts an invented constraint into every later prompt.',
+          'Each new harness version carries the earlier ones forward verbatim. A rule the teacher retired stays retired and a proposal they have not answered stays pending, because nothing in the loop has standing to change a verdict they already gave. A defect where one refused proposal revoked every accepted rule is now a single function with a single test.',
         ],
         zh: [
-          '生成只占这个系统的一半。另一半读批改日志，不写题，按日程离线运行，或者由教师手动触发。一个模式要出现在至少三次**不同的生成**里才算候选规则，数的是生成次数；同一道题里改了四处选项，只算一个决定。蒸馏器拿到的除了改动，还有该题型的手册规格；不给规格，它最多只能推出「有文字被改过」。',
-          '候选规则不会仅凭自己的推理送到教师面前，它要先过一道审计。审计跑在**另一家厂商**的模型上，温度 0，唯一收到的指令是证伪这条规则，拒绝时必须说清是哪一条理由。它只能拒绝或通过，不能写、不能改、不能应用。沉默即拒绝，审计不可达或返回被截断，就等于什么都没提。规则属于接受它的那位教师，不做跨用户合并。',
-          '三次任意替换，九变成十、红变成蓝、公园变成海滩，让蒸馏器推出一条「事实细节应当准确」的规则。证据里只有那三次替换，没有原始材料，也没有任何地方说原来的值是错的。审计拒绝了它，理由是这条规则的说明断言了证据里并不存在的事实。',
-          '同一条站得住的规则跑三次，审计接受了两次。它当时只拿到改动的值，而蒸馏器手里还有规格和教师的备注；把蒸馏器看到的那一整包交给它之后，三个刚连出三次拒绝的题型给出了三条被接受的建议。拒掉一条好规则只是多跑一轮蒸馏，放进一条坏规则，就是往之后每一次 prompt 里塞进一条凭空造出来的约束。',
+          '生成只占这个系统的一半。另一半读批改日志，不写题，按日程离线运行，或者由教师手动触发。一个模式要出现在至少三次**不同的生成**里才算候选规则，数的是生成次数：同一道题里改了四处选项，也只算一个决定。蒸馏器拿到的除了改动，还有该题型的手册规格；没有规格，它最多只能推出「有文字被改过」。',
+          '候选规则不能凭自己的推理走到教师面前，得先过一道审计。审计跑在**另一家厂商**的模型上，温度 0，收到的唯一指令是证伪这条规则，要拒绝就得说清理由。它只能拒绝或通过，不能写、不能改、不能应用。不出声就当拒绝；审计连不上、或者返回被截断，也等于什么都没提。规则只归接受它的那位教师，不在用户之间合并。',
+          '测试用的三次替换，九变成十、红变成蓝、公园变成海滩，让蒸馏器推出一条「事实细节应当准确」的规则。证据里只有那三次替换，没有原始材料，也没有任何地方说原来的值是错的。审计拒绝了它，理由是这条规则的说明断言了证据里并不存在的事实。这一例能确立这个失败模式存在，但说明不了它有多常见。',
+          '同一条站得住的规则跑三次，审计接受了两次。它看出什么很要紧：只给它改动的值时，它拒掉过一些规则；把蒸馏器手上那一整包交给它，同一条规则它就接受了，三个原本连出三次拒绝的题型给出了三条通过的建议。拒掉一条好规则只是多跑一轮蒸馏，放进一条坏规则，就是往之后每一次 prompt 里塞进一条凭空造出来的约束。',
+          '每一次新的 harness 版本都逐字继承上一版。教师撤下的规则保持撤下，他没回答过的建议保持待定，因为回路里没有任何一环有资格改动他已经给出的裁决。曾经有一处缺陷，一条被拒的建议就让全部已接受的规则失效；现在这件事是一个函数、一个测试。',
         ],
       },
     },
@@ -468,15 +488,25 @@ export const papercraft: Project = {
     },
     {
       kind: 'prose',
-      heading: { en: 'What is being measured, and how', zh: '到底在测什么，怎么测' },
+      heading: { en: 'What is measured, and how two blind spots were closed', zh: '测什么，以及两个盲点是怎么补上的' },
       body: {
         en: [
-          'Teacher intervention is measured at approval, by comparing the frozen draft with the teacher\'s version: word-level edit distance, plus typed flags for which part of the item moved. Item behaviour is measured once learners answer, as proportion-correct difficulty, point-biserial discrimination and option counts; the four writing tasks are marked by a teacher, so no such statistic exists for them. Together these show where the model is weak in practice, which is not always where it looks weak.',
-          'Authoring cost and load are measured against each teacher\'s own manual workflow, in a paired within-subject design with SUS, NASA-TLX, a content-quality rubric and an interview. Only classical test theory is used, because the sample size this setting can reach does not support item response theory. The instruments are written; the study has not been run.',
+          'Teacher intervention is measured at approval, by comparing the frozen draft with the teacher\'s version, as word-level edit distance plus typed flags for which part of the item moved. It is taken from the draft before the teacher touches it, so it describes the generator rather than the generator and the teacher\'s edits together. Item analysis from learner responses stays in the product as a view for the teacher, and is not offered as a result of the study.',
+          'Authoring time and perceived workload are measured against each teacher\'s own manual workflow. The instruments are written; data collection has not started.',
+          'No gate checks whether the answer is right, and one class of defect belongs to the whole set rather than to any single item, so no per-question gate can see it at all. Both reach a classroom. The expensive one is an item with two defensible answers: it reads correctly, and nothing catches it until a student argues for the option marked wrong and turns out to be right, at which point the lesson stops.',
+          'Two fixes followed. A solver sees each item with its key removed, and a challenger builds a reading on which each wrong option would be correct; a declined item is excluded rather than counted as a pass. Separately, a fourth deterministic gate counts how the key is spread across a set and reports it to the teacher, behind a line in the prompt that asks for it.',
+          'The first flagged two items, and one of them is a genuine defect. A notice about a Friday swim club at 4 pm is keyed to "bring your swimsuit", and "the meeting is in the afternoon" is also true. It passed all three gates, and all three were right to pass it.',
+          'The second was the larger failure, and it is the part worth reporting in numbers. Across 33 generations of A2 Reading and Writing Part 4 in one day, 13 had put all six answers on option A, so a candidate who never read the passage scored full marks. Over 12 generations after the change the share on A fell only from 74 to 57 per cent, which is why this is counted rather than written into the prompt as a rule.',
+          'Building that gate was work in itself. One fault took the reported defect rate from 12 per cent to 2 per cent, and a worse one was silent and correct, keeping every cloze item out of the count while the count was read as covering the bank.',
         ],
         zh: [
-          '教师干预量在点下通过那一刻就测出来了，把冻结的初稿和教师终稿比一比，算词级编辑距离，再用一组标记指出改动落在哪一部分。题目表现则要等学生作答之后才有，算的是通过率难度、点二列区分度和各选项次数。四个写作任务由教师评分，没有这类统计量。两者合起来，能看出模型实际弱在哪，这和看上去弱的地方并不一致。',
-          '出题成本和认知负荷，拿每位教师自己的手工流程当基线，用被试内配对设计来测，另配 SUS、NASA-TLX、内容质量量表和访谈。只用经典测验理论，因为这个场景能达到的样本量撑不起项目反应理论。量表和流程已经写好，研究尚未开展。',
+          '教师点下通过的那一刻，干预量就算出来了：拿冻结的初稿和教师终稿比，算词级编辑距离，再用一组标记标出改动落在哪一部分。比的是教师动手之前的那份初稿，所以它说的是生成器，不掺教师的改动。学生作答算出来的项目分析留在产品里，是给教师看的一个视图，不作为研究结果。',
+          '出题耗时与主观负荷，拿每位教师自己的手工流程当基线来测。量表已经写好，数据收集尚未开始。',
+          '没有哪道闸门查答案对不对；还有一类缺陷不属于某一道题，而属于整套题，逐题闸门根本看不到。这两类都会进到课堂。代价最大的是一道题有两个都说得通的答案：它读起来是对的，谁也发现不了，直到学生为那个被判错的选项争辩、而他是对的，课就停在那里。',
+          '针对这两类做了两件事。求解器拿到的是去掉答案键的题目，挑战者则要为每一个错误选项构造一种它也能成立的读法；拒绝打分的题目按排除处理，不计为通过。另一件是增加第四道确定性检查，数一整套题的答案键分布并报给教师，同时在上游的 prompt 里加了一句相应的要求。',
+          '前一件事标出了两道题，其中一道是真缺陷。一条通知写着周五下午四点有游泳俱乐部活动、要带泳衣，答案键取「要带泳衣」，可「活动在下午」同样成立。它通过了三道闸门，三道闸门都没有判错。',
+          '后一件事才是更大的那处失败，也是值得用数字讲的一处。同一天生成的 33 份 A2 Reading and Writing Part 4 里，13 份把六个答案全放在 A 上，一路不读文章只选 A 的考生能拿满分。加上那条要求之后的 12 份生成里，A 的占比只从 74% 降到 57%，所以这件事要靠数，写进 prompt 当规则没有用。',
+          '做这道检查本身就费了功夫。有一处把缺陷率从 12% 压到 2%；更麻烦的一处不出声而且本身是对的，整类完形填空都没进计数，而那个数字看起来覆盖了全库。',
         ],
       },
     },
@@ -490,33 +520,8 @@ export const papercraft: Project = {
         zh: '某份练习的班级分析视图，有整体与逐题的数字、把请求难度与观测难度并列的横幅，以及每道题的区分度值和各选项次数。',
       },
       caption: {
-        en: 'Classical item analysis computed from responses: difficulty, discrimination, how often each option was chosen, and the distractors the class never picks. The banner compares the difficulty the teacher asked for with what the items turned out to be. The responses are the author\'s own demonstration data; no student has taken part.',
-        zh: '依据作答算出的经典项目分析，有难度、区分度、各选项被选次数，以及全班从不选的干扰项。上方横幅把教师当初要的难度和题目实际表现出的难度并列。作答数据是作者自己录入的演示数据，没有学生参与。',
-      },
-    },
-    {
-      kind: 'prose',
-      heading: {
-        en: 'Two failures the structural checks cannot see',
-        zh: '结构性检查看不见的两类失败',
-      },
-      body: {
-        en: [
-          'The gates check shape, conformance to the published task, and lexis. None of them checks whether the answer is right.',
-          'A solver sees each item with its key removed, and a challenger constructs a reading on which each wrong option would be correct. A contested key and a second defensible answer both surface this way; a declined item is excluded rather than counted as a pass.',
-          'One item in the bank is a real defect. The notice reads "Swimming club meeting on Friday at 4 pm. Bring your swimsuit." The key is that a swimsuit is needed, but "the meeting is in the afternoon" is also true, so the item has two defensible answers. It passed the schema, handbook and vocabulary gates, and all three were right to pass it.',
-          'The larger failure is in the key across a whole set, which no per-question gate can look at. Across 33 generations of A2 Reading and Writing Part 4 on one day, 26 had one letter taking at least two thirds of the answers and 13 put all six on option A; over the 198 questions the split was 147 on A, 41 on B and 10 on C. On those 13, a candidate who always answered A scored full marks.',
-          'The prompt now asks for the key to be spread, and a fourth deterministic check counts it and reports to the teacher. The second measurement is the useful one: over 12 further generations, five keys were still skewed, two were still entirely on A, and the share on A fell only from 74 per cent to 57. A rule in a prompt is a request; checking that it holds is separate work.',
-          'Building the check taught more about the check than about the bank. One fault took the rate from 12 per cent to 2 per cent; a worse one was silent and correct, and kept every cloze item out of the count while the count was read as covering the bank. The scripts now print what they skip.',
-        ],
-        zh: [
-          '这几道闸门查的是结构、是不是手册里那个任务、词在不在表内，没有一道查答案对不对。',
-          '求解器拿到的是去掉答案键的题目，挑战者则要为每一个错误选项构造一种它也能成立的读法。有争议的键和第二个说得通的答案都会这样浮出来；拒绝打分的题目按排除处理，不计为通过。',
-          '题库里有一道题是真缺陷。通知写着「Swimming club meeting on Friday at 4 pm. Bring your swimsuit.」。答案键是「要带泳衣」，但「活动在下午」同样成立，所以这道题有两个都说得通的答案。它通过了结构、手册和词汇三道闸门，三道闸门放它过去都没有判错。',
-          '更大的一处失败在整套题的答案键上，这是逐题闸门看不到的。同一天生成的 33 份 A2 Reading and Writing Part 4 里，26 份有一个字母占了至少三分之二的答案，13 份把六个答案全放在 A 上；198 道题的分布是 A 147、B 41、C 10。这 13 份里，一路只选 A 的考生能拿满分。',
-          'prompt 里加上了「答案键要在各字母间分散」的要求，并增加第四道确定性检查来数它们、把结果报给教师。有用的是第二次测量。之后 12 份生成里仍有 5 份偏斜、2 份全在 A，A 的占比只从 74% 降到 57%。写在 prompt 里的规则只是一个请求，确认它是否生效是另一件事。',
-          '做这道检查，学到的东西更多关于检查本身。有一处把缺陷率从 12% 压到 2%；更麻烦的一处不出声而且本身是对的，整类完形填空都没进计数，而那个数字看起来覆盖了全库。脚本现在会打印被跳过的内容。',
-        ],
+        en: 'Item analysis computed from responses: difficulty, discrimination, how often each option was chosen, and the distractors the class never picks. The banner compares the difficulty the teacher asked for with what the items turned out to be. The responses are the author\'s own demonstration data; no student has taken part.',
+        zh: '依据作答算出的项目分析，有难度、区分度、各选项被选次数，以及全班从不选的干扰项。上方横幅把教师当初要的难度和题目实际表现出的难度并列。作答数据是作者自己录入的演示数据，没有学生参与。',
       },
     },
     {
@@ -546,27 +551,11 @@ export const papercraft: Project = {
       },
       items: [
         {
-          label: { en: 'Authoring pipeline, 15 item types, exports', zh: '出题管线、15 种题型、导出功能' },
+          label: { en: 'Authoring and practice, 15 item types, exports', zh: '出题与练习、15 种题型、导出功能' },
           state: 'shipped',
           detail: {
-            en: 'Deployed and used for classroom materials, with Word, PDF and slide export. Of the 215 traced generations, 211 passed the specification gate first time and four after a repair.',
-            zh: '已上线并用于产出课堂材料，支持导出 Word、PDF 与幻灯片。215 次留有记录的生成中，211 次第一次就通过规格闸门、4 次修复后通过。',
-          },
-        },
-        {
-          label: { en: 'Learner practice loop', zh: '学生练习回路' },
-          state: 'shipped',
-          detail: {
-            en: 'Share codes, learner submission and per-question capture are live.',
-            zh: '分享码、学生提交、逐题数据采集均已上线。',
-          },
-        },
-        {
-          label: { en: 'CEFR lexical audit', zh: 'CEFR 词汇审计' },
-          state: 'shipped',
-          detail: {
-            en: 'Reports a compliance figure on every item. Comparing the pass flag either side of an edit proved inert: the published A2 list scores ordinary classroom prose at about 82 per cent, so almost every draft starts non-compliant. It now reports a material drop instead.',
-            zh: '每道生成的题目都会报出合规率。拿通过标记做编辑前后对比已经被证明没用，A2 词表给普通课堂散文打约 82 分，几乎每份初稿一上来就不合规。现在改为报告合规率的实质下降。',
+            en: 'Deployed and used for classroom materials, with Word, PDF and slide export. Of the 215 traced generations, 211 passed the specification gate first time and four after a repair. Share codes, learner submission and per-question capture are live.',
+            zh: '已上线并用于产出课堂材料，支持导出 Word、PDF 与幻灯片。215 次留有记录的生成中，211 次第一次就通过规格闸门、4 次修复后通过。分享码、学生提交、逐题数据采集均已上线。',
           },
         },
         {
@@ -574,7 +563,7 @@ export const papercraft: Project = {
           state: 'instrumented',
           detail: {
             en: 'A solver and a challenger judge each saved item with its key removed, so a contested key and a second defensible answer both surface. Two items were flagged and one is a genuine defect; the rate over the bank is an existence proof, not a measurement, because no item has been compared with teacher judgement.',
-            zh: '把答案键拿掉后交给求解器和挑战者各判一次，有争议的键和第二个说得通的答案都会浮出来。命中两处，其中一处是真缺陷；全库的比率只能当存在性证明看，还算不上质量测量，因为还没有任何题目跟教师的判断对过。',
+            zh: '把答案键拿掉，交给求解器和挑战者各判一次，有争议的键和第二个说得通的答案都会浮出来。命中两处，其中一处是真缺陷。全库的比率只能算存在性证明，还不是质量测量，因为没有任何题目跟教师的判断对过。',
           },
         },
         {
@@ -589,12 +578,12 @@ export const papercraft: Project = {
           label: { en: 'Classical item analysis', zh: '经典项目分析' },
           state: 'instrumented',
           detail: {
-            en: 'Difficulty, discrimination and distractor analysis are implemented end to end. Awaiting a learner response pool large enough to support a conclusion.',
-            zh: '难度、区分度与干扰项分析已端到端完成，等的是一个足以支撑结论的学生作答池。',
+            en: 'Difficulty, discrimination and distractor analysis are implemented end to end and shown to the teacher. The responses so far are the author\'s own demonstration data; no student has taken part.',
+            zh: '难度、区分度与干扰项分析已端到端完成，并展示给教师。目前的作答是作者自己录入的演示数据，没有学生参与。',
           },
         },
         {
-          label: { en: 'Teacher usability and efficacy study', zh: '教师可用性与效能研究' },
+          label: { en: 'Teacher usability study', zh: '教师可用性研究' },
           state: 'designed',
           detail: {
             en: 'Protocol, consent, questionnaire, timing sheets, SUS, NASA-TLX, rubric and interview guide are written. Data collection has not started.',
@@ -613,30 +602,8 @@ export const papercraft: Project = {
         ],
         zh: [
           '词汇审计查的只是词在不在表里，句法、文化负载、认知需求都不归它管，所以一段文本可以完全合规却依然太难。这道护栏比看上去窄。',
-          '按考试部分编码命题规则，换来的只是内容效度；要证明这些题目测到了剑桥想测的东西，得有一个大得多的作答池。干预度量能测准编辑的**幅度**，却测不准**分量**。答案键上改一个词，整道题就变了；语篇里重写一整句，却可能什么要紧的都没动。',
+          '按考试部分编码命题规则，换来的只是内容效度；要证明这些题目真的测到了剑桥想测的东西，得有一个大得多的作答池。干预度量能测准改动的**幅度**，测不准**分量**：答案键上改一个词，整道题就变了；语篇里重写一整句，却可能什么要紧的都没动。',
         ],
-      },
-    },
-    {
-      kind: 'refs',
-      heading: { en: 'Grounding', zh: '理论依据' },
-      items: [
-        {
-          text: 'Holstein, K., McLaren, B. M., & Aleven, V. Designing for complementarity: teacher and student needs for orchestration support in AI-enhanced classrooms.',
-        },
-        {
-          text: 'Mislevy, R. J., Steinberg, L. S., & Almond, R. G. On the structure of educational assessments.',
-        },
-        { text: 'Black, P., & Wiliam, D. Assessment and classroom learning.' },
-        { text: 'Hattie, J., & Timperley, H. The power of feedback.' },
-        {
-          text: 'Wu, T., Terry, M., & Cai, C. J. AI Chains: transparent and controllable human–AI interaction by chaining LLM prompts.',
-        },
-        { text: 'Amershi, S., et al. Guidelines for human–AI interaction.' },
-      ],
-      note: {
-        en: 'Citations keep their original form; the full list sits with the thesis working material.',
-        zh: '文献条目保留原文，完整清单在论文的工作材料里。',
       },
     },
   ],
