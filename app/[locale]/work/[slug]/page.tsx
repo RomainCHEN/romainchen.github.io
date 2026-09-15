@@ -199,15 +199,15 @@ export default async function CaseStudy({
             ) : null}
           </div>
 
-          <div className="col-body flex flex-col">
+          <div className="col-body">
             <p className="label">{UI.facts[locale]}</p>
-            {/* The row is as tall as the contents list beside it, which is
-                usually taller than four facts. Letting the cells share the
-                height keeps the block flush with the section instead of
-                leaving the remainder as blank space under the last row. */}
-            <dl className="mt-4 grid flex-1 auto-rows-fr gap-px border border-rule bg-rule sm:grid-cols-2">
+            {/* Cells keep their natural height. The contents list beside them is
+                taller, and the difference is left as blank space rather than
+                stretched away: filling the row makes a two-line fact into a
+                tall empty box. */}
+            <dl className="mt-4 grid gap-px border border-rule bg-rule sm:grid-cols-2">
               {project.facts.map((fact) => (
-                <div key={fact.label.en} className="flex flex-col justify-center bg-paper p-4">
+                <div key={fact.label.en} className="bg-paper p-4">
                   <dt className="label">{fact.label[locale]}</dt>
                   <dd className="mt-2 font-display text-lg leading-snug text-ink text-pretty">
                     {fact.value[locale]}

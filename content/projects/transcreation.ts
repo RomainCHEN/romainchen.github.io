@@ -77,8 +77,8 @@ export const transcreation: Project = {
           'This is why titles are the cleanest available probe for the question everyone is arguing about badly. When a translator abandons the literal meaning, is that a failure of fidelity or an act of expertise? And can a model that has never lived inside a culture do the same thing?',
         ],
         zh: [
-          '电影片名不过几个字，看似小事一桩。可它必须同时完成三件互相冲突的任务，告诉观众这是什么片子、在另一种文化里打动人、还要把票卖出去。',
-          '翻译界为此争论多年而无定论，译者放弃字面意思究竟算不忠实，还是本就该如此。片名短小、争议集中，最适合用来考察这个问题。顺此还能再追一句，一个从未在目标文化里生活过的模型，做得到同样的事吗。',
+          '电影片名不过几个字，看似小事一桩。可它得同时办成三件互相冲突的事：告诉观众这是什么片子，在另一种文化里打动人，还得把票卖出去。',
+          '译者丢开字面意思，到底算不忠实，还是本来就该这样，翻译界争了多年也没有定论。片名短小、争议集中，最适合用来考察这个问题。顺此还能再追一句，一个从未在目标文化里生活过的模型，做得到同样的事吗。',
         ],
       },
     },
@@ -91,7 +91,7 @@ export const transcreation: Project = {
           'So the study does not try to score outputs. It classifies the **operation** performed, and asks whether the operation was the right one for the cultural gap in front of it.',
         ],
         zh: [
-          '常用的那套机器翻译指标在这里完全失效，而且不是差一点。BLEU 和 ROUGE 量的是跟参考译文重叠了多少，于是它们扣掉的分，恰恰是一个好片名之所以好的那处偏离。《Ghost》译成《人鬼情未了》，对着任何字面参考都拿不到分，可它偏偏就是对的。',
+          '常用的那套机器翻译指标在这里完全失效，而且不是差一点。BLEU 和 ROUGE 数的是跟参考译文重了多少，结果被它们扣掉的那几分，恰恰是好片名之所以好的地方。《Ghost》译成《人鬼情未了》，对着任何字面参考都拿不到分，可它偏偏就是对的。',
           '所以这项研究不给输出打分，只把译者做的**操作**归类。归完再问一句，面对眼前这道文化沟壑，他这一步走对了没有。',
         ],
       },
@@ -261,7 +261,7 @@ export const transcreation: Project = {
         ],
         zh: [
           '传统翻译理论往意译这个词上堆了太多东西，从轻度改写一直堆到彻底再创作，它就成了一个黑箱。说出这个名字，等于什么都没说。',
-          '换成**译创**，把它当作一次认知与文化上的组构，这个现象才算有了机制。译者先看清原文是怎么把意思立起来的，再判断这结构能不能在目标文化里落地，最后才动手重组。这里面是三种能分开检验的能力，模型在每一种上都可能栽跟头，栽法还各不相同。',
+          '换成**译创**，把它看成一次认知与文化上的重新组构，这个现象才有机制可讲。译者先看清原文是怎么把意思立起来的，再判断这结构能不能在目标文化里落地，最后才动手重组。这里面是三种能分开检验的能力，模型在每一种上都可能栽跟头，栽法还各不相同。',
           '这么看下来，人机输出之间真正值得注意的差别在**性质**，不在好坏。人的决策是诊断式的，一步一步走。机器的决策是武断的，直接套上默认映射，根本不管源图式能不能活着穿过那道边界。',
         ],
       },
