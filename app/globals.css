@@ -474,7 +474,7 @@
      which is how a one-page CV silently became two. Individual entries are
      protected instead, so a heading never strands from its bullets. */
   section {
-    padding-block: 0.15rem !important;
+    padding-block: 0.08rem !important;
   }
 
   section [class*='border-b'] {
@@ -532,7 +532,7 @@
   cite,
   figcaption {
     font-size: 8.4pt !important;
-    line-height: 1.26 !important;
+    line-height: 1.2 !important;
   }
 
   .label,
@@ -566,11 +566,11 @@
   }
 
   [class*='space-y'] > * + * {
-    margin-top: 1.5pt !important;
+    margin-top: 1pt !important;
   }
 
   ul {
-    margin-top: 2pt !important;
+    margin-top: 1.5pt !important;
   }
 
   /* The measure classes exist to stop a screen reader's eye travelling too far
@@ -600,7 +600,7 @@
     display: flex;
     align-items: baseline;
     gap: 8pt;
-    margin-top: 1.5pt !important;
+    margin-top: 0.5pt !important;
   }
 
   [data-skills] dt {
