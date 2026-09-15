@@ -124,12 +124,12 @@ export const papercraft: Project = {
     },
     {
       kind: 'figure',
-      src: '/work/papercraft/workspace-review.webp',
-      w: 2400,
-      h: 1500,
+      src: '/work/papercraft/draft-adjudication.webp',
+      w: 1600,
+      h: 633,
       alt: {
-        en: 'The review surface: a generated exercise shown beside its editing controls, with the approve, edit and reject decision.',
-        zh: '审阅界面。生成的练习与编辑控件并列，下方是通过、修改、退回三个操作。',
+        en: 'The foot of a generated draft: the last two questions with the keyed option marked, a note field for what is wrong, a bar reporting how much of the text falls inside the A2 wordlist, and the approve, reject and regenerate controls.',
+        zh: '一份生成初稿的底部：最后两道题与标出答案的选项、写错因的备注框、报告文本有多少落在 A2 词表内的横条，以及通过、退回、重新生成三个操作。',
       },
       caption: {
         en: 'The adjudication surface. Nothing reaches a classroom without an explicit approve, edit or reject decision, and rejection reasons are stored. This is a deliberate piece of friction: without a frozen pre-edit baseline, the teacher\'s contribution cannot be measured at all.',
@@ -168,8 +168,8 @@ export const papercraft: Project = {
             zh: '取回这位教师的偏好摘要、之前通过的范例，以及最近的退回原因。',
           },
           why: {
-            en: 'In-context personalisation without fine-tuning. This is the mechanism behind the exploratory question of whether a teacher\'s own approval history reduces their later editing.',
-            zh: '不做微调，靠上下文实现个性化。它还要回答一个探索性问题，教师自己的通过记录，能否减少其后续的编辑量。',
+            en: 'In-context personalisation without fine-tuning. This is the mechanism behind the exploratory question of whether a teacher\'s own approval history reduces their later editing. The block is also placed where the provider can reuse it: everything invariant for one teacher and one part precedes the task line, so on the provider\'s own counters the second of two requests sharing a stable block returned 4,096 cached tokens of 4,336 where the earlier arrangement returned none. That is a cost and latency result, not a quality one.',
+            zh: '不做微调，靠上下文实现个性化。它还要回答一个探索性问题，教师自己的通过记录，能否减少其后续的编辑量。这个区块还放在供应商能复用的位置，同一位教师、同一个题型里不变的部分统一排在任务行之前。按供应商自己的计数，两次共享稳定区块的请求，第二次命中了 4,336 个 token 中的 4,096，而旧排法一个都没命中。这只关乎成本与延迟，与题目质量无关。',
           },
         },
         {
@@ -204,8 +204,8 @@ export const papercraft: Project = {
             zh: '先拆分场景，再合成图像，然后让视觉模型依据拿到的这几张图去撰写作文题。',
           },
           why: {
-            en: 'KET picture-story and picture-matching items require text and image to be mutually consistent. Writing the prompt from the generated image, rather than the reverse, is what keeps them aligned.',
-            zh: 'KET 看图写作和图片匹配题要求文字与图像彼此一致。先出图、再据图命题，若顺序颠倒，题干就容易与配图对不上。',
+            en: 'KET picture-story and picture-matching items require text and image to be mutually consistent. Writing the prompt from the generated image, rather than the reverse, is what keeps them aligned. Each panel\'s drawing time and every inspection are recorded, which is how one 126-second request was found to have spent 28, 69 and 8 seconds on its three panels and the remaining 21 on the checks between them; an average would have hidden that. Reordering the fallback providers cut the worst observed request from 230 seconds to 134.',
+            zh: 'KET 看图写作和图片匹配题要求文字与图像彼此一致。先出图、再据图命题，若顺序颠倒，题干就容易与配图对不上。每一格的绘制耗时和每次检查都会记录。正因为如此，某次 126 秒的请求被发现三格分别用了 28、69 和 8 秒，中间三次检查占掉剩下的 21 秒，光看平均值看不出来。重排备用供应商之后，最差的一次请求从 230 秒降到 134 秒。',
           },
         },
         {
@@ -240,12 +240,48 @@ export const papercraft: Project = {
       w: 945,
       h: 667,
       alt: {
-        en: 'A generated KET Part 7 picture story exercise as exported for the classroom: three sequential illustrations, the writing task, and a sample answer.',
-        zh: '一份已导出的 KET Part 7 看图写作练习，含三张连续插图、写作任务和参考答案。',
+        en: 'A generated KET Part 7 picture story exercise as exported for the classroom: three sequential illustrations, the writing task and its hints.',
+        zh: '一份已导出的 KET Part 7 看图写作练习，含三张连续插图、写作任务与提示。',
       },
       caption: {
         en: 'What actually comes out of the pipeline: a KET Part 7 picture story, exported ready to hand out. This is the multimodal branch. The images are synthesised first, then a vision model writes the task from the images it was given, because doing it the other way round produces prompts that do not match their own pictures.',
         zh: '这就是管线产出的东西，一份 KET Part 7 看图写作，导出即可发给学生。这条走的是多模态分支，先合成图像，再让视觉模型据图命题。若顺序颠倒，题干常常与配图对不上。',
+      },
+    },
+    {
+      kind: 'prose',
+      heading: { en: 'The other half of the system', zh: '系统的另一半' },
+      body: {
+        en: [
+          'Generation is half the system. The other half reads the correction log rather than writing exercises: it runs offline, on a schedule or when the teacher asks for it. A pattern has to appear in at least three different exercises before it can become a candidate rule, counted by distinct generations rather than by events, because four option edits inside one exercise are one decision. The distiller receives the handbook specification for the part alongside the edits; without it, the most that can be induced is that some text changed.',
+          'A candidate rule does not reach the teacher on the strength of its own reasoning. It goes to an audit that runs inside distillation on a different vendor\'s model at temperature zero, instructed to refute the rule rather than improve it, and required to name one of its grounds when it refuses. It can refuse or pass, never write, edit or apply. Silence is refusal, and an audit that is unreachable or truncated proposes nothing. Every rule stays attached to the teacher who accepted it rather than pooled across users.',
+          'The third finding came from here. Given three arbitrary substitutions, in which nine became ten, red became blue and a park became a beach, the distiller induced a rule that factual details should be accurate and consistent with source information, reasoning that the teacher had corrected claims that were probably wrong.',
+          'The evidence held three substitutions and nothing else: no source material, and nothing to say that any original value was wrong. The reason added to the evidence instead of reading it, and left alone the rule would have been injected into every later generation for that part. The audit refused it, on the ground that the rationale asserted a fact the evidence did not contain.',
+          'Repeating the sound case three times gave the audit\'s reliability a shape worth stating. It accepted the rule in two runs and refused it in the third, on the ground that a consistent pattern of replacement could be a context-specific correction rather than a universal rule, which is a defensible reading of the same evidence rather than an error.',
+          'It also turned out that the audit had been handed the changed values alone while the distiller was given the specification and the teacher\'s notes as well; supplied with the same bundle, three parts that had just produced three refusals produced three accepted proposals. What survives is the direction rather than the rate. Failing closed biases the step towards refusing, which is the right bias: refusing a sound rule costs a round of distillation, while admitting an unsound one puts an invented constraint into every later prompt.',
+        ],
+        zh: [
+          '生成只是系统的一半。另一半读的是批改日志，不写题，按日程在离线跑，或者由教师点一下触发。一个模式要出现在至少三次**不同的生成**里才算候选规则，按生成次数计，不按事件计，因为同一道题里改了四处选项，那是一个决定。蒸馏器拿到的除了这些改动，还有该题型的手册规格；不给规格，能推出来的最多只是「有文字被改过」。',
+          '候选规则不会凭自己的推理就送到教师面前。它要先过一道审计，审计跑在**另一家厂商**的模型上，温度 0，指令是证伪这条规则，而不是改进它，拒绝时必须指明用的是哪一条理由。它只能拒绝或通过，不能写、不能改、不能应用。沉默即拒绝，审计不可达或者返回被截断，就等于什么都没提。每条规则属于接受它的那位教师，不做跨用户合并。',
+          '第三项发现就出在这里。三次任意替换，九变成十、红变成蓝、公园变成海滩，蒸馏器推出了一条「事实细节应当准确，并与原始信息一致」的规则，理由是教师改正了大概有误的说法。',
+          '证据里只有那三次替换，没有原始材料，也没有任何地方说原来的值是错的。这条理由给证据添了东西，而不是去读它。放着不管，它会被注入该题型之后每一次生成。审计拒绝了它，理由是这条规则的说明断言了证据里并不存在的事实。',
+          '同一条站得住的规则跑三次，审计的可靠性就有了形状。它两次接受，第三次拒绝，理由是「一致的替换模式也可能是特定情境下的修正，而非普遍规则」。这是对同一份证据的另一种读法，不是事实错误。',
+          '还有一处也查了出来，审计当时只拿到改动的值，而蒸馏器手里还有规格和教师的备注；把蒸馏器那一整包交给它之后，三个刚刚连出三次拒绝的题型，给出了三条被接受的建议。站得住的是方向，不是那个比率。宁可失败在拒绝这一侧是对的。拒掉一条好规则只是多跑一轮蒸馏，放进一条坏规则，就是往之后每一次 prompt 里塞进一条凭空造出来的约束。',
+        ],
+      },
+    },
+    {
+      kind: 'figure',
+      src: '/work/papercraft/learned-rules.webp',
+      w: 1600,
+      h: 867,
+      alt: {
+        en: 'The page headed "What the system has learned from you": a row of counters running from corrections recorded through proposals the audit refused to rules waiting for a decision, then the proposals themselves, each with the evidence it was induced from and a button to start or decline using it.',
+        zh: '标题为「系统从你这里学到了什么」的页面：一排计数从记录的批改、变成建议、被审计拒绝，一直到等你决定的规则；下面是每条建议本身、它据以归纳的证据，以及开始使用或谢绝两个按钮。',
+      },
+      caption: {
+        en: 'The offline half, seen from the teacher\'s side. Corrections are counted, recurring ones become proposals, and every proposal carries the evidence it was induced from and the exercises it came from. A proposal reaches this page only after an audit on a different vendor\'s model failed to refute it, and it changes nothing about future drafts until the teacher accepts it. The counters shown here belong to the demonstration account.',
+        zh: '这就是离线的那一半，从教师这一侧看到的样子。批改被计数，反复出现的模式变成建议，每条建议都带着它据以归纳的证据，以及它来自哪几次练习。建议要走到这一页，得先通过一次证伪性的审计，审计跑在另一家厂商的模型上；在教师接受之前，它不会改变之后任何一份初稿。图中的计数属于演示账号。',
       },
     },
     {
@@ -270,16 +306,67 @@ export const papercraft: Project = {
     },
     {
       kind: 'figure',
-      src: '/work/papercraft/workspace-item-analysis.webp',
-      w: 2400,
-      h: 1500,
+      src: '/work/papercraft/analytics-item-analysis.webp',
+      w: 1600,
+      h: 922,
       alt: {
-        en: 'The item analysis view: per-item difficulty and discrimination with distractor choice counts.',
-        zh: '项目分析视图，显示逐题的难度与区分度，以及各干扰项的选择次数。',
+        en: 'The class analytics view for one shared paper: overall and per-item figures, a banner comparing the difficulty requested with the difficulty observed, and each question with its discrimination value and option counts.',
+        zh: '某份练习的班级分析视图：整体与逐题的数字、把请求难度与观测难度并列的横幅，以及每道题的区分度值与各选项次数。',
       },
       caption: {
-        en: 'Item analysis, built and wired to live response data. The screenshot shows the surface running against development data. The point of the view is that "usable item" becomes a question with an answer, per item, rather than an impression of the generator.',
-        zh: '项目分析已经做好，也接入了作答数据的链路，截图中运行的是开发数据。有了这个视图，这道题能不能用就成了逐题可以回答的问题，不再只是对生成器的整体印象。',
+        en: 'Classical item analysis, computed from responses and shown per item: difficulty as the proportion correct, point-biserial discrimination, how often each option was chosen, and the distractors the class never picks. The banner is the comparison the design exists for, between the difficulty the teacher asked for and the difficulty the items turned out to have. Everything in this screenshot comes from demonstration responses the author entered; no student has taken part and no class has used the system.',
+        zh: '经典项目分析，依据作答逐题算出：以通过率表示的难度、点二列区分度、各选项被选的次数，以及全班从不选它的死干扰项。上方那条横幅才是这个设计的重点，把教师当初要的难度和题目实际表现出的难度摆在一起。截图里的数据全部来自作者自己录入的演示作答，没有学生参与，也没有班级用过这套系统。',
+      },
+    },
+    {
+      kind: 'prose',
+      heading: {
+        en: 'Two failures the structural checks cannot see',
+        zh: '结构性检查看不见的两类失败',
+      },
+      body: {
+        en: [
+          'The gates check shape, conformance to the published task, and lexis. None of them checks whether the answer is right, and that is where these items actually fail.',
+          'The check built for it is behavioural rather than a rubric score: a solver is given each item with its key removed, and a challenger is asked to construct a reading on which each wrong option would be correct. A different answer means the key is contested, and a second defensible option means the item has two answers. Either model may decline to score, and a declined item is excluded rather than recorded as a pass.',
+          'Over the part of the bank these checks can judge, two items were flagged and one of them is a genuine defect. The notice reads "Swimming club meeting on Friday at 4 pm. Bring your swimsuit." The options are that the club meets every Friday, that a swimsuit is needed, and that the meeting is in the afternoon, and the key is the second.',
+          'The first option is properly wrong, because the notice says on Friday rather than every Friday. The third is also true, because 4 pm is the afternoon.',
+          'Every gate passed the item, and none of them was wrong to: the schema saw three options and one key, the handbook check saw six notices, the vocabulary audit found every word inside A2, and the vision gate does not apply. What the item has is two defensible answers, which is a property of the whole item rather than of any single field.',
+          'The larger finding is about the answer key across a set, which no per-question gate can look at. Across 33 generations of A2 Reading and Writing Part 4 produced on one day, 26 had one letter taking at least two thirds of the answers and 13 put all six answers on option A; over the 198 questions the split was 147 on A, 41 on B and 10 on C.',
+          'A candidate who never read the passage and always answered A would have scored full marks on those 13. The schema, handbook and vocabulary gates all passed them, and all three were right to: each question was fine on its own.',
+          'Two corrections followed. The prompt now asks for the key to be spread across the letters, and a fourth deterministic check counts them and reports to the teacher. The second measurement matters more, because it shows the first correction was not enough: over 12 generations of the same part after the rule was added, five keys were still skewed and two were still entirely on A, with 41 of 72 answers on A.',
+          'The rule moved the distribution, from 74 per cent on A to 57, and from 39 per cent of exercises uniform to 17, and it did not remove the failure. A rule in a prompt is a request. Checking that it holds is a separate piece of work, and it is why the check now runs when the draft is generated rather than only after the teacher edits something.',
+          'Building these produced a lesson about the instruments rather than the bank. The first runs of the answer-correctness check were measuring the check.',
+          'An exercise was filed under the wrong item type, so the solver was asked questions a picture-story task does not have; an extractor kept a notice\'s stem without its text; a challenger returned a reading it had hedged itself; and an exclusion that was correct but silent kept every cloze item out of the count, while the count was read as covering the bank.',
+          'The first three took the rate from 12 per cent to 2 per cent. The fourth is the sharper kind, because nothing was miscalculated: no check was running on those items at all, and no line of output said so. The scripts now print what they skip, and why.',
+        ],
+        zh: [
+          '那几道闸门查的是结构、是不是手册里那个任务、词在不在表内，没有一道查答案对不对，而题目真正出错的地方恰恰在这里。',
+          '为此做的检查是行为判断，不是评分：把答案键拿掉后交给求解器，再让挑战者去为每一个错误选项构造一种它也能成立的读法。求解器给出别的答案，说明这个键有争议。找得出第二个说得通的选项，说明这道题有两个答案。两边的模型都可以拒绝打分，拒绝的题目按排除处理，不计为通过。',
+          '在这一类检查能判的那部分题库里，命中两处，其中一处是真缺陷。那道通知题写着「Swimming club meeting on Friday at 4 pm. Bring your swimsuit.」。选项是「俱乐部每周五都开」「要带泳衣」「活动在下午」三项，答案键是第二个。',
+          '第一个确实错了，通知写的是「这个周五」，不是每周五。第三个同样成立，因为下午四点就是下午。',
+          '三道闸门全放它过去了，而且都没有错：结构校验看到三个选项和一个键，手册闸门看到六条通知，词汇审计发现每个词都在 A2 之内，视觉闸门不适用。这道题的毛病是有两个都说得通的答案，这是整道题的性质，不是某个字段的性质。',
+          '更大的一处发现跟整套题的答案键分布有关，这是逐题闸门看不到的。同一天生成的 33 份 A2 Reading and Writing Part 4 里，26 份有一个字母占了至少三分之二的答案。',
+          '13 份把六个答案全放在 A 上。198 道题的分布是 A 147、B 41、C 10。这 13 份里，一个从不读文章、一路只选 A 的考生能拿满分。结构、手册、词汇三道闸门都放它们过去了，三道都没有错，因为每一道题单独看都没问题。',
+          '随后做了两处修正。prompt 里加上了「答案键要在各字母间分散」的要求，同时增加第四道确定性检查来数它们，并把结果报给教师。第二次测量更有用，因为它说明第一次修正并不够：规则加进去之后，同一题型的 12 份生成里仍有 5 份偏斜、2 份全在 A，72 个答案里 41 个落在 A。',
+          '规则确实推动了分布，A 的占比从 74% 降到 57%，整份题全部同一个字母的比例从 39% 降到 17%，但失败没有被消除。写在 prompt 里的规则只是一个请求，确认它有没有生效是另一件事，这也正是这道检查改在初稿生成时就跑，而不是等教师改过之后才跑的原因。',
+          '做这些检查，学到的东西更多是关于检查本身，而不是关于题库。答案正确性检查最早几轮测的是它自己。',
+          '有一道题存进了错误的题型，于是求解器拿到了一道看图写作根本没有的题。有一版提取器留下了通知的题干却丢了正文。有一个挑战者返回了它自己都没把握的读法。还有一处排除本身是对的，却不出声，整类完形填空一直没进计数，而那个数字读起来像是覆盖了全库。',
+          '前三处把缺陷率从 12% 压到 2%。第四处性质更麻烦，因为没有任何东西算错，那些题目根本没有跑过检查，也没有一行输出说出来。现在脚本会打印它跳过了什么，以及为什么。',
+        ],
+      },
+    },
+    {
+      kind: 'figure',
+      src: '/work/papercraft/draft-key-spread.webp',
+      w: 1600,
+      h: 878,
+      alt: {
+        en: 'The head of a generated A2 Reading Part 4 draft: a warning that every answer is A, so a candidate who always picks A would score full marks, above the draft header confirming the item matches the exam task and the completed reference passage.',
+        zh: '一份生成的 A2 Reading Part 4 初稿的顶部：一条告警说明所有答案都是 A、一路选 A 的考生能拿满分；下面是确认该题符合考试任务要求的初稿抬头，以及填好空格的参考全文。',
+      },
+      caption: {
+        en: 'What the checks catch that the gates cannot. This draft passed the schema, handbook and vocabulary gates, all of which judge a question on its own and were right to pass it. The warning is a fourth deterministic check, added after a day of generations in which 13 of 33 A2 Reading Part 4 papers put every answer on option A, and it runs when the draft is generated rather than after the teacher edits something. It reports and does not block.',
+        zh: '闸门看不见、检查能抓住的东西。这份初稿通过了结构、手册和词汇三道闸门，这三道闸门都是逐题判断的，放它过去并没有判错。上面那条告警来自第四道确定性检查，是在发现某天 33 份 A2 Reading Part 4 里有 13 份把六个答案全放在 A 上之后加的；它改在初稿生成时运行，不等教师先改点什么。它只报告，不拦截。',
       },
     },
     {
@@ -298,8 +385,8 @@ export const papercraft: Project = {
           label: { en: 'Authoring pipeline, 15 item types, exports', zh: '出题管线、15 种题型、导出功能' },
           state: 'shipped',
           detail: {
-            en: 'Deployed and used to produce real classroom materials, including Word, PDF and slide export.',
-            zh: '已上线，并且真正用于产出课堂材料，支持导出 Word、PDF 和幻灯片。',
+            en: 'Deployed and used to produce real classroom materials, including Word, PDF and slide export. Across the 215 generations whose trace includes the specification gate, 211 passed it on the first attempt and four after a repair, and none reached the teacher carrying an unresolved discrepancy.',
+            zh: '已上线，并且真正用于产出课堂材料，支持导出 Word、PDF 和幻灯片。在 215 次带规格闸门的生成里，211 次一次通过、4 次修复后通过，没有一次带着未解决的偏差交给教师。',
           },
         },
         {
@@ -314,8 +401,24 @@ export const papercraft: Project = {
           label: { en: 'CEFR lexical audit', zh: 'CEFR 词汇审计' },
           state: 'shipped',
           detail: {
-            en: 'Runs on every generated item and reports a compliance figure to the teacher.',
-            zh: '每道生成的题目都会跑一遍，并把合规率报给教师。',
+            en: 'Runs on every generated item and reports a compliance figure to the teacher. Comparing the pass flag either side of an edit turned out to be inert, because the published A2 list scores ordinary classroom prose at about 82 per cent, so nearly every real draft starts non-compliant and the flag can never change; the check reports a material drop in compliance with both figures quoted instead.',
+            zh: '每道生成的题目都会跑一遍，并把合规率报给教师。拿通过标记做编辑前后对比，后来发现是失效的，因为 A2 词表给普通课堂散文打约 82 分，几乎每份真实初稿一上来就不合规，标记因此永远不会变；现在改成报告合规率的实质下降，并同时列出两个数字。',
+          },
+        },
+        {
+          label: { en: 'Answer-key spread check', zh: '答案键分布检查' },
+          state: 'shipped',
+          detail: {
+            en: 'A fourth deterministic check runs when a draft is generated and warns the teacher when one option takes most of the key, which no per-question gate can look at. It reports and does not block.',
+            zh: '第四道确定性检查在初稿生成时运行，某个选项占了大部分答案就告警，这是逐题闸门看不到的。它只报告，不拦截。',
+          },
+        },
+        {
+          label: { en: 'Answer-correctness check', zh: '答案正确性检查' },
+          state: 'instrumented',
+          detail: {
+            en: 'A solver and a challenger judge each saved item with its key removed, so a key nobody else would choose and a second defensible answer both surface. Behavioural, not a rubric score. Two items were flagged and one is a genuine defect; the rate over the bank is a count attached to an existence proof rather than a measurement, because no item has been compared with teacher judgement.',
+            zh: '把答案键拿掉之后交给求解器和挑战者各判一次，「没人会选的键」和「第二个也说得通的答案」都会浮出来。做的是行为判断，不是评分。命中两处，其中一处是真缺陷；但这个比率是带计数的存在性证明，不是质量测量，因为还没有任何题目跟教师的判断对过。',
           },
         },
         {
@@ -332,6 +435,14 @@ export const papercraft: Project = {
           detail: {
             en: 'Pre-edit drafts are frozen and the edit-distance computation is implemented. No teacher editing data has been collected, so no distribution across item types can be reported.',
             zh: '编辑前的初稿会被冻结，编辑距离的计算也已实现。但尚未采集到教师的编辑数据，因此还报不出各题型之间的分布。',
+          },
+        },
+        {
+          label: { en: 'Post-edit conformance comparison', zh: '后编辑一致性比对' },
+          state: 'instrumented',
+          detail: {
+            en: 'After a teacher edits a draft, the conformance checks are re-run on their version and the teacher is told which check changed and by how much, so a disagreement between their edit and the bar the draft had to meet is recorded with both verdicts. Verified by driving the running application; no teacher has used it yet.',
+            zh: '教师改完初稿之后，系统会拿他的版本重跑一致性检查，并告诉他哪一项变了、变了多少。教师的改动与初稿本该达到的标准之间的分歧，连同两个判定一起入日志。机制靠驱动真实应用验证过，尚无教师使用。',
           },
         },
         {
@@ -352,10 +463,10 @@ export const papercraft: Project = {
         },
         {
           label: { en: 'Skill-level mastery diagnosis', zh: '技能层面的掌握度诊断' },
-          state: 'planned',
+          state: 'instrumented',
           detail: {
-            en: 'Mapping per-question evidence onto skill dimensions to recommend what to practise next. Specified, not built.',
-            zh: '把逐题证据映射到技能维度，据此推荐下一步练什么。方案已有，尚未实现。',
+            en: 'The class view reports the class rather than the teacher\'s material as a whole: facility overall and by Cambridge part, the questions fewer than half the class answered correctly across at least three attempts, any exercise whose observed difficulty departed from the band requested, and the practice the diagnosis recommends next. Built and running. No real class has used it, and the only responses behind the current figures are demonstration data.',
+            zh: '班级视图报告的是某一个班，而不是这位教师的全部材料：整体与各部分的通过率、至少三次作答中半数以上答错的题目、观测难度偏离请求难度的练习，以及诊断推荐的下一步练习。已建成并在运行。尚无真实班级使用过，眼下这些数字背后只有演示数据。',
           },
         },
       ],
