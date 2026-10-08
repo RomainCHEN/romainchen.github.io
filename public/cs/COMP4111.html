@@ -1,0 +1,2107 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<title>Digital Logic &amp; S-DES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
+
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   Palette  — the MPU lecture-slide green plus the deck's
+              Excel-style truth tables (blue header / green body).
+   Type     — Archivo (display) / IBM Plex Sans (body) /
+              IBM Plex Mono (all bit strings and tables).
+   Layout   — workbook: sticky outline rail, one prose column,
+              figures break out to the full measure.
+   ============================================================ */
+:root{
+  --paper:#f2f6f4;
+  --surface:#ffffff;
+  --surface-2:#f8fbfa;
+  --ink:#14211d;
+  --ink-soft:#54665f;
+  --rule:#d3e0db;
+  --rule-soft:#e6eeeb;
+
+  --green:#3b977e;
+  --green-deep:#1f5d4c;      /* accent for TEXT and borders — flips light in dark mode */
+  --green-solid:#1f5d4c;     /* solid fill that always carries white text */
+  --green-wash:#ddffde;
+  --tt-hot-bg:#2a7d64;
+  --tt-hot-ink:#ffffff;
+  --navy:#0b1e6a;
+  --blue-wash:#dbe5f1;
+
+  --amber:#9a6410;
+  --amber-wash:#fdf4e3;
+  --red:#a3312f;
+  --red-wash:#fdeceb;
+  --wire-off:#b6c5c0;
+
+  --font-display:'Archivo',system-ui,-apple-system,sans-serif;
+  --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --measure:42rem;
+  --shell:58rem;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#0d1412; --surface:#151f1c; --surface-2:#1a2622;
+    --ink:#e3ece8; --ink-soft:#9aada6; --rule:#26362f; --rule-soft:#1e2c27;
+    --green:#5cc9a8; --green-deep:#8fe0c6; --green-solid:#256a55; --green-wash:#15332a;
+    --tt-hot-bg:#5cc9a8; --tt-hot-ink:#08110e;
+    --navy:#b8ccf7; --blue-wash:#1b2a3a;
+    --amber:#e2ac52; --amber-wash:#2c2413;
+    --red:#ec8b86; --red-wash:#331b19;
+    --wire-off:#4a5f58;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0d1412; --surface:#151f1c; --surface-2:#1a2622;
+  --ink:#e3ece8; --ink-soft:#9aada6; --rule:#26362f; --rule-soft:#1e2c27;
+  --green:#5cc9a8; --green-deep:#8fe0c6; --green-solid:#256a55; --green-wash:#15332a;
+  --tt-hot-bg:#5cc9a8; --tt-hot-ink:#08110e;
+  --navy:#b8ccf7; --blue-wash:#1b2a3a;
+  --amber:#e2ac52; --amber-wash:#2c2413;
+  --red:#ec8b86; --red-wash:#331b19;
+  --wire-off:#4a5f58;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:16.5px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.shell{
+  max-width:var(--shell); margin:0 auto;
+  padding-inline:clamp(16px,4vw,32px); padding-block:0 90px;
+}
+
+/* ---------- masthead ---------- */
+.masthead{
+  position:relative;
+  margin-inline:calc(-1 * clamp(16px,4vw,32px));
+  padding:32px clamp(16px,4vw,32px) 28px;
+  background:var(--green-solid); color:#fff;
+}
+.themebtn{
+  position:absolute; top:18px; right:clamp(16px,4vw,32px);
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:#fff; cursor:pointer;
+  background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.34);
+  border-radius:3px; padding:5px 11px;
+}
+.themebtn:hover{background:rgba(255,255,255,.26)}
+@media (max-width:560px){.themebtn{position:static;display:inline-block;margin-bottom:14px}}
+.masthead .kicker{
+  font-family:var(--font-mono); font-size:11.5px; letter-spacing:.14em;
+  text-transform:uppercase; opacity:.82; margin:0 0 9px;
+}
+.masthead h1{
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(28px,5.2vw,44px); line-height:1.08; letter-spacing:-.02em;
+  margin:0 0 11px; text-wrap:balance; max-width:22ch;
+}
+.masthead .sub{margin:0; max-width:54ch; font-size:15.5px; opacity:.92; line-height:1.5}
+.scopechips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.scopechips span{
+  font-family:var(--font-mono); font-size:11.5px; letter-spacing:.03em;
+  padding:4px 10px; border-radius:2px;
+  background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22);
+}
+.scopechips span.out{opacity:.45;text-decoration:line-through}
+
+/* ---------- layout ---------- */
+.layout{display:grid;grid-template-columns:1fr;gap:26px}
+@media (min-width:1040px){
+  .layout{grid-template-columns:172px minmax(0,1fr);gap:46px;align-items:start}
+}
+.rail{
+  position:sticky;top:0;z-index:6;
+  margin-inline:calc(-1 * clamp(16px,4vw,32px));
+  padding:9px clamp(16px,4vw,32px);
+  background:var(--paper); border-bottom:1px solid var(--rule);
+  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+}
+.rail::-webkit-scrollbar{display:none}
+@media (min-width:1040px){
+  .rail{flex-direction:column;gap:1px;top:26px;margin-inline:0;padding:0;border-bottom:0;overflow:visible}
+}
+.rail a{
+  font-size:13px; font-family:var(--font-display); font-weight:600;
+  color:var(--ink-soft); text-decoration:none; padding:7px 10px;
+  border-radius:3px; white-space:nowrap; border-left:2px solid transparent;
+}
+@media (min-width:1040px){.rail a{white-space:normal;padding:5px 10px;border-left:2px solid var(--rule-soft)}}
+.rail a:hover{color:var(--green-deep);background:var(--surface-2)}
+.rail a.on{color:var(--green-deep);border-left-color:var(--green);background:var(--surface-2)}
+
+main{min-width:0}
+main :is(p,ul,ol,.callout,.lede){max-width:var(--measure)}
+
+/* ---------- type ---------- */
+h2{
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(21px,3.3vw,27px); letter-spacing:-.014em; line-height:1.18;
+  margin:52px 0 6px; text-wrap:balance; scroll-margin-top:70px;
+}
+h3{
+  font-family:var(--font-display); font-weight:600; font-size:17.5px;
+  margin:32px 0 8px; scroll-margin-top:70px;
+}
+h4{
+  font-family:var(--font-display); font-weight:600; font-size:13px;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);
+  margin:24px 0 8px;
+}
+p{margin:0 0 13px}
+.lede{font-size:17px;color:var(--ink-soft);margin-bottom:20px}
+
+.part{
+  display:flex;align-items:baseline;gap:14px;
+  margin:60px 0 4px; padding-bottom:9px; border-bottom:2px solid var(--green);
+}
+.part .n{
+  font-family:var(--font-mono); font-size:12px; font-weight:600;
+  letter-spacing:.1em; color:var(--green-deep);
+}
+.part h2{margin:0;font-size:clamp(22px,3.6vw,30px)}
+
+code,.mono{font-family:var(--font-mono);font-size:.93em}
+p code,li code,td code{
+  background:var(--surface-2); border:1px solid var(--rule-soft);
+  border-radius:3px; padding:1px 5px;
+}
+.bits{font-family:var(--font-mono);font-size:15px;letter-spacing:.1em;white-space:nowrap}
+a{color:var(--green-deep)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:2px}
+
+/* ---------- figures ---------- */
+.fig{margin:18px 0 24px}
+.scroll{overflow-x:auto;padding-bottom:4px}
+.fig svg{display:block;width:100%;height:auto;min-width:540px}
+.cap{
+  margin:9px 0 0; font-family:var(--font-mono); font-size:11.5px;
+  letter-spacing:.02em; color:var(--ink-soft); max-width:var(--measure);
+}
+.cap b{color:var(--green-deep);font-weight:600}
+
+.shape{fill:none;stroke:var(--ink);stroke-width:2.3;stroke-linejoin:round;stroke-linecap:round}
+.shape-thin{fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linejoin:round;stroke-linecap:round}
+.node{fill:var(--surface);stroke:var(--ink);stroke-width:1.9}
+.flow{fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round}
+svg text{font-family:var(--font-mono);font-size:12px;fill:var(--ink)}
+svg .t-lbl{font-family:var(--font-display);font-weight:600;font-size:12.5px;letter-spacing:.02em}
+svg .t-sm{font-size:10.5px;fill:var(--ink-soft)}
+svg .t-key{fill:var(--green-deep);font-weight:600}
+svg .box-fill{fill:var(--surface-2);stroke:var(--ink);stroke-width:1.9}
+svg .grn-fill{fill:var(--green-wash);stroke:var(--green-deep);stroke-width:1.9}
+
+.w :is(path,line,text){transition:stroke .12s linear,fill .12s linear}
+.w path,.w line{stroke:var(--wire-off)}
+.w text{fill:var(--wire-off)}
+.w.on path,.w.on line{stroke:var(--green)}
+.w.on text{fill:var(--green-deep)}
+.w.on .badge{fill:var(--green-wash);stroke:var(--green-deep)}
+.w .badge{fill:var(--surface);stroke:var(--wire-off);stroke-width:1.5}
+
+/* ---------- truth tables (slide style) ---------- */
+.tt{
+  border-collapse:collapse; font-family:var(--font-mono);
+  font-size:13px; font-variant-numeric:tabular-nums;
+}
+.tt th,.tt td{border:1px solid var(--rule);padding:3px 10px;text-align:center}
+.tt thead th{background:var(--blue-wash);color:var(--navy);font-weight:600}
+.tt tbody td{background:var(--green-wash);color:var(--ink)}
+.tt tbody tr.hot td{background:var(--tt-hot-bg);color:var(--tt-hot-ink);font-weight:600}
+.tt th.rh,.tt td.rh{background:var(--blue-wash);color:var(--navy);font-weight:600}
+
+/* ---------- generic data tables ---------- */
+.dt{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+.dt th,.dt td{border-bottom:1px solid var(--rule-soft);padding:9px 12px;text-align:left;vertical-align:top}
+.dt thead th{
+  font-family:var(--font-display); font-size:11.5px; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);
+  border-bottom:1.5px solid var(--rule); white-space:nowrap;
+}
+.dt td.m{font-family:var(--font-mono);font-size:13.5px;white-space:nowrap}
+.dt tbody tr:hover td{background:var(--surface-2)}
+.dt.compact td{padding:6px 12px}
+
+/* ---------- gate cards ---------- */
+.gates{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:13px; margin:20px 0 24px;
+}
+.gate{
+  background:var(--surface); border:1px solid var(--rule); border-radius:4px;
+  padding:13px 15px 11px; display:flex; flex-direction:column; gap:9px;
+}
+.gate h4{
+  margin:0; font-size:14.5px; letter-spacing:0; text-transform:none;
+  color:var(--ink); font-weight:600;
+}
+.gate .expr{font-family:var(--font-mono);font-size:13.5px;color:var(--green-deep);font-weight:500}
+.gate .gatebody{display:flex;gap:13px;align-items:center;flex-wrap:wrap}
+.gate svg{width:98px;height:59px;flex:none}
+.gate .syms{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-soft);margin:-3px 0 0}
+
+/* ---------- callouts ---------- */
+.callout{
+  border-left:3px solid var(--green); background:var(--surface);
+  padding:13px 17px; margin:18px 0; border-radius:0 4px 4px 0;
+}
+.callout.warn{border-left-color:var(--amber);background:var(--amber-wash)}
+.callout.err{border-left-color:var(--red);background:var(--red-wash)}
+.callout.tip{border-left-color:var(--green);background:var(--green-wash)}
+.callout h4{margin:0 0 6px;color:var(--ink);font-size:12.5px;letter-spacing:.08em}
+.callout p:last-child,.callout ul:last-child{margin-bottom:0}
+.callout ul{margin:0;padding-left:19px}
+.callout li{margin-bottom:4px}
+
+ul,ol{margin:0 0 13px;padding-left:21px}
+li{margin-bottom:5px}
+li::marker{color:var(--green-deep)}
+
+.steps{margin:16px 0 20px;padding:0;list-style:none;counter-reset:s}
+.steps>li{counter-increment:s;position:relative;padding-left:36px;margin-bottom:10px}
+.steps>li::before{
+  content:counter(s); position:absolute; left:0; top:1px;
+  width:23px;height:23px;border-radius:50%;
+  background:var(--green-solid);color:#fff;
+  font-family:var(--font-mono);font-size:12px;font-weight:600;
+  display:grid;place-items:center;
+}
+
+/* ---------- worked-example columns ---------- */
+.wk{display:grid;grid-template-columns:1fr;gap:16px;margin:18px 0 24px}
+@media (min-width:720px){.wk{grid-template-columns:1fr 1fr}}
+.wkcol{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:15px 17px}
+.wkcol h4{margin:0 0 11px;color:var(--green-deep);font-size:12px;letter-spacing:.09em}
+.rows{display:flex;flex-direction:column}
+.row{
+  display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:baseline;
+  padding:6px 0; border-bottom:1px solid var(--rule-soft);
+}
+.row:last-child{border-bottom:0}
+.row .k{font-size:13.5px;color:var(--ink-soft);white-space:nowrap}
+.row .v{font-family:var(--font-mono);font-size:14.5px;letter-spacing:.08em;text-align:right}
+.row.hi .v{color:var(--green-deep);font-weight:600}
+.statebox{
+  display:flex;gap:10px;align-items:center;background:var(--blue-wash);
+  color:var(--navy); border-radius:3px; padding:7px 12px;
+  font-family:var(--font-mono); font-size:14px; letter-spacing:.08em;
+  margin:11px 0; font-weight:600;
+}
+.ctbox{
+  background:var(--green-solid);color:#fff;border-radius:3px;
+  padding:10px 14px;margin-top:11px;
+  font-family:var(--font-mono);font-size:15px;letter-spacing:.1em;
+}
+.ctbox.alt{background:var(--blue-wash);color:var(--navy)}
+
+/* ---------- panels ---------- */
+.panel{
+  background:var(--surface); border:1px solid var(--rule); border-radius:5px;
+  padding:17px 19px 19px; margin:22px 0 26px;
+}
+.panel > h3{margin-top:0}
+.panelbar{
+  display:flex;flex-wrap:wrap;gap:13px;align-items:center;
+  padding-bottom:13px;margin-bottom:15px;border-bottom:1px solid var(--rule-soft);
+}
+.toggles{display:flex;gap:8px}
+.tog{
+  font-family:var(--font-mono); font-size:13px; font-weight:600;
+  border:1.5px solid var(--rule); background:var(--surface-2); color:var(--ink-soft);
+  border-radius:3px; padding:5px 13px; cursor:pointer;
+}
+.tog[aria-checked="true"]{background:var(--green-solid);border-color:var(--green-solid);color:#fff}
+.field{display:flex;flex-direction:column;gap:3px}
+.field label{
+  font-family:var(--font-mono); font-size:10.5px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-soft);
+}
+.field input{
+  font-family:var(--font-mono); font-size:14.5px; letter-spacing:.12em;
+  background:var(--surface-2); border:1.5px solid var(--rule); border-radius:3px;
+  color:var(--ink); padding:6px 10px; width:15ch;
+}
+.field input.bad{border-color:var(--red)}
+.btn{
+  font-family:var(--font-display); font-size:13.5px; font-weight:600;
+  background:var(--surface-2); border:1.5px solid var(--rule); color:var(--ink);
+  border-radius:3px; padding:7px 15px; cursor:pointer;
+}
+.btn:hover{border-color:var(--green);color:var(--green-deep)}
+.btn.primary{background:var(--green-solid);border-color:var(--green-solid);color:#fff}
+.btn.primary:hover{filter:brightness(1.18)}
+.readout{font-family:var(--font-mono);font-size:13px;color:var(--ink-soft)}
+.readout b{color:var(--green-deep);font-weight:600;font-size:14.5px;letter-spacing:.08em}
+
+.steps-table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+.steps-table th{
+  font-family:var(--font-display); font-size:11px; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);
+  text-align:left; padding:7px 12px; border-bottom:1.5px solid var(--rule); white-space:nowrap;
+}
+.steps-table td{padding:6px 12px;border-bottom:1px solid var(--rule-soft);vertical-align:baseline}
+.steps-table td.v{font-family:var(--font-mono);font-size:14px;letter-spacing:.1em;white-space:nowrap}
+.steps-table td.n{font-size:12.5px;color:var(--ink-soft)}
+.steps-table tr.hot td{background:var(--green-wash)}
+.steps-table tr.hot td.v{color:var(--green-deep);font-weight:600}
+.steps-table tr.key td{background:var(--blue-wash);color:var(--navy)}
+.steps-table tr.key td.v{font-weight:600}
+.steps-table tr.key.hot td{background:var(--blue-wash)}
+
+/* ---------- predicted Q & A ---------- */
+.abox{
+  border:1px solid var(--rule); border-left:3px solid var(--green);
+  border-radius:0 4px 4px 0; background:var(--surface);
+  padding:15px 18px 16px; margin-bottom:14px;
+}
+.abox .q{
+  font-family:var(--font-display); font-weight:600; font-size:15.5px;
+  line-height:1.35; margin:0 0 4px; display:flex; gap:10px; align-items:baseline;
+}
+.abox .q .num{
+  font-family:var(--font-mono); font-size:11.5px; font-weight:600;
+  color:#fff; background:var(--green-solid); border-radius:3px;
+  padding:2px 7px; flex:none;
+}
+.abox .odd{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.06em;
+  color:var(--ink-soft); margin:0 0 11px 0; padding-left:2px;
+}
+.abox .odd::before{content:"likelihood — ";opacity:.7}
+.abox .a{border-top:1px dashed var(--rule);padding-top:11px}
+.abox .a .tag{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--green-deep); font-weight:600;
+  display:block; margin-bottom:7px;
+}
+.abox .a p:last-child,.abox .a ul:last-child,.abox .a ol:last-child{margin-bottom:0}
+.abox .a :is(p,ul,ol){max-width:var(--measure)}
+
+/* ---------- drills ---------- */
+.drill{border:1px solid var(--rule);border-radius:4px;background:var(--surface);margin-bottom:11px;overflow:hidden}
+.drill>summary{cursor:pointer;padding:12px 17px;font-size:15px;list-style:none;display:flex;gap:11px;align-items:baseline}
+.drill>summary::-webkit-details-marker{display:none}
+.drill>summary::before{
+  content:"Q"; font-family:var(--font-mono); font-size:11px; font-weight:600;
+  color:#fff; background:var(--green-solid); border-radius:3px; padding:2px 6px; flex:none;
+}
+.drill[open]>summary{border-bottom:1px solid var(--rule-soft);background:var(--surface-2)}
+.drill .ans{padding:14px 17px 16px;background:var(--surface-2)}
+.drill .ans :is(p,ul,ol){max-width:var(--measure)}
+.drill .ans p:last-child,.drill .ans ul:last-child{margin-bottom:0}
+.drill .ans .tag{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--green-deep);font-weight:600;display:block;margin-bottom:6px;
+}
+
+/* ---------- practice circuit cards ---------- */
+.qcard{
+  border:1px solid var(--rule); border-left:3px solid var(--green);
+  border-radius:0 4px 4px 0; background:var(--surface);
+  padding:14px 17px 15px; margin-bottom:12px;
+}
+.qcard .qh{
+  font-family:var(--font-mono); font-size:11.5px; font-weight:600;
+  letter-spacing:.08em; color:var(--green-deep); margin:0 0 8px;
+}
+.qcard .qtext{font-size:15.5px;margin:0 0 10px}
+.qcard .qtext:last-child{margin-bottom:0}
+.qcard .qfig{margin:0 0 12px;overflow-x:auto;padding-bottom:2px}
+.qcard .qfig svg{display:block;width:100%;height:auto;min-width:400px}
+.qcard details summary{
+  cursor:pointer; list-style:none;
+  font-family:var(--font-mono); font-size:11.5px; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--green-deep);
+}
+.qcard details summary::-webkit-details-marker{display:none}
+.qcard details summary::before{content:"\25B8\00a0"}
+.qcard details[open] summary::before{content:"\25BE\00a0"}
+.qcard .ansbody{border-top:1px dashed var(--rule);margin-top:9px;padding-top:10px}
+.qcard .ansbody p:last-child{margin-bottom:0}
+.qcard .ansbody :is(p,ul,ol){max-width:var(--measure)}
+.qrow{font-family:var(--font-mono);font-size:14.5px;letter-spacing:.04em;margin:0 0 7px}
+.qrow b{color:var(--green-deep)}
+.drillsplit{display:grid;grid-template-columns:1fr;gap:10px}
+
+/* ---------- 中文指引 layer ---------- */
+:root{ --font-zh:"Microsoft YaHei","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Source Han Sans SC",system-ui,sans-serif; }
+.zh{
+  border-left:3px solid var(--amber); background:var(--amber-wash);
+  border-radius:0 4px 4px 0; padding:13px 17px 14px; margin:16px 0;
+  font-family:var(--font-zh); font-size:15px; line-height:1.78;
+  color:var(--ink);
+}
+.zh > .zhh{
+  display:block; margin:0 0 8px;
+  font-family:var(--font-zh); font-size:12.5px; font-weight:700;
+  letter-spacing:.04em; color:var(--amber);
+}
+.zh > .zhh::before{
+  content:"中文"; display:inline-block;
+  background:var(--amber); color:#fff; border-radius:3px;
+  font-size:10.5px; font-weight:700; letter-spacing:.08em;
+  padding:1px 6px; margin-right:8px; vertical-align:1px;
+}
+.zh :is(p,ul,ol){max-width:var(--measure);margin:0 0 9px}
+.zh :is(p,ul,ol):last-child{margin-bottom:0}
+.zh ul,.zh ol{padding-left:20px}
+.zh li{margin-bottom:4px}
+.zh li::marker{color:var(--amber)}
+.zh .m,.zh code{
+  font-family:var(--font-mono); font-size:13.5px;
+  background:color-mix(in srgb, var(--amber) 10%, var(--surface));
+  border:1px solid color-mix(in srgb, var(--amber) 24%, var(--surface));
+  border-radius:3px; padding:1px 5px;
+}
+.zh b{color:var(--ink)}
+.zh .hl{
+  background:color-mix(in srgb, var(--amber) 22%, transparent);
+  border-radius:2px; padding:0 3px; font-weight:700;
+}
+.zhtable{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0 10px;min-width:400px}
+.zhtable th,.zhtable td{border-bottom:1px solid color-mix(in srgb, var(--amber) 26%, var(--surface));
+  padding:5px 9px;text-align:left}
+.zhtable th{font-family:var(--font-zh);font-weight:700;font-size:12.5px;color:var(--amber)}
+.zhtable td.c{font-family:var(--font-mono);font-size:13px;white-space:nowrap}
+.zhtable tbody tr:last-child td{border-bottom:0}
+.zhsteps{margin:0;padding:0;list-style:none;counter-reset:z}
+.zhsteps>li{counter-increment:z;position:relative;padding-left:30px;margin-bottom:7px}
+.zhsteps>li::before{
+  content:counter(z); position:absolute; left:0; top:2px;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--amber);color:#fff;
+  font-family:var(--font-mono);font-size:11px;font-weight:700;
+  display:grid;place-items:center;
+}
+.zhsteps>li:last-child{margin-bottom:0}
+
+/* ---------- recap ---------- */
+.recap{background:var(--surface);border:2px solid var(--green-deep);border-radius:5px;padding:21px 23px 23px;margin-top:24px}
+.recapgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px 28px;margin-top:15px}
+.recapgrid h4{margin:0 0 8px;color:var(--green-deep)}
+.recapgrid ul{margin:0;padding-left:18px;font-size:14.5px}
+.recapgrid li{margin-bottom:4px}
+.recapgrid p{font-size:14.5px;margin:0 0 8px}
+.kv{font-family:var(--font-mono);font-size:13.5px;line-height:1.8}
+.kv span{color:var(--ink-soft);display:inline-block;min-width:3.4ch}
+
+footer{margin-top:58px;padding-top:18px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink-soft)}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+</style>
+
+<div class="shell">
+
+<header class="masthead">
+  <button class="themebtn" id="themeBtn" type="button">Dark mode</button>
+  <p class="kicker">COMP4111 Computer Security · Midterm</p>
+  <h1>Digital Logic &amp; S-DES</h1>
+  <p class="sub">The exam scope only, in slide order — gate reference, the S-DES machine, worked examples, predicted questions with model answers, and a last-hour recap.</p>
+  <div class="scopechips">
+    <span>In scope: Digital Logic</span>
+    <span>In scope: Simplified DES</span>
+    <span class="out">Vigenère</span>
+    <span class="out">Block-cipher modes</span>
+    <span class="out">DES / AES / RC4</span>
+  </div>
+</header>
+
+<div class="layout">
+
+<nav class="rail" aria-label="Contents">
+  <a href="#overview">Scope</a>
+  <a href="#logic">1 · Digital Logic</a>
+  <a href="#gates">Gates</a>
+  <a href="#universal">Universal gates</a>
+  <a href="#design">Circuit design</a>
+  <a href="#readwrite">Read / draw circuits</a>
+  <a href="#sdes">2 · Simplified DES</a>
+  <a href="#keygen">Key generation</a>
+  <a href="#sboxes">S-boxes</a>
+  <a href="#worked">Worked example</a>
+  <a href="#predict">Predicted questions</a>
+  <a href="#recap">Last-hour recap</a>
+</nav>
+
+<main>
+
+<!-- ================= SCOPE ================= -->
+<section id="overview">
+  <h2>Scope</h2>
+  <p class="lede">Two topics from <em>Modern Cryptography Part 1</em>: Digital Logic (slides 10–14) and Simplified DES (slides 16–29). Nothing else.</p>
+  <p>Both quizzes that fell inside this scope are represented here: Quiz #3b was a Boolean design-and-name question, and the end-of-deck exercise set was almost entirely S-DES key generation and encryption. The likelihood labels in <a href="#predict">Predicted questions</a> reflect how directly each item was signalled in the slides.</p>
+  <p>The teacher has also confirmed that Digital Logic will be examined in <strong>both directions</strong> — reading a logic diagram to get its Boolean expression, and drawing a circuit from a Boolean expression. <a href="#readwrite">Reading and drawing circuits</a> covers both, with five practice circuits each way.</p>
+</section>
+
+<div class="zh"><span class="zhh">先看这里：这份资料怎么用</span>
+<p><b>考试就两块：Digital Logic（数字逻辑）和 Simplified DES（简化版 DES）。</b>别的都不考。</p>
+<p>这两块的题型完全不同，打法也不一样：</p>
+<ul>
+  <li><b>Digital Logic</b> —— 画图题。给你表达式画电路，或给你电路写表达式。靠练手，练到条件反射就行。</li>
+  <li><b>Simplified DES</b> —— 计算题。全是按表搬位、异或、查表。靠细心，一步步写清楚就有分。</li>
+</ul>
+<p><b>最省时间的复习顺序：</b>先背下面这张必背清单 → 再照着「Predicted questions」把每类题的模板走一遍 → 最后用 stepper 自己校验几遍。</p>
+<table class="zhtable">
+  <thead><tr><th>必背</th><th>具体内容</th><th>在哪</th></tr></thead>
+  <tbody>
+    <tr><td>6 个门的符号 + 真值表</td><td class="c">AND OR NOT NAND NOR XOR</td><td>Gate reference</td></tr>
+    <tr><td>De Morgan 两条</td><td class="c">(A·B)′=A′+B′&nbsp;&nbsp;(A+B)′=A′·B′</td><td>De Morgan 小节</td></tr>
+    <tr><td>密钥生成四张表</td><td class="c">P10 · LS-1 · P8 · LS-2</td><td>Key generation</td></tr>
+    <tr><td>分组置换三张表</td><td class="c">IP · IP⁻¹ · E/P · P4</td><td>Permutations 表</td></tr>
+    <tr><td>两个 S 盒</td><td class="c">S0 · S1 各 4×4</td><td>S-boxes</td></tr>
+    <tr><td>课件那道例题</td><td class="c">key 10011 01100 · PT 1001 0101 · CT 1101 1111</td><td>Worked example</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ================= PART 1 ================= -->
+<div class="part"><span class="n">PART 01</span><h2 id="logic">Digital Logic</h2></div>
+
+<p class="lede">Six gates, their symbols and truth tables, how to build any gate from NAND or NOR, and how to turn an expression into a circuit and name it.</p>
+
+<h3>Definitions</h3>
+<ul>
+  <li><strong>Digital electronics</strong> — the study of digital signals and the engineering of devices that use or produce them; contrasted with analog electronics. Complex devices may have simple electronic representations of Boolean logic functions.</li>
+  <li><strong>Boolean logic</strong> — the algebra whose variable values are the truth values true and false, denoted 1 and 0. Applied to circuits this is digital logic.</li>
+</ul>
+
+<h3 id="gates">Gate reference</h3>
+
+<div class="zh"><span class="zhh">六个门怎么记</span>
+<table class="zhtable">
+  <thead><tr><th>门</th><th>中文</th><th>一句话记忆</th><th>符号特征</th></tr></thead>
+  <tbody>
+    <tr><td class="c">AND</td><td>与门</td><td>全 1 才出 1</td><td>D 形</td></tr>
+    <tr><td class="c">OR</td><td>或门</td><td>有 1 就出 1</td><td>盾形（尖头朝右）</td></tr>
+    <tr><td class="c">NOT</td><td>非门</td><td>取反</td><td>三角 + 小圆圈</td></tr>
+    <tr><td class="c">NAND</td><td>与非门</td><td>与门再取反</td><td>D 形 + 小圆圈</td></tr>
+    <tr><td class="c">NOR</td><td>或非门</td><td>或门再取反</td><td>盾形 + 小圆圈</td></tr>
+    <tr><td class="c">XOR</td><td>异或门</td><td>两个输入<b>不一样</b>才出 1</td><td>盾形 + 左边多一道弧</td></tr>
+  </tbody>
+</table>
+<p><b>看符号的两个诀窍：</b>① 输出端有没有<b>小圆圈</b> —— 有就是取反（NAND、NOR、NOT）。② 左边有没有<b>多一道弧</b> —— 有就是 XOR。这两个特征认出来，图就不会看错。</p>
+</div>
+
+<p>Symbols are MIL/ANSI (the shapes to draw). Tables match the slide styling.</p>
+
+<div class="gates">
+
+  <div class="gate">
+    <h4>AND</h4>
+    <div class="expr">Q = A · B</div>
+    <div class="gatebody">
+      <svg viewBox="0 0 80 48" role="img" aria-label="AND gate symbol">
+        <path class="shape" d="M 14 6 H 30 A 18 18 0 0 1 30 42 H 14 Z"/>
+        <path class="shape-thin" d="M 2 15 H 14 M 2 33 H 14 M 48 24 H 70"/>
+      </svg>
+      <table class="tt">
+        <thead><tr><th colspan="2">Input</th><th>Output</th></tr><tr><th>A</th><th>B</th><th>A AND B</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>1</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="syms">1 only when all inputs are 1</p>
+  </div>
+
+  <div class="gate">
+    <h4>OR</h4>
+    <div class="expr">Q = A + B</div>
+    <div class="gatebody">
+      <svg viewBox="0 0 80 48" role="img" aria-label="OR gate symbol">
+        <path class="shape" d="M 12 6 Q 24 24 12 42 Q 32 42 48 24 Q 32 6 12 6 Z"/>
+        <path class="shape-thin" d="M 2 15 H 19 M 2 33 H 19 M 48 24 H 70"/>
+      </svg>
+      <table class="tt">
+        <thead><tr><th colspan="2">Input</th><th>Output</th></tr><tr><th>A</th><th>B</th><th>A OR B</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="syms">1 when any input is 1</p>
+  </div>
+
+  <div class="gate">
+    <h4>NOT (Inverter)</h4>
+    <div class="expr">Q = A′ · also ~A or Ā</div>
+    <div class="gatebody">
+      <svg viewBox="0 0 80 48" role="img" aria-label="NOT gate symbol">
+        <path class="shape" d="M 18 8 L 18 40 L 46 24 Z"/>
+        <circle class="shape" cx="50" cy="24" r="4"/>
+        <path class="shape-thin" d="M 2 24 H 18 M 54 24 H 74"/>
+      </svg>
+      <table class="tt">
+        <thead><tr><th>Input</th><th>Output</th></tr><tr><th>A</th><th>NOT A</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="syms">the bubble marks inversion</p>
+  </div>
+
+  <div class="gate">
+    <h4>NOR</h4>
+    <div class="expr">Q = (A + B)′</div>
+    <div class="gatebody">
+      <svg viewBox="0 0 80 48" role="img" aria-label="NOR gate symbol">
+        <path class="shape" d="M 12 6 Q 24 24 12 42 Q 32 42 48 24 Q 32 6 12 6 Z"/>
+        <circle class="shape" cx="52" cy="24" r="4"/>
+        <path class="shape-thin" d="M 2 15 H 19 M 2 33 H 19 M 56 24 H 74"/>
+      </svg>
+      <table class="tt">
+        <thead><tr><th colspan="2">Input</th><th>Output</th></tr><tr><th>A</th><th>B</th><th>A NOR B</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>1</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="syms">OR with an inverted output</p>
+  </div>
+
+  <div class="gate">
+    <h4>NAND</h4>
+    <div class="expr">Q = (A · B)′</div>
+    <div class="gatebody">
+      <svg viewBox="0 0 80 48" role="img" aria-label="NAND gate symbol">
+        <path class="shape" d="M 14 6 H 30 A 18 18 0 0 1 30 42 H 14 Z"/>
+        <circle class="shape" cx="52" cy="24" r="4"/>
+        <path class="shape-thin" d="M 2 15 H 14 M 2 33 H 14 M 56 24 H 74"/>
+      </svg>
+      <table class="tt">
+        <thead><tr><th colspan="2">Input</th><th>Output</th></tr><tr><th>A</th><th>B</th><th>A NAND B</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="syms">AND with an inverted output</p>
+  </div>
+
+  <div class="gate">
+    <h4>XOR (Exclusive OR)</h4>
+    <div class="expr">Q = A ⊕ B</div>
+    <div class="gatebody">
+      <svg viewBox="0 0 80 48" role="img" aria-label="XOR gate symbol">
+        <path class="shape-thin" d="M 3 5 Q 15 24 3 43"/>
+        <path class="shape" d="M 11 5 Q 23 24 11 43 Q 31 43 47 24 Q 31 5 11 5 Z"/>
+        <path class="shape-thin" d="M 0 15 H 15 M 0 33 H 15 M 47 24 H 68"/>
+      </svg>
+      <table class="tt">
+        <thead><tr><th colspan="2">Input</th><th>Output</th></tr><tr><th>A</th><th>B</th><th>A XOR B</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="syms">1 when the inputs differ</p>
+  </div>
+
+</div>
+
+<div class="callout">
+  <h4>Three symbol standards</h4>
+  <p><strong>MIL/ANSI</strong> — the distinctive shapes above (D for AND, shield for OR, triangle plus bubble for NOT, extra arc for XOR). <strong>IEC</strong> — a rectangle containing <span class="mono">&amp;</span> for AND, <span class="mono">≥1</span> for OR, <span class="mono">1</span> for NOT, <span class="mono">=1</span> for XOR. <strong>DIN</strong> — the third variant shown in the slides.</p>
+</div>
+
+<h3 id="universal">Universal gates</h3>
+
+<p><strong>NAND and NOR are universal</strong>: either one alone can build every other gate. Two constructions from the slides.</p>
+
+<div class="fig">
+<div class="scroll">
+<svg viewBox="0 0 545 100" role="img" aria-label="NOT gate built from NAND and from NOR">
+  <text class="t-sm" x="20" y="16">Desired</text>
+  <path class="shape" d="M 40 40 L 40 76 L 70 58 Z"/>
+  <circle class="shape" cx="75" cy="58" r="4.5"/>
+  <path class="shape-thin" d="M 14 58 H 40 M 80 58 H 110"/>
+  <text class="t-sm" x="2" y="62">A</text>
+  <text class="t-sm" x="114" y="62">Q</text>
+
+  <text class="t-sm" x="170" y="16">NAND construction</text>
+  <path class="shape" d="M 205 38 H 227 A 22 22 0 0 1 227 82 H 205 Z"/>
+  <circle class="shape" cx="253" cy="60" r="4.5"/>
+  <path class="shape-thin" d="M 165 49 H 205 M 185 49 V 71 H 205 M 258 60 H 305"/>
+  <circle cx="185" cy="49" r="2.8" fill="var(--ink)"/>
+  <text class="t-sm" x="150" y="53">A</text>
+  <text class="t-sm" x="310" y="64">Q</text>
+
+  <text class="t-sm" x="378" y="16">NOR construction</text>
+  <path class="shape" d="M 415 38 Q 429 60 415 82 Q 439 82 459 60 Q 439 38 415 38 Z"/>
+  <circle class="shape" cx="463" cy="60" r="4.5"/>
+  <path class="shape-thin" d="M 375 49 H 420 M 395 49 V 71 H 420 M 468 60 H 515"/>
+  <circle cx="395" cy="49" r="2.8" fill="var(--ink)"/>
+  <text class="t-sm" x="360" y="53">A</text>
+  <text class="t-sm" x="520" y="64">Q</text>
+</svg>
+</div>
+<p class="cap"><b>Fig 1.</b> Tie both inputs together: NAND gives (A·A)′ = A′, NOR gives (A+A)′ = A′.</p>
+</div>
+
+<div class="fig">
+<div class="scroll">
+<svg viewBox="0 0 700 452" role="img" aria-label="XOR built from four NAND gates and from five NOR gates"><text class="t-lbl" x="237" y="22">XOR from 4 NAND gates</text><text class="t-sm" x="224" y="97">A</text><text class="t-sm" x="224" y="111">B</text><text class="t-sm" x="563" y="104">Q</text><path class="shape-thin" d="M 237 93 L 295 93"/><path class="shape-thin" d="M 271 93 L 271 47 L 385 47"/><path class="shape-thin" d="M 237 107 L 295 107"/><path class="shape-thin" d="M 257 107 L 257 161 L 385 161"/><path class="shape-thin" d="M 333 100 L 355 100"/><path class="shape-thin" d="M 355 100 L 355 61 L 385 61"/><path class="shape-thin" d="M 355 100 L 355 147 L 385 147"/><path class="shape-thin" d="M 423 54 L 445 54 L 445 93 L 475 93"/><path class="shape-thin" d="M 423 154 L 453 154 L 453 107 L 475 107"/><path class="shape-thin" d="M 513 100 L 557 100"/><circle cx="271" cy="93" r="2.6" fill="var(--ink)"/><circle cx="257" cy="107" r="2.6" fill="var(--ink)"/><circle cx="355" cy="100" r="2.6" fill="var(--ink)"/><path class="shape" d="M 295 86 H 311 A 14 14 0 0 1 311 114 H 295 Z"/><circle class="shape" cx="329" cy="100" r="4"/><path class="shape" d="M 385 40 H 401 A 14 14 0 0 1 401 68 H 385 Z"/><circle class="shape" cx="419" cy="54" r="4"/><path class="shape" d="M 385 140 H 401 A 14 14 0 0 1 401 168 H 385 Z"/><circle class="shape" cx="419" cy="154" r="4"/><path class="shape" d="M 475 86 H 491 A 14 14 0 0 1 491 114 H 475 Z"/><circle class="shape" cx="509" cy="100" r="4"/><text class="t-lbl" x="237" y="272">XOR from 5 NOR gates</text><text class="t-sm" x="224" y="347">A</text><text class="t-sm" x="224" y="361">B</text><text class="t-sm" x="635" y="354">Q</text><path class="shape-thin" d="M 237 343 L 299.5 343"/><path class="shape-thin" d="M 271 343 L 271 297 L 389.5 297"/><path class="shape-thin" d="M 237 357 L 299.5 357"/><path class="shape-thin" d="M 257 357 L 257 411 L 389.5 411"/><path class="shape-thin" d="M 339 350 L 355 350"/><path class="shape-thin" d="M 355 350 L 355 311 L 389.5 311"/><path class="shape-thin" d="M 355 350 L 355 397 L 389.5 397"/><path class="shape-thin" d="M 429 304 L 445 304 L 445 343 L 479.5 343"/><path class="shape-thin" d="M 429 404 L 453 404 L 453 357 L 479.5 357"/><path class="shape-thin" d="M 519 350 L 535 350"/><path class="shape-thin" d="M 535 343 L 535 357"/><path class="shape-thin" d="M 535 343 L 549.5 343"/><path class="shape-thin" d="M 535 357 L 549.5 357"/><path class="shape-thin" d="M 589 350 L 629 350"/><circle cx="271" cy="343" r="2.6" fill="var(--ink)"/><circle cx="257" cy="357" r="2.6" fill="var(--ink)"/><circle cx="355" cy="350" r="2.6" fill="var(--ink)"/><circle cx="535" cy="350" r="2.6" fill="var(--ink)"/><path class="shape" d="M 545 336 Q 557 350 545 364 Q 565 364 581 350 Q 565 336 545 336 Z"/><circle class="shape" cx="585" cy="350" r="4"/><path class="shape" d="M 295 336 Q 307 350 295 364 Q 315 364 331 350 Q 315 336 295 336 Z"/><circle class="shape" cx="335" cy="350" r="4"/><path class="shape" d="M 385 290 Q 397 304 385 318 Q 405 318 421 304 Q 405 290 385 290 Z"/><circle class="shape" cx="425" cy="304" r="4"/><path class="shape" d="M 385 390 Q 397 404 385 418 Q 405 418 421 404 Q 405 390 385 390 Z"/><circle class="shape" cx="425" cy="404" r="4"/><path class="shape" d="M 475 336 Q 487 350 475 364 Q 495 364 511 350 Q 495 336 475 336 Z"/><circle class="shape" cx="515" cy="350" r="4"/></svg>
+</div>
+<p class="cap"><b>Fig 2.</b> Two constructions, read left to right. <b>NAND (4 gates):</b> N1 = A NAND B, then N2 = A NAND N1 and N3 = B NAND N1, then Q = N2 NAND N3. <b>NOR (5 gates):</b> the same shape, but the fifth gate ties both its inputs together so it acts as an inverter on the fourth gate's output. Dots mark junctions where a signal branches.</p>
+</div>
+
+<h3 id="design">Designing a circuit from an expression</h3>
+
+<h4>The method</h4>
+
+<div class="zh"><span class="zhh">拿到「给表达式画电路」怎么下手</span>
+<p><b>动笔前先做三个准备动作：</b></p>
+<ol class="zhsteps">
+  <li><b>数输入变量。</b>有几个变量（A、B、C…）就在纸左边画几条横线。</li>
+  <li><b>找带撇的变量。</b>表达式里每出现一个 <span class="m">A′</span>、<span class="m">B′</span>，就先画一个 NOT 门把它做出来，放在变量旁边。</li>
+  <li><b>数要几个门。</b>先心里过一遍再动笔，避免画到一半发现纸不够。</li>
+</ol>
+<p><b>然后按优先级一层层往外画：</b>括号 → NOT → AND → OR。先把最里面括号里的东西做成一个门，输出标个名字（X、Y…），再拿这个 X 去接下一个门。</p>
+<p><b>最容易扣分的地方：</b>题目说「2-input, 1-output」时，三路相与/相或<b>必须拆成两个门串起来</b>，不能一个门塞三个输入。中间那条线一定要标名字。</p>
+</div>
+<ol class="steps">
+  <li><strong>NOT gate on every complemented variable</strong>, so each literal you need is available as a wire.</li>
+  <li><strong>The outermost operation decides the final gate.</strong> Multiplications and additions are applied last.</li>
+  <li><strong>Build in pairs, left to right.</strong> A 2-input gate takes two signals, so a three-way AND becomes two cascaded ANDs. Label every intermediate wire.</li>
+  <li><strong>Name the function</strong> from the truth table or from De Morgan.</li>
+</ol>
+
+<h4>Worked: D = (~A)(~B)(~C) — the Quiz #3b question</h4>
+
+<div class="panel">
+  <div class="panelbar">
+    <div class="toggles" role="group" aria-label="Toggle the three inputs">
+      <button class="tog" id="tgA" role="switch" aria-checked="false">A = 0</button>
+      <button class="tog" id="tgB" role="switch" aria-checked="false">B = 0</button>
+      <button class="tog" id="tgC" role="switch" aria-checked="false">C = 0</button>
+    </div>
+    <p class="readout" id="logicOut" style="margin:0">D = <b>1</b></p>
+  </div>
+
+  <div class="scroll">
+  <svg viewBox="0 0 620 260" role="img" aria-label="Circuit for D equals not-A and not-B and not-C, using three NOT gates and two AND gates">
+    <g class="w" id="wA">
+      <path class="flow" d="M 30 48 H 78"/>
+      <text class="t-lbl" x="8" y="52">A</text>
+    </g>
+    <g class="w" id="wB">
+      <path class="flow" d="M 30 128 H 78"/>
+      <text class="t-lbl" x="8" y="132">B</text>
+    </g>
+    <g class="w" id="wC">
+      <path class="flow" d="M 30 208 H 78"/>
+      <text class="t-lbl" x="8" y="212">C</text>
+    </g>
+
+    <path class="shape" d="M 78 38 L 78 58 L 102 48 Z"/>
+    <circle class="shape" cx="106" cy="48" r="4"/>
+    <path class="shape" d="M 78 118 L 78 138 L 102 128 Z"/>
+    <circle class="shape" cx="106" cy="128" r="4"/>
+    <path class="shape" d="M 78 198 L 78 218 L 102 208 Z"/>
+    <circle class="shape" cx="106" cy="208" r="4"/>
+
+    <g class="w" id="wAp">
+      <path class="flow" d="M 110 48 H 190 V 69 H 214"/>
+      <rect class="badge" x="116" y="39" width="22" height="18" rx="3"/>
+      <text x="127" y="52" text-anchor="middle">0</text>
+      <text class="t-sm" x="146" y="40">A′</text>
+    </g>
+    <g class="w" id="wBp">
+      <path class="flow" d="M 110 128 H 200 V 87 H 214"/>
+      <rect class="badge" x="116" y="119" width="22" height="18" rx="3"/>
+      <text x="127" y="132" text-anchor="middle">0</text>
+      <text class="t-sm" x="146" y="120">B′</text>
+    </g>
+    <g class="w" id="wCp">
+      <path class="flow" d="M 110 208 H 300 V 183 H 344"/>
+      <rect class="badge" x="116" y="199" width="22" height="18" rx="3"/>
+      <text x="127" y="212" text-anchor="middle">0</text>
+      <text class="t-sm" x="146" y="200">C′</text>
+    </g>
+
+    <path class="shape" d="M 214 60 H 230 A 18 18 0 0 1 230 96 H 214 Z"/>
+    <text class="t-sm" x="216" y="112">AND</text>
+
+    <g class="w" id="wX">
+      <path class="flow" d="M 248 78 H 290 V 165 H 344"/>
+      <rect class="badge" x="256" y="69" width="22" height="18" rx="3"/>
+      <text x="267" y="82" text-anchor="middle">0</text>
+      <text class="t-sm" x="252" y="62">X = A′B′</text>
+    </g>
+
+    <path class="shape" d="M 344 156 H 360 A 18 18 0 0 1 360 192 H 344 Z"/>
+    <text class="t-sm" x="346" y="208">AND</text>
+
+    <g class="w" id="wD">
+      <path class="flow" d="M 378 174 H 452"/>
+      <path class="shape-thin" d="M 452 168 L 462 174 L 452 180 Z" style="fill:var(--ink);stroke:none"/>
+      <rect class="badge" x="472" y="165" width="24" height="20" rx="3"/>
+      <text x="484" y="180" text-anchor="middle">1</text>
+      <text class="t-lbl" x="508" y="180">D</text>
+    </g>
+
+    <text class="t-sm" x="230" y="246">D = (~A)(~B)(~C) — three NOT gates, two 2-input AND gates</text>
+  </svg>
+  </div>
+
+  <div style="display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start;margin-top:16px">
+    <table class="tt" id="logicTT">
+      <thead><tr><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+        <tr><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <div style="flex:1;min-width:220px">
+      <p style="margin:0 0 8px"><strong>Name:</strong> D = A′B′C′ = (A + B + C)′ by De Morgan, so it is a <strong>3-input NOR</strong>. The truth table confirms it — a single 1, in the row where every input is 0.</p>
+      <p style="margin:0;font-size:14.5px;color:var(--ink-soft)">With multi-input gates allowed, the whole circuit collapses to one 3-input NOR. The question forces 2-input gates, so you draw the cascade instead.</p>
+    </div>
+  </div>
+</div>
+
+<h4>De Morgan — the shortcut for naming</h4>
+<p class="mono" style="font-size:15px;background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:11px 15px;max-width:var(--measure);margin-bottom:14px">
+(A · B)′ = A′ + B′ &nbsp;&nbsp;&nbsp;&nbsp; (A + B)′ = A′ · B′
+</p>
+
+<p>Every design-and-name question is a naming question in disguise. Learn this table and you can answer the name instantly, without drawing the truth table.</p>
+
+<div class="scroll">
+<table class="dt compact">
+  <thead>
+    <tr><th>Expression</th><th>Gates (2-input)</th><th>Name</th><th>Why</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="m">A′B′C′</td><td class="m">3 NOT + 2 AND</td><td><strong>NOR</strong> (3-input)</td><td class="m">= (A+B+C)′</td></tr>
+    <tr><td class="m">A′B′</td><td class="m">2 NOT + 1 AND</td><td><strong>NOR</strong> (2-input)</td><td class="m">= (A+B)′</td></tr>
+    <tr><td class="m">A′ + B′</td><td class="m">2 NOT + 1 OR</td><td><strong>NAND</strong></td><td class="m">= (A·B)′</td></tr>
+    <tr><td class="m">(A + B)′</td><td class="m">1 NOR</td><td><strong>NOR</strong></td><td class="m">definition</td></tr>
+    <tr><td class="m">(A · B)′</td><td class="m">1 NAND</td><td><strong>NAND</strong></td><td class="m">definition</td></tr>
+    <tr><td class="m">A′B + AB′</td><td class="m">2 NOT + 2 AND + 1 OR</td><td><strong>XOR</strong></td><td class="m">sum of products</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout err">
+  <h4>Where marks are lost</h4>
+  <ul>
+    <li><strong>Naming it after the gate.</strong> "AND" is wrong when the inputs are complemented. Name the <em>function</em>.</li>
+    <li><strong>Three inputs into one AND.</strong> The question says 2-input, 1-output — cascade two gates instead.</li>
+    <li><strong>No label on the intermediate wire.</strong> Unlabelled fan-out looks like an error.</li>
+  </ul>
+</div>
+
+<h3 id="readwrite">Reading and drawing circuits</h3>
+
+<div class="zh"><span class="zhh">两个方向的操作流程</span>
+<p><b>方向一：给你电路图，写表达式</b></p>
+<ol class="zhsteps">
+  <li>从左往右，给<b>每个门的输出</b>起个名字：X、Y、Z。</li>
+  <li>单独看每一个门，只用它<b>直接连着的两个输入</b>写出表达式。输出带圆圈的，整体加一撇。</li>
+  <li>一路代入，直到式子里只剩 A、B、C。</li>
+  <li>题目说「化简」才化简，用 De Morgan 把横线推进去、运算符对调。</li>
+</ol>
+<p><b>方向二：给你表达式，画电路</b></p>
+<ol class="zhsteps">
+  <li>带撇的变量先各画一个 NOT 门。</li>
+  <li>从最里层括号开始，一次画一个门，输出标名字。</li>
+  <li>输入超过 2 个就串起来（3 输入 OR = 两个 OR 门）。</li>
+</ol>
+<p><b>小提示：</b>Drill A4 和 Drill B4 是<b>同一张图</b>。会读就会画，练到两边都不用想为止。</p>
+</div>
+
+<p class="lede">The exam asks this both ways: a logic diagram to read, or a Boolean expression to draw. They are the same skill run in opposite directions, and the drills below give you five of each.</p>
+
+<h4>Direction 1 — diagram → Boolean expression</h4>
+<ol class="steps">
+  <li><strong>Label every gate output</strong> with a new letter as you move left to right: X, then Y, then Z.</li>
+  <li><strong>Write each gate on its own</strong>, using only its immediate inputs. Read the shape: the bubble means inversion, the extra arc means XOR.</li>
+  <li><strong>Substitute</strong> until nothing but the primary inputs is left.</li>
+  <li><strong>Simplify only if asked.</strong> De Morgan: <span class="mono">(A·B)′ = A′ + B′</span> and <span class="mono">(A+B)′ = A′ · B′</span> — push a bar through and swap the operator.</li>
+</ol>
+
+<h4>Direction 2 — expression → circuit</h4>
+<ol class="steps">
+  <li><strong>Precedence decides the order:</strong> NOT first, then AND, then OR — unless brackets say otherwise.</li>
+  <li><strong>One NOT gate per complemented variable</strong>, drawn first so every literal exists as a wire.</li>
+  <li><strong>Build the innermost bracket first</strong>, then work outward. Each 2-input gate takes exactly two signals.</li>
+  <li><strong>Cascade when a gate needs three inputs.</strong> A 3-way OR is two 2-input ORs.</li>
+  <li><strong>Label every intermediate wire.</strong> That is where the marks are.</li>
+</ol>
+
+<div class="callout tip">
+  <h4>The same picture, both directions</h4>
+  <p>Problem A4 and problem B4 are literally the same diagram. If you can read a circuit you can draw it, so practise both until neither direction needs thinking.</p>
+</div>
+
+<h4>Drill A — read the diagram, write the expression</h4>
+<p>Write the expression for Q, then simplify if you can.</p>
+<div class="qcard"><p class="qh">A1</p><div class="qfig"><svg viewBox="0 0 440 116" role="img" aria-label="Logic circuit diagram"><path class="shape" d="M 130 51 L 130 75 L 154 63 Z"/><circle class="shape" cx="158" cy="63" r="4"/><path class="shape" d="M 280 56 Q 292 70 280 84 Q 300 84 316 70 Q 300 56 280 56 Z"/><text class="t-lbl" x="14" y="67">A</text><path class="flow" d="M 32 63 L 130 63"/><path class="flow" d="M 162 63 L 289 63"/><text class="t-lbl" x="14" y="99">B</text><path class="flow" d="M 32 95 L 250 95 L 250 77 L 289 77"/><path class="flow" d="M 316 70 L 400 70"/><text class="t-lbl" x="406" y="74">Q</text></svg></div><details><summary>Show answer</summary><div class="ansbody"><p class="qrow">Q = A′ + B</p><p>Label the NOT output X. The final gate is an OR taking X and B: <span class="mono">X = A′</span>, <span class="mono">Q = X + B = A′ + B</span>.</p></div></details></div><div class="qcard"><p class="qh">A2</p><div class="qfig"><svg viewBox="0 0 460 132" role="img" aria-label="Logic circuit diagram"><path class="shape" d="M 130 49 H 146 A 14 14 0 0 1 146 77 H 130 Z"/><circle class="shape" cx="164" cy="63" r="4"/><path class="shape" d="M 300 56 Q 312 70 300 84 Q 320 84 336 70 Q 320 56 300 56 Z"/><text class="t-lbl" x="14" y="60">A</text><path class="flow" d="M 32 56 L 130 56"/><text class="t-lbl" x="14" y="74">B</text><path class="flow" d="M 32 70 L 130 70"/><path class="flow" d="M 168 63 L 309 63"/><text class="t-lbl" x="14" y="109">C</text><path class="flow" d="M 32 105 L 265 105 L 265 77 L 309 77"/><path class="flow" d="M 336 70 L 420 70"/><text class="t-lbl" x="426" y="74">Q</text></svg></div><details><summary>Show answer</summary><div class="ansbody"><p class="qrow">Q = (A · B)′ + C</p><p>The first gate is a NAND — an AND with a bubble. <span class="mono">X = (A · B)′</span>, then an OR with C: <span class="mono">Q = X + C = (A · B)′ + C</span>.</p></div></details></div><div class="qcard"><p class="qh">A3</p><div class="qfig"><svg viewBox="0 0 454 132" role="img" aria-label="Logic circuit diagram"><path class="shape" d="M 130 49 Q 142 63 130 77 Q 150 77 166 63 Q 150 49 130 49 Z"/><circle class="shape" cx="170" cy="63" r="4"/><path class="shape" d="M 300 56 H 316 A 14 14 0 0 1 316 84 H 300 Z"/><text class="t-lbl" x="14" y="60">A</text><path class="flow" d="M 32 56 L 134 56"/><text class="t-lbl" x="14" y="74">B</text><path class="flow" d="M 32 70 L 134 70"/><path class="flow" d="M 174 63 L 300 63"/><text class="t-lbl" x="14" y="109">C</text><path class="flow" d="M 32 105 L 265 105 L 265 77 L 300 77"/><path class="flow" d="M 330 70 L 414 70"/><text class="t-lbl" x="420" y="74">Q</text></svg></div><details><summary>Show answer</summary><div class="ansbody"><p class="qrow">Q = (A + B)′ · C</p><p>The first gate is a NOR — an OR with a bubble. <span class="mono">X = (A + B)′</span>, then an AND with C: <span class="mono">Q = X · C = (A + B)′ · C</span>.</p></div></details></div><div class="qcard"><p class="qh">A4</p><div class="qfig"><svg viewBox="0 0 464 146" role="img" aria-label="Logic circuit diagram"><path class="shape" d="M 150 30 H 166 A 14 14 0 0 1 166 58 H 150 Z"/><path class="shape" d="M 150 100 H 166 A 14 14 0 0 1 166 128 H 150 Z"/><path class="shape" d="M 300 60 Q 312 74 300 88 Q 320 88 336 74 Q 320 60 300 60 Z"/><text class="t-lbl" x="14" y="41">A</text><path class="flow" d="M 32 37 L 150 37"/><text class="t-lbl" x="14" y="55">B</text><path class="flow" d="M 32 51 L 150 51"/><text class="t-lbl" x="14" y="111">C</text><path class="flow" d="M 32 107 L 150 107"/><text class="t-lbl" x="14" y="125">D</text><path class="flow" d="M 32 121 L 150 121"/><path class="flow" d="M 180 44 L 250 44 L 250 67 L 309 67"/><path class="flow" d="M 180 114 L 270 114 L 270 81 L 309 81"/><path class="flow" d="M 336 74 L 424 74"/><text class="t-lbl" x="430" y="78">Q</text></svg></div><details><summary>Show answer</summary><div class="ansbody"><p class="qrow">Q = A · B + C · D</p><p>Two AND gates feed one OR. <span class="mono">X = A · B</span>, <span class="mono">Y = C · D</span>, <span class="mono">Q = X + Y</span>. Note the shapes: the two outer gates are AND, the middle one is OR.</p></div></details></div><div class="qcard"><p class="qh">A5</p><div class="qfig"><svg viewBox="0 0 560 126" role="img" aria-label="Logic circuit diagram"><path class="shape" d="M 140 40 Q 152 54 140 68 Q 160 68 176 54 Q 160 40 140 40 Z"/><circle class="shape" cx="180" cy="54" r="4"/><path class="shape" d="M 300 47 H 316 A 14 14 0 0 1 316 75 H 300 Z"/><path class="shape" d="M 420 49 L 420 73 L 444 61 Z"/><circle class="shape" cx="448" cy="61" r="4"/><text class="t-lbl" x="14" y="51">A</text><path class="flow" d="M 32 47 L 144 47"/><text class="t-lbl" x="14" y="65">B</text><path class="flow" d="M 32 61 L 144 61"/><path class="flow" d="M 184 54 L 300 54"/><text class="t-lbl" x="14" y="103">C</text><path class="flow" d="M 32 99 L 265 99 L 265 68 L 300 68"/><path class="flow" d="M 330 61 L 420 61"/><path class="flow" d="M 452 61 L 520 61"/><text class="t-lbl" x="526" y="65">Q</text></svg></div><details><summary>Show answer</summary><div class="ansbody"><p class="qrow">Q = ((A + B)′ · C)′ &nbsp;=&nbsp; A + B + C′</p><p>Raw expression first: <span class="mono">X = (A + B)′</span>, <span class="mono">Y = X · C</span>, <span class="mono">Q = Y′</span>, so <span class="mono">Q = ((A + B)′ · C)′</span>.</p><p>Then simplify with De Morgan, pushing the outer bar in and swapping · for +: <span class="mono">((A + B)′ · C)′ = (A + B)″ + C′ = A + B + C′</span>. The double inversion cancels, so the circuit is really a 3-input OR of A, B and C′.</p></div></details></div>
+
+<h4>Drill B — read the expression, draw the circuit</h4>
+<p>Use only 2-input gates. Draw the circuit on paper, then check against the answer.</p>
+<div class="qcard"><p class="qh">B1</p><p class="qtext">Draw the circuit for <b>Q = A · B + C</b> using 2-input gates.</p><details><summary>Show answer</summary><div class="ansbody"><div class="qfig"><svg viewBox="0 0 480 116" role="img" aria-label="Logic circuit diagram"><path class="shape" d="M 150 35 H 166 A 14 14 0 0 1 166 63 H 150 Z"/><path class="shape" d="M 320 42 Q 332 56 320 70 Q 340 70 356 56 Q 340 42 320 42 Z"/><text class="t-lbl" x="14" y="46">A</text><path class="flow" d="M 32 42 L 150 42"/><text class="t-lbl" x="14" y="60">B</text><path class="flow" d="M 32 56 L 150 56"/><path class="flow" d="M 180 49 L 329 49"/><text class="t-lbl" x="14" y="95">C</text><path class="flow" d="M 32 91 L 285 91 L 285 63 L 329 63"/><path class="flow" d="M 356 56 L 440 56"/><text class="t-lbl" x="446" y="60">Q</text></svg></div><p>AND before OR. One 2-input AND for <span class="mono">A · B</span>, then a 2-input OR that takes that result and C. Label the AND output X.</p></div></details></div><div class="qcard"><p class="qh">B2</p><p class="qtext">Draw the circuit for <b>Q = (A + B) · C</b> using 2-input gates.</p><details><summary>Show answer</summary><div class="ansbody"><div class="qfig"><svg viewBox="0 0 474 116" role="img" aria-label="Logic circuit diagram"><path class="shape" d="M 150 35 Q 162 49 150 63 Q 170 63 186 49 Q 170 35 150 35 Z"/><path class="shape" d="M 320 42 H 336 A 14 14 0 0 1 336 70 H 320 Z"/><text class="t-lbl" x="14" y="46">A</text><path class="flow" d="M 32 42 L 159 42"/><text class="t-lbl" x="14" y="60">B</text><path class="flow" d="M 32 56 L 159 56"/><path class="flow" d="M 186 49 L 320 49"/><text class="t-lbl" x="14" y="95">C</text><path class="flow" d="M 32 91 L 285 91 L 285 63 L 320 63"/><path class="flow" d="M 350 56 L 434 56"/><text class="t-lbl" x="440" y="60">Q</text></svg></div><p>Brackets win. One 2-input OR for <span class="mono">A + B</span>, then a 2-input AND that takes that result and C.</p></div></details></div><div class="qcard"><p class="qh">B3</p><p class="qtext">Draw the circuit for <b>Q = (A · B)′ · C</b> using 2-input gates.</p><details><summary>Show answer</summary><div class="ansbody"><div class="qfig"><svg viewBox="0 0 464 116" role="img" aria-label="Logic circuit diagram"><path class="shape" d="M 140 35 H 156 A 14 14 0 0 1 156 63 H 140 Z"/><circle class="shape" cx="174" cy="49" r="4"/><path class="shape" d="M 310 42 H 326 A 14 14 0 0 1 326 70 H 310 Z"/><text class="t-lbl" x="14" y="46">A</text><path class="flow" d="M 32 42 L 140 42"/><text class="t-lbl" x="14" y="60">B</text><path class="flow" d="M 32 56 L 140 56"/><path class="flow" d="M 178 49 L 310 49"/><text class="t-lbl" x="14" y="95">C</text><path class="flow" d="M 32 91 L 275 91 L 275 63 L 310 63"/><path class="flow" d="M 340 56 L 424 56"/><text class="t-lbl" x="430" y="60">Q</text></svg></div><p>The inner bracket is an AND with an inverted output — one NAND gate. Feed its output and C into a 2-input AND. Two gates in total.</p></div></details></div><div class="qcard"><p class="qh">B4</p><p class="qtext">Draw the circuit for <b>Q = A · B + C · D</b> using 2-input gates.</p><details><summary>Show answer</summary><div class="ansbody"><div class="qfig"><svg viewBox="0 0 464 146" role="img" aria-label="Logic circuit diagram"><path class="shape" d="M 150 30 H 166 A 14 14 0 0 1 166 58 H 150 Z"/><path class="shape" d="M 150 100 H 166 A 14 14 0 0 1 166 128 H 150 Z"/><path class="shape" d="M 300 60 Q 312 74 300 88 Q 320 88 336 74 Q 320 60 300 60 Z"/><text class="t-lbl" x="14" y="41">A</text><path class="flow" d="M 32 37 L 150 37"/><text class="t-lbl" x="14" y="55">B</text><path class="flow" d="M 32 51 L 150 51"/><text class="t-lbl" x="14" y="111">C</text><path class="flow" d="M 32 107 L 150 107"/><text class="t-lbl" x="14" y="125">D</text><path class="flow" d="M 32 121 L 150 121"/><path class="flow" d="M 180 44 L 250 44 L 250 67 L 309 67"/><path class="flow" d="M 180 114 L 270 114 L 270 81 L 309 81"/><path class="flow" d="M 336 74 L 424 74"/><text class="t-lbl" x="430" y="78">Q</text></svg></div><p>Two product terms, so two AND gates, both feeding one OR. This is the same circuit as A4 read in the other direction — worth noticing, because either version can be the exam question.</p></div></details></div><div class="qcard"><p class="qh">B5</p><p class="qtext">Draw the circuit for <b>Q = (A + B + C)′</b> using only 2-input gates.</p><details><summary>Show answer</summary><div class="ansbody"><div class="qfig"><svg viewBox="0 0 566 118" role="img" aria-label="Logic circuit diagram"><path class="shape" d="M 150 30 Q 162 44 150 58 Q 170 58 186 44 Q 170 30 150 30 Z"/><path class="shape" d="M 300 37 Q 312 51 300 65 Q 320 65 336 51 Q 320 37 300 37 Z"/><path class="shape" d="M 430 39 L 430 63 L 454 51 Z"/><circle class="shape" cx="458" cy="51" r="4"/><text class="t-lbl" x="14" y="41">A</text><path class="flow" d="M 32 37 L 159 37"/><text class="t-lbl" x="14" y="55">B</text><path class="flow" d="M 32 51 L 159 51"/><path class="flow" d="M 186 44 L 309 44"/><text class="t-lbl" x="14" y="95">C</text><path class="flow" d="M 32 91 L 270 91 L 270 58 L 309 58"/><path class="flow" d="M 336 51 L 430 51"/><path class="flow" d="M 462 51 L 530 51"/><text class="t-lbl" x="536" y="55">Q</text></svg></div><p class="qrow">Q = (A + B + C)′</p><p>No 3-input gate is allowed, so cascade: <span class="mono">OR(A, B) = X</span>, <span class="mono">OR(X, C) = Y</span>, then <span class="mono">Q = Y′</span>. Three gates.</p><p>This is the reverse of the Quiz #3b question, and the answer is the same function: <b>NOR</b>. Notice that <span class="mono">(A + B + C)′ = A′ · B′ · C′</span>, which is exactly what that question asked you to build.</p></div></details></div>
+
+<!-- ================= PART 2 ================= -->
+<div class="part"><span class="n">PART 02</span><h2 id="sdes">Simplified DES</h2></div>
+
+<p class="lede">A hand-computable Feistel cipher with the same skeleton as DES: an initial permutation, two rounds of a key-dependent function, and a final inverse permutation.</p>
+
+<div class="zh"><span class="zhh">S-DES 一句话讲清楚</span>
+<p><b>8 位明文 + 10 位密钥 → 跑两轮运算 → 8 位密文。</b>解密除了「两轮密钥顺序倒过来」，其余步骤<B>一模一样</B>。</p>
+<p>整个流程就七步，背下来这张图就够了：</p>
+<p class="m" style="display:block;padding:9px 12px;line-height:2">
+密钥 10011 01100 → P10 → 左右各 5 位 → LS-1 → P8 → <b>K1</b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ 再移 2 位 → P8 → <b>K2</b><br><br>
+明文 → IP → fK(K1) → SW → fK(K2) → IP⁻¹ → 密文
+</p>
+<p><b>加解密只差一句：</b>加密用 K1 再 K2；解密用 K2 再 K1。其他全一样。</p>
+</div>
+
+<h3>Parameters</h3>
+
+<div class="scroll">
+<table class="dt">
+  <thead><tr><th>Parameter</th><th>Simplified DES</th><th>DES (contrast)</th></tr></thead>
+  <tbody>
+    <tr><td>Plaintext / ciphertext block</td><td class="m">8 bits</td><td class="m">64 bits</td></tr>
+    <tr><td>Key</td><td class="m">10 bits</td><td class="m">56 bits</td></tr>
+    <tr><td>Rounds</td><td class="m">2</td><td class="m">16</td></tr>
+    <tr><td>Round keys</td><td class="m">K1, K2 — 8 bits each</td><td class="m">K1 … K16 — 48 bits each</td></tr>
+    <tr><td>Round keys generated by</td><td>Permutations and left shifts of the key</td><td>Same idea, larger tables</td></tr>
+    <tr><td>Structure</td><td colspan="2">Feistel network — the round function output is XORed onto one half. Decryption is the same machine with the round keys in reverse order.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="mono" style="font-size:14.5px;background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:13px 15px;line-height:2;max-width:var(--measure)">
+CT = IP⁻¹ ∘ f<sub>K2</sub> ∘ SW ∘ f<sub>K1</sub> ∘ IP (PT)<br>
+PT = IP⁻¹ ∘ f<sub>K1</sub> ∘ SW ∘ f<sub>K2</sub> ∘ IP (CT)
+</p>
+
+<div class="callout tip">
+  <h4>Why decryption works</h4>
+  <p>f<sub>K</sub> leaves the right half untouched — it only XORs a value onto the left half. The untouched half therefore tells you exactly what it was, and XORing the same value again removes it. Undo the rounds in reverse order with the keys in reverse order and you recover the input exactly.</p>
+</div>
+
+<div class="fig">
+<div class="scroll">
+<svg viewBox="0 0 780 470" role="img" aria-label="S-DES encryption and decryption block diagram with the key scheduler between them">
+  <text class="t-lbl" x="96" y="22" text-anchor="middle">ENCRYPTION</text>
+  <text class="t-sm" x="96" y="52" text-anchor="middle">8-bit plaintext</text>
+  <path class="flow" d="M 96 58 V 88"/>
+  <rect class="box-fill" x="54" y="88" width="84" height="28" rx="2"/>
+  <text x="96" y="106" text-anchor="middle">IP</text>
+  <path class="flow" d="M 96 116 V 152"/>
+  <rect class="box-fill" x="48" y="152" width="96" height="30" rx="2"/>
+  <text x="96" y="171" text-anchor="middle">f&#8202;K</text>
+  <path class="flow" d="M 96 182 V 212"/>
+  <rect class="box-fill" x="48" y="212" width="96" height="30" rx="2"/>
+  <text x="96" y="231" text-anchor="middle">SW</text>
+  <path class="flow" d="M 96 242 V 262"/>
+  <rect class="box-fill" x="48" y="262" width="96" height="30" rx="2"/>
+  <text x="96" y="281" text-anchor="middle">f&#8202;K</text>
+  <path class="flow" d="M 96 292 V 334"/>
+  <rect class="box-fill" x="54" y="334" width="84" height="28" rx="2"/>
+  <text x="96" y="352" text-anchor="middle">IP⁻¹</text>
+  <path class="flow" d="M 96 362 V 390"/>
+  <text class="t-sm" x="96" y="410" text-anchor="middle">8-bit ciphertext</text>
+  <path class="shape-thin" d="M 90 78 L 96 88 L 102 78 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 90 142 L 96 152 L 102 142 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 90 202 L 96 212 L 102 202 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 90 252 L 96 262 L 102 252 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 90 324 L 96 334 L 102 324 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 90 380 L 96 390 L 102 380 Z" style="fill:var(--ink);stroke:none"/>
+
+  <text class="t-sm" x="390" y="46" text-anchor="middle">10-bit key</text>
+  <path class="flow" d="M 390 52 V 74"/>
+  <rect class="box-fill" x="352" y="74" width="76" height="28" rx="2"/>
+  <text x="390" y="92" text-anchor="middle">P10</text>
+  <path class="flow" d="M 390 102 V 118"/>
+  <rect class="box-fill" x="348" y="118" width="84" height="28" rx="2"/>
+  <text x="390" y="136" text-anchor="middle">Shift</text>
+  <path class="flow" d="M 390 146 V 153"/>
+  <path class="shape" d="M 348 153 H 432 L 420 181 H 360 Z"/>
+  <text x="390" y="172" text-anchor="middle">P8</text>
+  <path class="flow" d="M 390 181 V 203"/>
+  <rect class="box-fill" x="348" y="203" width="84" height="28" rx="2"/>
+  <text x="390" y="221" text-anchor="middle">Shift</text>
+  <path class="flow" d="M 390 231 V 263"/>
+  <path class="shape" d="M 348 263 H 432 L 420 291 H 360 Z"/>
+  <text x="390" y="282" text-anchor="middle">P8</text>
+  <path class="shape-thin" d="M 380 64 L 390 74 L 400 64 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 380 108 L 390 118 L 400 108 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 380 143 L 390 153 L 400 143 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 380 193 L 390 203 L 400 193 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 380 253 L 390 263 L 400 253 Z" style="fill:var(--ink);stroke:none"/>
+
+  <path class="flow" d="M 354 167 H 144"/>
+  <path class="shape-thin" d="M 156 161 L 144 167 L 156 173 Z" style="fill:var(--ink);stroke:none"/>
+  <text class="t-key" x="250" y="159">K1</text>
+  <path class="flow" d="M 426 167 H 638"/>
+  <path class="shape-thin" d="M 626 161 L 638 167 L 626 173 Z" style="fill:var(--ink);stroke:none"/>
+
+  <path class="flow" d="M 354 277 H 144"/>
+  <path class="shape-thin" d="M 156 271 L 144 277 L 156 283 Z" style="fill:var(--ink);stroke:none"/>
+  <text class="t-key" x="250" y="269">K2</text>
+  <path class="flow" d="M 426 277 H 638"/>
+  <path class="shape-thin" d="M 626 271 L 638 277 L 626 283 Z" style="fill:var(--ink);stroke:none"/>
+
+  <text class="t-lbl" x="686" y="22" text-anchor="middle">DECRYPTION</text>
+  <text class="t-sm" x="686" y="52" text-anchor="middle">8-bit plaintext</text>
+  <path class="flow" d="M 686 58 V 88"/>
+  <rect class="box-fill" x="644" y="88" width="84" height="28" rx="2"/>
+  <text x="686" y="106" text-anchor="middle">IP⁻¹</text>
+  <path class="flow" d="M 686 116 V 152"/>
+  <rect class="box-fill" x="638" y="152" width="96" height="30" rx="2"/>
+  <text x="686" y="171" text-anchor="middle">f&#8202;K</text>
+  <path class="flow" d="M 686 182 V 212"/>
+  <rect class="box-fill" x="638" y="212" width="96" height="30" rx="2"/>
+  <text x="686" y="231" text-anchor="middle">SW</text>
+  <path class="flow" d="M 686 242 V 262"/>
+  <rect class="box-fill" x="638" y="262" width="96" height="30" rx="2"/>
+  <text x="686" y="281" text-anchor="middle">f&#8202;K</text>
+  <path class="flow" d="M 686 292 V 334"/>
+  <rect class="box-fill" x="644" y="334" width="84" height="28" rx="2"/>
+  <text x="686" y="352" text-anchor="middle">IP</text>
+  <path class="flow" d="M 686 362 V 390"/>
+  <text class="t-sm" x="686" y="410" text-anchor="middle">8-bit ciphertext</text>
+  <path class="shape-thin" d="M 680 68 L 686 58 L 692 68 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 680 126 L 686 116 L 692 126 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 680 192 L 686 182 L 692 192 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 680 252 L 686 242 L 692 252 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 680 302 L 686 292 L 692 302 Z" style="fill:var(--ink);stroke:none"/>
+  <path class="shape-thin" d="M 680 372 L 686 362 L 692 372 Z" style="fill:var(--ink);stroke:none"/>
+</svg>
+</div>
+<p class="cap"><b>Fig 3.</b> Redrawn from the lecture slide. Encryption runs top to bottom; decryption runs <b>bottom to top</b>, starting from IP. That direction is the whole point: it is why K1 arrives at the decryption column's <em>upper</em> f<sub>K</sub> — its second round — while K2 feeds its lower one, the first round. The keys are applied in reverse order, and everything else is identical.</p>
+</div>
+
+<h3 id="keygen">Key generation</h3>
+
+<div class="zh"><span class="zhh">每一轮 fK 里面到底在干什么（5 个小动作）</span>
+<p>两轮各做一次，动作完全一样，只是换密钥：</p>
+<ol class="zhsteps">
+  <li><b>E/P</b>：把 4 位的右半 R 扩展成 8 位（照 {4,1,2,3} 和 {2,3,4,1} 各取 4 位拼起来）。</li>
+  <li><b>异或 ⊕</b>：拿这 8 位和本轮的密钥 K 逐位异或。异或规则：<b>相同出 0，不同出 1</b>。</li>
+  <li><b>拆两半进 S 盒</b>：前 4 位进 S0，后 4 位进 S1，各输出 2 位。</li>
+  <li><b>P4</b>：把这两个 2 位拼成 4 位，过 P4（表 = {2,4,3,1}）。</li>
+  <li><b>最后异或</b>：拿这个 4 位结果和<b>左半 L</b> 异或，得到新的左半。右半 R 不动。</li>
+</ol>
+<p><b>别搞混：</b>第 2 步的异或是「E/P 结果 ⊕ 轮密钥」；第 5 步才是「P4 结果 ⊕ L」。<b>轮密钥从来不和 L 直接异或。</b></p>
+</div>
+
+<div class="fig">
+<div class="scroll">
+<svg viewBox="0 0 440 470" role="img" aria-label="S-DES key generation: P10, left shifts, and two P8 substitutions producing K1 and K2">
+  <text class="t-sm" x="220" y="20" text-anchor="middle">10-bit key</text>
+  <path class="flow" d="M 220 26 V 58"/>
+  <text class="t-sm" x="230" y="46">10</text>
+  <rect class="box-fill" x="150" y="58" width="140" height="30" rx="2"/>
+  <text x="220" y="77" text-anchor="middle">P10</text>
+
+  <path class="flow" d="M 185 88 V 124"/>
+  <path class="flow" d="M 255 88 V 124"/>
+  <text class="t-sm" x="172" y="110">5</text>
+  <text class="t-sm" x="262" y="110">5</text>
+
+  <rect class="box-fill" x="130" y="124" width="82" height="32" rx="2"/>
+  <text x="171" y="144" text-anchor="middle">LS-1</text>
+  <rect class="box-fill" x="228" y="124" width="82" height="32" rx="2"/>
+  <text x="269" y="144" text-anchor="middle">LS-1</text>
+
+  <path class="flow" d="M 171 156 V 210"/>
+  <path class="flow" d="M 269 156 V 210"/>
+  <text class="t-sm" x="152" y="188">5</text>
+  <text class="t-sm" x="276" y="188">5</text>
+
+  <path class="shape" d="M 140 210 H 300 L 268 246 H 172 Z"/>
+  <text x="220" y="233" text-anchor="middle">P8</text>
+  <path class="flow" d="M 156 228 H 100"/>
+  <path class="shape-thin" d="M 110 222 L 100 228 L 110 234 Z"/>
+  <text class="t-sm" x="132" y="220">8</text>
+  <text class="t-key" x="76" y="232">K1</text>
+
+  <path class="flow" d="M 171 188 H 52 V 300 H 171 V 318"/>
+  <path class="flow" d="M 269 188 H 372 V 300 H 269 V 318"/>
+  <circle cx="171" cy="188" r="3.2" fill="var(--ink)"/>
+  <circle cx="269" cy="188" r="3.2" fill="var(--ink)"/>
+
+  <rect class="box-fill" x="130" y="318" width="82" height="32" rx="2"/>
+  <text x="171" y="338" text-anchor="middle">LS-2</text>
+  <rect class="box-fill" x="228" y="318" width="82" height="32" rx="2"/>
+  <text x="269" y="338" text-anchor="middle">LS-2</text>
+
+  <path class="flow" d="M 171 350 V 400"/>
+  <path class="flow" d="M 269 350 V 400"/>
+  <text class="t-sm" x="152" y="378">5</text>
+  <text class="t-sm" x="276" y="378">5</text>
+
+  <path class="shape" d="M 140 400 H 300 L 268 436 H 172 Z"/>
+  <text x="220" y="423" text-anchor="middle">P8</text>
+  <path class="flow" d="M 156 418 H 100"/>
+  <path class="shape-thin" d="M 110 412 L 100 418 L 110 424 Z"/>
+  <text class="t-sm" x="132" y="410">8</text>
+  <text class="t-key" x="76" y="422">K2</text>
+</svg>
+</div>
+<p class="cap"><b>Fig 4.</b> LS-1 shifts each 5-bit half left by one. LS-2 shifts the <em>LS-1 output</em> by two more — not the P10 output. Dots mark where the shifted halves branch.</p>
+</div>
+
+<h4>Reading a permutation table</h4>
+
+<div class="zh"><span class="zhh">置换表怎么读（很多人卡在这）</span>
+<p>表里写的是<b>位置</b>，不是数值。<span class="m">IP = {2, 6, 3, 1, 4, 8, 5, 7}</span> 的意思是：</p>
+<p class="m" style="display:block;padding:9px 12px;line-height:2">
+输出的第 1 位 ← 拿输入的第 2 位<br>
+输出的第 2 位 ← 拿输入的第 6 位<br>
+输出的第 3 位 ← 拿输入的第 3 位 …依此类推
+</p>
+<p><b>一句话：照表抄，第 i 个数字就是从输入里取第几位。不要倒过来。</b></p>
+<p><b>举例：</b>把 <span class="m">1001 0101</span> 过 IP。先给输入位编号，然后按表取第 2、6、3、1、4、8、5、7 位：</p>
+<p class="m" style="display:block;padding:9px 12px;line-height:2">
+输入： 1 0 0 1 0 1 0 1<br>
+位号： 1 2 3 4 5 6 7 8<br>
+取第 2,6,3,1,4,8,5,7 位 → 0 1 0 1 1 1 0 0<br>
+结果： <span class="hl">0101 1100</span>
+</p>
+<p><b>注意：</b>IP⁻¹ 是<b>另一张独立的表</b>，不是把 IP 反过来写。最后一步要用 IP⁻¹，别用错。</p>
+</div>
+<p>In <span class="bits">IP = {2, 6, 3, 1, 4, 8, 5, 7}</span>, <strong>output position <em>i</em> takes input position <em>P[i]</em></strong>. So IP of <span class="bits">1001 0101</span> is <span class="mono">b₂ b₆ b₃ b₁ b₄ b₈ b₅ b₇</span> = <span class="bits">0101 1100</span>. IP⁻¹ is a separate table, not a reversal.</p>
+
+<div class="scroll">
+<table class="dt">
+  <thead><tr><th>Name</th><th>Size</th><th>Position table</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td>P10</td><td class="m">10 → 10</td><td class="m">{3, 5, 2, 7, 4, 10, 1, 9, 8, 6}</td><td>First step of key generation</td></tr>
+    <tr><td>LS-1</td><td class="m">5 → 5</td><td class="m">{2, 3, 4, 5, 1}</td><td>1-bit left shift of each half</td></tr>
+    <tr><td>P8</td><td class="m">10 → 8</td><td class="m">{6, 3, 7, 4, 8, 5, 10, 9}</td><td>Produces K1 and K2</td></tr>
+    <tr><td>LS-2</td><td class="m">5 → 5</td><td class="m">{3, 4, 5, 1, 2}</td><td>2-bit shift of the LS-1 result</td></tr>
+    <tr><td>IP</td><td class="m">8 → 8</td><td class="m">{2, 6, 3, 1, 4, 8, 5, 7}</td><td>Initial permutation</td></tr>
+    <tr><td>IP⁻¹</td><td class="m">8 → 8</td><td class="m">{4, 1, 3, 5, 7, 2, 8, 6}</td><td>Final permutation</td></tr>
+    <tr><td>E/P</td><td class="m">4 → 8</td><td class="m">{{4,1,2,3}, {2,3,4,1}}</td><td>Expands the right half inside F</td></tr>
+    <tr><td>P4</td><td class="m">4 → 4</td><td class="m">{2, 4, 3, 1}</td><td>Final permutation inside F</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="sboxes">S-boxes</h3>
+
+<div class="zh"><span class="zhh">S 盒怎么查（外-内-内-外）</span>
+<p>输入 4 位，把它拆成<b>「外 内 内 外」</b>——最外面两位决定<b>行</b>，中间两位决定<b>列</b>。</p>
+<p class="m" style="display:block;padding:9px 12px;line-height:2">
+输入： b₁ b₂ b₃ b₄<br>
+行号 = b₁ b₄ &nbsp;&nbsp;（第 1 位和第 4 位拼起来）<br>
+列号 = b₂ b₃ &nbsp;&nbsp;（第 2 位和第 3 位拼起来）
+</p>
+<p><b>举例：</b>输入 <span class="m">1011</span> 进 S0</p>
+<ol class="zhsteps">
+  <li>行 = 第1位+第4位 = <span class="m">1_1</span> = 二进制 11 = <b>第 3 行</b></li>
+  <li>列 = 第2位+第3位 = <span class="m">0_1</span> = 二进制 01 = <span class="hl">第 1 列</span>（不是第 01 列，是第 1 列）</li>
+  <li>查 S0 第 3 行第 1 列 = <span class="m">1</span></li>
+  <li>把 1 写成 <b>2 位二进制</b> → 输出 <span class="m">01</span></li>
+</ol>
+<p><b>最常错的一步：</b>查出来是十进制数字，必须转成 2 位二进制。<span class="m">1</span> 要写 <span class="m">01</span>，<b>不是</b> <span class="m">0001</span>。每个 S 盒输出 2 位，两个拼起来正好 4 位，去喂 P4。</p>
+</div>
+
+<p>Each S-box takes a <strong>4-bit input</strong> and returns a <strong>2-bit output</strong>.</p>
+
+<p class="mono" style="font-size:15px;background:var(--green-wash);border:1px solid var(--rule);border-radius:4px;padding:11px 15px;max-width:var(--measure)">
+row = bit 1 and bit 4 (outer) &nbsp;·&nbsp; column = bit 2 and bit 3 (inner)
+</p>
+
+<div class="fig">
+<div class="scroll">
+<svg viewBox="0 0 700 200" role="img" aria-label="Diagram showing bits 1 and 4 select the row and bits 2 and 3 select the column of an S-box">
+  <text class="t-sm" x="20" y="26">4-bit input to an S-box</text>
+
+  <rect class="box-fill" x="100" y="62" width="46" height="40" rx="2"/>
+  <text x="123" y="88" text-anchor="middle">b₁</text>
+  <rect class="box-fill" x="156" y="62" width="46" height="40" rx="2"/>
+  <text x="179" y="88" text-anchor="middle">b₂</text>
+  <rect class="box-fill" x="212" y="62" width="46" height="40" rx="2"/>
+  <text x="235" y="88" text-anchor="middle">b₃</text>
+  <rect class="box-fill" x="268" y="62" width="46" height="40" rx="2"/>
+  <text x="291" y="88" text-anchor="middle">b₄</text>
+
+  <path class="shape-thin" d="M 123 54 V 44" stroke="var(--green-deep)"/>
+  <path class="shape-thin" d="M 291 54 V 44" stroke="var(--green-deep)"/>
+  <path class="shape-thin" d="M 123 44 H 291" stroke="var(--green-deep)"/>
+  <path class="shape-thin" d="M 207 44 V 26" stroke="var(--green-deep)"/>
+  <text class="t-key" x="207" y="18" text-anchor="middle">ROW = b₁ b₄</text>
+
+  <path class="shape-thin" d="M 179 110 V 120" stroke="var(--amber)"/>
+  <path class="shape-thin" d="M 235 110 V 120" stroke="var(--amber)"/>
+  <path class="shape-thin" d="M 179 120 H 235" stroke="var(--amber)"/>
+  <path class="shape-thin" d="M 207 120 V 138" stroke="var(--amber)"/>
+  <text x="207" y="156" text-anchor="middle" fill="var(--amber)">COLUMN = b₂ b₃</text>
+
+  <path class="flow" d="M 320 82 H 400"/>
+  <path class="shape-thin" d="M 400 76 L 410 82 L 400 88 Z"/>
+
+  <rect class="grn-fill" x="424" y="52" width="230" height="82" rx="3"/>
+  <text x="539" y="78" text-anchor="middle">look up S0 or S1</text>
+  <text class="t-sm" x="539" y="100" text-anchor="middle">at [row][column]</text>
+  <text class="t-sm" x="539" y="120" text-anchor="middle">→ 2-bit output</text>
+
+  <text class="t-sm" x="20" y="186">Example: 1011 → row = b₁b₄ = 11 = 3, column = b₂b₃ = 01 = 1 → S0[3][1] = 1 → output 01</text>
+</svg>
+</div>
+<p class="cap"><b>Fig 5.</b> The row/column split, as annotated on the lecture slide.</p>
+</div>
+
+<div class="scroll">
+<div style="display:flex;gap:38px;flex-wrap:wrap;align-items:flex-start">
+  <div>
+    <h4 style="margin-top:0">S0</h4>
+    <table class="tt">
+      <thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead>
+      <tbody>
+        <tr><td class="rh">0</td><td>1</td><td>0</td><td>3</td><td>2</td></tr>
+        <tr><td class="rh">1</td><td>3</td><td>2</td><td>1</td><td>0</td></tr>
+        <tr><td class="rh">2</td><td>0</td><td>2</td><td>1</td><td>3</td></tr>
+        <tr><td class="rh">3</td><td>3</td><td>1</td><td>3</td><td>2</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h4 style="margin-top:0">S1</h4>
+    <table class="tt">
+      <thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead>
+      <tbody>
+        <tr><td class="rh">0</td><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+        <tr><td class="rh">1</td><td>2</td><td>0</td><td>1</td><td>3</td></tr>
+        <tr><td class="rh">2</td><td>3</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td class="rh">3</td><td>2</td><td>1</td><td>0</td><td>3</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap" style="flex:1;min-width:200px;margin-top:0">Rows and columns are indexed 0–3. Entries are decimal — convert to 2 binary digits on the way out, so <span class="mono">S0[3][1] = 1</span> gives <span class="bits">01</span>, not <span class="bits">0001</span>.</p>
+</div>
+</div>
+
+<h3>Inside the round function F</h3>
+
+<div class="fig">
+<div class="scroll">
+<svg viewBox="0 0 660 400" role="img" aria-label="Inside the S-DES round function: expansion, key XOR, two S-boxes, and P4">
+  <text class="t-sm" x="330" y="20" text-anchor="middle">4-bit right half R</text>
+  <path class="flow" d="M 330 26 V 46"/>
+  <path class="shape" d="M 270 46 H 390 L 378 74 H 282 Z"/>
+  <text x="330" y="64" text-anchor="middle">E/P</text>
+  <path class="flow" d="M 330 74 V 100"/>
+  <text class="t-sm" x="340" y="92">8 bits</text>
+
+  <circle class="node" cx="330" cy="122" r="19"/>
+  <path class="shape-thin" d="M 316 108 L 344 136 M 316 136 L 344 108"/>
+  <path class="flow" d="M 460 122 H 349"/>
+  <text class="t-key" x="474" y="126">round key K</text>
+  <text class="t-sm" x="474" y="142">(8 bits)</text>
+
+  <path class="flow" d="M 330 141 V 168"/>
+  <path class="flow" d="M 330 168 H 250 V 186"/>
+  <path class="flow" d="M 330 168 H 410 V 186"/>
+  <text class="t-sm" x="300" y="162">4</text>
+  <text class="t-sm" x="360" y="162">4</text>
+
+  <path class="shape" d="M 196 186 H 304 L 292 214 H 208 Z"/>
+  <text x="250" y="204" text-anchor="middle">S0</text>
+  <path class="shape" d="M 356 186 H 464 L 452 214 H 368 Z"/>
+  <text x="410" y="204" text-anchor="middle">S1</text>
+
+  <path class="flow" d="M 250 214 V 248 H 300"/>
+  <path class="flow" d="M 410 214 V 248 H 360"/>
+  <text class="t-sm" x="228" y="240">2</text>
+  <text class="t-sm" x="434" y="240">2</text>
+
+  <path class="shape" d="M 264 248 H 396 L 384 276 H 276 Z"/>
+  <text x="330" y="266" text-anchor="middle">P4</text>
+
+  <path class="flow" d="M 330 276 V 310"/>
+  <text class="t-sm" x="340" y="300">4 bits</text>
+
+  <circle class="node" cx="330" cy="330" r="19"/>
+  <path class="shape-thin" d="M 316 316 L 344 344 M 316 344 L 344 316"/>
+  <path class="flow" d="M 180 330 H 311"/>
+  <text class="t-sm" x="120" y="326">4-bit left half L</text>
+
+  <path class="flow" d="M 330 349 V 376"/>
+  <text class="t-sm" x="330" y="392" text-anchor="middle">new left half = L ⊕ F(R, K)</text>
+</svg>
+</div>
+<p class="cap"><b>Fig 6.</b> E/P expands R from 4 to 8 bits, the round key is XORed in, S0 and S1 each reduce 4 bits to 2, and P4 permutes the joined result. The right half passes through untouched.</p>
+</div>
+
+<h3 id="worked">Full worked example</h3>
+
+<div class="zh"><span class="zhh">拿到一道 S-DES 题，按这个清单动手</span>
+<p><b>第 0 步 · 先看给了什么</b></p>
+<ul>
+  <li>给了<b>密钥</b>（10 位）→ 必须先算 K1、K2，不然一步都动不了。</li>
+  <li>给了<b>明文</b>（8 位）→ 加密，从 IP 开始。</li>
+  <li>给了<b>密文</b> + 让你求明文 → 解密，结构一样，只是 K2 在前。</li>
+</ul>
+<p><b>然后照着做：</b></p>
+<ol class="zhsteps">
+  <li>在旁边空白处先把 <b>K1、K2</b> 算好写下来（P10 → 移位 → P8）。</li>
+  <li>明文过 <b>IP</b>，把结果<b>拆成左半 L、右半 R</b>，各 4 位。</li>
+  <li>做第一轮 <b>fK(K1)</b> —— 只动左半，右半原封不动。</li>
+  <li><b>SW</b>：左右两半交换。（这一步最容易被忘）</li>
+  <li>做第二轮 <b>fK(K2)</b>。</li>
+  <li>过 <b>IP⁻¹</b>，得到密文。</li>
+</ol>
+<p><b>解密完全一样</b>：把第 3 步换成 K2、第 5 步换成 K1，其余不变。</p>
+</div>
+<p>Plaintext <span class="bits">1001 0101</span>, key <span class="bits">10011 01100</span> — the slide example, with the matching decryption. Every value is reproduced from an independent implementation.</p>
+
+<h4>Step 1 — Key generation</h4>
+<div class="wk">
+  <div class="wkcol">
+    <h4>Key schedule</h4>
+    <div class="rows">
+      <div class="row"><span class="k">Key</span><span class="v">10011 01100</span></div>
+      <div class="row"><span class="k">P10</span><span class="v">01011 01010</span></div>
+      <div class="row"><span class="k">LS-1</span><span class="v">10110 10100</span></div>
+      <div class="row hi"><span class="k">P8 → K1</span><span class="v">1101 1000</span></div>
+      <div class="row"><span class="k">LS-2</span><span class="v">11010 10010</span></div>
+      <div class="row hi"><span class="k">P8 → K2</span><span class="v">1001 0001</span></div>
+    </div>
+  </div>
+  <div class="wkcol">
+    <h4>Reading it</h4>
+    <div class="rows">
+      <div class="row"><span class="k">P10</span><span class="v">3 5 2 7 4 10 1 9 8 6</span></div>
+      <div class="row"><span class="k">LS-1</span><span class="v">01011 → 10110</span></div>
+      <div class="row"><span class="k"></span><span class="v">01010 → 10100</span></div>
+      <div class="row"><span class="k">P8 of K1</span><span class="v">6 3 7 4 8 5 10 9</span></div>
+      <div class="row"><span class="k">LS-2</span><span class="v">10110 → 11010</span></div>
+      <div class="row"><span class="k"></span><span class="v">10100 → 10010</span></div>
+    </div>
+  </div>
+</div>
+
+<h4>Step 2 — Encryption</h4>
+<div class="wk">
+  <div class="wkcol">
+    <h4>Round 1 (K1)</h4>
+    <div class="rows">
+      <div class="row"><span class="k">Plaintext</span><span class="v">1001 0101</span></div>
+      <div class="row hi"><span class="k">IP</span><span class="v">0101 1100</span></div>
+    </div>
+    <div class="statebox">L: 0101 &nbsp;·&nbsp; R: 1100</div>
+    <div class="rows">
+      <div class="row"><span class="k">E/P of R</span><span class="v">0110 1001</span></div>
+      <div class="row"><span class="k">⊕ K1</span><span class="v">1011 0001</span></div>
+      <div class="row"><span class="k">S0 · row 11 col 01</span><span class="v">01</span></div>
+      <div class="row"><span class="k">S1 · row 01 col 00</span><span class="v">10</span></div>
+      <div class="row"><span class="k">P4</span><span class="v">1010</span></div>
+      <div class="row"><span class="k">0101 ⊕ 1010</span><span class="v">1111</span></div>
+      <div class="row hi"><span class="k">SW</span><span class="v">1100 1111</span></div>
+    </div>
+  </div>
+  <div class="wkcol">
+    <h4>Round 2 (K2)</h4>
+    <div class="statebox" style="margin-top:0">L: 1100 &nbsp;·&nbsp; R: 1111</div>
+    <div class="rows">
+      <div class="row"><span class="k">E/P of R</span><span class="v">1111 1111</span></div>
+      <div class="row"><span class="k">⊕ K2</span><span class="v">0110 1110</span></div>
+      <div class="row"><span class="k">S0 · row 00 col 11</span><span class="v">10</span></div>
+      <div class="row"><span class="k">S1 · row 10 col 11</span><span class="v">00</span></div>
+      <div class="row"><span class="k">P4</span><span class="v">0001</span></div>
+      <div class="row"><span class="k">1100 ⊕ 0001</span><span class="v">1101</span></div>
+      <div class="row"><span class="k">IP⁻¹</span><span class="v">1101 1111</span></div>
+    </div>
+    <div class="ctbox">Ciphertext: <b>1101 1111</b></div>
+  </div>
+</div>
+
+<h4>Step 3 — Decryption</h4>
+<p>Same key, round keys reversed: K2 first, then K1.</p>
+<div class="wk">
+  <div class="wkcol">
+    <h4>First round of decryption (K2)</h4>
+    <div class="rows">
+      <div class="row"><span class="k">Ciphertext</span><span class="v">1101 1111</span></div>
+      <div class="row hi"><span class="k">IP</span><span class="v">1101 1111</span></div>
+    </div>
+    <div class="statebox">L: 1101 &nbsp;·&nbsp; R: 1111</div>
+    <div class="rows">
+      <div class="row"><span class="k">E/P of R</span><span class="v">1111 1111</span></div>
+      <div class="row"><span class="k">⊕ K2</span><span class="v">0110 1110</span></div>
+      <div class="row"><span class="k">S0 · row 00 col 11</span><span class="v">10</span></div>
+      <div class="row"><span class="k">S1 · row 10 col 11</span><span class="v">00</span></div>
+      <div class="row"><span class="k">P4</span><span class="v">0001</span></div>
+      <div class="row"><span class="k">1101 ⊕ 0001</span><span class="v">1100</span></div>
+      <div class="row hi"><span class="k">SW</span><span class="v">1111 1100</span></div>
+    </div>
+  </div>
+  <div class="wkcol">
+    <h4>Second round of decryption (K1)</h4>
+    <div class="statebox" style="margin-top:0">L: 1111 &nbsp;·&nbsp; R: 1100</div>
+    <div class="rows">
+      <div class="row"><span class="k">E/P of R</span><span class="v">0110 1001</span></div>
+      <div class="row"><span class="k">⊕ K1</span><span class="v">1011 0001</span></div>
+      <div class="row"><span class="k">S0 · row 11 col 01</span><span class="v">01</span></div>
+      <div class="row"><span class="k">S1 · row 01 col 00</span><span class="v">10</span></div>
+      <div class="row"><span class="k">P4</span><span class="v">1010</span></div>
+      <div class="row"><span class="k">1111 ⊕ 1010</span><span class="v">0101</span></div>
+      <div class="row"><span class="k">IP⁻¹</span><span class="v">1001 0101</span></div>
+    </div>
+    <div class="ctbox alt">Plaintext recovered: <b>1001 0101</b></div>
+  </div>
+</div>
+
+<h4>Stepper — check any plaintext and key</h4>
+<div class="panel" id="stepper">
+  <div class="panelbar">
+    <div class="field">
+      <label for="inPT">8-bit plaintext</label>
+      <input id="inPT" value="10010101" maxlength="11" spellcheck="false" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="inKey">10-bit key</label>
+      <input id="inKey" value="1001101100" maxlength="15" spellcheck="false" autocomplete="off">
+    </div>
+    <button class="btn primary" id="playBtn" type="button">Play through</button>
+    <button class="btn" id="resetBtn" type="button">Slide example</button>
+  </div>
+  <p class="readout" id="stepMsg" style="margin:0 0 12px"></p>
+  <div class="scroll">
+    <table class="steps-table">
+      <thead><tr><th>Stage</th><th>Value</th><th>What happened</th></tr></thead>
+      <tbody id="stepBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="callout err">
+  <h4>Traps that cost the most marks</h4>
+
+<div class="zh"><span class="zhh">这五个错最容易丢分</span>
+<ol class="zhsteps">
+  <li><b>LS-2 移错了对象。</b>LS-2 是在 <b>LS-1 的结果</b>上再移 2 位，不是在 P10 的结果上移。<span class="m">01011</span> → LS-1 → <span class="m">10110</span> → LS-2 → <span class="m">11010</span>。</li>
+  <li><b>异或的对象搞错。</b>轮密钥只和 <b>E/P 的输出</b>异或，永远不和 L 异或。</li>
+  <li><b>忘了 SW。</b>两轮中间必须交换左右两半，漏掉全盘皆错。</li>
+  <li><b>最后用了 IP。</b>收尾要用 <b>IP⁻¹</b>，两张是不同的表。</li>
+  <li><b>解密密钥顺序错。</b>解密<b>先用 K2，再用 K1</b>。</li>
+</ol>
+<p><b>还有一个保命习惯：</b>每个中间值都写在卷面上，4 位一组分开写。就算最后一位算错，老师也能看见你的过程，过程分照样给。</p>
+</div>
+  <ul>
+    <li><strong>LS-2 on the wrong value.</strong> It applies to the LS-1 output. <span class="bits">01011</span> → LS-1 → <span class="bits">10110</span> → LS-2 → <span class="bits">11010</span>.</li>
+    <li><strong>XORing the wrong half.</strong> The round key XORs with E/P(R), never with L.</li>
+    <li><strong>Dropping the SW.</strong> The swap between rounds is compulsory.</li>
+    <li><strong>Using IP where IP⁻¹ belongs.</strong> Different tables.</li>
+    <li><strong>Wrong key order in decryption.</strong> K2 first, then K1.</li>
+  </ul>
+</div>
+
+<h3>Security</h3>
+<p>The key is 10 bits, so there are <span class="bits">2¹⁰ = 1024</span> keys — brute force is trivial. Knowing a plaintext–ciphertext pair does not yield the key: recovering it is <em>very hard</em> other than by exhaustion over that tiny keyspace.</p>
+
+<!-- ================= PREDICTED QUESTIONS ================= -->
+<div class="part"><span class="n">EXAM</span><h2 id="predict">Predicted questions &amp; model answers</h2></div>
+
+<p class="lede">Ranked by how directly the slides signalled them. Answers are written at the length a good exam answer should be.</p>
+
+<h3>Digital Logic</h3>
+
+<div class="abox">
+  <p class="q"><span class="num">L1</span>Design the digital logic for D = (~A)(~B)(~C) using 2-input, 1-output basic gates (AND, OR, NOT). What is the particular name of this logic?</p>
+  <p class="odd">Very high — this was Quiz #3b</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p><strong>Gates:</strong> 3 NOT gates (for A′, B′, C′) and 2 two-input AND gates. First AND: <span class="mono">X = A′B′</span>. Second AND: <span class="mono">D = X · C′</span>. Label the wire X.</p>
+    <p><strong>Name: 3-input NOR</strong>, because D = A′B′C′ = (A+B+C)′ by De Morgan. Truth table has a single 1, in row A=B=C=0.</p>
+    <p>Draw the circuit as in <a href="#design">Fig 3</a>.</p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">L2</span>Draw the MIL/ANSI symbols and give the truth table for the AND, OR, NOT, NAND, NOR and XOR gates.</p>
+  <p class="odd">High — the entire Digital Logic 2/5 to 5/5 block</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p>Reproduce the six cards in <a href="#gates">Gate reference</a>: D-shape for AND, shield for OR, triangle plus bubble for NOT, and the bubble added to AND and OR for NAND and NOR, extra arc for XOR. State each expression — <span class="mono">A·B</span>, <span class="mono">A+B</span>, <span class="mono">A′</span>, <span class="mono">(A·B)′</span>, <span class="mono">(A+B)′</span>, <span class="mono">A⊕B</span> — and the four-row (or two-row, for NOT) table.</p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">L3</span>Name the logic function for each expression, and say how many gates it takes: (a) A′B′ (b) A′ + B′ (c) (A+B)′ (d) A′B + AB′.</p>
+  <p class="odd">Medium–high — the naming skill, applied</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p>(a) 2 NOT + 1 AND → <strong>NOR</strong>, since A′B′ = (A+B)′.<br>
+    (b) 2 NOT + 1 OR → <strong>NAND</strong>, since A′ + B′ = (A·B)′.<br>
+    (c) 1 NOR → <strong>NOR</strong>.<br>
+    (d) 2 NOT + 2 AND + 1 OR → <strong>XOR</strong>, the sum-of-products form.</p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">L4</span>Why are NAND and NOR called universal gates? Show how to build a NOT and an XOR from NAND gates only.</p>
+  <p class="odd">Medium — the "Variation of NOT Gate" and "XOR Composition" slides</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p>They are universal because any other gate can be constructed from copies of one of them alone.</p>
+    <p><strong>NOT from NAND:</strong> tie both inputs to A. Output = (A·A)′ = A′. <strong>NOT from NOR:</strong> tie both inputs to A. Output = (A+A)′ = A′.</p>
+    <p><strong>XOR from NAND:</strong> 4 gates — one NAND on A and B, one NAND on A with that output, one NAND on B with that output, one NAND on those two results. <strong>XOR from NOR:</strong> 5 gates. See <a href="#universal">Fig 1 and Fig 2</a>.</p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">L5</span>State De Morgan's laws. Use them to show that A′B′C′ and (A+B+C)′ are the same function.</p>
+  <p class="odd">Medium — supports the naming in L1</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p><span class="mono">(A · B)′ = A′ + B′</span> and <span class="mono">(A + B)′ = A′ · B′</span> — push a bar through and swap the operator.</p>
+    <p>Apply the second law twice: <span class="mono">(A + B + C)′ = (A + B)′ · C′ = A′ · B′ · C′</span>. The two expressions are identical, which is why the circuit in L1 is a NOR.</p>
+  </div>
+</div>
+
+<h3>Simplified DES</h3>
+
+<div class="abox">
+  <p class="q"><span class="num">S1</span>Generate K1 and K2 from the 10-bit key 10011 00111.</p>
+  <p class="odd">Very high — printed verbatim on the exercise slide</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <div class="rows" style="max-width:23rem;margin-bottom:10px">
+      <div class="row"><span class="k">P10</span><span class="v">01001 11110</span></div>
+      <div class="row"><span class="k">LS-1</span><span class="v">10010 11101</span></div>
+      <div class="row hi"><span class="k">P8 → K1</span><span class="v">1011 1010</span></div>
+      <div class="row"><span class="k">LS-2</span><span class="v">01010 10111</span></div>
+      <div class="row hi"><span class="k">P8 → K2</span><span class="v">1001 1011</span></div>
+    </div>
+    <p>Show the P10 read (positions 3, 5, 2, 7, 4, 10, 1, 9, 8, 6), the one-bit shifts, and the P8 read (positions 6, 3, 7, 4, 8, 5, 10, 9).</p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">S2</span>Encrypt the 8-bit block 0000 0000 using the key 10011 00111, showing every intermediate value.</p>
+  <p class="odd">High — the "encrypt by hand" exercise</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p>With K1 = <span class="bits">1011 1010</span>, K2 = <span class="bits">1001 1011</span>:</p>
+    <div class="rows" style="max-width:23rem">
+      <div class="row"><span class="k">IP</span><span class="v">0000 0000</span></div>
+      <div class="row"><span class="k">E/P of R</span><span class="v">0000 0000</span></div>
+      <div class="row"><span class="k">⊕ K1</span><span class="v">1011 1010</span></div>
+      <div class="row"><span class="k">S0 · row 11 col 01</span><span class="v">01</span></div>
+      <div class="row"><span class="k">S1 · row 10 col 01</span><span class="v">00</span></div>
+      <div class="row"><span class="k">P4</span><span class="v">1000</span></div>
+      <div class="row"><span class="k">L ⊕ P4</span><span class="v">1000</span></div>
+      <div class="row"><span class="k">SW</span><span class="v">0000 1000</span></div>
+      <div class="row"><span class="k">E/P of R</span><span class="v">0100 0001</span></div>
+      <div class="row"><span class="k">⊕ K2</span><span class="v">1101 1010</span></div>
+      <div class="row"><span class="k">S0 · row 11 col 10</span><span class="v">11</span></div>
+      <div class="row"><span class="k">S1 · row 10 col 01</span><span class="v">00</span></div>
+      <div class="row"><span class="k">P4</span><span class="v">1001</span></div>
+      <div class="row"><span class="k">L ⊕ P4</span><span class="v">1001</span></div>
+      <div class="row"><span class="k">IP⁻¹</span><span class="v">1101 0000</span></div>
+    </div>
+    <p style="margin-top:10px"><strong>Ciphertext: <span class="bits">1101 0000</span></strong></p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">S3</span>Decrypt the ciphertext 1101 0000 with the same key.</p>
+  <p class="odd">High — the exercise slide asks for decryption straight after encryption</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p>Run the identical structure with K2 first, then K1. IP of <span class="bits">1101 0000</span> is <span class="bits">1001 1000</span>; after f<sub>K2</sub> and the swap you get <span class="bits">1000 0000</span>; after f<sub>K1</sub> and IP⁻¹ the block returns to <span class="bits">0000 0000</span>.</p>
+    <p>State the principle: decryption is the same machine with the round keys reversed, because f<sub>K</sub> leaves the right half untouched and XOR is its own inverse. Verify your own working in the <a href="#worked">stepper</a>.</p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">S4</span>A 4-bit input 1011 is fed to S0. What is the output? Explain the row/column rule.</p>
+  <p class="odd">High — S-boxes are the only nonlinear part and are easy to test</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p>Row = bits 1 and 4 = <span class="mono">11</span> = 3. Column = bits 2 and 3 = <span class="mono">01</span> = 1. So read row 3, column 1 of S0: <span class="mono">S0[3][1] = 1</span>.</p>
+    <p>Write the result as two binary digits: <strong>output = <span class="bits">01</span></strong>. Each S-box maps 4 bits to 2 bits; S0 handles bits 1–4 of the XOR result and S1 handles bits 5–8.</p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">S5</span>Give the parameters of Simplified DES and state the security of the cipher.</p>
+  <p class="odd">Medium–high — the "Simplified DES (1/10)" and summary slides</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p>8-bit plaintext block, 8-bit ciphertext block, 10-bit key, 2 rounds. Round keys are generated from the key using permutations (P10, P8) and left shifts (LS-1, LS-2). Encryption is initial permutation, round function, swap halves, round function, inverse initial permutation.</p>
+    <p><strong>Security:</strong> 10-bit key means 2¹⁰ = 1024 possible keys, so brute force is trivial. Knowing a plaintext and its ciphertext does not directly reveal the key — determining it is very hard apart from exhaustive search.</p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">S6</span>Why can the S-DES decryption network use the same structure as encryption, and what changes?</p>
+  <p class="odd">Medium — the summary slide states it, the Feistel slide explains it</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p>The round function f<sub>K</sub>(L, R) = (L ⊕ F(R, SK), R) does not modify R — it only XORs F(R, SK) onto L. So each round is invertible given the same subkey.</p>
+    <p>Decryption therefore uses the identical IP → f<sub>K</sub> → SW → f<sub>K</sub> → IP⁻¹ structure. The only change is the <strong>order of the round keys</strong>: decryption applies K2 then K1, reversing the encryption order. Formally, PT = IP⁻¹ ∘ f<sub>K1</sub> ∘ SW ∘ f<sub>K2</sub> ∘ IP(CT).</p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">S7</span>What are the design principles and parameters to consider when designing a secure block cipher?</p>
+  <p class="odd">Medium — printed on the exercise slide</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p><strong>Parameters:</strong> block size (larger gives more diffusion — DES 64, AES 128); key size (larger resists brute force — DES 56 is too short, AES 128/192/256); number of rounds (DES 16, AES 10–14).</p>
+    <p><strong>Design properties:</strong> subkey generation and the round function F should be complex; the cipher should achieve both <em>confusion</em> (hiding the key–ciphertext relationship, via substitution / S-boxes) and <em>diffusion</em> (spreading each input bit over many output bits, via permutation and mixing). Both are repeated over many rounds with the key re-mixed each round, so an attacker cannot pre-compute the cipher's behaviour.</p>
+  </div>
+</div>
+
+<div class="abox">
+  <p class="q"><span class="num">S8</span>Apply IP to the 8-bit block 1001 0101 and explain what IP⁻¹ does.</p>
+  <p class="odd">Medium — a quick, easily marked bit-manipulation item</p>
+  <div class="a">
+    <span class="tag">Model answer</span>
+    <p>IP = {2, 6, 3, 1, 4, 8, 5, 7}, so output bit <em>i</em> takes input bit P[i]:</p>
+    <p class="mono" style="margin-bottom:8px">b₂ b₆ b₃ b₁ b₄ b₈ b₅ b₇ = 0 1 0 1 1 1 0 0 = <span class="bits">0101 1100</span></p>
+    <p>IP⁻¹ = {4, 1, 3, 5, 7, 2, 8, 6} undoes it at the end of the cipher. It is a separate table, not the reverse ordering of IP.</p>
+  </div>
+</div>
+
+<!-- ================= DRILLS ================= -->
+<div class="part"><span class="n">DRILLS</span><h2 id="drills">Self-test</h2></div>
+<p class="lede">Cover the answer, work it on paper, then open.</p>
+
+<details class="drill">
+  <summary>Name the function and give the gates: D = (~A)(~B), using 2-input gates.</summary>
+  <div class="ans">
+    <span class="tag">Answer</span>
+    <p>2 NOT gates (A′, B′) + 1 two-input AND. D = A′B′ = (A+B)′ → <strong>2-input NOR</strong>. Single 1 in the truth table, at A=B=0.</p>
+  </div>
+</details>
+
+<details class="drill">
+  <summary>Encrypt 1111 1111 with key 10011 00111 (K1 = 1011 1010, K2 = 1001 1011).</summary>
+  <div class="ans">
+    <span class="tag">Answer</span>
+    <div class="rows" style="max-width:23rem">
+      <div class="row"><span class="k">IP</span><span class="v">1111 1111</span></div>
+      <div class="row"><span class="k">⊕ K1</span><span class="v">0100 0101</span></div>
+      <div class="row"><span class="k">S0 · row 00 col 10</span><span class="v">11</span></div>
+      <div class="row"><span class="k">S1 · row 01 col 10</span><span class="v">01</span></div>
+      <div class="row"><span class="k">P4</span><span class="v">1101</span></div>
+      <div class="row"><span class="k">L ⊕ P4</span><span class="v">0010</span></div>
+      <div class="row"><span class="k">SW</span><span class="v">1111 0010</span></div>
+      <div class="row"><span class="k">⊕ K2</span><span class="v">1000 1111</span></div>
+      <div class="row"><span class="k">S0 · row 10 col 00</span><span class="v">00</span></div>
+      <div class="row"><span class="k">S1 · row 11 col 11</span><span class="v">11</span></div>
+      <div class="row"><span class="k">P4</span><span class="v">0110</span></div>
+      <div class="row"><span class="k">L ⊕ P4</span><span class="v">1001</span></div>
+      <div class="row"><span class="k">IP⁻¹</span><span class="v">1100 1000</span></div>
+    </div>
+    <p style="margin-top:10px"><strong>CT = <span class="bits">1100 1000</span></strong></p>
+  </div>
+</details>
+
+<details class="drill">
+  <summary>Distinguish substitution from permutation, and say where each appears in S-DES.</summary>
+  <div class="ans">
+    <span class="tag">Answer</span>
+    <p><strong>Substitution</strong> replaces an element, or group, with a corresponding different one. In S-DES: the S-boxes, where 4 bits in become a different 2 bits out.</p>
+    <p><strong>Permutation</strong> rearranges a sequence — nothing added, deleted or replaced, only the order changes. In S-DES: P10, P8, IP, IP⁻¹, E/P and P4.</p>
+  </div>
+</details>
+
+<!-- ================= RECAP ================= -->
+<div class="part"><span class="n">RECAP</span><h2 id="recap">Last-hour recap</h2></div>
+
+<div class="recap">
+  <h3 style="margin-top:0">Digital Logic</h3>
+  <div class="recapgrid">
+    <div>
+      <h4>The six gates</h4>
+      <div class="kv">
+        <div>AND &nbsp; Q = A · B</div>
+        <div>OR &nbsp;&nbsp; Q = A + B</div>
+        <div>NOT &nbsp; Q = A′</div>
+        <div>NAND Q = (A·B)′</div>
+        <div>NOR &nbsp; Q = (A+B)′</div>
+        <div>XOR &nbsp; Q = A ⊕ B</div>
+      </div>
+    </div>
+    <div>
+      <h4>Facts asked directly</h4>
+      <ul>
+        <li><strong>NAND and NOR are universal.</strong></li>
+        <li>Tie both inputs of NAND or NOR → NOT.</li>
+        <li>XOR = <strong>4 NANDs</strong> or <strong>5 NORs</strong>.</li>
+        <li>Bubble = inversion. IEC: <span class="mono">&amp;</span> AND, <span class="mono">≥1</span> OR, <span class="mono">=1</span> XOR.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>De Morgan + naming</h4>
+      <p class="mono" style="margin:0 0 6px">(A·B)′ = A′+B′<br>(A+B)′ = A′·B′</p>
+      <p style="margin:0">A′B′C′ = (A+B+C)′ = <strong>NOR</strong><br>A′+B′ = (A·B)′ = <strong>NAND</strong></p>
+    </div>
+    <div>
+      <h4>Design procedure</h4>
+      <ol style="font-size:14.5px;margin:0;padding-left:18px">
+        <li>NOT on every complemented variable.</li>
+        <li>Outermost operation = final gate.</li>
+        <li>Build in pairs; label intermediates.</li>
+        <li>Name from the truth table or De Morgan.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3>Simplified DES</h3>
+  <div class="recapgrid">
+    <div>
+      <h4>Parameters</h4>
+      <div class="kv">
+        <div><span>PT</span> 8 bits</div>
+        <div><span>CT</span> 8 bits</div>
+        <div><span>Key</span> 10 bits → 1024 keys</div>
+        <div><span>Rounds</span> 2</div>
+        <div><span>Keys</span> K1, K2 — 8 bits</div>
+      </div>
+    </div>
+    <div>
+      <h4>Key generation</h4>
+      <div class="kv">
+        <div><span>P10</span> 3 5 2 7 4 10 1 9 8 6</div>
+        <div><span>LS-1</span> shift each half left 1</div>
+        <div><span>P8</span> 6 3 7 4 8 5 10 9 → K1</div>
+        <div><span>LS-2</span> shift 2 more</div>
+        <div><span>P8</span> again → K2</div>
+      </div>
+    </div>
+    <div>
+      <h4>Permutations</h4>
+      <div class="kv">
+        <div><span>IP</span> 2 6 3 1 4 8 5 7</div>
+        <div><span>IP⁻¹</span> 4 1 3 5 7 2 8 6</div>
+        <div><span>E/P</span> {4,1,2,3}{2,3,4,1}</div>
+        <div><span>P4</span> 2 4 3 1</div>
+      </div>
+      <p style="margin-top:8px">Output bit <em>i</em> takes input bit <em>P[i]</em>.</p>
+    </div>
+    <div>
+      <h4>Round function</h4>
+      <div class="kv">
+        <div><span>1</span> E/P: R 4 → 8 bits</div>
+        <div><span>2</span> XOR the round key</div>
+        <div><span>3</span> S0 on bits 1–4, S1 on 5–8</div>
+        <div><span>4</span> join → 4 bits, then P4</div>
+        <div><span>5</span> L ← L ⊕ result</div>
+      </div>
+      <p style="margin-top:8px">S-box: <strong>row = b₁b₄, column = b₂b₃</strong>, output as 2 binary digits.</p>
+    </div>
+    <div>
+      <h4>S0 / S1</h4>
+      <div class="kv" style="line-height:1.55">
+        <div style="margin-bottom:5px">S0</div>
+        <div>1 0 3 2 &nbsp;/&nbsp; 3 2 1 0</div>
+        <div>0 2 1 3 &nbsp;/&nbsp; 3 1 3 2</div>
+      </div>
+      <div class="kv" style="line-height:1.55;margin-top:9px">
+        <div style="margin-bottom:5px">S1</div>
+        <div>0 1 2 3 &nbsp;/&nbsp; 2 0 1 3</div>
+        <div>3 0 1 0 &nbsp;/&nbsp; 2 1 0 3</div>
+      </div>
+    </div>
+    <div>
+      <h4>Memorise this example</h4>
+      <div class="kv">
+        <div>Key &nbsp;&nbsp;&nbsp;10011 01100</div>
+        <div>K1 &nbsp;&nbsp;&nbsp;&nbsp;1101 1000</div>
+        <div>K2 &nbsp;&nbsp;&nbsp;&nbsp;1001 0001</div>
+        <div>PT &nbsp;&nbsp;&nbsp;&nbsp;1001 0101</div>
+        <div>CT &nbsp;&nbsp;&nbsp;&nbsp;1101 1111</div>
+      </div>
+      <p style="margin-top:8px">Decrypt with K2 then K1 to recover <span class="mono">1001 0101</span>.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>COMP4111 Computer Security · Midterm review · Scope: Digital Logic and Simplified DES (Modern Cryptography Part 1, slides 10–14 and 16–29). Every computed value was reproduced with an independent S-DES implementation and matches the lecture examples.</p>
+</footer>
+
+</main>
+</div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ---------- S-DES core (mirrors the verified reference implementation) ---------- */
+  var P10=[3,5,2,7,4,10,1,9,8,6], P8=[6,3,7,4,8,5,10,9],
+      IP=[2,6,3,1,4,8,5,7], IPI=[4,1,3,5,7,2,8,6],
+      EP=[4,1,2,3,2,3,4,1], P4=[2,4,3,1],
+      S0=[[1,0,3,2],[3,2,1,0],[0,2,1,3],[3,1,3,2]],
+      S1=[[0,1,2,3],[2,0,1,3],[3,0,1,0],[2,1,0,3]];
+
+  function perm(bits,table){
+    var out='';
+    for(var i=0;i<table.length;i++) out += bits.charAt(table[i]-1);
+    return out;
+  }
+  function xor(a,b){
+    var out='';
+    for(var i=0;i<a.length;i++) out += (a.charAt(i)===b.charAt(i)) ? '0' : '1';
+    return out;
+  }
+  function rol(bits,n){ return bits.slice(n)+bits.slice(0,n); }
+  function half(bits){ var h=bits.length/2; return bits.slice(0,h)+' '+bits.slice(h); }
+  function two(v){ return ('0'+v.toString(2)).slice(-2); }
+
+  function keySchedule(key){
+    var p10=perm(key,P10), l=p10.slice(0,5), r=p10.slice(5),
+        l1=rol(l,1), r1=rol(r,1),
+        k1=perm(l1+r1,P8),
+        l2=rol(l1,2), r2=rol(r1,2),
+        k2=perm(l2+r2,P8);
+    return {p10:p10,l1:l1+r1,k1:k1,l2:l2+r2,k2:k2};
+  }
+
+  function roundInfo(rHalf,subkey){
+    var e=perm(rHalf,EP), x=xor(e,subkey),
+        r0=parseInt(x.charAt(0)+x.charAt(3),2), c0=parseInt(x.charAt(1)+x.charAt(2),2),
+        r1=parseInt(x.charAt(4)+x.charAt(7),2), c1=parseInt(x.charAt(5)+x.charAt(6),2),
+        o0=two(S0[r0][c0]), o1=two(S1[r1][c1]);
+    return {e:e,x:x,o0:o0,o1:o1,p4:perm(o0+o1,P4),
+            r0:r0,c0:c0,r1:r1,c1:c1};
+  }
+  function rc(r,c){ return 'row '+two(r)+' col '+two(c); }
+
+  function trace(pt,key){
+    var ks=keySchedule(key), T=[], n;
+    function add(s,v,note,cls){ T.push({s:s,v:v,n:note||'',c:cls||''}); }
+
+    add('Key',half(key),'10-bit input key');
+    add('P10',half(ks.p10),'positions 3 5 2 7 4 10 1 9 8 6');
+    add('LS-1',half(ks.l1),'each 5-bit half shifted left by 1');
+    add('Round key K1',half(ks.k1),'P8 of LS-1: 6 3 7 4 8 5 10 9','key');
+    add('LS-2',half(ks.l2),'the LS-1 halves shifted left by 2 more');
+    add('Round key K2',half(ks.k2),'P8 of LS-2','key');
+
+    add('Plaintext',half(pt),'8-bit input');
+    var ip=perm(pt,IP);
+    add('IP',half(ip),'positions 2 6 3 1 4 8 5 7');
+    var L=ip.slice(0,4), R=ip.slice(4);
+    add('Split',L+' | '+R,'left half | right half');
+
+    var a=roundInfo(R,ks.k1);
+    add('Round 1 · E/P(R)',half(a.e),'4-bit right half expanded to 8 bits');
+    add('Round 1 · ⊕ K1',half(a.x),'E/P(R) XOR K1');
+    add('Round 1 · S0',a.o0,rc(a.r0,a.c0));
+    add('Round 1 · S1',a.o1,rc(a.r1,a.c1));
+    add('Round 1 · P4',a.p4,'positions 2 4 3 1 of the S-box outputs');
+    var L1=xor(L,a.p4);
+    add('Round 1 · L ⊕ P4',L1,'XOR onto the left half');
+    add('Round 1 output',L1+' | '+R,'before the swap');
+    add('SW',R+' | '+L1,'the two halves are exchanged');
+
+    var L2=R, R2=L1, b=roundInfo(R2,ks.k2);
+    add('Round 2 · E/P(R)',half(b.e),'4-bit right half expanded to 8 bits');
+    add('Round 2 · ⊕ K2',half(b.x),'E/P(R) XOR K2');
+    add('Round 2 · S0',b.o0,rc(b.r0,b.c0));
+    add('Round 2 · S1',b.o1,rc(b.r1,b.c1));
+    add('Round 2 · P4',b.p4,'positions 2 4 3 1');
+    var L3=xor(L2,b.p4);
+    add('Round 2 · L ⊕ P4',L3,'XOR onto the left half');
+    n=half(L3+R2);
+    add('Before IP⁻¹',n,'final state after the second round');
+    add('Ciphertext',half(perm(L3+R2,IPI)),'IP⁻¹ = positions 4 1 3 5 7 2 8 6','key');
+    return T;
+  }
+
+  /* ---------- stepper UI ---------- */
+  var inPT=document.getElementById('inPT'),
+      inKey=document.getElementById('inKey'),
+      body=document.getElementById('stepBody'),
+      msg=document.getElementById('stepMsg'),
+      playBtn=document.getElementById('playBtn'),
+      resetBtn=document.getElementById('resetBtn'),
+      timers=[], playing=false;
+
+  function readBits(el,len){
+    var v=el.value.replace(/[^01]/g,'');
+    if(v.length>len) v=v.slice(0,len);
+    el.value=v;
+    var ok=(v.length===len);
+    el.classList.toggle('bad',!ok);
+    return ok ? v : null;
+  }
+
+  function render(){
+    var pt=readBits(inPT,8), key=readBits(inKey,10);
+    if(!pt||!key){
+      body.innerHTML='<tr><td colspan="3" class="n">Enter exactly 8 bits of plaintext and 10 bits of key.</td></tr>';
+      msg.textContent='';
+      stopPlay();
+      return;
+    }
+    var T=trace(pt,key), html='';
+    for(var i=0;i<T.length;i++){
+      html+='<tr class="'+T[i].c+'"><td>'+T[i].s+'</td><td class="v">'+T[i].v+'</td><td class="n">'+T[i].n+'</td></tr>';
+    }
+    body.innerHTML=html;
+    msg.innerHTML='plaintext '+half(pt)+' &nbsp;→&nbsp; ciphertext <b>'+T[T.length-1].v+'</b>';
+    stopPlay();
+  }
+
+  function stopPlay(){
+    playing=false;
+    playBtn.textContent='Play through';
+    for(var i=0;i<timers.length;i++) clearTimeout(timers[i]);
+    timers=[];
+  }
+
+  function play(){
+    if(playing){ stopPlay(); return; }
+    var rows=body.querySelectorAll('tr');
+    if(!rows.length||rows[0].cells.length<3) return;
+    for(var i=0;i<rows.length;i++) rows[i].classList.remove('hot');
+    playing=true;
+    playBtn.textContent='Stop';
+    var i=0;
+    (function next(){
+      if(!playing) return;
+      if(i>=rows.length){ stopPlay(); return; }
+      if(i>0) rows[i-1].classList.remove('hot');
+      rows[i].classList.add('hot');
+      rows[i].scrollIntoView({block:'nearest'});
+      i++;
+      timers.push(setTimeout(next,170));
+    })();
+  }
+
+  inPT.addEventListener('input',render);
+  inKey.addEventListener('input',render);
+  playBtn.addEventListener('click',play);
+  resetBtn.addEventListener('click',function(){
+    inPT.value='10010101';
+    inKey.value='1001101100';
+    render();
+  });
+  render();
+
+  /* ---------- logic explorer ---------- */
+  var state={A:0,B:0,C:0};
+  var wires={
+    A:document.getElementById('wA'), B:document.getElementById('wB'), C:document.getElementById('wC'),
+    Ap:document.getElementById('wAp'), Bp:document.getElementById('wBp'), Cp:document.getElementById('wCp'),
+    X:document.getElementById('wX'), D:document.getElementById('wD')
+  };
+  var out=document.getElementById('logicOut');
+  var btns={A:document.getElementById('tgA'),B:document.getElementById('tgB'),C:document.getElementById('tgC')};
+  var ttRows=document.querySelectorAll('#logicTT tbody tr');
+
+  function setWire(g,val){
+    if(!g) return;
+    g.classList.toggle('on', val===1);
+    var t=g.querySelector('text:not(.t-sm):not(.t-lbl)');
+    if(t) t.textContent=String(val);
+  }
+
+  function updateLogic(){
+    var a=state.A, b=state.B, c=state.C;
+    var na=a?0:1, nb=b?0:1, nc=c?0:1;
+    var x=(na&&nb)?1:0, d=(x&&nc)?1:0;
+
+    setWire(wires.A,a); setWire(wires.B,b); setWire(wires.C,c);
+    setWire(wires.Ap,na); setWire(wires.Bp,nb); setWire(wires.Cp,nc);
+    setWire(wires.X,x); setWire(wires.D,d);
+
+    out.innerHTML='D = <b>'+d+'</b>';
+    btns.A.textContent='A = '+a; btns.B.textContent='B = '+b; btns.C.textContent='C = '+c;
+    btns.A.setAttribute('aria-checked',a?'true':'false');
+    btns.B.setAttribute('aria-checked',b?'true':'false');
+    btns.C.setAttribute('aria-checked',c?'true':'false');
+
+    for(var i=0;i<ttRows.length;i++){
+      var cells=ttRows[i].querySelectorAll('td');
+      var match=(+cells[0].textContent===a)&&(+cells[1].textContent===b)&&(+cells[2].textContent===c);
+      ttRows[i].classList.toggle('hot',match);
+    }
+  }
+  ['A','B','C'].forEach(function(name){
+    btns[name].addEventListener('click',function(){
+      state[name]=state[name]?0:1;
+      updateLogic();
+    });
+  });
+  updateLogic();
+
+  /* ---------- rail active state ---------- */
+  var links=document.querySelectorAll('.rail a'), targets=[];
+  for(var i=0;i<links.length;i++){
+    var el=document.querySelector(links[i].getAttribute('href'));
+    if(el) targets.push({a:links[i],el:el});
+  }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      for(var i=0;i<entries.length;i++){
+        if(!entries[i].isIntersecting) continue;
+        for(var j=0;j<targets.length;j++){
+          targets[j].a.classList.toggle('on', targets[j].el===entries[i].target);
+        }
+      }
+    },{rootMargin:'-15% 0px -70% 0px'});
+    for(var k=0;k<targets.length;k++) io.observe(targets[k].el);
+  }
+
+  /* ---------- theme toggle (page defaults to light) ---------- */
+  var themeBtn=document.getElementById('themeBtn');
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    themeBtn.textContent=(t==='dark')?'Light mode':'Dark mode';
+    themeBtn.setAttribute('aria-pressed',t==='dark'?'true':'false');
+    try{ localStorage.setItem('sdes-theme',t); }catch(e){}
+  }
+  themeBtn.addEventListener('click',function(){
+    applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+  });
+  try{
+    if(localStorage.getItem('sdes-theme')==='dark') applyTheme('dark');
+  }catch(e){}
+})();
+</script>
+</html>
