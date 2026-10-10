@@ -1,0 +1,1700 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<title>Smoothing, Evaluation &amp; EM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
+
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   Palette  — the deck's own emphasis colours: purple #990099
+              and blue #0000CC, stepped for legibility on paper.
+              Chart hue validated (light #7a3d9e / dark #a86fc9).
+   Type     — Archivo / IBM Plex Sans / IBM Plex Mono.
+   Layout   — formula sheet, five topic blocks, one mock paper.
+   ============================================================ */
+:root{
+  --paper:#f7f5fa;
+  --surface:#ffffff;
+  --surface-2:#faf8fc;
+  --ink:#191322;
+  --ink-soft:#5d5468;
+  --rule:#e0d9e8;
+  --rule-soft:#eee9f3;
+
+  --plum:#7a3d9e;          /* chart mark / accent */
+  --plum-deep:#5b2b78;     /* accent for TEXT and borders */
+  --plum-solid:#5b2b78;    /* solid fill carrying white text */
+  --plum-wash:#f0e6f6;
+
+  --blue:#2a78d6;
+  --blue-solid:#1d5aad;
+  --blue-wash:#e4edfa;
+
+  --amber:#8a5a08;
+  --amber-wash:#fdf5e6;
+  --red:#a3312f;
+  --red-wash:#fdecea;
+  --green-deep:#1f6b4f;
+  --green-wash:#e2f4ea;
+
+  --font-display:'Archivo',system-ui,-apple-system,sans-serif;
+  --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --measure:43rem;
+  --shell:58rem;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#121017; --surface:#1a1720; --surface-2:#211d29;
+    --ink:#e9e4ef; --ink-soft:#a89fb5; --rule:#332c3d; --rule-soft:#282230;
+    --plum:#a86fc9; --plum-deep:#c79ce0; --plum-solid:#5e3a75; --plum-wash:#2c2036;
+    --blue:#6ba1f5; --blue-solid:#2a5d9e; --blue-wash:#1c2740;
+    --amber:#e0b055; --amber-wash:#2e2513;
+    --red:#ec8b86; --red-wash:#331b19;
+    --green-deep:#79d2ac; --green-wash:#16302a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#121017; --surface:#1a1720; --surface-2:#211d29;
+  --ink:#e9e4ef; --ink-soft:#a89fb5; --rule:#332c3d; --rule-soft:#282230;
+  --plum:#a86fc9; --plum-deep:#c79ce0; --plum-solid:#5e3a75; --plum-wash:#2c2036;
+  --blue:#6ba1f5; --blue-solid:#2a5d9e; --blue-wash:#1c2740;
+  --amber:#e0b055; --amber-wash:#2e2513;
+  --red:#ec8b86; --red-wash:#331b19;
+  --green-deep:#79d2ac; --green-wash:#16302a;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:16.5px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.shell{max-width:var(--shell);margin:0 auto;
+  padding-inline:clamp(16px,4vw,32px); padding-block:0 84px;}
+
+/* ---------- masthead ---------- */
+.masthead{
+  position:relative;
+  margin-inline:calc(-1 * clamp(16px,4vw,32px));
+  padding:32px clamp(16px,4vw,32px) 28px;
+  background:var(--plum-solid); color:#fff;
+}
+.masthead .kicker{
+  font-family:var(--font-mono); font-size:11.5px; letter-spacing:.14em;
+  text-transform:uppercase; opacity:.84; margin:0 0 9px;
+}
+.masthead h1{
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(27px,5vw,42px); line-height:1.08; letter-spacing:-.02em;
+  margin:0 0 11px; text-wrap:balance; max-width:24ch;
+}
+.masthead .sub{margin:0;max-width:56ch;font-size:15.5px;opacity:.93;line-height:1.5}
+.scopechips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.scopechips span{
+  font-family:var(--font-mono); font-size:11.5px; letter-spacing:.03em;
+  padding:4px 10px; border-radius:2px;
+  background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.24);
+}
+.themebtn{
+  position:absolute; top:18px; right:clamp(16px,4vw,32px);
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:#fff; cursor:pointer;
+  background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.34);
+  border-radius:3px; padding:5px 11px;
+}
+.themebtn:hover{background:rgba(255,255,255,.26)}
+@media (max-width:560px){.themebtn{position:static;display:inline-block;margin-bottom:14px}}
+
+/* ---------- layout ---------- */
+.layout{display:grid;grid-template-columns:1fr;gap:24px}
+@media (min-width:1040px){
+  .layout{grid-template-columns:168px minmax(0,1fr);gap:44px;align-items:start}
+}
+.rail{
+  position:sticky;top:0;z-index:6;
+  margin-inline:calc(-1 * clamp(16px,4vw,32px));
+  padding:9px clamp(16px,4vw,32px);
+  background:var(--paper); border-bottom:1px solid var(--rule);
+  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+}
+.rail::-webkit-scrollbar{display:none}
+@media (min-width:1040px){
+  .rail{flex-direction:column;gap:1px;top:26px;margin-inline:0;padding:0;
+        border-bottom:0;overflow:visible}
+}
+.rail a{
+  font-size:13px; font-family:var(--font-display); font-weight:600;
+  color:var(--ink-soft); text-decoration:none; padding:7px 10px;
+  border-radius:3px; white-space:nowrap; border-left:2px solid transparent;
+}
+@media (min-width:1040px){.rail a{white-space:normal;padding:5px 10px;border-left:2px solid var(--rule-soft)}}
+.rail a:hover{color:var(--plum-deep);background:var(--surface-2)}
+.rail a.on{color:var(--plum-deep);border-left-color:var(--plum);background:var(--surface-2)}
+
+main{min-width:0}
+main :is(p,ul,ol,.callout,.lede){max-width:var(--measure)}
+
+/* ---------- type ---------- */
+h2{
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(21px,3.3vw,27px); letter-spacing:-.014em; line-height:1.18;
+  margin:50px 0 6px; text-wrap:balance; scroll-margin-top:70px;
+}
+h3{font-family:var(--font-display);font-weight:600;font-size:17.5px;
+   margin:30px 0 8px; scroll-margin-top:70px}
+h4{font-family:var(--font-display);font-weight:600;font-size:13px;
+   letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);
+   margin:22px 0 8px}
+p{margin:0 0 13px}
+.lede{font-size:17px;color:var(--ink-soft);margin-bottom:18px}
+
+.part{display:flex;align-items:baseline;gap:14px;margin:56px 0 4px;
+      padding-bottom:9px;border-bottom:2px solid var(--plum)}
+.part .n{font-family:var(--font-mono);font-size:12px;font-weight:600;
+         letter-spacing:.1em;color:var(--plum-deep)}
+.part h2{margin:0;font-size:clamp(21px,3.4vw,28px)}
+
+code,.mono{font-family:var(--font-mono);font-size:.93em}
+p code,li code,td code{background:var(--surface-2);border:1px solid var(--rule-soft);
+  border-radius:3px;padding:1px 5px}
+.f{font-family:var(--font-mono);font-size:15px;letter-spacing:.01em}
+a{color:var(--plum-deep)}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{
+  outline:2px solid var(--plum);outline-offset:2px;border-radius:2px}
+
+/* ---------- figures ---------- */
+.fig{margin:18px 0 22px}
+.scroll{overflow-x:auto;padding-bottom:4px}
+.fig svg{display:block;width:100%;height:auto;min-width:520px}
+.cap{margin:9px 0 0;font-family:var(--font-mono);font-size:11.5px;
+     letter-spacing:.02em;color:var(--ink-soft);max-width:var(--measure)}
+.cap b{color:var(--plum-deep);font-weight:600}
+
+svg text{font-family:var(--font-mono);font-size:12px;fill:var(--ink)}
+svg .t-lbl{font-family:var(--font-display);font-weight:600;font-size:12.5px}
+svg .t-sm{font-size:10.5px;fill:var(--ink-soft)}
+svg .t-key{fill:var(--plum-deep);font-weight:600}
+svg .box-fill{fill:var(--surface-2);stroke:var(--ink);stroke-width:1.8;stroke-linejoin:round}
+svg .flow{fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;fill:none}
+svg .arrow{fill:var(--ink);stroke:none}
+svg .rule{stroke:var(--rule);stroke-width:1.2}
+svg .dash{stroke:var(--plum);stroke-width:1.6;stroke-dasharray:4 4;fill:none}
+
+/* ---------- tables ---------- */
+.dt{width:100%;border-collapse:collapse;font-size:14.5px;min-width:460px}
+.dt th,.dt td{border-bottom:1px solid var(--rule-soft);padding:8px 11px;
+  text-align:left;vertical-align:top}
+.dt thead th{font-family:var(--font-display);font-size:11.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);
+  border-bottom:1.5px solid var(--rule);white-space:nowrap}
+.dt td.m,.dt th.m{font-family:var(--font-mono);font-size:13.5px;
+  white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.dt tbody tr:hover td{background:var(--surface-2)}
+.dt.compact td{padding:5px 11px}
+.dt .tot td{font-weight:600;border-top:1.5px solid var(--rule);border-bottom:0}
+
+/* count shading — sequential, one hue */
+.sh1{background:color-mix(in srgb, var(--plum) 8%, var(--surface))}
+.sh2{background:color-mix(in srgb, var(--plum) 18%, var(--surface))}
+.sh3{background:color-mix(in srgb, var(--plum) 32%, var(--surface))}
+
+/* ---------- formula blocks ---------- */
+.fbox{
+  background:var(--surface); border:1px solid var(--rule); border-radius:4px;
+  padding:12px 16px; margin:14px 0 16px; max-width:var(--measure);
+}
+.fbox .fname{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:5px}
+.fbox .f{font-size:15.5px;line-height:1.9}
+.fbox p:last-child{margin-bottom:0}
+
+/* ---------- callouts ---------- */
+.callout{border-left:3px solid var(--plum);background:var(--surface);
+  padding:13px 17px;margin:18px 0;border-radius:0 4px 4px 0}
+.callout.warn{border-left-color:var(--amber);background:var(--amber-wash)}
+.callout.err{border-left-color:var(--red);background:var(--red-wash)}
+.callout.tip{border-left-color:var(--green-deep);background:var(--green-wash)}
+.callout h4{margin:0 0 6px;color:var(--ink);font-size:12.5px;letter-spacing:.08em}
+.callout p:last-child,.callout ul:last-child{margin-bottom:0}
+.callout ul{margin:0;padding-left:19px}
+.callout li{margin-bottom:4px}
+
+ul,ol{margin:0 0 13px;padding-left:21px}
+li{margin-bottom:5px}
+li::marker{color:var(--plum-deep)}
+.steps{margin:14px 0 18px;padding:0;list-style:none;counter-reset:s}
+.steps>li{counter-increment:s;position:relative;padding-left:34px;margin-bottom:9px}
+.steps>li::before{content:counter(s);position:absolute;left:0;top:1px;
+  width:22px;height:22px;border-radius:50%;background:var(--plum-solid);color:#fff;
+  font-family:var(--font-mono);font-size:11.5px;font-weight:600;
+  display:grid;place-items:center}
+
+/* ---------- worked rows ---------- */
+.wk{background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+    padding:14px 16px;margin:16px 0 20px}
+.wk h4{margin:0 0 10px;color:var(--plum-deep)}
+.rows{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;
+     padding:6px 0;border-bottom:1px solid var(--rule-soft)}
+.row:last-child{border-bottom:0}
+.row .k{font-size:13.5px;color:var(--ink-soft)}
+.row .v{font-family:var(--font-mono);font-size:14.5px;text-align:right;
+        font-variant-numeric:tabular-nums}
+.row.hi .v{color:var(--plum-deep);font-weight:600}
+.res{background:var(--plum-solid);color:#fff;border-radius:3px;padding:9px 13px;
+     margin-top:11px;font-family:var(--font-mono);font-size:15px}
+.res.alt{background:var(--blue-solid)}
+
+/* ---------- practice ---------- */
+.drill{border:1px solid var(--rule);border-left:3px solid var(--plum);
+  border-radius:0 4px 4px 0;background:var(--surface);
+  padding:13px 16px 14px;margin-bottom:11px}
+.drill .qh{font-family:var(--font-mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.08em;color:var(--plum-deep);margin:0 0 7px}
+.drill .qtext{font-size:15.5px;margin:0 0 10px}
+.drill .qtext:last-child{margin-bottom:0}
+.drill details summary{cursor:pointer;list-style:none;
+  font-family:var(--font-mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--plum-deep)}
+.drill details summary::-webkit-details-marker{display:none}
+.drill details summary::before{content:"\25B8\00a0"}
+.drill details[open] summary::before{content:"\25BE\00a0"}
+.drill .ansbody{border-top:1px dashed var(--rule);margin-top:9px;padding-top:10px}
+.drill .ansbody :is(p,ul,ol,.rows,.dt){max-width:var(--measure)}
+.drill .ansbody p:last-child{margin-bottom:0}
+
+/* ---------- 中文指引 layer ---------- */
+:root{ --font-zh:"Microsoft YaHei","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Source Han Sans SC",system-ui,sans-serif; }
+.zh{
+  border-left:3px solid var(--amber); background:var(--amber-wash);
+  border-radius:0 4px 4px 0; padding:13px 17px 14px; margin:16px 0;
+  font-family:var(--font-zh); font-size:15px; line-height:1.78; color:var(--ink);
+}
+.zh > .zhh{
+  display:block; margin:0 0 8px;
+  font-family:var(--font-zh); font-size:12.5px; font-weight:700;
+  letter-spacing:.04em; color:var(--amber);
+}
+.zh > .zhh::before{
+  content:"中文"; display:inline-block;
+  background:var(--amber); color:#fff; border-radius:3px;
+  font-size:10.5px; font-weight:700; letter-spacing:.08em;
+  padding:1px 6px; margin-right:8px; vertical-align:1px;
+}
+.zh :is(p,ul,ol){max-width:var(--measure);margin:0 0 9px}
+.zh :is(p,ul,ol):last-child{margin-bottom:0}
+.zh ul,.zh ol{padding-left:20px}
+.zh li{margin-bottom:4px}
+.zh li::marker{color:var(--amber)}
+.zh .m,.zh code{
+  font-family:var(--font-mono); font-size:13.5px;
+  background:color-mix(in srgb, var(--amber) 10%, var(--surface));
+  border:1px solid color-mix(in srgb, var(--amber) 24%, var(--surface));
+  border-radius:3px; padding:1px 5px;
+}
+.zh .hl{background:color-mix(in srgb, var(--amber) 22%, transparent);
+  border-radius:2px; padding:0 3px; font-weight:700}
+.zhtable{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0 10px;min-width:420px}
+.zhtable th,.zhtable td{border-bottom:1px solid color-mix(in srgb, var(--amber) 26%, var(--surface));
+  padding:5px 9px;text-align:left;vertical-align:top}
+.zhtable th{font-family:var(--font-zh);font-weight:700;font-size:12.5px;color:var(--amber);
+  white-space:nowrap}
+.zhtable td.c{font-family:var(--font-mono);font-size:13px;white-space:nowrap}
+.zhtable tbody tr:last-child td{border-bottom:0}
+.zhsteps{margin:0;padding:0;list-style:none;counter-reset:z}
+.zhsteps>li{counter-increment:z;position:relative;padding-left:30px;margin-bottom:7px}
+.zhsteps>li::before{content:counter(z);position:absolute;left:0;top:2px;
+  width:20px;height:20px;border-radius:50%;background:var(--amber);color:#fff;
+  font-family:var(--font-mono);font-size:11px;font-weight:700;display:grid;place-items:center}
+.zhsteps>li:last-child{margin-bottom:0}
+
+/* ---------- assignment section extras ---------- */
+.modbox{
+  border:1px solid var(--rule); border-radius:4px; background:var(--surface);
+  padding:14px 17px 15px; margin:14px 0;
+}
+.modbox > .modh{
+  font-family:var(--font-display); font-weight:600; font-size:15px;
+  margin:0 0 3px; color:var(--ink);
+}
+.modbox > .modsub{
+  font-family:var(--font-mono); font-size:11.5px; letter-spacing:.04em;
+  color:var(--ink-soft); margin:0 0 11px;
+}
+svg .glyph{fill:var(--surface-2);stroke:var(--ink);stroke-width:1.8}
+svg .glyph-alt{fill:var(--plum-wash);stroke:var(--plum-deep);stroke-width:1.8}
+svg .arch-arrow{stroke:var(--ink);stroke-width:1.8;fill:none}
+svg .arch-head{fill:var(--ink);stroke:none}
+svg .blbl{font-family:var(--font-mono);font-size:11px;fill:var(--ink)}
+
+/* ---------- mark-tagged answer format ---------- */
+.hitline{
+  font-size:13.5px; line-height:1.7;
+  background:color-mix(in srgb, var(--plum) 9%, transparent);
+  border-left:2px solid var(--plum); border-radius:0 3px 3px 0;
+  padding:6px 11px; margin:0 0 11px; max-width:var(--measure);
+}
+.hitline b{color:var(--plum-deep);margin-right:7px}
+.pts{margin:0;padding:0;list-style:none;max-width:var(--measure)}
+.pts>li{
+  position:relative; padding:5px 0 5px 15px; margin:0;
+  border-bottom:1px solid var(--rule-soft);
+}
+.pts>li:last-child{border-bottom:0}
+.pts>li::before{content:"";position:absolute;left:2px;top:12px;
+  width:5px;height:5px;border-radius:50%;background:var(--plum)}
+.pts .mk{
+  font-family:var(--font-mono); font-size:11px; font-weight:600;
+  color:var(--plum-deep); white-space:nowrap; margin-right:7px;
+}
+.pts .mk::before{content:"["}
+.pts .mk::after{content:"]"}
+
+/* ---------- recap ---------- */
+.recap{background:var(--surface);border:2px solid var(--plum-deep);border-radius:5px;
+  padding:20px 22px 22px;margin-top:22px}
+.recapgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px 28px;margin-top:14px}
+.recapgrid h4{margin:0 0 8px;color:var(--plum-deep)}
+.recapgrid ul{margin:0;padding-left:18px;font-size:14.5px}
+.recapgrid li{margin-bottom:4px}
+.recapgrid p{font-size:14.5px;margin:0 0 7px}
+.kv{font-family:var(--font-mono);font-size:13.5px;line-height:1.8}
+.kv span{color:var(--ink-soft);display:inline-block;min-width:2.6ch}
+
+footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--rule);
+  font-size:13px;color:var(--ink-soft)}
+
+/* ---------- chart ---------- */
+.chartwrap{background:var(--surface);border:1px solid var(--rule);
+  border-radius:4px;padding:16px 18px 12px;margin:16px 0 20px}
+.chartwrap .ctitle{font-family:var(--font-display);font-weight:600;
+  font-size:14px;margin:0 0 2px}
+.chartwrap .csub{font-family:var(--font-mono);font-size:11.5px;
+  color:var(--ink-soft);margin:0 0 10px}
+.chart svg{display:block;width:100%;height:auto;min-width:440px}
+.bar{fill:var(--plum)}
+.bar:hover{fill:var(--plum-deep)}
+.charttip{
+  font-family:var(--font-mono);font-size:11.5px;fill:var(--ink);
+  pointer-events:none;
+}
+.tipbg{fill:var(--surface);stroke:var(--rule);stroke-width:1}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="shell">
+
+<header class="masthead">
+  <button class="themebtn" id="themeBtn" type="button">Dark mode</button>
+  <p class="kicker">COMP4121 Machine Translation · Midterm</p>
+  <h1>Smoothing, Evaluation &amp; EM</h1>
+  <p class="sub">Every quiz calculation, worked in full — plus the assignment's concept and analysis questions, which your teacher has flagged as a further possible question type. A fresh mock paper at the end.</p>
+  <div class="scopechips">
+    <span>n-gram counts &amp; smoothing</span>
+    <span>Entropy</span>
+    <span>WER &amp; precision</span>
+    <span>AER</span>
+    <span>IBM Model 1 &amp; EM</span>
+    <span>Neural LM</span>
+    <span>Assignment: analysis</span>
+    <span>Assignment: architecture</span>
+  </div>
+</header>
+
+<div class="layout">
+
+<nav class="rail" aria-label="Contents">
+  <a href="#scope">Scope</a>
+  <a href="#formulas">Formula sheet</a>
+  <a href="#smoothing">1 · Smoothing</a>
+  <a href="#entropy">2 · Entropy</a>
+  <a href="#eval">3 · Evaluation</a>
+  <a href="#em">4 · IBM Model 1 &amp; EM</a>
+  <a href="#neural">5 · Neural LM</a>
+  <a href="#assign">6 · Assignment style</a>
+  <a href="#mock">Mock paper</a>
+  <a href="#recap">Last-hour recap</a>
+</nav>
+
+<main>
+
+<div class="zh"><span class="zhh">这门课考试的两类题型，打法完全不同</span>
+<ul>
+  <li><b>quiz 类 —— 计算题。</b>给你数字，按公式算。答案唯一，靠细心。<br>
+      考：n-gram 计数 / Add-One / Good-Turing / back-off、熵、WER / 精确率 / AER、IBM Model 1 的 EM 一轮。</li>
+  <li><b>assignment 类 —— 概念题 + 分析题。</b>不给你数字，让你<b>用文字解释</b>。<br>
+      考：平滑概念的「为什么」、翻译质量分析（歧义、省略、语序、习语）、神经机器翻译的架构。</li>
+</ul>
+<p><b>最关键的一句话：assignment 那部分明确写了不需要算数</b>（"No numerical calculation is required in this module"）。它要的是解释清楚「为什么会这样」「这个部件干什么用的」。所以这两类题要分开练。</p>
+<table class="zhtable">
+  <thead><tr><th>题型</th><th>答题方式</th><th>本页位置</th></tr></thead>
+  <tbody>
+    <tr><td>算数题</td><td>写公式 → 代入 → 算出数</td><td>第 1–4 节 + Mock paper</td></tr>
+    <tr><td>概念题</td><td>用文字讲清「为什么」和「怎么运作」</td><td>第 6 节 Module B</td></tr>
+    <tr><td>分析题</td><td>引用具体译文 → 指出语言现象 → 解释</td><td>第 6 节 Module A</td></tr>
+    <tr><td>架构题</td><td>说清每个部件的作用 + 为什么需要它</td><td>第 6 节 Module C</td></tr>
+  </tbody>
+</table>
+<p><b>复习顺序建议：</b>先啃第 1–4 节的算数题（练到条件反射）→ 再背第 6 节的概念/架构关键词 → 最后用 Mock paper 掐时间做一遍。</p>
+</div>
+
+<!-- ================= SCOPE ================= -->
+<section id="scope">
+  <h2>Scope</h2>
+  <p class="lede">Your teacher has confirmed the exam covers exactly what the four quiz sets cover, in the same question styles. Those four sets are:</p>
+  <div class="scroll">
+  <table class="dt">
+    <thead><tr><th>Quiz set</th><th>What it tests</th><th>Section here</th></tr></thead>
+    <tbody>
+      <tr><td>Week 3 — Language Models (Quiz 1)</td><td>Corpus counts, MLE, Add-One smoothing</td><td><a href="#smoothing">1 · Smoothing</a></td></tr>
+      <tr><td>Week 3 — Language Models (Quiz 2)</td><td>Count of counts, Good-Turing, back-off</td><td><a href="#smoothing">1 · Smoothing</a></td></tr>
+      <tr><td>Practice Quiz 2 — Q1</td><td>Entropy of an MT output distribution</td><td><a href="#entropy">2 · Entropy</a></td></tr>
+      <tr><td>Practice Quiz 2 — Q2, Quiz 3 Q4.4</td><td>WER, clipped unigram precision, AER</td><td><a href="#eval">3 · Evaluation</a></td></tr>
+      <tr><td>Practice Quiz 2 — Q3, Quiz 3 Q4.1–4.3</td><td>IBM Model 1: E-step, expected counts, M-step</td><td><a href="#em">4 · IBM Model 1 &amp; EM</a></td></tr>
+      <tr><td>Quiz 4 — NNLM</td><td>Embeddings, softmax, RNN, LSTM gates</td><td><a href="#neural">5 · Neural LM</a></td></tr>
+      <tr><td>Assignment (Modules A/B/C)</td><td>MT system analysis, smoothing concepts in words, NMT architecture</td><td><a href="#assign">6 · Assignment style</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout tip">
+    <h4>How to use this</h4>
+    <p>Sections 1–5 each contain the method, then <em>the actual quiz questions worked in full</em>. Learn those first. When they are automatic, sit the <a href="#mock">mock paper</a> — fresh numbers, same question styles.</p>
+  </div>
+</section>
+
+<!-- ================= FORMULA SHEET ================= -->
+<div class="part"><span class="n">REF</span><h2 id="formulas">Formula sheet</h2></div>
+
+<p class="lede">Everything you need to memorise. The quizzes say explicitly which formulas are <em>not</em> given — the entropy formula is one of them — so learn all of these.</p>
+
+<div class="scroll">
+<table class="dt">
+  <thead><tr><th>Quantity</th><th>Formula</th><th>Watch out for</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>MLE bigram probability</td>
+      <td class="m">p(w₂|w₁) = count(w₁,w₂) / count(w₁)</td>
+      <td>Denominator is the count of the <em>history</em> w₁, not the corpus size.</td>
+    </tr>
+    <tr>
+      <td>Add-One smoothing</td>
+      <td class="m">p_add1 = (c + 1) / (n + V)</td>
+      <td>V = vocabulary size, n = count of the history. An unseen bigram never gets 0.</td>
+    </tr>
+    <tr>
+      <td>Good-Turing adjusted count</td>
+      <td class="m">r* = (r + 1) · N<sub>r+1</sub> / N<sub>r</sub></td>
+      <td>N<sub>r</sub> = number of distinct n-grams occurring exactly r times. Not a probability.</td>
+    </tr>
+    <tr>
+      <td>Back-off (trigram)</td>
+      <td class="m">α₃(·) if count₃ &gt; 0, else d₃ · p₂_BO</td>
+      <td>First decide the branch. Only if the trigram count is 0 do you drop a level.</td>
+    </tr>
+    <tr>
+      <td>Entropy</td>
+      <td class="m">H(X) = −Σₓ p(x) log₂ p(x)</td>
+      <td>Base 2 → bits. Not given in the quiz, so memorise it.</td>
+    </tr>
+    <tr>
+      <td>Word Error Rate</td>
+      <td class="m">WER = (S + D + I) / N</td>
+      <td>N is the number of words in the <em>reference</em>.</td>
+    </tr>
+    <tr>
+      <td>Clipped unigram precision</td>
+      <td class="m">matches / output length</td>
+      <td>Clip each unigram at its reference count before counting matches.</td>
+    </tr>
+    <tr>
+      <td>Alignment Error Rate</td>
+      <td class="m">AER = 1 − (|A∩S| + |A∩P|) / (|A| + |S|)</td>
+      <td>|X| means the number of links in the set, not a probability.</td>
+    </tr>
+    <tr>
+      <td>IBM Model 1 E-step</td>
+      <td class="m">γ(f<sub>i</sub>|e) = t(e|f<sub>i</sub>) / Σ<sub>k</sub> t(e|f<sub>k</sub>)</td>
+      <td>Normalise across <em>source</em> words for one fixed target word.</td>
+    </tr>
+    <tr>
+      <td>IBM Model 1 M-step</td>
+      <td class="m">t_new(e|f) = c(e,f) / Σ<sub>e′</sub> c(e′,f)</td>
+      <td>Normalise across <em>target</em> words for one fixed source word. The axis flips.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="zh"><span class="zhh">公式怎么记：抓住「分子分母各是什么」</span>
+<p>这一页的公式<b>不要死背符号</b>，只要记牢一句话：<b>分子 = 这件事发生了多少次，分母 = 所有可能性加起来。</b></p>
+<table class="zhtable">
+  <thead><tr><th>公式</th><th>分子</th><th>分母</th></tr></thead>
+  <tbody>
+    <tr><td class="c">MLE&nbsp; p(w₂|w₁)</td><td>w₁w₂ 一起出现几次</td><td>w₁ 一共出现几次</td></tr>
+    <tr><td class="c">Add-One</td><td>次数 <b>+1</b></td><td>次数 <b>+V</b>（V=词表大小）</td></tr>
+    <tr><td class="c">Good-Turing&nbsp; r*</td><td>(r+1) × N<sub>r+1</sub></td><td>N<sub>r</sub></td></tr>
+    <tr><td class="c">WER</td><td>S + D + I（错了几处）</td><td>参考译文的词数</td></tr>
+    <tr><td class="c">精确率</td><td>命中的 unigram 数</td><td><b>输出</b>的词数</td></tr>
+    <tr><td class="c">AER</td><td>|A∩S| + |A∩P|</td><td>|A| + |S|</td></tr>
+  </tbody>
+</table>
+<p><b>IBM Model 1 的 E 步和 M 步分母方向相反</b>，这是全卷最容易错的地方，单独看下面那条中文提示。</p>
+</div>
+
+<div class="callout err">
+  <h4>The two normalisation axes — the single most common mistake</h4>
+  <p>In the <strong>E-step</strong> you fix one English word and spread its probability over the Chinese words: the denominator sums down a <em>column</em>. In the <strong>M-step</strong> you fix one Chinese word and spread it over the English words: the denominator sums across a <em>row</em>. Getting these the same way round is the whole trick.</p>
+</div>
+
+<!-- ================= 1 SMOOTHING ================= -->
+<div class="part"><span class="n">01</span><h2 id="smoothing">N-gram models &amp; smoothing</h2></div>
+
+<p class="lede">Everything in this section is counted from one small corpus. Learn to count accurately and the rest is arithmetic.</p>
+
+<h3>The shared mini-corpus</h3>
+
+<p>Both Week 3 quizzes work from the same eight sentences. Do not count n-grams across sentence boundaries.</p>
+
+<div class="scroll">
+<table class="dt compact">
+  <thead><tr><th>#</th><th>Sentence</th><th>#</th><th>Sentence</th></tr></thead>
+  <tbody>
+    <tr><td class="m">1</td><td class="m">machine translation works</td><td class="m">5</td><td class="m">neural translation helps</td></tr>
+    <tr><td class="m">2</td><td class="m">machine translation helps</td><td class="m">6</td><td class="m">machine learning works</td></tr>
+    <tr><td class="m">3</td><td class="m">machine translation works</td><td class="m">7</td><td class="m">statistical translation model</td></tr>
+    <tr><td class="m">4</td><td class="m">neural translation works</td><td class="m">8</td><td class="m">language model works</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Step 1 — count everything first</h3>
+
+<div class="zh"><span class="zhh">第一步：怎么把数数对（这里数错后面全错）</span>
+<p><b>数三样东西，按这个顺序来：</b></p>
+<ol class="zhsteps">
+  <li><b>先把每句话拆成 bigram（相邻两词一对）</b>，写在草稿纸上。注意：<b>句子和句子之间不配对</b>（最后那个词不跟下一句的第一个词配）。</li>
+  <li><b>V = 不重复的单词个数。</b>同一个词出现多次只算一个。比如 corpus 里有 8 句话但只有 9 个不同的词，V 就是 9。</li>
+  <li><b>再把相同的 bigram 合并计数</b>，得到每个 bigram 出现几次。</li>
+</ol>
+<p><b>最容易搞混的一点：</b><span class="hl">N₁ 不是「某个词出现了几次」，而是「有多少种不同的 bigram 恰好只出现 1 次」。</span></p>
+<p>举例：如果 bigram 表是这样的 —— <span class="m">machine translation</span> 出现 3 次、<span class="m">translation works</span> 出现 3 次、另外 6 种各出现 1 次 —— 那么 N₁ = 6（有 6 种只出现一次），N₂ = 0（没有出现两次的）。<b>数的是「种类数」，不是「次数」。</b></p>
+</div>
+
+<p>Count the vocabulary, then every bigram, before touching any formula. Shading below shows frequency: darker means more frequent.</p>
+
+<div class="scroll">
+<table class="dt compact">
+  <thead><tr><th>Unigram</th><th class="m">count</th><th>Bigram</th><th class="m">count</th></tr></thead>
+  <tbody>
+    <tr><td class="m">translation</td><td class="m">6</td><td class="m">machine translation</td><td class="m sh3">3</td></tr>
+    <tr><td class="m">machine</td><td class="m">4</td><td class="m">translation works</td><td class="m sh3">3</td></tr>
+    <tr><td class="m">works</td><td class="m">5</td><td class="m">neural translation</td><td class="m sh2">2</td></tr>
+    <tr><td class="m">helps</td><td class="m">2</td><td class="m">translation helps</td><td class="m sh2">2</td></tr>
+    <tr><td class="m">neural</td><td class="m">2</td><td class="m">machine learning</td><td class="m sh1">1</td></tr>
+    <tr><td class="m">learning</td><td class="m">1</td><td class="m">learning works</td><td class="m sh1">1</td></tr>
+    <tr><td class="m">statistical</td><td class="m">1</td><td class="m">statistical translation</td><td class="m sh1">1</td></tr>
+    <tr><td class="m">model</td><td class="m">2</td><td class="m">translation model</td><td class="m sh1">1</td></tr>
+    <tr><td class="m">language</td><td class="m">1</td><td class="m">language model</td><td class="m sh1">1</td></tr>
+    <tr class="tot"><td class="m">V = 9</td><td class="m"></td><td class="m">model works</td><td class="m sh1">1</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="cap"><b>Ten distinct bigram types in total.</b> Six of them occur exactly once (N₁ = 6) and two occur exactly twice (N₂ = 2). Those two numbers drive the whole Good-Turing question, so they are worth learning.</p>
+
+<h3>Step 2 — maximum likelihood</h3>
+
+<div class="fbox">
+  <span class="fname">MLE bigram</span>
+  <div class="f">p(w₂ | w₁) = count(w₁, w₂) / count(w₁)</div>
+</div>
+
+<div class="wk">
+  <h4>Worked — Quiz 1, Q2</h4>
+  <div class="rows">
+    <div class="row"><span class="k">p(translation | machine)</span><span class="v">3 / 4 = 0.75</span></div>
+    <div class="row hi"><span class="k">p(model | machine)</span><span class="v">0 / 4 = 0</span></div>
+  </div>
+  <p style="margin:11px 0 0;font-size:14.5px;color:var(--ink-soft)">count(machine) = 4, and three of those are followed by <em>translation</em>. <em>model</em> never follows <em>machine</em>, so MLE gives it probability 0 — which is exactly the problem smoothing exists to fix.</p>
+</div>
+
+<h3>Step 3 — Add-One smoothing</h3>
+
+<div class="fbox">
+  <span class="fname">Add-One</span>
+  <div class="f">p<sub>add1</sub>(w₂ | w₁) = (count(w₁, w₂) + 1) / (count(w₁) + V)</div>
+</div>
+
+<div class="wk">
+  <h4>Worked — Quiz 1, Q3</h4>
+  <div class="rows">
+    <div class="row"><span class="k">seen: translation | machine</span><span class="v">(3+1)/(4+9) = 4/13 ≈ 0.308</span></div>
+    <div class="row hi"><span class="k">unseen: model | machine</span><span class="v">(0+1)/(4+9) = 1/13 ≈ 0.0769</span></div>
+  </div>
+  <p style="margin:11px 0 0;font-size:14.5px;color:var(--ink-soft)">V = 9, so the denominator is 4 + 9 = 13 in both cases. The unseen bigram now has a small non-zero probability instead of 0.</p>
+</div>
+
+<div class="callout">
+  <h4>Quiz 1, Q4 — interpretation, 1 mark</h4>
+  <p>Add-One assigns a small non-zero probability to the unseen bigram, so a sentence containing <em>machine model</em> no longer receives probability zero.</p>
+</div>
+
+<h3>Step 4 — Good-Turing</h3>
+
+<p>Good-Turing does not add a constant. It <strong>adjusts the observed count r to an expected count r*</strong>, using how many n-grams have neighbouring counts.</p>
+
+<div class="fbox">
+  <span class="fname">Good-Turing adjusted count</span>
+  <div class="f">r* = (r + 1) · N<sub>r+1</sub> / N<sub>r</sub></div>
+  <p style="margin:8px 0 0;font-size:14.5px;color:var(--ink-soft)">N<sub>r</sub> = how many distinct n-grams occur exactly r times in the corpus.</p>
+</div>
+
+<div class="wk">
+  <h4>Worked — Quiz 2, Q1 &amp; Q2</h4>
+
+<div class="zh"><span class="zhh">N₁ 和 N₂ 到底怎么数</span>
+<p>问自己两个问题，别想复杂：</p>
+<ol class="zhsteps">
+  <li>把这张 bigram 表里<b>所有不同的 bigram</b>一行行列出来（每种只列一次）。</li>
+  <li>在每种后面写它出现几次。然后<b>回头看这些「次数」</b>：有几个是 1？→ 那就是 N₁。有几个是 2？→ 那就是 N₂。</li>
+</ol>
+<p><b>举个迷你例子：</b>假设不同 bigram 有 5 种，次数分别是 3、2、1、1、1 → 那么 N₁ = 3（三个 1），N₂ = 1（一个 2），N₃ = 1。</p>
+<p><b>然后套公式：</b>如果要求某个只出现 1 次的 bigram 的调整计数，就是 <span class="m">r* = (1+1) × N₂ / N₁</span>。</p>
+<p><b>注意 r* 不是概率。</b>它只是「修正后的计数」，如果要变概率还得再除以总数。</p>
+</div>
+  <div class="rows">
+    <div class="row"><span class="k">bigram types occurring once</span><span class="v">N₁ = 6</span></div>
+    <div class="row hi"><span class="k">bigram types occurring twice</span><span class="v">N₂ = 2</span></div>
+    <div class="row"><span class="k">translate <em>translation model</em> (r = 1)</span><span class="v">r* = 2 × 2/6 = ⅔ ≈ 0.667</span></div>
+  </div>
+  <p style="margin:11px 0 0;font-size:14.5px;color:var(--ink-soft)">Only the count changes — 1 becomes 0.667. The adjusted count is then normally converted to a probability by dividing by the total, but the quiz stops at r*.</p>
+</div>
+
+<div class="callout warn">
+  <h4>N₁ and N₂ mean different things</h4>
+  <p><strong>N₁</strong> is not "the count of the word <em>translation</em>". It is the number of <em>distinct bigram types</em> whose count equals 1. List the distinct bigrams first, then tally how many have each count.</p>
+</div>
+
+<h3>Step 5 — back-off</h3>
+
+<div class="zh"><span class="zhh">back-off：先判分支，再算数</span>
+<p><b>拿到题先做一件事：数一下这个三元组出现过没有。</b></p>
+<ol class="zhsteps">
+  <li>在语料里找 <span class="m">(w₁, w₂, w₃)</span> 这三个词连在一起出现过几次。</li>
+  <li><b>次数 &gt; 0</b> → 用上面那一支，直接用 α₃（题目会直接给你，或让你说「用三元组」）。</li>
+  <li><b>次数 = 0</b> → 用下面那一支，<b>降一级</b>：把前两个词丢掉，退成 bigram，算 <span class="m">d₃ × p(w₃ | w₂)</span>。</li>
+</ol>
+<p><b>降级之后要重新数：</b>这时要数的不是三元组了，而是<b>后两个词组成的 bigram</b> 出现几次，再除以<b>中间那个词</b>的总次数。</p>
+<p class="m" style="display:block;padding:9px 12px;line-height:2">
+p(w₃ | w₂) = count(w₂,w₃) ÷ count(w₂)
+</p>
+<p><b>别忘了乘 d₃。</b>这个 d 是折扣系数（&lt;1），题目会给。不乘就少一步。</p>
+</div>
+
+<p>If a high-order n-gram was never seen, you cannot use it. Back-off drops to a lower order, scaled by a discount.</p>
+
+<div class="fbox">
+  <span class="fname">Trigram back-off</span>
+  <div class="f" style="line-height:2.1">
+    p₃<sub>BO</sub>(w<sub>i</sub> | w<sub>i−2</sub>, w<sub>i−1</sub>) =<br>
+    &nbsp;&nbsp;α₃(w<sub>i</sub> | w<sub>i−2</sub>, w<sub>i−1</sub>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if count₃(w<sub>i−2</sub>, w<sub>i−1</sub>, w<sub>i</sub>) &gt; 0<br>
+    &nbsp;&nbsp;d₃(w<sub>i−2</sub>, w<sub>i−1</sub>) · p₂<sub>BO</sub>(w<sub>i</sub> | w<sub>i−1</sub>)&nbsp;&nbsp;&nbsp;&nbsp;otherwise
+  </div>
+</div>
+
+<div class="fig">
+<div class="scroll">
+<svg viewBox="0 0 620 248" role="img" aria-label="Decision diagram for choosing a back-off branch">
+  <rect class="box-fill" x="170" y="16" width="280" height="42" rx="4"/>
+  <text x="310" y="42" text-anchor="middle">count₃(neural, translation, model) &gt; 0 ?</text>
+  <path class="flow" d="M 310 58 V 82"/>
+  <path class="arrow" d="M 304 74 L 310 84 L 316 74 Z"/>
+
+  <path class="flow" d="M 250 104 L 150 104 L 150 148"/>
+  <path class="arrow" d="M 144 140 L 150 150 L 156 140 Z"/>
+  <text class="t-sm" x="176" y="98">yes</text>
+  <path class="flow" d="M 370 104 L 470 104 L 470 148"/>
+  <path class="arrow" d="M 464 140 L 470 150 L 476 140 Z"/>
+  <text class="t-sm" x="412" y="98">no</text>
+
+  <rect class="box-fill" x="25" y="150" width="250" height="52" rx="4"/>
+  <text x="150" y="172" text-anchor="middle" font-size="11.5">α₃(model | neural, translation)</text>
+  <text class="t-sm" x="150" y="190" text-anchor="middle">use the trigram directly</text>
+
+  <rect class="box-fill" x="345" y="150" width="250" height="52" rx="4"/>
+  <text x="470" y="172" text-anchor="middle" font-size="11.5">d₃ × p₂(model | translation)</text>
+  <text class="t-sm" x="470" y="190" text-anchor="middle">drop to the bigram</text>
+
+  <text class="t-key" x="310" y="228" text-anchor="middle">count₃ = 0 → this branch → 0.6 × 1/6 = 0.10</text>
+</svg>
+</div>
+<p class="cap"><b>Fig 1.</b> The branch test is always the first step, and it is worth a mark on its own. The corpus contains <em>neural translation works</em> and <em>neural translation helps</em>, but never <em>neural translation model</em> — so the count is 0 and you drop to the bigram.</p>
+</div>
+
+<div class="wk">
+  <h4>Worked — Quiz 2, Q3</h4>
+  <div class="rows">
+    <div class="row"><span class="k">count₃(neural, translation, model)</span><span class="v">0 → lower branch</span></div>
+    <div class="row"><span class="k">count(translation, model)</span><span class="v">1</span></div>
+    <div class="row"><span class="k">count(translation)</span><span class="v">6</span></div>
+    <div class="row"><span class="k">p(model | translation)</span><span class="v">1/6 ≈ 0.1667</span></div>
+  </div>
+  <div class="res">p₃<sub>BO</sub>(model | neural, translation) = 0.6 × 1/6 = <b>0.10</b></div>
+</div>
+
+<!-- ================= 2 ENTROPY ================= -->
+<div class="part"><span class="n">02</span><h2 id="entropy">Entropy</h2></div>
+
+<p class="lede">One formula, one calculation. The quiz states the entropy formula is <em>not</em> provided, so memorise it.</p>
+
+<div class="fbox">
+  <span class="fname">Entropy, in bits</span>
+  <div class="f">H(X) = − Σ<sub>x</sub> p(x) log₂ p(x)</div>
+</div>
+
+<div class="zh"><span class="zhh">熵怎么算：log₂ 手算技巧</span>
+<p><b>这类题会考的 p 值就那么几个，把对应的 log₂ 背下来就秒算：</b></p>
+<table class="zhtable">
+  <thead><tr><th>p(x)</th><th>log₂ p(x)</th><th>−p·log₂p（这一项的贡献）</th></tr></thead>
+  <tbody>
+    <tr><td class="c">0.50 = 1/2</td><td class="c">−1</td><td class="c">0.500</td></tr>
+    <tr><td class="c">0.25 = 1/4</td><td class="c">−2</td><td class="c">0.500</td></tr>
+    <tr><td class="c">0.125 = 1/8</td><td class="c">−3</td><td class="c">0.375</td></tr>
+    <tr><td class="c">0.10</td><td class="c">−3.322</td><td class="c">0.332</td></tr>
+    <tr><td class="c">0.20</td><td class="c">−2.322</td><td class="c">0.464</td></tr>
+  </tbody>
+</table>
+<p><b>做题步骤：</b></p>
+<ol class="zhsteps">
+  <li>先把次数换成概率（次数 ÷ 总数），检查加起来 = 1。</li>
+  <li>一项一项算 <span class="m">−p × log₂p</span>，写在旁边。</li>
+  <li>全部加起来就是 H(X)，单位写 <b>bits</b>。</li>
+</ol>
+<p><b>两个省时间的小技巧：</b></p>
+<ul>
+  <li>凡是 p = 0.5 或 p = 0.25 的项，贡献<b>都正好是 0.5</b>。看到 8/16、4/16 就可以直接写 0.500。</li>
+  <li>算完自查：熵一定 <b>≤ log₂(种类数)</b>，并且 <b>≥ 0</b>。比如 3 种结果，答案必须小于 1.585；4 种结果必须小于 2。超出范围说明按计算器按错了。</li>
+</ul>
+</div>
+
+<h3>Worked — Practice Quiz 2, Q1</h3>
+
+<p>The Chinese source term <span class="f">方案</span> was rendered three ways across 16 translated sentences. Treating the observed relative frequencies as the distribution of the random variable X:</p>
+
+<div class="chartwrap">
+  <p class="ctitle">Distribution of the English rendering chosen by the MT system</p>
+  <p class="csub">16 sentences · hover a bar for its contribution to H(X)</p>
+  <div class="chart scroll">
+  <svg viewBox="0 0 520 258" role="img" aria-label="Bar chart of the probability of each English rendering: plan 0.50, proposal 0.25, scheme 0.25">
+    <!-- gridlines -->
+    <line class="rule" x1="56" y1="200" x2="486" y2="200"/>
+    <line class="rule" x1="56" y1="169" x2="486" y2="169"/>
+    <line class="rule" x1="56" y1="138" x2="486" y2="138"/>
+    <line class="rule" x1="56" y1="107" x2="486" y2="107"/>
+    <line class="rule" x1="56" y1="76" x2="486" y2="76"/>
+    <line class="rule" x1="56" y1="45" x2="486" y2="45"/>
+    <text class="t-sm" x="48" y="204" text-anchor="end">0</text>
+    <text class="t-sm" x="48" y="173" text-anchor="end">0.1</text>
+    <text class="t-sm" x="48" y="142" text-anchor="end">0.2</text>
+    <text class="t-sm" x="48" y="111" text-anchor="end">0.3</text>
+    <text class="t-sm" x="48" y="80" text-anchor="end">0.4</text>
+    <text class="t-sm" x="48" y="49" text-anchor="end">0.5</text>
+
+    <!-- bars: baseline y=200, scale 0.55 -> y=45 -->
+    <path class="bar" data-name="plan" data-p="0.50" data-c="0.500"
+          d="M 110 200 L 110 49.5 Q 110 45.5 114 45.5 L 186 45.5 Q 190 45.5 190 49.5 L 190 200 Z"/>
+    <path class="bar" data-name="proposal" data-p="0.25" data-c="0.500"
+          d="M 230 200 L 230 126.7 Q 230 122.7 234 122.7 L 306 122.7 Q 310 122.7 310 126.7 L 310 200 Z"/>
+    <path class="bar" data-name="scheme" data-p="0.25" data-c="0.500"
+          d="M 350 200 L 350 126.7 Q 350 122.7 354 122.7 L 426 122.7 Q 430 122.7 430 126.7 L 430 200 Z"/>
+
+    <!-- direct value labels -->
+    <text class="t-lbl" x="150" y="36" text-anchor="middle">0.50</text>
+    <text class="t-lbl" x="270" y="113" text-anchor="middle">0.25</text>
+    <text class="t-lbl" x="390" y="113" text-anchor="middle">0.25</text>
+
+    <!-- categories -->
+    <text class="t-sm" x="150" y="220" text-anchor="middle">plan</text>
+    <text class="t-sm" x="270" y="220" text-anchor="middle">proposal</text>
+    <text class="t-sm" x="390" y="220" text-anchor="middle">scheme</text>
+    <text class="t-sm" x="270" y="240" text-anchor="middle">English rendering chosen</text>
+
+    <g id="tip" visibility="hidden">
+      <rect class="tipbg" x="0" y="0" width="196" height="40" rx="3"/>
+      <text class="charttip" x="0" y="0"></text>
+    </g>
+  </svg>
+  </div>
+</div>
+
+<div class="wk">
+  <h4>Worked solution</h4>
+  <div class="rows">
+    <div class="row"><span class="k">1.1 probabilities</span><span class="v">8/16 = 0.50 · 4/16 = 0.25 · 4/16 = 0.25</span></div>
+    <div class="row"><span class="k">1.2 formula</span><span class="v">H(X) = −Σ p(x) log₂ p(x)</span></div>
+  </div>
+  <div class="rows" style="margin-top:10px">
+    <div class="row"><span class="k">−0.50 log₂ 0.50</span><span class="v">0.500</span></div>
+    <div class="row"><span class="k">−0.25 log₂ 0.25</span><span class="v">0.500</span></div>
+    <div class="row"><span class="k">−0.25 log₂ 0.25</span><span class="v">0.500</span></div>
+  </div>
+  <div class="res">H(X) = 1.50 bits</div>
+</div>
+
+<div class="callout tip">
+  <h4>A shortcut worth knowing</h4>
+  <p>For p = 0.50 and for p = 0.25, the term −p log₂ p equals <strong>0.5</strong> in both cases (because log₂0.5 = −1 and log₂0.25 = −2). All three terms here contribute exactly the same amount, so H = 3 × 0.5 = 1.50 bits. If you spot this, you can skip most of the arithmetic — and it is an easy way to check your answer.</p>
+</div>
+
+<div class="callout warn">
+  <h4>Sanity check</h4>
+  <p>Entropy is bounded by 0 ≤ H ≤ log₂|X|. With three outcomes the maximum is log₂3 ≈ 1.585 bits; a uniform distribution would give exactly that. 1.50 sits just below, which is right — the distribution is nearly uniform but not quite.</p>
+</div>
+
+<!-- ================= 3 EVALUATION ================= -->
+<div class="part"><span class="n">03</span><h2 id="eval">MT evaluation</h2></div>
+
+<p class="lede">Three measures appear in the quizzes: WER, clipped unigram precision, and AER. All three are short arithmetic — the marks are in getting the counts right.</p>
+
+<h3>Word Error Rate</h3>
+
+<div class="zh"><span class="zhh">WER 怎么数 S、D、I</span>
+<p><b>把参考译文和系统输出上下并排写，一个词一个词对过去。</b>对不上的分三种：</p>
+<table class="zhtable">
+  <thead><tr><th>情况</th><th>算什么</th><th>例子</th></tr></thead>
+  <tbody>
+    <tr><td>两边都有，但<b>词不一样</b></td><td class="c">S（替换）</td><td class="c">works → work</td></tr>
+    <tr><td>参考里有，<b>输出里没有</b></td><td class="c">D（删除）</td><td class="c">参考有 the，输出漏了</td></tr>
+    <tr><td>参考里没有，<b>输出多出来</b></td><td class="c">I（插入）</td><td class="c">输出多了个词</td></tr>
+  </tbody>
+</table>
+<p><b>分母 N 是「参考译文」的词数</b>，不是输出的词数，也不是两者的平均。<span class="hl">这是最容易错的一步。</span></p>
+<p><b>自查：</b>WER 可以超过 100%（插入很多的时候）。如果算出来是负数或超过 200%，肯定是数错了。</p>
+</div>
+
+<p>WER is the minimum number of editing steps needed to turn the system output into the reference, divided by the reference length. It is a Levenshtein distance.</p>
+
+<div class="fbox">
+  <span class="fname">Word Error Rate</span>
+  <div class="f">WER = (S + D + I) / N</div>
+  <p style="margin:8px 0 0;font-size:14.5px;color:var(--ink-soft)">S = substitutions · D = deletions · I = insertions · N = number of words in the <strong>reference</strong></p>
+</div>
+
+<div class="fig">
+<table class="dt compact" style="min-width:560px">
+  <thead><tr><th>Position</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead>
+  <tbody>
+    <tr><td>Reference</td><td class="m">the</td><td class="m">machine</td><td class="m">translation</td><td class="m">system</td><td class="m">works</td><td class="m">well</td></tr>
+    <tr><td>System output</td><td class="m" style="color:var(--red)">—</td><td class="m">machine</td><td class="m">translation</td><td class="m">system</td><td class="m" style="color:var(--red)">work</td><td class="m">well</td></tr>
+    <tr><td>Operation</td><td class="m" style="color:var(--red)">D</td><td class="m">match</td><td class="m">match</td><td class="m">match</td><td class="m" style="color:var(--red)">S</td><td class="m">match</td></tr>
+  </tbody>
+</table>
+<p class="cap"><b>Fig 2.</b> The output omits <em>the</em> (one deletion) and uses <em>work</em> where the reference has <em>works</em> (one substitution). No words were added, so I = 0.</p>
+</div>
+
+<div class="wk">
+  <h4>Worked — Practice Quiz 2, Q2.1</h4>
+  <div class="rows">
+    <div class="row"><span class="k">S · D · I</span><span class="v">1 · 1 · 0</span></div>
+    <div class="row"><span class="k">N (reference words)</span><span class="v">6</span></div>
+  </div>
+  <div class="res">WER = (1 + 1 + 0) / 6 = 2/6 ≈ 0.333 → <b>33.3%</b></div>
+</div>
+
+<div class="callout warn">
+  <h4>N is the reference length</h4>
+  <p>Here the output has 5 words and the reference has 6. Dividing by 5 would give 0.40 — wrong. Always divide by the reference length. WER can exceed 100% when there are many insertions.</p>
+</div>
+
+<h3>Clipped unigram precision</h3>
+
+<div class="zh"><span class="zhh">精确率：分母是「输出」的词数</span>
+<p><b>两步：</b></p>
+<ol class="zhsteps">
+  <li>把系统输出的每个词，逐个去参考译文里找有没有。<b>找到就算命中</b>（重复的要注意：参考里出现几次，最多只能算命中几次）。</li>
+  <li>命中数 ÷ <b>输出</b>的词数。</li>
+</ol>
+<p><b>关键区别：</b>WER 的分母是<b>参考</b>长度，精确率的分母是<b>输出</b>长度。为什么？因为 WER 衡量「错了多少」，以标准答案为基准；精确率衡量「产出的东西里有多少是对的」，以产出为基准。</p>
+<p>输出里那个多余的词（参考里没有的）会<b>拉低</b>精确率，因为它在分母里但不在分子里。</p>
+</div>
+
+<p>A simplified BLEU component. Count how many unigrams of the output appear in the reference, <strong>clipping</strong> each at the number of times it appears in the reference, then divide by the output length.</p>
+
+<div class="wk">
+  <h4>Worked — Practice Quiz 2, Q2.2</h4>
+  <p style="font-size:14.5px;margin:0 0 10px">
+    Reference: <span class="f">the model produces good translation</span><br>
+    Output: <span class="f">the model generates good translation</span>
+  </p>
+  <div class="rows">
+    <div class="row"><span class="k">output unigrams</span><span class="v">the · model · generates · good · translation</span></div>
+    <div class="row"><span class="k">matching against reference</span><span class="v">the · model · good · translation</span></div>
+    <div class="row hi"><span class="k">clipped matches</span><span class="v">4</span></div>
+  </div>
+  <div class="res">Unigram precision = 4 / 5 = <b>0.80</b> (80%)</div>
+  <p style="margin:11px 0 0;font-size:14.5px;color:var(--ink-soft)"><em>generates</em> appears in the output but not the reference, so it contributes nothing. The denominator is the output length, 5 — not the number of matches.</p>
+</div>
+
+<div class="callout">
+  <h4>Where BLEU fits</h4>
+  <p>Full BLEU combines clipped precision over 1-, 2-, 3- and 4-grams, takes the geometric mean, and applies a brevity penalty. The quiz asks only for the unigram component with brevity penalty ignored, so stop at 4/5.</p>
+</div>
+
+<h3>Alignment Error Rate</h3>
+
+<p>AER scores an automatic word alignment against a gold standard. The gold standard has two parts: <strong>sure</strong> links (definitely correct) and <strong>possible</strong> links (acceptable alternatives).</p>
+
+<div class="fbox">
+  <span class="fname">Alignment Error Rate</span>
+  <div class="f">AER = 1 − ( |A ∩ S| + |A ∩ P| ) / ( |A| + |S| )</div>
+  <p style="margin:8px 0 0;font-size:14.5px;color:var(--ink-soft)">A = predicted links · S = sure links · P = possible links · |X| = how many links the set contains</p>
+</div>
+
+<div class="fig">
+<div class="scroll">
+<svg viewBox="0 0 560 210" role="img" aria-label="Alignment grid showing predicted links against sure and possible gold links">
+  <!-- source row -->
+  <text class="t-sm" x="20" y="30">source positions</text>
+  <g>
+    <rect class="box-fill" x="120" y="14" width="56" height="30" rx="3"/>
+    <text x="148" y="34" text-anchor="middle">1</text>
+    <rect class="box-fill" x="200" y="14" width="56" height="30" rx="3"/>
+    <text x="228" y="34" text-anchor="middle">2</text>
+    <rect class="box-fill" x="280" y="14" width="56" height="30" rx="3"/>
+    <text x="308" y="34" text-anchor="middle">3</text>
+    <rect class="box-fill" x="360" y="14" width="56" height="30" rx="3"/>
+    <text x="388" y="34" text-anchor="middle">4</text>
+  </g>
+  <!-- target row -->
+  <text class="t-sm" x="20" y="182">target positions</text>
+  <g>
+    <rect class="box-fill" x="120" y="160" width="56" height="30" rx="3"/>
+    <text x="148" y="180" text-anchor="middle">1</text>
+    <rect class="box-fill" x="200" y="160" width="56" height="30" rx="3"/>
+    <text x="228" y="180" text-anchor="middle">2</text>
+    <rect class="box-fill" x="280" y="160" width="56" height="30" rx="3"/>
+    <text x="308" y="180" text-anchor="middle">3</text>
+    <rect class="box-fill" x="360" y="160" width="56" height="30" rx="3"/>
+    <text x="388" y="180" text-anchor="middle">4</text>
+    <rect class="box-fill" x="440" y="160" width="56" height="30" rx="3"/>
+    <text x="468" y="180" text-anchor="middle">5</text>
+  </g>
+  <!-- links -->
+  <path class="flow" d="M 148 44 V 152" stroke="var(--green-deep)"/>
+  <path class="flow" d="M 228 44 V 152" stroke="var(--green-deep)"/>
+  <path class="flow" d="M 308 44 V 152" stroke="var(--green-deep)"/>
+  <path class="flow" d="M 388 44 V 100 H 468 V 152" stroke="var(--red)"/>
+  <path class="dash" d="M 388 44 L 388 60 M 388 60 H 388"/>
+  <text class="t-key" x="484" y="90">(4,5)</text>
+  <text class="t-sm" x="484" y="106">in A only</text>
+  <text class="t-sm" x="484" y="140" fill="var(--green-deep)">(1,1) (2,2) (3,3)</text>
+  <text class="t-sm" x="484" y="156" fill="var(--green-deep)">in A ∩ S ∩ P</text>
+</svg>
+</div>
+<p class="cap"><b>Fig 3.</b> The predicted set A has four links. Three of them — (1,1), (2,2), (3,3) — are in both the sure set S and the possible set P. The fourth, (4,5), is in A alone: (4,4) is possible but was not predicted.</p>
+</div>
+
+<div class="wk">
+  <h4>Worked — Quiz 3, Q4.4</h4>
+  <div class="rows">
+    <div class="row"><span class="k">|A| · |S| · |P|</span><span class="v">4 · 3 · 4</span></div>
+    <div class="row"><span class="k">|A ∩ S|</span><span class="v">3</span></div>
+    <div class="row"><span class="k">|A ∩ P|</span><span class="v">3</span></div>
+  </div>
+  <div class="res">AER = 1 − (3 + 3) / (4 + 3) = 1 − 6/7 = <b>1/7 ≈ 0.143</b></div>
+</div>
+
+<!-- ================= 4 EM ================= -->
+<div class="part"><span class="n">04</span><h2 id="em">IBM Model 1 &amp; the EM algorithm</h2></div>
+
+<p class="lede">The biggest single block on the practice quiz. Two versions appear: a 2×2 probability table, and a set of four explicit alignments. Same three steps both times.</p>
+
+<h3>The shape of the problem</h3>
+
+<p>IBM Model 1 learns lexical translation probabilities t(e|f) from sentence pairs with no alignments given. EM alternates:</p>
+
+<div class="fig">
+<div class="scroll">
+<svg viewBox="0 0 620 200" role="img" aria-label="The EM cycle: E-step then M-step, repeated">
+  <rect class="box-fill" x="22" y="40" width="264" height="80" rx="4"/>
+  <text class="t-lbl" x="154" y="68" text-anchor="middle">E-step</text>
+  <text class="t-sm" x="154" y="90" text-anchor="middle">normalise t(e|f) over source</text>
+  <text class="t-sm" x="154" y="107" text-anchor="middle">→ posterior γ and expected counts c(e,f)</text>
+
+  <path class="flow" d="M 286 80 H 316"/>
+  <path class="arrow" d="M 308 74 L 318 80 L 308 86 Z"/>
+
+  <rect class="box-fill" x="320" y="40" width="264" height="80" rx="4"/>
+  <text class="t-lbl" x="452" y="68" text-anchor="middle">M-step</text>
+  <text class="t-sm" x="452" y="90" text-anchor="middle">normalise c(e,f) over target</text>
+  <text class="t-sm" x="452" y="107" text-anchor="middle">→ updated t_new(e|f)</text>
+
+  <path class="flow" d="M 452 120 V 152 H 154 V 124"/>
+  <path class="arrow" d="M 148 132 L 154 122 L 160 132 Z"/>
+  <text class="t-sm" x="303" y="176" text-anchor="middle">repeat until the probabilities stop changing</text>
+</svg>
+</div>
+<p class="cap"><b>Fig 4.</b> One full iteration. The quizzes give you the starting t(e|f) and ask for exactly one pass round this loop.</p>
+</div>
+
+<div class="zh"><span class="zhh">E 步和 M 步的「加总方向」为什么相反</span>
+<p>想象那张概率表：<b>行 = 英文单词，列 = 中文词</b>。</p>
+<table class="zhtable">
+  <thead><tr><th></th><th>机器</th><th>翻译</th></tr></thead>
+  <tbody>
+    <tr><td class="c">machine</td><td class="c">0.60</td><td class="c">0.20</td></tr>
+    <tr><td class="c">translation</td><td class="c">0.10</td><td class="c">0.70</td></tr>
+  </tbody>
+</table>
+<ul>
+  <li><b>E 步：固定一个英文词，看它可能来自哪个中文词</b> → 所以是<b>横着看一行</b>，把这一行的数加起来当分母。<br>
+      例：machine 这行 0.60 + 0.20 = 0.80。</li>
+  <li><b>M 步：固定一个中文词，看它会翻成哪个英文词</b> → 所以是<b>竖着看一列</b>，把这一列的数加起来当分母。<br>
+      例：机器 这列 0.75 + 0.125 = 0.875。</li>
+</ul>
+<p><b>一句话记法：E 步「英文说了算」→ 按行；M 步「中文说了算」→ 按列。</b></p>
+<p><b>自查方法：</b>E 步算完，每一<b>行</b>的 γ 加起来必须 = 1；M 步算完，每一<b>列</b>的 t_new 加起来必须 = 1。对不上就是轴搞反了。</p>
+</div>
+
+<h3>Version A — a 2×2 probability table</h3>
+
+<p>Practice Quiz 2, Q3. One Chinese-English sentence pair, NULL alignment and position priors ignored, so every English word may align to either Chinese word.</p>
+
+<div class="scroll">
+<table class="dt compact">
+  <thead><tr><th></th><th class="m">机器</th><th class="m">翻译</th></tr></thead>
+  <tbody>
+    <tr><td class="m">machine</td><td class="m">0.60</td><td class="m">0.20</td></tr>
+    <tr><td class="m">translation</td><td class="m">0.10</td><td class="m">0.70</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h4>E-step — normalise each target word across the source words</h4>
+
+<div class="wk">
+  <h4>Q3.1 — for <em>machine</em></h4>
+  <div class="rows">
+    <div class="row"><span class="k">denominator</span><span class="v">0.60 + 0.20 = 0.80</span></div>
+    <div class="row hi"><span class="k">γ(机器 | machine)</span><span class="v">0.60 / 0.80 = 0.75</span></div>
+    <div class="row hi"><span class="k">γ(翻译 | machine)</span><span class="v">0.20 / 0.80 = 0.25</span></div>
+  </div>
+</div>
+
+<div class="wk">
+  <h4>Q3.2 — for <em>translation</em></h4>
+  <div class="rows">
+    <div class="row"><span class="k">denominator</span><span class="v">0.10 + 0.70 = 0.80</span></div>
+    <div class="row hi"><span class="k">γ(机器 | translation)</span><span class="v">0.10 / 0.80 = 0.125</span></div>
+    <div class="row hi"><span class="k">γ(翻译 | translation)</span><span class="v">0.70 / 0.80 = 0.875</span></div>
+  </div>
+</div>
+
+<p>Each row of posteriors sums to 1. These posteriors <em>are</em> the expected fractional counts.</p>
+
+<h4>Q3.3 — expected count table</h4>
+
+<div class="scroll">
+<table class="dt compact">
+  <thead><tr><th>c(e, f)</th><th class="m">机器</th><th class="m">翻译</th><th class="m">row total</th></tr></thead>
+  <tbody>
+    <tr><td class="m">machine</td><td class="m">0.75</td><td class="m">0.25</td><td class="m">1.00</td></tr>
+    <tr><td class="m">translation</td><td class="m">0.125</td><td class="m">0.875</td><td class="m">1.00</td></tr>
+    <tr class="tot"><td class="m">column total</td><td class="m">0.875</td><td class="m">1.125</td><td class="m">2.00</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h4>M-step — now normalise each source word across the target words</h4>
+
+<p>The axis flips. This is where most marks are lost.</p>
+
+<div class="wk">
+  <h4>Q3.4 — all four updated probabilities</h4>
+  <div class="rows">
+    <div class="row"><span class="k">机器 column total</span><span class="v">0.75 + 0.125 = 0.875</span></div>
+    <div class="row hi"><span class="k">t_new(machine | 机器)</span><span class="v">0.75 / 0.875 ≈ 0.857</span></div>
+    <div class="row hi"><span class="k">t_new(translation | 机器)</span><span class="v">0.125 / 0.875 ≈ 0.143</span></div>
+  </div>
+  <div class="rows" style="margin-top:10px">
+    <div class="row"><span class="k">翻译 column total</span><span class="v">0.25 + 0.875 = 1.125</span></div>
+    <div class="row hi"><span class="k">t_new(machine | 翻译)</span><span class="v">0.25 / 1.125 ≈ 0.222</span></div>
+    <div class="row hi"><span class="k">t_new(translation | 翻译)</span><span class="v">0.875 / 1.125 ≈ 0.778</span></div>
+  </div>
+  <p style="margin:11px 0 0;font-size:14.5px;color:var(--ink-soft)">Check: each source word's updated probabilities sum to 1. <em>machine</em> has also become a more confident translation of 机器 (0.60 → 0.857) — that is EM tightening the distribution.</p>
+</div>
+
+<div class="zh"><span class="zhh">拿到 EM 题的操作流程</span>
+<p><b>先认清题目给的是哪一种：</b></p>
+<table class="zhtable">
+  <thead><tr><th>给什么</th><th>怎么下手</th></tr></thead>
+  <tbody>
+    <tr><td>给一张 t(e|f) 概率表</td><td>直接按行归一化 → 得到 γ（= 期望计数）→ 再按列归一化 → 得到新表</td></tr>
+    <tr><td>给几个 alignment 和它们的 p(e,a|f)</td><td>先把它们<b>全部加起来</b>得到 p(e|f) → 各自除以 p(e|f) 得到后验 → 再把属于同一词对的加起来当计数</td></tr>
+  </tbody>
+</table>
+<p><b>通用四步：</b></p>
+<ol class="zhsteps">
+  <li><b>求分母。</b>概率表版本：每行求和。alignment 版本：所有 p(e,a|f) 求和。</li>
+  <li><b>求 γ / 后验。</b>每个数除以它所在的那个分母。算完立刻检查：每行加起来 = 1。</li>
+  <li><b>把 γ 当期望计数 c(e,f)。</b>注意一个词对可能由多个 alignment 贡献，要<b>加在一起</b>。</li>
+  <li><b>按列（源词）归一化。</b>每个源词那一列的计数，除以这一列的总和。</li>
+</ol>
+<p><b>省时间的做法：</b>如果分母对所有项都一样（比如都是除以 0.680），可以<b>先把分子加成整再除一次</b>，比每项单独除再相加更不容易出错。</p>
+</div>
+
+<h3>Version B — explicit alignments</h3>
+
+<p>Quiz 3, Q4.1–4.3. Source <span class="f">la maison</span>, target <span class="f">the house</span>. Four alignments are possible and their joint probabilities p(e, a | f) are given.</p>
+
+<div class="scroll">
+<table class="dt compact">
+  <thead><tr><th>Alignment</th><th>the aligns to</th><th>house aligns to</th><th class="m">p(e, a | f)</th></tr></thead>
+  <tbody>
+    <tr><td class="m">a₁</td><td class="m">la</td><td class="m">maison</td><td class="m">0.560</td></tr>
+    <tr><td class="m">a₂</td><td class="m">la</td><td class="m">la</td><td class="m">0.035</td></tr>
+    <tr><td class="m">a₃</td><td class="m">maison</td><td class="m">maison</td><td class="m">0.080</td></tr>
+    <tr><td class="m">a₄</td><td class="m">maison</td><td class="m">la</td><td class="m">0.005</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="wk">
+  <h4>4.1 — sentence probability and posteriors</h4>
+  <div class="rows">
+    <div class="row"><span class="k">p(e | f) = Σₐ p(e, a | f)</span><span class="v">0.560 + 0.035 + 0.080 + 0.005 = 0.680</span></div>
+  </div>
+  <div class="rows" style="margin-top:10px">
+    <div class="row"><span class="k">p(a₁ | e, f)</span><span class="v">0.560 / 0.680 = 0.824</span></div>
+    <div class="row"><span class="k">p(a₂ | e, f)</span><span class="v">0.035 / 0.680 = 0.051</span></div>
+    <div class="row"><span class="k">p(a₃ | e, f)</span><span class="v">0.080 / 0.680 = 0.118</span></div>
+    <div class="row"><span class="k">p(a₄ | e, f)</span><span class="v">0.005 / 0.680 = 0.007</span></div>
+  </div>
+  <div class="res">Most probable alignment: <b>a₁</b> — the→la, house→maison</div>
+  <p style="margin:11px 0 0;font-size:14.5px;color:var(--ink-soft)">The posteriors sum to 1, which is the check that your p(e|f) is right. a₁ is the diagonal — the alignment a human would pick.</p>
+</div>
+
+<div class="wk">
+  <h4>4.2 — expected lexical counts</h4>
+  <p style="font-size:14.5px;margin:0 0 10px">Each alignment contributes its posterior as a fractional count to the word pairs it contains.</p>
+  <div class="rows">
+    <div class="row"><span class="k">c(the | la)</span><span class="v">0.824 + 0.051 = 0.875</span></div>
+    <div class="row"><span class="k">c(house | la)</span><span class="v">0.051 + 0.007 = 0.059</span></div>
+    <div class="row"><span class="k">c(the | maison)</span><span class="v">0.118 + 0.007 = 0.125</span></div>
+    <div class="row"><span class="k">c(house | maison)</span><span class="v">0.824 + 0.118 = 0.941</span></div>
+  </div>
+</div>
+
+<div class="wk">
+  <h4>4.3 — M-step for <em>maison</em></h4>
+  <div class="rows">
+    <div class="row"><span class="k">denominator</span><span class="v">0.125 + 0.941 = 1.066</span></div>
+    <div class="row hi"><span class="k">t_new(the | maison)</span><span class="v">0.125 / 1.066 ≈ 0.117</span></div>
+    <div class="row hi"><span class="k">t_new(house | maison)</span><span class="v">0.941 / 1.066 ≈ 0.883</span></div>
+  </div>
+  <p style="margin:11px 0 0;font-size:14.5px;color:var(--ink-soft)">These sum to 1. Keep full precision in the intermediate counts if you can — if you round 0.941 to 0.94 first, the second value drifts to 0.883 anyway, but the first becomes 0.1175. The marking guide allows reasonable rounding.</p>
+</div>
+
+<div class="callout tip">
+  <h4>Spotting this pattern fast</h4>
+  <p>Every count here is <code>sum of some posteriors</code>, and every posterior is <code>p(e,a|f) / 0.680</code>. So you can add the joint probabilities first and divide once: c(house | maison) = (0.560 + 0.080)/0.680 = 0.640/0.680 = 0.941. Fewer operations, less rounding error.</p>
+</div>
+
+<!-- ================= 5 NEURAL ================= -->
+<div class="part"><span class="n">05</span><h2 id="neural">Neural language models</h2>
+
+<div class="zh"><span class="zhh">神经语言模型的几个关键词（简答题专用）</span>
+<p>这部分只考简答，<b>把下面这几个词记牢，答题时用上就有分</b>：</p>
+<table class="zhtable">
+  <thead><tr><th>名词</th><th>一句话说清它干什么</th></tr></thead>
+  <tbody>
+    <tr><td>Embedding（词嵌入）</td><td>把单词（一个编号）变成一串连续的实数向量；意思相近的词向量也相近</td></tr>
+    <tr><td>Softmax</td><td>把网络的输出变成<b>整个词表的概率分布</b>，加起来 = 1，用来预测下一个词</td></tr>
+    <tr><td>Hidden state（隐状态）</td><td>RNN 每一步传给下一步的那个向量，相当于「到目前为止读过的内容的摘要」</td></tr>
+    <tr><td>梯度消失 / 爆炸</td><td>RNN 步数一多，误差回传时反复相乘，梯度要么趋近 0（学不到远距离依赖），要么爆掉</td></tr>
+    <tr><td>LSTM</td><td>多维护一个 <b>cell state（记忆通道）</b>，用三个门控制读写</td></tr>
+    <tr><td>三个门</td><td><b>输入门</b>（写什么进去）、<b>遗忘门</b>（抹掉什么）、<b>输出门</b>（这一刻拿出多少用）</td></tr>
+  </tbody>
+</table>
+<p><b>答题套路：</b>问「为什么要这个部件」→ 先说不加它会有什么问题（比如梯度消失、信息丢失），再说这个部件怎么解决。<b>答案要有「对比」才有分。</b></p>
+</div></div>
+
+<p class="lede">Quiz 4 is short answer only — no calculations. Questions in this style are marked on naming the right components, so learn the vocabulary.</p>
+
+<div class="drill">
+  <p class="qh">Quiz 4 — Q1 · Embedding and softmax in a feed-forward neural LM</p>
+  <p class="qtext">(1) What is the role of the word-embedding layer? (2) What does the softmax output represent when the model predicts the next word?</p>
+  <details><summary>Model answer</summary>
+  <div class="ansbody"><p class="hitline"><b>Marks</b>discrete → vector · similar words, similar vectors · vocabulary distribution · sums to 1</p><ul class="pts"><li><span class="mk">1</span><b>Embedding layer.</b> Maps each word — a discrete index — to a <b>dense continuous vector</b>; words used in similar ways end up with similar vectors. It turns symbolic input into something the network can compute with, avoiding the sparsity of one-hot vectors.</li><li><span class="mk">2</span><b>Softmax output.</b> A <b>probability distribution over the whole vocabulary</b> (sums to 1). Each entry is the model's estimated probability that the corresponding word comes next, given the preceding context.</li></ul></div>
+  </details>
+</div>
+
+<div class="drill">
+  <p class="qh">Quiz 4 — Q2 · Recurrent history and long-distance context</p>
+  <p class="qtext">(1) In an RNN language model, what is carried from one time step to the next? (2) What difficulty can a basic RNN have with very long-distance dependencies? (3) Name an architecture designed to handle them better — what internal state does it keep, and which three gates control the flow?</p>
+  <details><summary>Model answer</summary>
+  <div class="ansbody"><p class="hitline"><b>Marks</b>hidden state · vanishing/exploding gradient · LSTM · cell state + three gates</p><ul class="pts"><li><span class="mk">1</span>A <b>hidden state vector</b>. At each step the RNN combines the current input with the previous hidden state to produce a new one — a running summary of everything read so far.</li><li><span class="mk">2</span><b>Vanishing / exploding gradients.</b> Backpropagation through many steps repeatedly multiplies by the recurrent weights, so the gradient either shrinks towards 0 (the long-distance dependency is never learned) or grows without bound (training becomes unstable).</li><li><span class="mk">3</span><b>LSTM.</b> Besides the hidden state it maintains an extra <b>cell state</b> — a memory channel. Three gates control it: the <b>input gate</b> (what new information to write), the <b>forget gate</b> (what to erase) and the <b>output gate</b> (how much of the cell state to expose as the hidden state).</li></ul></div>
+  </details>
+</div>
+
+<!-- ================= MOCK ================= -->
+<div class="part"><span class="n">06</span><h2 id="assign">Assignment-style questions</h2></div>
+
+<p class="lede">Your teacher has added the assignment as a possible exam question type. It is <strong>not calculation</strong> — it is explanation and analysis. Three modules, and each needs a different kind of answer.</p>
+
+<div class="zh"><span class="zhh">这三块分别考什么</span>
+<table class="zhtable">
+  <thead><tr><th>模块</th><th>内容</th><th>分值</th><th>要你做什么</th></tr></thead>
+  <tbody>
+    <tr><td>A</td><td>真实翻译系统对比分析</td><td class="c">40</td><td>贴出 5 个系统的译文 → 指出语言现象 → 解释原因</td></tr>
+    <tr><td>B</td><td>统计机器翻译：语言模型概念</td><td class="c">30</td><td><b>用文字解释</b>平滑的三个方法（不算数）</td></tr>
+    <tr><td>C</td><td>神经机器翻译：架构推理</td><td class="c">30</td><td>说清编码器/注意力/解码器的作用和升级方案</td></tr>
+  </tbody>
+</table>
+<p><b>共同点：答案都在「为什么」上，不在「是多少」上。</b>写答案时先给结论，再给理由，最后举个具体例子。</p>
+</div>
+
+<h3>Module A — Comparative analysis of MT systems</h3>
+
+<p>The assignment runs five systems — Google Translate, Baidu Translate, Gemini, DeepSeek, Doubao — on the same Chinese source sentence and asks you to compare. Marks come from evidence and explanation, not from picking a predetermined winner.</p>
+
+<div class="zh"><span class="zhh">Module A 是分析题 —— 怎么拿分</span>
+<p>这一块<b>没有标准答案</b>，评分标准写得很清楚：「marks are awarded for evidence-based judgement」。所以关键不是选对系统，而是<b>你能不能引用具体译文并解释清楚</b>。</p>
+<p><b>每题都是同一个三段式：</b></p>
+<ol class="zhsteps">
+  <li><b>选一个 + 引用原文。</b>不要只说「Google 最好」，要把它<b>原样贴出来</b>。不引用就是白丢分。</li>
+  <li><b>给出你自己的译文。</b>要求：意思准确 + 像人话。不要为了「忠实」翻得生硬。</li>
+  <li><b>这题值 4 分，是重点：指出语言现象并解释为什么会出错。</b></li>
+</ol>
+<p><b>常考的四种语言现象，记住它们的名字：</b></p>
+<table class="zhtable">
+  <thead><tr><th>现象</th><th>英文说法</th><th>出问题的原因</th></tr></thead>
+  <tbody>
+    <tr><td>词义歧义</td><td>lexical / word-sense ambiguity</td><td>中文两个不同的词，英文只有<b>一个词</b>对应（或反之）</td></tr>
+    <tr><td>主语省略</td><td>omitted subject / zero anaphora</td><td>中文可以省主语，英文<b>必须有主语</b>，机器只能猜 → 猜错就变成了「无中生有」</td></tr>
+    <tr><td>语序 / 长定语</td><td>word order / long pre-modifiers</td><td>中文修饰语放<b>名词前面</b>，英文从句放<b>名词后面</b>，顺序要倒过来</td></tr>
+    <tr><td>习语 / 固定搭配</td><td>idiomatic expression</td><td>逐字翻译会变成一串没有意义的英文</td></tr>
+  </tbody>
+</table>
+<p><b>答题时务必用上这些术语</b>（adequacy、fluency、ambiguity、omission、addition、word order、unsupported information），这些都是评分标准里点名的词。</p>
+</div>
+
+<div class="drill"><p class="qh">Q1 <span style="color:var(--ink-soft)">[8 marks]</span></p><p class="qtext">Source sentence: <span class="f">他去了銀行旁邊的河岸等朋友。</span><br>(1.1) Which system gives the best translation? Quote it. (1.2) Give your preferred English translation. (1.3) What is the main linguistic difficulty, and how can it cause a translation error?</p><details><summary>Model answer</summary><div class="ansbody"><p class="hitline"><b>Marks</b>lexical ambiguity · one word, two senses · quote the output · riverbank</p><ul class="pts"><li><span class="mk">1.1 · 2</span>Name one system and <b>quote its output verbatim</b>. The test is whether it renders 銀行 and 河岸 as two different English words.</li><li><span class="mk">1.2 · 2</span><i>He went to the riverbank next to the bank to wait for his friend.</i></li><li><span class="mk">1.3 · 4</span><b>Lexical / word-sense ambiguity.</b> Chinese has two distinct words — 銀行 (financial institution) and 河岸 (riverbank) — but English covers both senses with the single word <b>bank</b>. If the system also renders 河岸 as <i>bank</i>, the output becomes <i>"the bank next to the bank"</i>: two banks that cannot be told apart, and the spatial relation is lost. Only the context 旁邊 (next to) shows these are two different places.</li></ul></div></details></div>
+
+<div class="drill"><p class="qh">Q2 <span style="color:var(--ink-soft)">[8 marks]</span></p><p class="qtext">Source sentence: <span class="f">已經確認了，明天上午十點開始，請提前到。</span><br>(2.1) Which output is clearest and most natural? Quote it. (2.2) Give your preferred English translation. (2.3) Which information is implicit or omitted, and why is it hard for an MT system?</p><details><summary>Model answer</summary><div class="ansbody"><p class="hitline"><b>Marks</b>omitted subject · who / what / who · English needs a subject · don't invent one</p><ul class="pts"><li><span class="mk">2.1 · 2</span>Name the clearest, most natural output and quote it.</li><li><span class="mk">2.2 · 2</span><i>It has now been confirmed. It will begin at 10 a.m. tomorrow. Please arrive early.</i></li><li><span class="mk">2.3 · 4</span><b>Omitted subject (zero anaphora).</b> The Chinese leaves out three things: <b>who</b> confirmed it, <b>what</b> starts at 10 a.m., and <b>who</b> should arrive early. Every English clause needs a subject, so the system must supply one — <i>it</i> is safe because it is impersonal, but inserting <i>we</i> or <i>they</i> <b>invents information that is not in the source</b> (unsupported addition), which loses marks.</li></ul></div></details></div>
+
+<div class="drill"><p class="qh">Q3 <span style="color:var(--ink-soft)">[8 marks]</span></p><p class="qtext">Source sentence: <span class="f">學校昨天公佈的、將於下學期正式實施的新規定引起了不少學生的討論。</span><br>(3.1) Select the best output and quote it. (3.2) Give a corrected or reference translation. (3.3) Identify at least two structural difficulties and explain them.</p><details><summary>Model answer</summary><div class="ansbody"><p class="hitline"><b>Marks</b>long pre-modifiers · English clauses come after the noun · order must reverse · attachment</p><ul class="pts"><li><span class="mk">3.1 · 2</span>Select the best output and quote it.</li><li><span class="mk">3.2 · 2</span><i>The new rules that the school announced yesterday and that will officially take effect next semester have sparked a great deal of discussion among students.</i> The head noun must stay <i>new rules</i>.</li><li><span class="mk">Difficulty 1 · 2</span><b>Modifier position is reversed.</b> Chinese puts the modifier before the noun (modifier + 的 + noun); English puts a relative clause after it. The order has to be turned round.</li><li><span class="mk">Difficulty 2 · 2</span><b>Multiple modifiers must be layered.</b> Chinese can stack several 的-modifiers in front of one noun; English has to unpack them into separate relative clauses, and the reader still has to work out which clause attaches to which noun (attachment ambiguity). Mis-splitting or dropping one changes the meaning.</li></ul></div></details></div>
+
+<div class="drill"><p class="qh">Q4 <span style="color:var(--ink-soft)">[8 marks]</span></p><p class="qtext">Source sentence: <span class="f">這個方案看起來很完美，但真正實施起來恐怕沒有想像中那麼容易。</span><br>(4.1) Which system best preserves both the meaning and natural English style? Quote it. (4.2) Give your preferred translation. (4.3) Identify two expressions that must not be translated word by word, and give natural renderings.</p><details><summary>Model answer</summary><div class="ansbody"><p class="hitline"><b>Marks</b>idioms are not literal · 真正實施起來 · 恐怕 = probably</p><ul class="pts"><li><span class="mk">4.1 · 2</span>Choose the output that preserves both meaning and natural style; quote it.</li><li><span class="mk">4.2 · 2</span><i>The plan looks perfect, but putting it into practice will probably prove harder than expected.</i></li><li><span class="mk">Not literal ① · 2</span><b>真正實施起來</b> — not "truly implement up come"; the natural rendering is <i>putting it into practice</i> / <i>in practice</i>.</li><li><span class="mk">Not literal ② · 2</span><b>恐怕</b> — not "fear": here it is a hedging particle, so <i>probably / may well</i>. And <b>沒有想像中那麼容易</b> → <i>harder than it seems</i>.</li></ul></div></details></div>
+
+<div class="drill"><p class="qh">Q5 <span style="color:var(--ink-soft)">[8 marks]</span></p><p class="qtext">(5.1) Choose one system that performed well across Q1–Q4 and give two pieces of evidence. (5.2) Identify one recurring error type and give an example. (5.3) Using adequacy and fluency, explain one case where a translation is fluent but inadequate, or adequate but not fluent. (5.4) State one limitation of your comparison and why it matters.</p><details><summary>Model answer</summary><div class="ansbody"><p class="hitline"><b>Marks</b>quote real outputs · one recurring error type · adequacy vs fluency · one limitation + consequence</p><ul class="pts"><li><span class="mk">5.1 · 2</span>Name one system and give <b>two concrete pieces of evidence</b> — quote specific outputs from Q1–Q4 rather than asserting a preference.</li><li><span class="mk">5.2 · 2</span>One recurring error type plus an example. Common ones: idioms translated word by word, modifier order copied from Chinese, subjects invented without support.</li><li><span class="mk">5.3 · 2</span><b>Adequacy</b> = whether the meaning is fully and correctly transferred. <b>Fluency</b> = whether the English reads naturally.<br>· Fluent but inadequate: rendering 河岸 as <i>bank</i> gives <i>"the bank next to the bank"</i> — grammatical and smooth, but the two places collapse into one.<br>· Adequate but not fluent: copying the Chinese word order preserves every piece of information but does not read like English.</li><li><span class="mk">5.4 · 2</span>One limitation plus its consequence. E.g. only one sentence per phenomenon, so the result does not generalise; outputs change with the system version and are not reproducible; there is no reference translation and no human judgement.</li></ul></div></details></div>
+
+<h3>Module B — Conceptual questions on smoothing</h3>
+
+<p>Formulas are given as reminders only. The marks are for explaining the ideas in words.</p>
+
+<div class="zh"><span class="zhh">Module B 不要求算数 —— 是「用文字解释」</span>
+<p>题目原文写得很清楚：<b>「No numerical calculation is required in this module」</b>。公式只是提醒你概念，<b>不要代数字进去算</b>，那样反而答偏了。</p>
+<p><b>三题其实都在问同一件事的两面：</b></p>
+<table class="zhtable">
+  <thead><tr><th>题</th><th>核心要回答的</th></tr></thead>
+  <tbody>
+    <tr><td>Add-One</td><td>加 1 是怎么解决「0 概率」的？代价是什么？</td></tr>
+    <tr><td>Good-Turing</td><td>为什么用「调整后的计数」而不是原计数？给未见事件的那份概率从哪来？</td></tr>
+    <tr><td>Back-off</td><td>三元组没见过时怎么办？按什么顺序降级？d(history) 起什么作用？</td></tr>
+  </tbody>
+</table>
+<p><b>答题套路（三个一定要说的点）：</b></p>
+<ol class="zhsteps">
+  <li><b>先说问题</b>：不见的 n-gram 概率 = 0，而句子概率是连乘，所以<b>一个 0 就让整句变 0</b>。</li>
+  <li><b>再说办法</b>：留出一部分概率质量分给没见过的组合。</li>
+  <li><b>最后说代价</b>：这份质量是从「见过的组合」那里扣出来的，所以见过的组合概率会<b>被压低</b>。</li>
+</ol>
+<p>第 3 点最容易被漏掉，但评分标准里明确写了「what happens to the probability mass of n-grams that were actually observed」—— 写了就有分。</p>
+</div>
+
+<div class="drill"><p class="qh">Q6 <span style="color:var(--ink-soft)">[10 marks]</span></p><p class="qtext">(6.1) Why is a zero probability for an unseen bigram a problem when calculating the probability of a complete sentence? (6.2) Explain in words how Add-One gives an unseen bigram a non-zero probability. (6.3) State one advantage. (6.4) State one limitation and explain why it distorts the model.</p><details><summary>Model answer</summary><div class="ansbody"><p class="hitline"><b>Marks</b>product → zero · +1 in the numerator · +V in the denominator · mass shift</p><ul class="pts"><li><span class="mk">6.1 · 2</span>A sentence probability is the <b>product</b> of its n-gram probabilities. One unseen bigram with probability 0 makes the whole product 0, so a perfectly ordinary sentence is judged impossible — and such sentences cannot be compared with each other either.</li><li><span class="mk">6.2 · 3</span>Adding a <b>pseudo-count of 1</b> to the numerator takes an unseen pair from 0 to 1. Adding <b>V</b> to the denominator compensates: the word could be followed by any of V vocabulary items and each has just been given an extra count, so the total must grow to keep the distribution summing to 1.</li><li><span class="mk">6.3 · 2</span>Unseen n-grams get a non-zero probability, so no sentence is driven to zero; the method is simple.</li><li><span class="mk">6.4 · 3</span>It adds 1 to <b>every</b> n-gram alike, including ones already well estimated. This moves probability mass away from observed events and gives it to the enormous number of unseen ones. Because V is large the denominator inflates, so the probabilities of observed pairs are seriously deflated — flattening the difference between frequent and rare events.</li></ul></div></details></div>
+
+<div class="drill"><p class="qh">Q7 <span style="color:var(--ink-soft)">[10 marks]</span></p><p class="qtext">(7.1) In the formula, what do r and Nᵣ represent? (7.2) Why replace an observed count r with an adjusted count r*? (7.3) Where does the probability mass for unseen events come from? (7.4) Give one reason Good-Turing is more data-sensitive than simply adding one.</p><details><summary>Model answer</summary><div class="ansbody"><p class="hitline"><b>Marks</b>r = observed count · Nᵣ = number of types · discount to fund unseen · N₁/N</p><ul class="pts"><li><span class="mk">7.1 · 2</span><b>r</b> = the number of times an n-gram was actually observed. <b>Nᵣ</b> = the number of <b>distinct</b> n-grams whose count equals exactly r (the frequency of frequencies). It counts types, not occurrences.</li><li><span class="mk">7.2 · 3</span>Raw counts <b>overestimate</b> the probability of seen events (the corpus is only a sample) and assign zero to unseen ones. Good-Turing uses the frequency-of-frequencies to estimate how much unseen material there is, then discounts the observed counts to fund it.</li><li><span class="mk">7.3 · 3</span><b>From the observed events.</b> For small counts — especially r = 1 — the adjusted count r* is <b>less than</b> r, so observed counts are discounted and the freed mass is reassigned to n-gram types that never appeared. Classically the mass reserved for unseen events is about <b>N₁ / N</b>.</li><li><span class="mk">7.4 · 2</span>r* is computed from <b>this corpus's actual frequency distribution</b> (N₁, N₂, …), so the adjustment adapts to the data. Add-One always adds exactly 1, whatever the corpus.</li></ul></div></details></div>
+
+<div class="drill"><p class="qh">Q8 <span style="color:var(--ink-soft)">[10 marks]</span></p><p class="qtext">(8.1) Why is it undesirable to rely only on the trigram model when a trigram was not observed? (8.2) Describe the sequence of decisions a back-off model makes. (8.3) What is the role of d(history)? (8.4) Explain the main advantage of back-off for sparse data.</p><details><summary>Model answer</summary><div class="ansbody"><p class="hitline"><b>Marks</b>unseen trigram = 0 · three-level back-off · d rescales the mass · better generalisation</p><ul class="pts"><li><span class="mk">8.1 · 2</span>An unseen trigram has MLE probability 0, and the product makes the whole sentence 0 — even though its bigram and unigram evidence may be strong. Discarding that lower-order evidence is wasteful.</li><li><span class="mk">8.2 · 3</span>Start from the most specific context and step down when there is no evidence: <b>trigram → bigram → unigram</b>. Use the most specific level that has evidence.</li><li><span class="mk">8.3 · 2</span><b>d(history) is a discount factor below 1.</b> The lower-order distribution is being asked to carry cases the higher order could not, so without a discount the probabilities would sum to more than 1. It rescales the lower-order mass and reflects how reliable that shorter history is.</li><li><span class="mk">8.4 · 3</span>Corpora are sparse: the higher the order, the fewer the observations, so a pure trigram model gives 0 to many sentences. Back-off falls back to better-estimated lower-order contexts and assigns sensible non-zero probabilities far more often — <b>better generalisation</b>. The cost is losing long-distance information.</li></ul></div></details></div>
+
+<h3>Module C — Neural MT architecture</h3>
+
+<p>Two architectures, one difference. Everything in this module follows from it.</p>
+
+<div class="fig">
+<div class="scroll"><svg viewBox="0 0 980 144" role="img" aria-label="Encoder states provide source-side information to attention"><rect class="glyph" x="15" y="50" width="140" height="52" rx="6"/><text class="blbl" x="85.0" y="80.0" text-anchor="middle">Source words</text><path class="arch-arrow" d="M 155 76.0 H 169"/><path class="arch-head" d="M 168 71.0 L 177 76.0 L 168 81.0 Z"/><rect class="glyph" x="177" y="50" width="140" height="52" rx="6"/><text class="blbl" x="247.0" y="80.0" text-anchor="middle">Embedding</text><path class="arch-arrow" d="M 317 76.0 H 331"/><path class="arch-head" d="M 330 71.0 L 339 76.0 L 330 81.0 Z"/><rect class="glyph" x="339" y="50" width="140" height="52" rx="6"/><text class="blbl" x="409.0" y="73.5" text-anchor="middle">RNN/LSTM</text><text class="blbl" x="409.0" y="86.5" text-anchor="middle">Encoder</text><path class="arch-arrow" d="M 479 76.0 H 493"/><path class="arch-head" d="M 492 71.0 L 501 76.0 L 492 81.0 Z"/><rect class="glyph-alt" x="501" y="50" width="140" height="52" rx="6"/><text class="blbl" x="571.0" y="80.0" text-anchor="middle">Attention</text><path class="arch-arrow" d="M 641 76.0 H 655"/><path class="arch-head" d="M 654 71.0 L 663 76.0 L 654 81.0 Z"/><rect class="glyph" x="663" y="50" width="140" height="52" rx="6"/><text class="blbl" x="733.0" y="73.5" text-anchor="middle">RNN/LSTM</text><text class="blbl" x="733.0" y="86.5" text-anchor="middle">Decoder</text><path class="arch-arrow" d="M 803 76.0 H 817"/><path class="arch-head" d="M 816 71.0 L 825 76.0 L 816 81.0 Z"/><rect class="glyph" x="825" y="50" width="140" height="52" rx="6"/><text class="blbl" x="895.0" y="67" text-anchor="middle">Output</text><text class="blbl" x="895.0" y="80" text-anchor="middle">probability&nbsp;/</text>
+      <text class="blbl" x="895.0" y="93" text-anchor="middle">words</text><text class="t-sm" x="490.0" y="132" text-anchor="middle" style="font-size:11px">Encoder states provide source-side information to attention</text></svg></div>
+<p class="cap"><b>Figure 1.</b> Attention-based RNN/LSTM NMT — the assignment's Figure 1. Note that the encoder's output feeds <em>attention</em>, not the decoder directly, and that attention sits between encoder and decoder.</p>
+</div>
+
+<div class="fig">
+<div class="scroll"><svg viewBox="0 0 980 144" role="img" aria-label="The whole source sentence is compressed into one fixed vector"><rect class="glyph" x="15" y="50" width="140" height="52" rx="6"/><text class="blbl" x="85.0" y="80.0" text-anchor="middle">Source words</text><path class="arch-arrow" d="M 155 76.0 H 169"/><path class="arch-head" d="M 168 71.0 L 177 76.0 L 168 81.0 Z"/><rect class="glyph" x="177" y="50" width="140" height="52" rx="6"/><text class="blbl" x="247.0" y="80.0" text-anchor="middle">Embedding</text><path class="arch-arrow" d="M 317 76.0 H 331"/><path class="arch-head" d="M 330 71.0 L 339 76.0 L 330 81.0 Z"/><rect class="glyph" x="339" y="50" width="140" height="52" rx="6"/><text class="blbl" x="409.0" y="80.0" text-anchor="middle">RNN Encoder</text><path class="arch-arrow" d="M 479 76.0 H 493"/><path class="arch-head" d="M 492 71.0 L 501 76.0 L 492 81.0 Z"/><rect class="glyph-alt" x="501" y="50" width="140" height="52" rx="6"/><text class="blbl" x="571.0" y="73.5" text-anchor="middle">Fixed context</text><text class="blbl" x="571.0" y="86.5" text-anchor="middle">vector</text><path class="arch-arrow" d="M 641 76.0 H 655"/><path class="arch-head" d="M 654 71.0 L 663 76.0 L 654 81.0 Z"/><rect class="glyph" x="663" y="50" width="140" height="52" rx="6"/><text class="blbl" x="733.0" y="80.0" text-anchor="middle">RNN Decoder</text><path class="arch-arrow" d="M 803 76.0 H 817"/><path class="arch-head" d="M 816 71.0 L 825 76.0 L 816 81.0 Z"/><rect class="glyph" x="825" y="50" width="140" height="52" rx="6"/><text class="blbl" x="895.0" y="80.0" text-anchor="middle">Output words</text><text class="t-sm" x="490.0" y="132" text-anchor="middle" style="font-size:11px">The whole source sentence is compressed into one fixed vector</text></svg></div>
+<p class="cap"><b>Figure 2.</b> The older recurrent encoder-decoder — the assignment's Figure 2. Everything the encoder read must fit into the single <em>fixed context vector</em> before the decoder sees any of it.</p>
+</div>
+
+<div class="zh"><span class="zhh">这两张图差别在哪（一眼看懂）</span>
+<p>把两张图并排看，<b>唯一的区别就是中间那一格</b>：</p>
+<ul>
+  <li><b>老架构</b>：<span class="m">RNN Encoder → Fixed context vector → RNN Decoder</span><br>
+      中间是<b>一个固定向量</b>。编码器必须把整句话压进这一个向量里。</li>
+  <li><b>新架构</b>：<span class="m">RNN/LSTM Encoder → Attention → RNN/LSTM Decoder</span><br>
+      编码器把<b>每个源词的状态都留着</b>，注意力在每一步解码时<b>挑需要的那几个</b>来看。</li>
+</ul>
+<p><b>为什么这很重要：</b>翻译到第 5 个词时，可能只跟源句第 2 个词有关。老架构拿不到「第 2 个词」——它只有一个混合了全部信息的向量；新架构可以直接去查第 2 个词的状态。</p>
+<p>Q9.4 和 Q10.1 就用这段话来答：<b>「固定向量是信息瓶颈，句子越长丢得越多；注意力让解码器能随时回看任意源词」。</b></p>
+</div>
+
+<div class="zh"><span class="zhh">Module C 架构题 —— 抓住「固定向量瓶颈」这条主线</span>
+<p>两题其实是同一件事：<b>老架构把所有信息压进一个固定长度的向量，这就是瓶颈。</b>所有问答题都绕这个讲。</p>
+<table class="zhtable">
+  <thead><tr><th>部件</th><th>一句话作用</th></tr></thead>
+  <tbody>
+    <tr><td>Encoder 编码器</td><td>读入源句，<b>每个源词产出一个状态</b>（不只是最后一个）</td></tr>
+    <tr><td>Attention 注意力</td><td>每一步解码时，<b>按需要加权选取</b>合适的编码器状态</td></tr>
+    <tr><td>Decoder 解码器</td><td>一步一步生成目标词，每步输出整个词表的概率分布</td></tr>
+    <tr><td>Fixed context vector</td><td>老架构的瓶颈：整句压成一个向量，长句信息会丢</td></tr>
+    <tr><td>Self-attention 自注意力</td><td>源句内部词与词直接互相看（Transformer 编码器用）</td></tr>
+    <tr><td>Cross-attention 交叉注意力</td><td>解码器去看编码器的输出（Transformer 解码器用）</td></tr>
+  </tbody>
+</table>
+<p><b>Q10 选方案时注意：</b>D（BLEU）是<b>干扰项</b>——它是评价指标，不生成译文，选它就没分了。A+B 和 C 都行，选一个说清楚即可。</p>
+<p><b>问「改善什么问题」时</b>，答「长距离依赖」「语序差异」「长句信息丢失」「训练慢」都算对，但<b>要把它和前面 Q3 那类长定语句子挂上钩</b>，这样答案才具体。</p>
+</div>
+
+<div class="drill"><p class="qh">Q9 <span style="color:var(--ink-soft)">[15 marks]</span></p><p class="qtext">In the Figure 1 architecture: (9.1) What is the function of the Encoder, and what should it produce? (9.2) What is the function of Attention, and why is it useful? (9.3) What is the function of the Decoder? (9.4) Why is attention preferable to forcing the source into one fixed context vector?</p><details><summary>Model answer</summary><div class="ansbody"><p class="hitline"><b>Marks</b>one state per source word · weighted sum · word-by-word generation · fixed-vector bottleneck</p><ul class="pts"><li><span class="mk">9.1 · 4</span><b>Encoder</b> reads the source sentence word by word (embedding, then RNN/LSTM) and <b>produces a hidden state for every source position</b> — not just one final vector. That sequence of states is the source representation, and it is what attention reads.</li><li><span class="mk">9.2 · 4</span><b>Attention</b> takes a <b>weighted sum over all encoder states</b> at <b>every decoding step</b>, with weights reflecting how relevant each source word is to the target word being generated. Different target words need different source words (generating <i>Haus</i> should look mainly at <i>house</i>), so it gives the decoder <b>dynamic, selective</b> access to the source — in effect a soft alignment.</li><li><span class="mk">9.3 · 3</span><b>Decoder</b> is an RNN/LSTM that <b>generates the translation word by word</b>. At each step it takes the previously generated word, its own hidden state, and the context vector from attention, and outputs a <b>probability distribution over the whole target vocabulary</b>.</li><li><span class="mk">9.4 · 4</span>The older model compresses the entire source into <b>one fixed-length vector</b> that the decoder sees throughout — an <b>information bottleneck</b>: the longer the sentence, the more is lost, and the decoder can never look back at a specific source word. Attention keeps <b>all</b> encoder states, so the decoder can access every source word at every step and weight them as needed. Long sentences, long-distance dependencies and word-order differences are all handled better.</li></ul></div></details></div>
+
+<div class="drill"><p class="qh">Q10 <span style="color:var(--ink-soft)">[15 marks]</span></p><p class="qtext">Figure 2 is an older recurrent encoder-decoder. (10.1) Identify one weakness, especially for long or structurally complex sentences. (10.2) Choose ONE upgrade — (i) Modules A+B, or (ii) Module C — and describe where the change occurs. (10.3) Explain how your chosen components work. (10.4) Explain one translation problem your upgrade is expected to improve.</p><details><summary>Model answer</summary><div class="ansbody"><p class="hitline"><b>Marks</b>fixed-vector bottleneck · choose A+B or C · say where the change goes · tie it to a translation problem</p><ul class="pts"><li><span class="mk">10.1 · 3</span><b>The fixed context vector bottleneck</b>: the whole source must be squeezed into one fixed-length vector before the decoder starts, so long or structurally complex sentences (such as the double pre-modifier in Q3) lose information, especially towards the end. Basic RNN cells also suffer <b>vanishing gradients</b> and cannot learn long-distance dependencies.</li><li><span class="mk">10.2 · 3</span>Either Strategy (i) A+B or Strategy (ii) C. Where the change goes: (i) replace the RNN cells with LSTM cells and replace the <i>Fixed context vector</i> box with an attention module; (ii) replace the whole recurrent encoder-decoder.</li><li><span class="mk">10.3 · 3</span><b>Strategy (i):</b> ① replace the RNN cells in both encoder and decoder with <b>LSTM cells</b> (an extra cell state controlled by three gates, which mitigates vanishing gradients); ② <b>replace the <i>Fixed context vector</i> box with an attention module</b> — the encoder hands over every step's state, and the decoder first reads a weighted summary of the source before generating each word. The result is Figure 1.</li><li><span class="mk">10.3 · 3</span><b>Strategy (ii):</b> replace the architecture with a <b>Transformer</b>. The encoder uses <b>self-attention</b>, so every source word interacts directly with every other one; any two positions are one step apart, so there is no long-distance decay and no recurrent gradient problem, and the computation parallelises. The decoder uses <b>cross-attention</b>, letting each target position attend to the encoder outputs — the same role as attention in Figure 1.</li><li><span class="mk">10.4 · 3</span><b>Long-distance dependencies and word-order differences.</b> The older model tends to drop or misattach modifiers in Q3-type sentences; with attention the decoder can look back at 新規定 when generating <i>rules</i> and at 學校昨天公佈的 when generating <i>announced</i>, so modifier relations come out more accurately. Strategy (ii) also improves training speed.</li></ul></div></details></div>
+
+<div class="callout warn">
+  <h4>One module is a distractor</h4>
+  <p><strong>Module D — BLEU evaluator</strong> is listed among the upgrade options but it is an <em>evaluation metric</em>, not a component that generates translations. Choosing it scores nothing. The hint says so explicitly: "BLEU is an evaluation metric, not a translation-generation block."</p>
+</div>
+
+<div class="part"><span class="n">MOCK</span><h2 id="mock">Mock paper</h2></div>
+
+<p class="lede">Fresh numbers, same question styles. Sit it with a calculator and 25 minutes, then open the answers.</p>
+
+<div class="callout">
+  <h4>Corpus for Q1 and Q2</h4>
+  <p class="f" style="line-height:1.9">
+    1. the system works well<br>
+    2. the system fails badly<br>
+    3. the system works well<br>
+    4. the model works well<br>
+    5. the model trains slowly<br>
+    6. a system works
+  </p>
+</div>
+
+<div class="drill">
+  <p class="qh">Q1 · Counts and Add-One <span style="color:var(--ink-soft)">[8 marks]</span></p>
+  <p class="qtext">From the corpus above, ignoring sentence boundaries, find V, count(system), count(system, works) and count(system, model). Then compute p<sub>add1</sub>(works | system) and p<sub>add1</sub>(model | system).</p>
+  <details><summary>Answer</summary>
+  <div class="ansbody">
+    <p class="f">Vocabulary: the, system, works, well, fails, badly, model, trains, slowly, a → V = 10</p>
+    <div class="rows">
+      <div class="row"><span class="k">count(system)</span><span class="v">4</span></div>
+      <div class="row"><span class="k">count(system, works)</span><span class="v">3</span></div>
+      <div class="row"><span class="k">count(system, model)</span><span class="v">0</span></div>
+    </div>
+    <div class="rows" style="margin-top:10px">
+      <div class="row"><span class="k">denominator</span><span class="v">4 + 10 = 14</span></div>
+      <div class="row hi"><span class="k">p_add1(works | system)</span><span class="v">(3+1)/14 = 4/14 ≈ 0.286</span></div>
+      <div class="row hi"><span class="k">p_add1(model | system)</span><span class="v">(0+1)/14 = 1/14 ≈ 0.071</span></div>
+    </div>
+    <p style="margin-top:10px">The unseen bigram gets a small non-zero probability instead of 0.</p>
+  </div>
+  </details>
+</div>
+
+<div class="drill">
+  <p class="qh">Q2 · Good-Turing and back-off <span style="color:var(--ink-soft)">[10 marks]</span></p>
+  <p class="qtext">List the distinct bigrams of the corpus and count each. Give N₁ and N₂. Then compute the Good-Turing adjusted count r* for a bigram occurring once. Finally, for the trigram <em>the works well</em>, decide the back-off branch and evaluate p₃<sub>BO</sub>(well | the, works) using d₃(the, works) = 0.5.</p>
+  <details><summary>Answer</summary>
+  <div class="ansbody">
+    <div class="scroll">
+    <table class="dt compact">
+      <thead><tr><th>Bigram</th><th class="m">count</th><th></th><th>Bigram</th><th class="m">count</th></tr></thead>
+      <tbody>
+        <tr><td class="m">system works</td><td class="m sh3">3</td><td></td><td class="m">model works</td><td class="m sh1">1</td></tr>
+        <tr><td class="m">works well</td><td class="m sh3">3</td><td></td><td class="m">model trains</td><td class="m sh1">1</td></tr>
+        <tr><td class="m">the system</td><td class="m sh3">3</td><td></td><td class="m">trains slowly</td><td class="m sh1">1</td></tr>
+        <tr><td class="m">the model</td><td class="m sh2">2</td><td></td><td class="m">a system</td><td class="m sh1">1</td></tr>
+        <tr><td class="m">system fails</td><td class="m sh1">1</td><td></td><td class="m">fails badly</td><td class="m sh1">1</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="rows" style="margin-top:10px">
+      <div class="row"><span class="k">distinct bigram types</span><span class="v">10</span></div>
+      <div class="row hi"><span class="k">N₁</span><span class="v">6</span></div>
+      <div class="row hi"><span class="k">N₂</span><span class="v">1</span></div>
+      <div class="row"><span class="k">r* for r = 1</span><span class="v">(1+1) × N₂/N₁ = 2 × 1/6 = 0.333</span></div>
+    </div>
+    <p style="margin-top:12px"><strong>Back-off.</strong> The word before <em>works</em> is always <em>system</em>, never <em>the</em>, so the trigram <em>the works well</em> never occurs and the count is 0.</p>
+    <div class="rows">
+      <div class="row"><span class="k">count₃(the, works, well)</span><span class="v">0 → lower-order branch</span></div>
+      <div class="row"><span class="k">count(works, well)</span><span class="v">3</span></div>
+      <div class="row"><span class="k">count(works)</span><span class="v">4</span></div>
+      <div class="row"><span class="k">p(well | works)</span><span class="v">3/4 = 0.75</span></div>
+    </div>
+    <div class="res">p₃<sub>BO</sub>(well | the, works) = 0.5 × 0.75 = <b>0.375</b></div>
+    <p style="margin-top:10px">The branch test comes first and is worth a mark on its own: because the trigram count is 0, you must drop a level rather than use α₃.</p>
+  </div>
+  </details>
+</div>
+
+<div class="drill">
+  <p class="qh">Q3 · Entropy <span style="color:var(--ink-soft)">[6 marks]</span></p>
+  <p class="qtext">For a source term, an MT system produced four renderings across 20 sentences: <em>report</em> 10 times, <em>document</em> 5, <em>paper</em> 3, <em>record</em> 2. Convert to probabilities, state the entropy formula, and calculate H(X).</p>
+  <details><summary>Answer</summary>
+  <div class="ansbody">
+    <div class="rows">
+      <div class="row"><span class="k">p(report)</span><span class="v">10/20 = 0.50</span></div>
+      <div class="row"><span class="k">p(document)</span><span class="v">5/20 = 0.25</span></div>
+      <div class="row"><span class="k">p(paper)</span><span class="v">3/20 = 0.15</span></div>
+      <div class="row"><span class="k">p(record)</span><span class="v">2/20 = 0.10</span></div>
+    </div>
+    <p class="f" style="margin:12px 0 10px">H(X) = −Σ p(x) log₂ p(x)</p>
+    <div class="rows">
+      <div class="row"><span class="k">−0.50 log₂ 0.50</span><span class="v">0.5000</span></div>
+      <div class="row"><span class="k">−0.25 log₂ 0.25</span><span class="v">0.5000</span></div>
+      <div class="row"><span class="k">−0.15 log₂ 0.15</span><span class="v">0.4105</span></div>
+      <div class="row"><span class="k">−0.10 log₂ 0.10</span><span class="v">0.3322</span></div>
+    </div>
+    <div class="res">H(X) = 1.743 bits</div>
+    <p style="margin-top:10px">Check against the bound: with four outcomes the maximum is log₂4 = 2 bits, and 1.743 is below it, so the answer is plausible.</p>
+  </div>
+  </details>
+</div>
+
+<div class="drill">
+  <p class="qh">Q4 · Evaluation <span style="color:var(--ink-soft)">[8 marks]</span></p>
+  <p class="qtext">(a) Reference: <em>the model trains very quickly</em>. Output: <em>the model train very quick</em>. Find S, D, I and the WER.<br>
+  (b) Reference: <em>the system produces good output</em>. Output: <em>the system produces good output fast</em>. Compute the clipped unigram precision.</p>
+  <details><summary>Answer</summary>
+  <div class="ansbody">
+    <p><strong>(a)</strong> Align position by position. <em>the, model</em> match; <em>trains</em> vs <em>train</em> is one substitution; <em>very</em> matches; <em>quickly</em> vs <em>quick</em> is a second substitution. Nothing deleted, nothing inserted.</p>
+    <div class="rows">
+      <div class="row"><span class="k">S · D · I</span><span class="v">2 · 0 · 0</span></div>
+      <div class="row"><span class="k">N</span><span class="v">5</span></div>
+      <div class="row hi"><span class="k">WER</span><span class="v">2/5 = 0.40 → 40%</span></div>
+    </div>
+    <p style="margin-top:12px"><strong>(b)</strong> Output has 6 unigrams: the, system, produces, good, output, fast. Five appear in the reference; <em>fast</em> does not.</p>
+    <div class="rows">
+      <div class="row"><span class="k">clipped matches</span><span class="v">5</span></div>
+      <div class="row hi"><span class="k">unigram precision</span><span class="v">5/6 ≈ 0.833</span></div>
+    </div>
+    <p style="margin-top:10px">Note the asymmetry: (a) is scored against the reference length, (b) against the output length. That is deliberate — WER measures errors, precision measures correctness of what was produced.</p>
+  </div>
+  </details>
+</div>
+
+<div class="drill">
+  <p class="qh">Q5 · IBM Model 1 and AER <span style="color:var(--ink-soft)">[12 marks]</span></p>
+  <p class="qtext">Source <span class="f">le chat</span>, target <span class="f">the cat</span>. Ignore NULL. The current model gives p(e, a | f) = 0.480 for (the→le, cat→chat), 0.020 for (the→le, cat→le), 0.090 for (the→chat, cat→chat), and 0.010 for (the→chat, cat→le).<br>
+  (a) Compute p(e | f) and all four posterior alignment probabilities. Which alignment is most probable?<br>
+  (b) Give the expected counts c(the | le), c(cat | le), c(the | chat) and c(cat | chat).<br>
+  (c) Update the probabilities for the source word <em>chat</em>.<br>
+  (d) A predicted alignment set A = {(1,1), (2,2), (3,1), (4,3)} is scored against S = {(1,1), (2,2), (3,1)} and P = {(1,1), (2,2), (3,1), (4,2)}. Compute the AER.</p>
+  <details><summary>Answer</summary>
+  <div class="ansbody">
+    <p><strong>(a)</strong> p(e | f) = 0.480 + 0.020 + 0.090 + 0.010 = <strong>0.600</strong></p>
+    <div class="rows">
+      <div class="row"><span class="k">p(a₁ | e, f) — the→le, cat→chat</span><span class="v">0.480/0.600 = 0.800</span></div>
+      <div class="row"><span class="k">p(a₂ | e, f) — the→le, cat→le</span><span class="v">0.020/0.600 = 0.033</span></div>
+      <div class="row"><span class="k">p(a₃ | e, f) — the→chat, cat→chat</span><span class="v">0.090/0.600 = 0.150</span></div>
+      <div class="row"><span class="k">p(a₄ | e, f) — the→chat, cat→le</span><span class="v">0.010/0.600 = 0.017</span></div>
+    </div>
+    <p style="margin-top:8px">Sum = 1.000 ✓ Most probable: <strong>a₁</strong>, the diagonal.</p>
+
+    <p style="margin-top:14px"><strong>(b)</strong> Add the posteriors of the alignments containing each pair.</p>
+    <div class="rows">
+      <div class="row"><span class="k">c(the | le) = a₁ + a₂</span><span class="v">0.800 + 0.033 = 0.833</span></div>
+      <div class="row"><span class="k">c(cat | le) = a₂ + a₄</span><span class="v">0.033 + 0.017 = 0.050</span></div>
+      <div class="row"><span class="k">c(the | chat) = a₃ + a₄</span><span class="v">0.150 + 0.017 = 0.167</span></div>
+      <div class="row"><span class="k">c(cat | chat) = a₁ + a₃</span><span class="v">0.800 + 0.150 = 0.950</span></div>
+    </div>
+
+    <p style="margin-top:14px"><strong>(c)</strong> Denominator for <em>chat</em> = 0.167 + 0.950 = 1.117</p>
+    <div class="rows">
+      <div class="row hi"><span class="k">t_new(the | chat)</span><span class="v">0.167 / 1.117 ≈ 0.149</span></div>
+      <div class="row hi"><span class="k">t_new(cat | chat)</span><span class="v">0.950 / 1.117 ≈ 0.851</span></div>
+    </div>
+    <p style="margin-top:8px">These sum to 1 ✓</p>
+
+    <p style="margin-top:14px"><strong>(d)</strong> |A| = 4, |S| = 3, |P| = 4.</p>
+    <div class="rows">
+      <div class="row"><span class="k">A ∩ S</span><span class="v">{(1,1), (2,2), (3,1)} → 3</span></div>
+      <div class="row"><span class="k">A ∩ P</span><span class="v">{(1,1), (2,2), (3,1)} → 3</span></div>
+    </div>
+    <p style="margin-top:8px">(4,3) ∈ A but ∉ P; (4,2) ∈ P but ∉ A, so neither contributes.</p>
+    <div class="res">AER = 1 − (3+3)/(4+3) = 1 − 6/7 ≈ <b>0.143</b></div>
+  </div>
+  </details>
+</div>
+
+<div class="drill">
+  <p class="qh">Q6 · Neural LM <span style="color:var(--ink-soft)">[6 marks]</span></p>
+  <p class="qtext">(a) Why does a language model need a smoothing method at all? (b) In a basic RNN language model, what is passed from one time step to the next, and why does that make very long sentences hard to learn? (c) Name the architecture that addresses this and list its three gates.</p>
+  <details><summary>Answer</summary>
+  <div class="ansbody">
+    <p><strong>(a)</strong> Maximum likelihood assigns probability 0 to any n-gram that was never observed in the training corpus. Because sentence probability is a product over its n-grams, a single unseen n-gram drives the whole sentence to 0. Smoothing reserves some probability mass for unseen events.</p>
+    <p><strong>(b)</strong> A hidden state vector summarising the history so far. Over many time steps the gradient is repeatedly multiplied by the recurrent weights, so it either vanishes — and the dependency is never learned — or explodes.</p>
+    <p><strong>(c)</strong> LSTM. It keeps an extra <strong>cell state</strong>, controlled by the <strong>input gate</strong>, the <strong>forget gate</strong> and the <strong>output gate</strong>.</p>
+  </div>
+  </details>
+</div>
+
+<!-- ================= RECAP ================= -->
+<div class="part"><span class="n">RECAP</span><h2 id="recap">Last-hour recap</h2></div>
+
+<div class="recap">
+  <div class="recapgrid">
+    <div>
+      <h4>Smoothing</h4>
+      <div class="kv">
+        <div><span></span>p = c(w₁,w₂)/c(w₁)</div>
+        <div><span></span>p₁ = (c+1)/(n+V)</div>
+        <div><span></span>r* = (r+1)N<sub>r+1</sub>/N<sub>r</sub></div>
+        <div><span></span>c₃ &gt; 0 ? α₃ : d₃ · p₂</div>
+      </div>
+      <p style="margin-top:9px">Mini-corpus: V = 9, N₁ = 6, N₂ = 2.</p>
+    </div>
+    <div>
+      <h4>Entropy</h4>
+      <p class="f" style="margin:0 0 8px">H(X) = −Σ p(x) log₂ p(x)</p>
+      <p>Answer in <strong>bits</strong>. When p is 0.5 or 0.25, each term is exactly 0.5.</p>
+    </div>
+    <div>
+      <h4>Evaluation</h4>
+      <div class="kv">
+        <div><span></span>WER = (S+D+I)/N</div>
+        <div><span></span>N = reference length</div>
+        <div><span></span>prec = matches/output len</div>
+        <div><span></span>AER = 1 − (|A∩S|+|A∩P|)/(|A|+|S|)</div>
+      </div>
+    </div>
+    <div>
+      <h4>IBM Model 1</h4>
+      <div class="kv">
+        <div><span>E</span>γ(f|e) = t(e|f)/Σ<sub>k</sub>t(e|f<sub>k</sub>)</div>
+        <div><span></span>normalise over source</div>
+        <div><span>M</span>t' = c(e,f)/Σ<sub>e′</sub>c(e′,f)</div>
+        <div><span></span>normalise over target</div>
+      </div>
+      <p style="margin-top:9px">Posteriors sum to 1 across each row; updated t sums to 1 down each column.</p>
+    </div>
+    <div>
+      <h4>Worked numbers to recognise</h4>
+      <div class="kv">
+        <div>Add-One &nbsp;4/13 ≈ 0.308</div>
+        <div>Good-Turing &nbsp;2×2/6 ≈ 0.667</div>
+        <div>Back-off &nbsp;0.6 × 1/6 = 0.10</div>
+        <div>Entropy &nbsp;1.50 bits</div>
+        <div>WER &nbsp;2/6 ≈ 33.3%</div>
+        <div>AER &nbsp;1 − 6/7 ≈ 0.143</div>
+      </div>
+    </div>
+    <div>
+      <h4>Traps</h4>
+      <ul>
+        <li>WER divides by the <em>reference</em> length.</li>
+        <li>N₁ counts <em>bigram types</em>, not word occurrences.</li>
+        <li>Precision denominator is the <em>output</em> length.</li>
+        <li>E-step and M-step normalise along <em>different</em> axes.</li>
+        <li>In back-off, test the branch <em>before</em> computing anything.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>COMP4121 Machine Translation · Midterm review · Scope: the four provided quiz sets (Week 3 Language Models Quizzes 1–2, Practice Quiz 2, Quiz 3 EM, Quiz 4 NNLM) plus the assignment paper, which your teacher has flagged as a further possible question type. Every numerical value was recomputed independently and matches the supplied answer keys.</p>
+</footer>
+
+</main>
+</div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ---------- theme toggle ---------- */
+  var themeBtn=document.getElementById('themeBtn');
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    themeBtn.textContent=(t==='dark')?'Light mode':'Dark mode';
+    themeBtn.setAttribute('aria-pressed',t==='dark'?'true':'false');
+    try{ localStorage.setItem('mt-theme',t); }catch(e){}
+  }
+  themeBtn.addEventListener('click',function(){
+    applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+  });
+  try{ if(localStorage.getItem('mt-theme')==='dark') applyTheme('dark'); }catch(e){}
+
+  /* ---------- entropy chart hover ---------- */
+  var tip=document.getElementById('tip');
+  if(tip){
+    var tipText=tip.querySelector('text');
+    var bg=tip.querySelector('rect');
+    var svg=tip.closest('svg');
+    var bars=svg.querySelectorAll('.bar');
+
+    function move(e, bar){
+      var pt=svg.createSVGPoint();
+      pt.x=e.clientX; pt.y=e.clientY;
+      var p=pt.matrixTransform(svg.getScreenCTM().inverse());
+      var name=bar.getAttribute('data-name');
+      var prob=bar.getAttribute('data-p');
+      var contrib=bar.getAttribute('data-c');
+      tipText.textContent=name+'  p = '+prob+'   −p·log₂p = '+contrib;
+      var w=tipText.getComputedTextLength()+18;
+      bg.setAttribute('width',w);
+      var x=p.x+10, y=p.y-46;
+      if(x+w>506) x=506-w;
+      if(y<4) y=4;
+      tip.setAttribute('transform','translate('+x+','+y+')');
+      tipText.setAttribute('x', 9);
+      tipText.setAttribute('y', 25);
+      tip.setAttribute('visibility','visible');
+    }
+
+    for(var i=0;i<bars.length;i++){
+      bars[i].addEventListener('mousemove', function(ev){ move(ev, this); });
+      bars[i].addEventListener('mouseleave', function(){ tip.setAttribute('visibility','hidden'); });
+    }
+  }
+
+  /* ---------- rail active state ---------- */
+  var links=document.querySelectorAll('.rail a'), targets=[];
+  for(var j=0;j<links.length;j++){
+    var el=document.querySelector(links[j].getAttribute('href'));
+    if(el) targets.push({a:links[j],el:el});
+  }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      for(var k=0;k<entries.length;k++){
+        if(!entries[k].isIntersecting) continue;
+        for(var m=0;m<targets.length;m++){
+          targets[m].a.classList.toggle('on', targets[m].el===entries[k].target);
+        }
+      }
+    },{rootMargin:'-15% 0px -70% 0px'});
+    for(var n=0;n<targets.length;n++) io.observe(targets[n].el);
+  }
+})();
+</script>
+</html>
