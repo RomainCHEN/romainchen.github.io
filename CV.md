@@ -11,8 +11,8 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 ### Dual bachelor’s degree: Translation Studies and Computer Science
 *Guangdong University of Foreign Studies · Macao Polytechnic University · Guangzhou and Macao · Sep 2023 to Jun 2027 (expected)*
 
-- Translation at GDUFS: contrastive EN–ZH translation, consecutive and simultaneous interpreting, computer-aided translation.
-- Computer science at MPU: data structures and algorithms, database design, discrete mathematics, artificial intelligence, data science and business analytics. In progress: natural language processing, machine translation.
+- Translation (GDUFS): EN–ZH contrastive translation, foundations of translation, English translation of Chinese culture, translation and international communication, interpreting, CAT. In progress: translation data mining.
+- Computer science (MPU): data structures and algorithms, Python and Java, computer organisation, databases, discrete mathematics, networks, software engineering, web development, AI, data science. In progress: NLP, machine translation, computer security.
 
 ## Research
 
@@ -27,13 +27,13 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 *Open-source learning tool (MIT) · sole developer · Jul 2026*
 
 - Released an open-source agent (MIT) that collects the learner’s own material through a structured multi-step form, then generates answers constrained to the four IELTS band criteria. Covers 100 topics in the 2026 Sep–Dec bank.
-- Implemented persistent per-topic state in JSON so study plans carry across sessions and exam seasons; built a validated bank parser, a one-click summary-site generator, and an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.
+- Persisted per-topic state in JSON so study plans carry across sessions and exam seasons; built a validated bank parser, a one-click summary-site generator and an MCP vision proxy that lets text-only models handle Writing Task 1.
 
 ### Transcreation in the age of generative AI: human translators versus LLMs in film title translation
 *Co-authored paper in preparation · three-person faculty-advised team · Oct 2025 to present*
 
 - Developed a three-tier cognitive-linguistic framework separating translation strategy, cognitive operation and cultural schema, ranking four schema operations by cognitive load.
-- Synthesised the literature on functionalist title translation, regional norm divergence across Greater China and cultural bias in frontier models. Argued that reference-overlap metrics such as BLEU are structurally unsuited to transcreation, since they penalise precisely the divergence that constitutes professional judgement.
+- Reviewed work on functionalist title translation, regional norms across Greater China and cultural bias in frontier models; argued that overlap metrics such as BLEU penalise the divergence that professional judgement produces.
 
 ## Teaching
 

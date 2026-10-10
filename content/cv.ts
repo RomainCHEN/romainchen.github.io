@@ -24,7 +24,7 @@ export interface CvSection {
  * reason, as the job résumé's does (see RESUME_UPDATED below), and the reader
  * sees only the date.
  */
-export const CV_UPDATED = '2026-10-11T02:45';
+export const CV_UPDATED = '2026-10-11T03:30';
 
 /** The stamp's date part, which is what gets shown. */
 export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
@@ -61,10 +61,10 @@ export const EDUCATION: CvSection = {
   heading: { en: 'Education', zh: '教育背景' },
   entries: [
     {
-      when: { en: 'Sep 2023 to Jun 2027 (expected)', zh: '2023.09 至 2027.06（预计）' },
+      when: { en: 'Sep 2023 to Jun 2027 (expected)', zh: '2023.09 – 2027.06（预计）' },
       title: {
         en: 'Dual bachelor’s degree: Translation Studies and Computer Science',
-        zh: '翻译学与计算机科学双学士学位',
+        zh: '翻译学 + 计算机科学 双学士学位（本科）',
       },
       org: {
         en: 'Guangdong University of Foreign Studies · Macao Polytechnic University',
@@ -76,12 +76,12 @@ export const EDUCATION: CvSection = {
       },
       points: {
         en: [
-          'Translation at GDUFS: contrastive EN–ZH translation, consecutive and simultaneous interpreting, computer-aided translation.',
-          'Computer science at MPU: data structures and algorithms, database design, discrete mathematics, artificial intelligence, data science and business analytics. In progress: natural language processing, machine translation.',
+          'Translation (GDUFS): EN–ZH contrastive translation, foundations of translation, English translation of Chinese culture, translation and international communication, interpreting, CAT. In progress: translation data mining.',
+          'Computer science (MPU): data structures and algorithms, Python and Java, computer organisation, databases, discrete mathematics, networks, software engineering, web development, AI, data science. In progress: NLP, machine translation, computer security.',
         ],
         zh: [
-          '广外翻译方向：英汉对比翻译、交替传译、同声传译、计算机辅助翻译、语言学导论。',
-          '澳门理工计算机方向：数据结构与算法、数据库设计、离散数学、人工智能、数据科学与商业分析。在读课程为自然语言处理与机器翻译。',
+          '广外翻译方向：英汉对比翻译、基础笔译、中国文化英译、翻译与国际传播、交替传译、同声传译、计算机辅助翻译、语言学导论；在读课程为翻译数据挖掘与应用。',
+          '澳门理工计算机方向：数据结构与算法、Python / Java 程序设计、计算机组成原理、数据库设计、离散数学、电脑网络、软件工程、网页设计与开发、人工智能、数据科学与商业分析；在读课程为自然语言处理、机器翻译、电脑安全（Computer Security）。',
         ],
       },
     },
@@ -96,7 +96,7 @@ export const RESEARCH: CvSection = {
       when: { en: 'May 2026 to present', zh: '2026.05 至今' },
       title: {
         en: 'PaperCraft: a teacher-in-the-loop LLM authoring tool for Cambridge KET/PET',
-        zh: 'PaperCraft：面向剑桥 KET / PET 的教师在环出题工具',
+        zh: 'PaperCraft：剑桥 KET / PET 教师在环智能出题系统',
       },
       org: {
         en: 'Final year project · sole developer and research design',
@@ -109,9 +109,9 @@ export const RESEARCH: CvSection = {
           'Evaluated the output two ways: structural gates on every draft, an independent audit on every rule.',
         ],
         zh: [
-          '模型运行在为出题场景定制的 harness 中，调用顺序固定、输出经机器校验、失败按类型修复。',
-          '设计离线自进化回路，从教师批改记录归纳候选规则，教师采纳的规则进入后续出题，按教师隔离，覆盖 15 种题型。',
-          '评测分两层，初稿逐份经结构校验，候选规则逐条经独立审计。',
+          '模型运行于专为出题场景定制的 harness，调用顺序固定，输出经机器校验，失败按类型修复。',
+          '离线读取教师批改记录并归纳候选规则，经教师采纳后进入后续出题；规则按教师隔离，覆盖 15 种剑桥题型。',
+          '每份初稿均经结构校验，每条候选规则均经独立审计。',
         ],
       },
     },
@@ -119,20 +119,20 @@ export const RESEARCH: CvSection = {
       when: { en: 'Jul 2026', zh: '2026.07' },
       title: {
         en: 'IELTS Coach: an open-source agent that interviews the learner before it writes',
-        zh: 'IELTS Coach：先访谈学习者、再生成作答的开源学习工具',
+        zh: 'IELTS Coach：雅思口语与写作备考 Agent Skill',
       },
       org: {
         en: 'Open-source learning tool (MIT) · sole developer',
-        zh: '开源学习工具（MIT 许可）· 独立开发',
+        zh: '开源项目（MIT 许可）· 独立开发',
       },
       points: {
         en: [
           'Released an open-source agent (MIT) that collects the learner’s own material through a structured multi-step form, then generates answers constrained to the four IELTS band criteria. Covers 100 topics in the 2026 Sep–Dec bank.',
-          'Implemented persistent per-topic state in JSON so study plans carry across sessions and exam seasons; built a validated bank parser, a one-click summary-site generator, and an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.',
+          'Persisted per-topic state in JSON so study plans carry across sessions and exam seasons; built a validated bank parser, a one-click summary-site generator and an MCP vision proxy that lets text-only models handle Writing Task 1.',
         ],
         zh: [
-          '设计并以 MIT 许可开源一个 agent，先用结构化多步表单采集学习者自身的素材，再按 IELTS 四项评分标准生成作答。题库覆盖当前 2026 年 9–12 月的 100 个话题。',
-          '用 JSON 按话题持久化状态，学习计划可跨会话、跨考试季度延续；另实现带校验的题库解析脚本、一键生成的备考总结站点，以及把图表图像代理至视觉接口的 MCP 服务器，纯文本模型也能处理写作 Task 1。',
+          '以结构化多步表单采集学习者自身素材，再按雅思四项评分标准生成范文；题库覆盖 2026 年 9–12 月季度的 100 个话题。',
+          '以 JSON 按话题保存学习状态，学习计划可跨会话、跨考试季度延续；实现带校验的题库解析、一键生成备考总结站点，以及供纯文本模型处理写作 Task 1 图表的 MCP 视觉服务。',
         ],
       },
     },
@@ -140,20 +140,20 @@ export const RESEARCH: CvSection = {
       when: { en: 'Oct 2025 to present', zh: '2025.10 至今' },
       title: {
         en: 'Transcreation in the age of generative AI: human translators versus LLMs in film title translation',
-        zh: '生成式 AI 时代的译创：电影片名翻译中人工译者与大语言模型的对比',
+        zh: '生成式 AI 时代的译创研究：电影片名翻译中的人工译者与大语言模型对比',
       },
       org: {
         en: 'Co-authored paper in preparation · three-person faculty-advised team',
-        zh: '合著论文（写作中）· 三人小组，导师指导',
+        zh: '合著论文（撰写中）· 三人课题组，导师指导',
       },
       points: {
         en: [
           'Developed a three-tier cognitive-linguistic framework separating translation strategy, cognitive operation and cultural schema, ranking four schema operations by cognitive load.',
-          'Synthesised the literature on functionalist title translation, regional norm divergence across Greater China and cultural bias in frontier models. Argued that reference-overlap metrics such as BLEU are structurally unsuited to transcreation, since they penalise precisely the divergence that constitutes professional judgement.',
+          'Reviewed work on functionalist title translation, regional norms across Greater China and cultural bias in frontier models; argued that overlap metrics such as BLEU penalise the divergence that professional judgement produces.',
         ],
         zh: [
-          '构建三层认知语言学分析框架，区分翻译策略、认知操作与文化图式，并按认知负荷为四种图式操作排序。',
-          '完成文献综述，涵盖功能主义片名翻译、大中华区内部的规范差异以及前沿模型的文化偏见；论证 BLEU 等基于参考重叠度的指标不适用于译创评估，因为它们惩罚的正是专业判断带来的偏离。',
+          '构建三层认知语言学框架，区分翻译策略、认知操作与文化图式，并依认知负荷为四类图式操作分级。',
+          '梳理功能主义片名翻译、两岸三地的译名规范差异及前沿模型的文化偏见等研究；论证 BLEU 等参考重叠类指标不适用于译创评估，因其惩罚的恰是体现专业判断的偏离。',
         ],
       },
     },
@@ -165,8 +165,8 @@ export const TEACHING: CvSection = {
   heading: { en: 'Teaching', zh: '教学经历' },
   entries: [
     {
-      when: { en: 'May 2024 to Sep 2025', zh: '2024.05 至 2025.09' },
-      title: { en: 'Primary English Teacher, Cambridge KET', zh: '小学英语教师（剑桥 KET）' },
+      when: { en: 'May 2024 to Sep 2025', zh: '2024.05 – 2025.09' },
+      title: { en: 'Primary English Teacher, Cambridge KET', zh: '小学英语教师（兼职）' },
       org: { en: 'Guangzhou Bella Education Technology', zh: '广州贝拉教育科技有限公司' },
       place: { en: 'Guangzhou', zh: '广州' },
       points: {
@@ -175,16 +175,16 @@ export const TEACHING: CvSection = {
           'Tracked mastery of KET item types through classwork and periodic assessments; adjusted instructional pacing accordingly.',
         ],
         zh: [
-          '讲授两个剑桥 KET 班级及新概念英语课程；独立编写全部教案、课件与每周练习。',
-          '通过课堂练习与阶段性测评追踪学生对 KET 各题型的掌握情况，据此调整教学进度。',
+          '主讲两个剑桥 KET 班及《新概念英语》课程，独立完成教案、课件与每周练习的编写。',
+          '通过课堂练习与阶段测评跟踪学生对 KET 各题型的掌握情况，并据此调整教学进度。',
         ],
       },
     },
     {
-      when: { en: 'Jan 2024 to Feb 2024', zh: '2024.01 至 2024.02' },
+      when: { en: 'Jan 2024 to Feb 2024', zh: '2024.01 – 2024.02' },
       title: {
         en: 'English Teaching Assistant, Middle School Division',
-        zh: '英语助教（中学部）',
+        zh: '中学部英语助教',
       },
       org: {
         en: 'New Oriental Education & Technology Group',
@@ -196,7 +196,7 @@ export const TEACHING: CvSection = {
           'Supported middle-school English instruction; maintained a quantitative record of interaction frequency and topic-level mastery; delivered differentiated one-to-one tutoring with error-attribution analysis for parents.',
         ],
         zh: [
-          '协助主讲教师开展中学英语教学；建立量化记录，追踪学生互动频次与各知识点掌握程度；按基础分层开展一对一辅导，定期向家长反馈错题归因。',
+          '协助主讲教师开展中学英语教学；建立学生互动频次与知识点掌握情况的量化记录，据此分层开展一对一辅导，并定期向家长反馈错题归因。',
         ],
       },
     },
@@ -205,10 +205,10 @@ export const TEACHING: CvSection = {
 
 export const EXPERIENCE: CvSection = {
   id: 'experience',
-  heading: { en: 'Technical experience', zh: '技术实习经历' },
+  heading: { en: 'Technical experience', zh: '实习经历' },
   entries: [
     {
-      when: { en: 'Jun 2026 to Aug 2026', zh: '2026.06 至 2026.08' },
+      when: { en: 'Jun 2026 to Aug 2026', zh: '2026.06 – 2026.08' },
       title: { en: 'IT Department Intern', zh: 'IT 部实习生' },
       org: {
         en: 'Guangdong Dowstone Technology Co., Ltd. (SZSE: 300409)',
@@ -221,8 +221,8 @@ export const EXPERIENCE: CvSection = {
           'Helped build a retrieval-augmented generation knowledge base over internal business documents, covering preprocessing and ingestion; supported ERP and WMS maintenance and testing.',
         ],
         zh: [
-          '用 Ollama 在企业内网部署并测试量化开源大模型，跨配置基准测试推理吞吐量，为选型提供依据。',
-          '参与搭建基于本地模型的企业知识库（RAG），负责业务文档的预处理与接入；协助 ERP 与 WMS 的维护及测试。',
+          '使用 Ollama 在企业内网部署并测试量化开源大模型，对比不同配置下的推理吞吐，为模型选型提供依据。',
+          '参与搭建基于本地模型的企业知识库，负责业务文档的预处理与接入；协助 ERP、WMS 系统的日常维护与测试。',
         ],
       },
     },
@@ -237,7 +237,7 @@ export const AWARDS: CvSection = {
       when: { en: '2025', zh: '2025' },
       title: {
         en: 'First Place, CIUTI Short Video Contest, on the power of human translation and interpreting in the age of AI',
-        zh: 'CIUTI（国际大学翻译学院联合会）短视频大赛一等奖，主题为人工智能时代人类翻译的力量',
+        zh: 'CIUTI（国际大学翻译学院联合会）短视频大赛一等奖（主题：人工智能时代人类翻译的力量）',
       },
       points: { en: [], zh: [] },
     },
@@ -245,7 +245,7 @@ export const AWARDS: CvSection = {
       when: { en: '2023', zh: '2023' },
       title: {
         en: 'Outstanding Volunteer, 5th World Media Summit, reception for the BBC and NHK delegations',
-        zh: '第五届世界媒体峰会优秀志愿者，负责 BBC、NHK 等媒体代表团接待',
+        zh: '第五届世界媒体峰会优秀志愿者（负责 BBC、NHK 等媒体代表团接待）',
       },
       points: { en: [], zh: [] },
     },
@@ -271,10 +271,10 @@ export const WRITING_MEDIA: CvSection = {
   heading: { en: 'Writing & communication', zh: '写作与传播' },
   entries: [
     {
-      when: { en: 'Apr 2025 to May 2025', zh: '2025.04 至 2025.05' },
+      when: { en: 'Apr 2025 to May 2025', zh: '2025.04 – 2025.05' },
       title: {
         en: 'Overseas Buyer Vlog Team, External Liaison Department',
-        zh: '境外采购商 Vlog 工作组，对外联络部',
+        zh: '对外联络部 境外采购商 Vlog 工作组',
       },
       org: {
         en: 'China Foreign Trade Centre (Canton Fair)',
@@ -287,8 +287,8 @@ export const WRITING_MEDIA: CvSection = {
           'One video passed 100,000 views on the Canton Fair’s official overseas accounts. Also helped run the awards ceremony and two cultural-experience activities.',
         ],
         zh: [
-          '带三人小组，建立从策划到现场执行的标准流程，在展会采访境外采购商，交付 20 多条宣传视频。',
-          '其中一条在广交会官方境外账号播放量超过十万，并协助筹办颁奖典礼与两项传统文化体验活动。',
+          '带领三人小组建立从策划到现场执行的标准化流程，在展会期间采访境外采购商，交付 20 余条宣传视频。',
+          '其中一条在广交会官方海外账号播放量超过十万；另协助筹办颁奖典礼及两项传统文化体验活动。',
         ],
       },
     },
@@ -299,7 +299,7 @@ export const WRITING_MEDIA: CvSection = {
         en: [
           'Long-form technology and digital-practice essays on a leading Chinese technology platform; four pieces, more than 181,000 cumulative reads.',
         ],
-        zh: ['为国内主要科技媒体撰写技术与数字生活类长文，四篇累计阅读 18.1 万+。'],
+        zh: ['在国内主流科技媒体少数派发表技术与数字生活类长文四篇，累计阅读 18.1 万+。'],
       },
     },
     {
@@ -310,7 +310,7 @@ export const WRITING_MEDIA: CvSection = {
       },
       points: {
         en: ['Essays on English etymology and historical linguistics for a subscriber audience.'],
-        zh: ['为订阅读者撰写英语词源与历史语言学文章。'],
+        zh: ['面向订阅读者撰写英语词源与历史语言学文章。'],
       },
     },
     {
@@ -325,7 +325,7 @@ export const WRITING_MEDIA: CvSection = {
           'Wrote and published widely read features; interviewed community figures including the president of the United Chinese Association of Southern California; ran homecoming reception.',
         ],
         zh: [
-          '撰写并发布多篇高阅读量报道，采访美国南加州华人联合总会会长等人士，并负责校友返校接待。',
+          '撰写并发布多篇高阅读量报道，采访美国南加州华人联合总会会长等人士；负责校友返校接待工作。',
         ],
       },
     },
@@ -347,8 +347,8 @@ export const SKILLS = {
         zh: [
           '粤语（母语）',
           '普通话（母语）',
-          '英语（流利）',
-          '日语（中级）',
+          '英语（熟练，IELTS 7.5）',
+          '日语（JLPT N4）',
         ],
       } as L<string[]>,
     },
@@ -369,7 +369,7 @@ export const SKILLS = {
           'Python',
           'Java',
           'PostgreSQL / Supabase',
-          '大模型管线、RAG 与 agent',
+          '大模型应用开发（RAG、Agent）',
         ],
       } as L<string[]>,
     },
@@ -382,7 +382,7 @@ export const SKILLS = {
           'SQL',
           'R',
         ],
-        zh: ['经典项目分析', 'SUS、NASA-TLX 与量表设计', 'SQL', 'R'],
+        zh: ['经典测量理论项目分析', 'SUS、NASA-TLX 量表与评分量规设计', 'SQL', 'R'],
       } as L<string[]>,
     },
   ],
