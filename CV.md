@@ -26,8 +26,8 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 ### IELTS Coach: an open-source agent that interviews the learner before it writes
 *Open-source learning tool (MIT) · sole developer · Jul 2026*
 
-- Designed and released (MIT) an agent that elicits the learner’s own material through a structured multi-step form before generating answers constrained to the four IELTS band criteria across 102 topics.
-- Implemented persistent per-topic state in JSON to carry study plans across sessions; built an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.
+- Designed and released (MIT) an agent that elicits the learner’s own material through a structured multi-step form before generating answers constrained to the four IELTS band criteria across 100 topics in the current 2026 Sep–Dec question bank.
+- Implemented persistent per-topic state in JSON to carry study plans across sessions and across exam seasons; built a validated bank parser, a one-click summary-site generator, and an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.
 
 ### Transcreation in the age of generative AI: human translators versus LLMs in film title translation
 *Co-authored paper in preparation · three-person faculty-advised team · Oct 2025 to present*

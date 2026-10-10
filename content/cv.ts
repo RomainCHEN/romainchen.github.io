@@ -127,12 +127,12 @@ export const RESEARCH: CvSection = {
       },
       points: {
         en: [
-          'Designed and released (MIT) an agent that elicits the learner’s own material through a structured multi-step form before generating answers constrained to the four IELTS band criteria across 102 topics.',
-          'Implemented persistent per-topic state in JSON to carry study plans across sessions; built an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.',
+          'Designed and released (MIT) an agent that elicits the learner’s own material through a structured multi-step form before generating answers constrained to the four IELTS band criteria across 100 topics in the current 2026 Sep–Dec question bank.',
+          'Implemented persistent per-topic state in JSON to carry study plans across sessions and across exam seasons; built a validated bank parser, a one-click summary-site generator, and an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.',
         ],
         zh: [
-          '设计并以 MIT 许可开源一个 agent，先经结构化多步表单采集学习者自身素材，再生成受 IELTS 四项评分标准约束的作答，覆盖 102 个话题。',
-          '以 JSON 实现按话题持久化的状态，使学习计划跨会话延续；搭建 MCP 服务器，经视觉接口代理图表图像，使纯文本模型亦可处理写作 Task 1。',
+          '设计并以 MIT 许可开源一个 agent，先经结构化多步表单采集学习者自身素材，再生成受 IELTS 四项评分标准约束的作答，覆盖当前 2026 年 9–12 月题库的 100 个话题。',
+          '以 JSON 实现按话题持久化的状态，使学习计划跨会话、跨考试季度延续；构建带校验的题库解析脚本、一键生成的备考总结站点，以及经视觉接口代理图表图像的 MCP 服务器，使纯文本模型亦可处理写作 Task 1。',
         ],
       },
     },
