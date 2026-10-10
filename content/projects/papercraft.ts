@@ -3,8 +3,9 @@ import type { Project } from '../types';
 /**
  * PaperCraft. The spine of the portfolio.
  *
- * Evidence discipline: the system is built and running; the teacher evaluation
- * has not been run. Nothing on this page claims an empirical result. The
+ * Evidence discipline: the system is built and running; the teacher study is
+ * under way (six teachers, October 2026) and has no result yet. Nothing on this
+ * page claims an empirical result. The
  * "evidence" section states the status of each research component explicitly.
  */
 export const papercraft: Project = {
@@ -76,7 +77,7 @@ export const papercraft: Project = {
     },
     {
       label: { en: 'Evaluation', zh: '实证评估' },
-      value: { en: 'Instruments written, study not yet run', zh: '量表与流程已就绪，研究尚未开展' },
+      value: { en: 'Ethics approved; study with 6 teachers under way', zh: '已获伦理审批，6 位一线英语教师参与的用户实验进行中' },
     },
   ],
   featured: true,
@@ -356,7 +357,7 @@ export const papercraft: Project = {
         [
           { en: 'Answer key spread', zh: '答案键分布' },
           { en: 'Whether the key varies across the set', zh: '整套题的答案键是否有变化' },
-          { en: 'Warn the teacher', zh: '向教师告警' },
+          { en: 'Letters rebalanced, then warn', zh: '先由代码重排字母，再告警' },
           { en: 'Whether any single answer is right', zh: '任何一道题的答案对不对' },
         ],
       ],
@@ -492,21 +493,23 @@ export const papercraft: Project = {
       body: {
         en: [
           'Teacher intervention is measured at approval, by comparing the frozen draft with the teacher\'s version, as word-level edit distance plus typed flags for which part of the item moved. The frozen draft predates any edit, so the measure describes the generator alone. Item analysis from learner responses stays in the product as a view for the teacher, and is not offered as a result of the study.',
-          'Authoring time and perceived workload are measured against each teacher\'s own manual workflow. The instruments are written; data collection has not started.',
+          'The teacher study measures authoring time against each teacher\'s existing preparation routine, with usability (SUS), workload (NASA-TLX) and a content-quality rubric, and asks in writing which proposed rules each teacher accepted or refused, and why. It is unmoderated, so it does not test whether accepted rules reduce correction; that needs a randomised arm with someone present, which is built and left unused.',
           'No gate checks whether the answer is right, and one class of defect belongs to the whole set, so no per-question gate can see it at all. Both reach a classroom. The expensive one is an item with two defensible answers: it reads correctly, and nothing catches it until a student argues for the option marked wrong and turns out to be right, at which point the lesson stops.',
           'Two fixes followed. A solver sees each item with its key removed, and a challenger builds a reading on which each wrong option would be correct; a declined item is excluded from the count, never passed. Separately, a fourth deterministic gate counts how the key is spread across a set and reports it to the teacher, behind a line in the prompt that asks for it.',
           'The first flagged two items, and one of them is a genuine defect. A notice about a Friday swim club at 4 pm is keyed to "bring your swimsuit", and "the meeting is in the afternoon" is also true. It passed all three gates, and all three were right to pass it.',
-          'The second failure was the larger one, and the one worth reporting in numbers. Across 33 generations of A2 Reading and Writing Part 4 in one day, 13 had put all six answers on option A, so a candidate who never read the passage scored full marks. Over 12 generations after the change the share on A fell only from 74 to 57 per cent, which is why the prompt line is not enough and a gate counts it.',
+          'The second failure was the larger one, and the one worth reporting in numbers. Across 33 generations of A2 Reading and Writing Part 4 in one day, 13 had put all six answers on option A, so a candidate who never read the passage scored full marks. Over 12 generations after the change the share on A fell only from 74 to 57 per cent, so a prompt line was not enough. Code now reassigns the letters after drafting, and the gate reports what is left.',
           'Building that gate was work in itself. One fault took the reported defect rate from 12 per cent to 2 per cent, and a worse one was silent and locally correct: it kept every cloze item out of the count while the count was read as covering the bank.',
+          'The checks also read the teacher\'s version. As a teacher edits, all four deterministic checks run again and report only what changed against the untouched draft, including repairs, because an edit can create a second defensible answer as easily as a model can. Nothing blocks: the checks encode a specification and a word list, so a teacher who overrides one may be right.',
         ],
         zh: [
           '教师点下通过时即计算干预量：将冻结的初稿与教师终稿比对，算出词级编辑距离，再用一组标记指出改动落在题目的哪一部分。参照的是教师动手之前的初稿，因此这个量只描述生成器本身。依学生作答算出的项目分析只在产品内供教师查看，不计入研究结果。',
-          '出题耗时与主观负荷以每位教师自己的手工流程为基线测量。量表已经写好，数据收集尚未开始。',
+          '教师研究以每位教师原有的备课流程为基线测量出题耗时，同时采用可用性量表（SUS）、工作负荷量表（NASA-TLX）和内容质量量规。教师还要书面说明接受或拒绝了哪些建议规则，以及理由。研究不设主持人，因此不检验已接受的规则能否减少修改量；那需要有人在场的随机对照组，相关功能已经实现，但这一轮不启用。',
           '没有哪道闸门判定答案是否正确；另有一类缺陷属于整套题而非单题，逐题闸门完全看不到。两类都会进入课堂。代价最大的是一道题有两个都说得通的答案，它读起来没有问题，一直无人察觉，直到学生为那个判为错的选项申辩，而他是对的，课就停在那里。',
           '针对这两类各做了一件事。求解器拿到的是去掉答案键的题目，挑战者为每一个错误选项构造一种能让它成立的读法；无法判定的题目作排除处理，不计为通过。另一件是增加第四道确定性检查，统计整套题的答案键分布并报给教师，同时在上游的 prompt 中加入一句相应要求。',
           '前一件标出了两道题，其中一道确是缺陷。一条通知写着周五下午四点有游泳俱乐部活动、要带泳衣，答案键取「要带泳衣」，而「活动在下午」同样成立。它通过了三道闸门，三道闸门各自的判断都没有错。',
-          '后一件是更大的那处失败，也是值得用数字说明的一处。同一天生成的 33 份 A2 Reading and Writing Part 4 中，13 份把六个答案全放在 A 上，完全不读文章一律选 A 的考生即可得满分。加入那条要求之后的 12 份生成里，A 的占比只从 74% 降到 57%，所以 prompt 里的一句话不够，要由闸门来统计。',
+          '后一件是更大的那处失败，也是值得用数字说明的一处。同一天生成的 33 份 A2 Reading and Writing Part 4 中，13 份把六个答案全放在 A 上，完全不读文章一律选 A 的考生即可得满分。加入那条要求之后的 12 份生成里，A 的占比只从 74% 降到 57%，可见 prompt 里的一句要求并不够。现在初稿写完后由代码重新分配选项字母，答案分布均匀不再依赖模型配合，闸门只报告剩下的问题。',
           '做这道检查本身也费了些工夫。有一处错误把报出的缺陷率从 12% 降到 2%；更麻烦的一处不报错，单看也没算错，它把所有完形填空排除在计数之外，而那个数字看上去覆盖了全库。',
+          '这些检查也会复核教师的版本。教师修改时，四道确定性检查重新运行，只报告相对原始初稿发生变化的地方，修好的问题也一并报告，因为教师的改动同样可能制造出第二个说得通的答案。检查不拦截任何操作，它们依据的是规格和词表，教师否决某一项时，可能恰恰是对的。',
         ],
       },
     },
@@ -543,10 +546,10 @@ export const papercraft: Project = {
       heading: { en: 'Where this actually stands', zh: '现在到了哪一步' },
       intro: {
         en: [
-          'None of this has been evaluated with teachers yet.',
+          'The teacher study received ethics approval and is running in October 2026 with six practising English teachers. Data is still being collected, so nothing below reports a result from it.',
         ],
         zh: [
-          '这些都还没有经过教师评估。',
+          '教师研究已获伦理审批，2026 年 10 月起由 6 位一线英语教师参与，数据仍在收集中，下文各项均未引用这项研究的结果。',
         ],
       },
       items: [
@@ -570,8 +573,8 @@ export const papercraft: Project = {
           label: { en: 'Teacher intervention metric', zh: '教师干预度量' },
           state: 'instrumented',
           detail: {
-            en: 'Pre-edit drafts are frozen and the edit-distance computation is implemented. No teacher editing data has been collected, so no distribution across item types can be reported.',
-            zh: '编辑前的初稿会冻结保存，编辑距离的计算也已实现。教师的编辑数据尚未采集，因此还无法报告各题型之间的分布。',
+            en: 'Pre-edit drafts are frozen and the edit-distance computation is implemented. Teacher edits are being recorded in the study; until it closes, no distribution across item types is reported.',
+            zh: '编辑前的初稿会冻结保存，编辑距离的计算也已实现。教师的修改正在研究中记录，研究结束前不报告各题型之间的分布。',
           },
         },
         {
@@ -584,10 +587,10 @@ export const papercraft: Project = {
         },
         {
           label: { en: 'Teacher usability study', zh: '教师可用性研究' },
-          state: 'designed',
+          state: 'collecting',
           detail: {
-            en: 'Protocol, consent, questionnaire, timing sheets, SUS, NASA-TLX, rubric and interview guide are written. Data collection has not started.',
-            zh: '实施流程、知情同意书、背景问卷、任务计时表、SUS、NASA-TLX、内容质量量表和访谈提纲都已写好，数据收集尚未开始。',
+            en: 'Ethics approval granted. Six practising English teachers each complete the study kit alone: authoring tasks, self-recorded timings checked against the event log, SUS, NASA-TLX, a content-quality rubric, and written answers on the rules proposed from their own corrections. Data collection is under way.',
+            zh: '已获伦理审批。6 位一线英语教师各自独立完成研究材料，包括出题任务、自行记录并与系统事件日志相互核对的耗时、SUS、NASA-TLX、内容质量量规，以及对系统依其修改所提规则的书面回答。数据正在收集中。',
           },
         },
       ],

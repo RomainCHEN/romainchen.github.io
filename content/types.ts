@@ -26,6 +26,8 @@ export type Evidence =
   | 'shipped'
   /** Built and instrumented, but no data collected yet. */
   | 'instrumented'
+  /** Study approved and running with participants; data still being collected, no result reported. */
+  | 'collecting'
   /** Instruments and protocol written; study not yet run. */
   | 'designed'
   /** Specified in the roadmap, not built. */

@@ -90,6 +90,7 @@ export const UI = {
   evidenceStates: {
     shipped: { en: 'In use', zh: '已投入使用' },
     instrumented: { en: 'Built, no data yet', zh: '已建成，暂无数据' },
+    collecting: { en: 'Running, no results yet', zh: '数据收集中，尚无结果' },
     designed: { en: 'Designed, not run', zh: '方案已定，尚未开展' },
     planned: { en: 'Planned', zh: '规划中' },
   },

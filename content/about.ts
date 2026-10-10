@@ -59,13 +59,13 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
 
 export const CURRENTLY: L<string[]> = {
   en: [
-    'Finishing the PaperCraft evaluation protocol and recruiting KET/PET teachers for the study.',
+    'Running the PaperCraft teacher study with six practising English teachers; data collection is under way.',
     'Interning on the IT team at Guangdong Dowstone, working on on-premise LLM deployment and a document-retrieval knowledge base.',
     'Coding the film title corpus against the three-tier scheme.',
     'Reading on evidence-centred design and item response theory.',
   ],
   zh: [
-    '推进 PaperCraft 评估方案的收尾工作，并招募有意参与研究的 KET / PET 教师。',
+    '推进 PaperCraft 用户实验，6 位一线英语教师参与，数据收集中。',
     '在广东道氏技术 IT 部实习，负责本地大模型部署，并基于内部文档搭建检索增强（RAG）知识库。',
     '按三层标注方案编码电影片名语料。',
     '研读以证据为中心的设计（ECD）与项目反应理论（IRT）的相关文献。',

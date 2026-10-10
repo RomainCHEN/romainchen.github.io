@@ -24,7 +24,7 @@ export interface CvSection {
  * reason, as the job résumé's does (see RESUME_UPDATED below), and the reader
  * sees only the date.
  */
-export const CV_UPDATED = '2026-10-11T03:30';
+export const CV_UPDATED = '2026-10-11T04:00';
 
 /** The stamp's date part, which is what gets shown. */
 export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
@@ -43,7 +43,7 @@ export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
  * change when the file changes, and a date cannot distinguish two rebuilds in
  * one day. The résumé prints only its date part.
  */
-export const RESUME_UPDATED = '2026-10-11T02:45';
+export const RESUME_UPDATED = '2026-10-11T04:00';
 
 /**
  * This is the academic CV, written for graduate admissions in learning
@@ -99,8 +99,8 @@ export const RESEARCH: CvSection = {
         zh: 'PaperCraft：剑桥 KET / PET 教师在环智能出题系统',
       },
       org: {
-        en: 'Final year project · sole developer and research design',
-        zh: '毕业设计 · 独立开发与研究设计',
+        en: 'Final year project · sole developer and research design · teacher study (6 teachers) under way',
+        zh: '毕业设计 · 独立开发与研究设计 · 用户实验进行中（6 位一线教师）',
       },
       points: {
         en: [

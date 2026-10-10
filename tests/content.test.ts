@@ -169,11 +169,13 @@ describe('evidence claims', () => {
     return section.items.find((item) => item.label.en.includes(labelFragment))?.state;
   }
 
-  it('does not claim the PaperCraft teacher study has been run', () => {
+  it('does not claim the PaperCraft teacher study has a result', () => {
     // The label was renamed from "usability and efficacy study": the study is
     // qualitative and has no control arm, so efficacy is not something it can
-    // report. The state it pins is unchanged.
-    expect(stateOf('papercraft', 'usability study')).toBe('designed');
+    // report. In October 2026 the owner confirmed it is running with six
+    // teachers and data is still being collected, so it moved from 'designed'
+    // to 'collecting'. It must not move further until results are supplied.
+    expect(stateOf('papercraft', 'usability study')).toBe('collecting');
   });
 
   it('does not claim intervention or item data exists', () => {
