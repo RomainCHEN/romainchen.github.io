@@ -19,7 +19,7 @@ export const SITE = {
 
 export const TAGLINE: L = {
   en: 'Translation × Computer Science. I design learning tools and instrument them as research objects.',
-  zh: '翻译 × 计算机科学。我开发学习工具，并把它们转化为数据驱动的实证研究对象。',
+  zh: '翻译 × 计算机科学。我开发学习工具，并把工具本身做成可供实证研究的对象。',
 };
 
 export const ROLE_LINE: L = {
@@ -85,7 +85,7 @@ export const UI = {
   },
   evidenceLegend: {
     en: 'Every component below is labelled with how much empirical backing it has.',
-    zh: '下面每一项都标注了它目前获得的实证支撑程度。',
+    zh: '下面每一项都标注了目前获得的实证支撑程度。',
   },
   evidenceStates: {
     shipped: { en: 'In use', zh: '已投入使用' },

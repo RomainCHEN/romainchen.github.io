@@ -19,15 +19,15 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 ### PaperCraft: a teacher-in-the-loop LLM authoring tool for Cambridge KET/PET
 *Final year project · sole developer and research design · May 2026 to present*
 
-- Built an agent, not a prompt: the model runs inside a purpose-built harness, with a fixed call sequence, machine-checkable output and typed repair of a named failure.
-- Gave it a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules, and folds accepted ones into later drafts. Per teacher, across 15 item types.
+- Designed the authoring harness the model runs inside: a fixed call sequence, machine-checked output and typed repair of a named failure.
+- Added a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules and folds accepted ones into later drafts, isolated per teacher across 15 item types.
 - Evaluated the output two ways: structural gates on every draft, an independent audit on every rule.
 
 ### IELTS Coach: an open-source agent that interviews the learner before it writes
 *Open-source learning tool (MIT) · sole developer · Jul 2026*
 
-- Designed and released (MIT) an agent that elicits the learner’s own material through a structured multi-step form before generating answers constrained to the four IELTS band criteria across 100 topics in the current 2026 Sep–Dec question bank.
-- Implemented persistent per-topic state in JSON to carry study plans across sessions and across exam seasons; built a validated bank parser, a one-click summary-site generator, and an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.
+- Released an open-source agent (MIT) that collects the learner’s own material through a structured multi-step form, then generates answers constrained to the four IELTS band criteria. Covers 100 topics in the 2026 Sep–Dec bank.
+- Implemented persistent per-topic state in JSON so study plans carry across sessions and exam seasons; built a validated bank parser, a one-click summary-site generator, and an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.
 
 ### Transcreation in the age of generative AI: human translators versus LLMs in film title translation
 *Co-authored paper in preparation · three-person faculty-advised team · Oct 2025 to present*
@@ -77,4 +77,4 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 
 ---
 
-*Last updated 2026-09-16.*
+*Last updated 2026-10-11.*

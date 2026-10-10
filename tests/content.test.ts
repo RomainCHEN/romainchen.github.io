@@ -182,7 +182,10 @@ describe('evidence claims', () => {
   });
 
   it('does not claim IELTS Coach improves outcomes', () => {
-    expect(stateOf('ielts-coach', 'improve retention or scores')).toBe('planned');
+    // The evidence section was removed at the owner's request (October 2026).
+    // With no place to label the claim as untested, the page must not make it.
+    const text = JSON.stringify(getProject('ielts-coach'));
+    expect(text).not.toMatch(/improves? (your |the )?(scores?|band|retention)|提分|提高分数/i);
   });
 
   it('does not claim the transcreation comparison is complete', () => {

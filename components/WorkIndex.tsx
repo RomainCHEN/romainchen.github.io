@@ -14,6 +14,16 @@ import type { Locale, Project } from '@/content/types';
  * would have if it could. On narrow screens there is no margin, so each entry
  * simply carries its own thumbnail and nothing depends on hover.
  */
+/**
+ * Screenshots are cropped from the top left, which keeps their UI legible. A
+ * banner-shaped image (a poster, say) would lose most of itself to that crop,
+ * so anything wider than 2:1 is shown whole instead.
+ */
+function fitClass(hero: NonNullable<Project['hero']>): string {
+  const wide = hero.w && hero.h ? hero.w / hero.h > 2 : false;
+  return wide ? 'object-contain p-2' : 'object-cover object-left-top';
+}
+
 export function WorkIndex({ locale, projects }: { locale: Locale; projects: Project[] }) {
   /** What the pointer is on, which drives the dimming. Null until hovered. */
   const [hovered, setHovered] = useState<string | null>(null);
@@ -33,7 +43,7 @@ export function WorkIndex({ locale, projects }: { locale: Locale; projects: Proj
                 alt=""
                 fill
                 sizes="(min-width: 1024px) 22vw, 0px"
-                className={`object-cover object-left-top transition-opacity duration-500 ${
+                className={`${fitClass(project.hero)} transition-opacity duration-500 ${
                   shown === project.slug ? 'opacity-100' : 'opacity-0'
                 }`}
               />
@@ -99,7 +109,7 @@ export function WorkIndex({ locale, projects }: { locale: Locale; projects: Proj
                       alt=""
                       fill
                       sizes="112px"
-                      className="object-cover object-left-top"
+                      className={fitClass(project.hero)}
                     />
                   </div>
                 ) : null}

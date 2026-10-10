@@ -2,56 +2,56 @@ import type { L, Paragraphs } from './types';
 
 export const ABOUT_LEDE: Paragraphs = {
   en: [
-    'I study translation at one university and computer science at another, which sounds like an administrative accident and turned out to be the whole point.',
-    'Both disciplines have spent the last three years being told that a machine can now do the thing they train people to do. Neither has a satisfying answer to the obvious follow-up: then what exactly is the human contribution, and how would you know if it disappeared?',
+    'I study translation at one university and computer science at another. The longer I study both, the clearer it becomes that the questions I care about sit between them.',
+    'Both fields are now told that machines can do much of the work they train people for. What a person contributes when working with AI, and how that contribution can be seen and measured, is still an open question.',
   ],
   zh: [
-    '我在一所大学读翻译，又在另一所读计算机。这个双学位当初近乎偶然，读到第三年才发现，我真正感兴趣的问题恰好长在两门学科的交界处。',
-    '过去三年，翻译课和计算机课上反复出现同一种说法，说这些活儿机器现在都能做了。可人到底还剩下哪一部分贡献，两边的老师都答不上来。我更想追的是后半句：这部分贡献要是哪天真没了，我们凭什么发现。',
+    '我在两所大学分别修读翻译和计算机科学。两门学科读得越久，我越清楚自己关心的问题恰好处在两者之间。',
+    '这几年，两个领域都面对同一个判断：机器已经能完成许多过去需要专业训练的工作。人与 AI 协作时，人究竟贡献了什么，这种贡献又如何被看见、被衡量，目前还没有清楚的答案。',
   ],
 };
 
 export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
   {
-    heading: { en: 'How I got here', zh: '我是怎么走到这一步的' },
+    heading: { en: 'How I got here', zh: '研究的起点' },
     body: {
       en: [
-        'I started teaching Cambridge KET to two small classes of primary students in 2024, while taking data structures and translation theory in the same term. Every week I hand-wrote a set of practice exercises, about two hours each, and every week I was uneasy about them. I could not control difficulty, official past papers ran out, and the topics were too stale for a child to care about.',
-        'That is an unremarkable teacher complaint. What made it interesting was noticing that the thing I actually wanted was not faster generation. I wanted to know *which parts of the work were mine*, meaning which decisions in that two hours were the ones a model could not have made. That question is measurable, and almost nobody measures it. So I built a tool whose purpose is to record the answer.',
-        'The same question was waiting for me in translation. My programme trains us in a craft that machine translation is supposed to have solved, and the defence usually offered, that human translators are more "sensitive", is a claim without an instrument. Working on film titles gave me one. Classify what the translator did to the cultural schema, and the difference between diagnosis and default pattern-matching stops being a matter of taste.',
+        "In 2024 I was taking data structures and translation theory while teaching Cambridge KET to two small classes of primary students. Preparing a week's practice meant finding past papers, adapting items and assembling them into a set at the right level, and it took hours every week. Even then the difficulty was hard to pitch, past papers ran out, and the available topics rarely held a child's interest.",
+        'Most teachers know these problems. The question I kept returning to was a different one: *which decisions in that process had to be mine*, and which a model could make. That question is measurable and rarely measured, so I built a tool to record the answer.',
+        'The same question was waiting for me in translation. My programme trains us in a craft that machine translation is supposed to have solved, and the usual defence, that human translators are more "sensitive", comes without an instrument. Working on film titles gave me one. Classify what the translator did to the cultural schema, and the difference between a professional judgement and a default rendering can be checked against evidence.',
       ],
       zh: [
-        '2024 年那学期，我一边上数据结构和翻译理论，一边带两个剑桥 KET 小班。练习都是我自己一份份手写的，一周一套，一套要两个小时。写完心里总是不踏实。难度不好拿捏，本想比真考略容易些，出来常常又偏了。官方真题就那么多，很快就用完。剩下能选的话题也旧，孩子提不起兴趣，连我自己都读不下去。',
-        '这种抱怨每个老师都有，本不值一提。真正让我停下来的是另一件事。**那两个小时里，到底哪些判断只有我能做**，哪些换成模型也一样。这问题本来测得出来，却几乎没人去测。后来我干脆做了个工具，就为了把答案记下来。',
-        '翻译这边，等着我的还是同一个问题。我学的这门手艺，外面早有人说机器翻译已经替代了。系里最常见的辩护是人比机器细腻，可细腻到底体现在哪，谁也拿不出能衡量的东西。做过电影片名之后，我总算有了一把尺子。把译者在文化图式上的每一处处理都归好类，哪些是真诊断，哪些只是套了默认答案，就不再是各说各话的事了。',
+        '2024 年，我一边修读数据结构和翻译理论，一边给两个剑桥 KET 小班上课。备课相当繁琐，每周都要找真题、改题目，再按难度组成一套练习。即便如此，难度仍不好把握，可用的真题有限，现成的话题也很难引起孩子的兴趣。',
+        '这些问题几乎每位老师都遇到过。我更在意的是另一件事：在这套备课流程里，**哪些判断必须由我来做**，哪些可以交给模型。这个问题可以测量，却很少有人认真去测，于是我做了一个工具来记录它。',
+        '在翻译研究里，我遇到的是同一个问题。机器翻译被认为已能胜任这门专业的大部分工作，常见的回应是人工译者更有文化敏感度，但这种敏感度体现在哪里，很少有可以衡量的依据。电影片名研究提供了一种办法。把译者处理文化图式的方式逐一分类标注，哪些是专业判断，哪些只是沿用常规译法，就有了可以核查的依据。',
       ],
     },
   },
   {
-    heading: { en: 'What I am actually good at', zh: '我拿得出手的部分' },
+    heading: { en: 'What I bring', zh: '能力与积累' },
     body: {
       en: [
-        'Turning a vague construct into something you can record. "Teacher effort", "cultural sensitivity", "item quality": these are the words people wave at each other without defining. Most of my work is the unglamorous step of deciding what would count as evidence, then building the thing that captures it.',
-        'Shipping the whole stack alone when it comes to that. Auth, database schema, LLM routing with typed repair, export to Word and PDF, deployment. Full-stack work is not the point; a research instrument nobody can use produces no data. I spent this summer applying the same skills inside a listed manufacturer, running quantised models on its own network rather than someone else’s API.',
-        'Writing for people who do not already agree with me. Six years of it: technology essays with six-figure readerships, etymology pieces, alumni features, a short film. What it taught me was to notice when an argument is being carried by tone rather than evidence, including my own.',
+        'Turning a vague construct into something that can be recorded. "Teacher effort", "cultural sensitivity" and "item quality" are widely used and rarely defined. Much of my work is deciding what would count as evidence, then building the instrument that captures it.',
+        'Building a research instrument end to end on my own: authentication, database design, LLM routing with typed repair, Word and PDF export, deployment. An instrument has to be usable before it can collect data, so I treat the engineering as part of the research. This summer I applied the same skills at a listed manufacturer, deploying quantised models on its internal network.',
+        'Six years of writing for a general readership: technology essays read by six-figure audiences, etymology pieces, alumni features and a short film. It trained me to support an argument with evidence, and to explain technical ideas to readers outside the field.',
       ],
       zh: [
-        '我比较拿得出手的一件事，是把说不清的概念做成能记录的东西。教师投入、文化敏感度、题目质量，这些词人人都在用，可一追问具体指什么，就没人接得上。我的活大半花在这一步上，既不体面也不显眼。先想清楚什么才算证据，再一点点做出能把它采下来的东西。',
-        '真到要做，我一个人也能把整套系统啃下来。登录鉴权、数据库结构、带类型修复的模型路由、导出 Word 和 PDF、上线部署，都是自己来。会全栈本身没什么了不起。可研究工具要是没人用得起来，一条数据都采不到，所以这些活我只能自己扛。今年夏天我把同一套本事挪了个地方用，在一家上市公司的内网里自己跑开源模型，没去调别人的 API。',
-        '还有一点，我习惯写给不认同我的人看。这么写了六年，有阅读量过十万的科技长文，有词源随笔，有校友专稿，还拍过一部短片。写久了眼睛会变尖。一个论证是靠语气在撑，还是真有证据，一眼就看得出来。看自己的稿子也一样。',
+        '我擅长把模糊的概念转化为可以记录的数据。教师投入、文化敏感度、题目质量，这些词经常被使用，却很少被明确定义。我的大部分工作，是先界定什么可以算作证据，再设计并搭建采集这些证据的工具。',
+        '我能独立完成一个研究工具从设计到上线的全部工程，包括身份认证、数据库设计、带类型修复的模型调用路由、Word 与 PDF 导出和部署。研究工具只有真正可用，才能采集到数据，所以我把工程实现视为研究的一部分。今年夏天，我在一家上市制造企业实习，在其内网环境中部署量化大模型。',
+        '我还有六年面向公众写作的经历，写过阅读量逾十万的科技长文、词源随笔和校友专访，也拍过一部短片。这段经历让我习惯用证据支撑论点，也习惯把专业问题讲给领域之外的读者听。',
       ],
     },
   },
   {
-    heading: { en: 'What I want to do next', zh: '接下来想做的事' },
+    heading: { en: 'What I want to do next', zh: '研究方向' },
     body: {
       en: [
-        'I want to keep working at the junction these three projects share: designing tools that make a human contribution visible, and then actually running the studies that test whether the design was right. The part I am missing is the training to do the second half properly, meaning measurement, experimental design, and learning analytics at a scale where the statistics mean something.',
-        'The honest gap in my portfolio is evidence. I have built systems and specified the studies; I have not yet run them. That is the thing I most want to fix, and it is why graduate study rather than another product.',
+        'My current work, and the work I want to pursue, is human-centred human–AI interaction: designing the interfaces and tools through which people work and learn with AI and agents, and studying the new ways of producing and learning that emerge from that collaboration. I care about what the model can do, and equally about what the person decides and learns along the way.',
+        'This work needs tools that are built well and designs that are tested properly. I have experience with the first. The second is what I want graduate training for: measurement, experimental design, and the analysis of learning data at a scale where the statistics mean something.',
       ],
       zh: [
-        '这三个项目其实落在同一个交点上，我想接着待在那儿。一手做工具，把人的贡献显出来，一手真把研究跑起来，看设计到底站不站得住。我缺的是后半段的训练。测量怎么做，实验怎么设计，样本量上去以后数据又该怎么读。',
-        '作品集里最空的一格是证据。系统做出来了，研究方案也写好了，可到今天一次都还没真跑过。这是我最想补的一块，也是我去读研的理由。',
+        '我现在做的，以及将来想继续做的，是以人为中心的人机交互研究：设计人与 AI、与 agent 协作时使用的交互方式和工具，并探索在这种协作中逐渐形成的新的工作方式与学习方式。我关心模型能做什么，也同样关心人在其中做出了哪些判断、学到了什么。',
+        '这类研究既需要把工具做好，也需要用严谨的方法检验设计是否有效。前一部分我已有一定积累，后一部分正是我希望在研究生阶段系统学习的内容，包括测量方法、实验设计，以及如何在较大样本上分析学习数据。',
       ],
     },
   },
@@ -65,9 +65,9 @@ export const CURRENTLY: L<string[]> = {
     'Reading on evidence-centred design and item response theory.',
   ],
   zh: [
-    '推进 PaperCraft 评估方案的收尾工作，并招募有意向的 KET / PET 教师参与研究。',
-    '在广东道氏技术 IT 部实习，负责本地大模型部署，并基于内部文档构建检索增强（RAG）知识库。',
-    '基于三层标注方案，对电影片名语料进行编码。',
-    '研读以证据为中心的设计（ECD）与项目反应理论（IRT）方向的文献。',
+    '推进 PaperCraft 评估方案的收尾工作，并招募有意参与研究的 KET / PET 教师。',
+    '在广东道氏技术 IT 部实习，负责本地大模型部署，并基于内部文档搭建检索增强（RAG）知识库。',
+    '按三层标注方案编码电影片名语料。',
+    '研读以证据为中心的设计（ECD）与项目反应理论（IRT）的相关文献。',
   ],
 };

@@ -1,16 +1,16 @@
 ---
-title: 'The two hours I spent writing exercises were not the problem'
+title: 'The two hours I spent preparing exercises were not the problem'
 date: '2026-07-28'
 summary: 'I built a tool to save time on lesson prep and found out that time was never what I was short of.'
 ---
 
-For about sixteen months I taught two small Cambridge KET classes, six children in total, and every week I sat down and wrote a set of practice exercises by hand. It took roughly two hours. When I started building software to help, the pitch I gave myself was the obvious one: two hours is a lot, get it down to ten minutes.
+For about sixteen months I taught two small Cambridge KET classes, six children in total, and every week I put together a set of practice exercises: finding past papers, adapting items, assembling them at the right level. It took roughly two hours. When I started building software to help, the pitch I gave myself was the obvious one: two hours is a lot, get it down to ten minutes.
 
 That turned out to be the wrong problem, and noticing why has shaped everything I have built since.
 
 ## What was actually wrong
 
-Three things bothered me about those handmade exercise sets, and speed was not among them.
+Three things bothered me about those exercise sets, and speed was not among them.
 
 The first was that I could not control difficulty. I could aim for "slightly easier than the real paper" and simply miss, and I would only find out during the lesson, by watching a child stall on question three. There was no mechanism between my intention and the outcome.
 
@@ -22,13 +22,13 @@ None of these is a speed problem. One is a control problem, one is a supply prob
 
 ## Why "make it faster" is a trap
 
-Here is the thing about generating exercises with a language model: it is easy to do and almost impossible to evaluate. You get plausible output in seconds. It looks like an exam question. It has the right shape.
+Generating exercises with a language model is easy to do and almost impossible to evaluate. You get plausible output in seconds. It looks like an exam question. It has the right shape.
 
-And then what? If you judge it by reading it, you are testing your own ability to spot problems by eye, which is exactly the ability that failed you when you wrote the exercises by hand. Plausible is not the same as usable, and nothing about a fluent draft tells you whether the distractors are doing any work.
+Judging it by reading it tests your own ability to spot problems by eye, which is exactly the ability that failed you when you assembled the exercises yourself. Plausible is not the same as usable, and nothing about a fluent draft tells you whether the distractors are doing any work.
 
 So I stopped trying to make the tool fast and started trying to make it *answerable*. Two things I had never recorded became things the system records by default: what I changed about the draft before I let it near a classroom, and how the questions behaved once children actually answered them.
 
-The first one is the part I find most interesting. When a teacher approves a generated item, the original draft is frozen first, and the difference between the two is stored: how much moved, and which part of the item it was, whether the passage, the question stem, the options or the answer key. Aggregate that across enough items and you get something I have never seen stated with evidence: which kinds of exam questions a model is actually bad at, as opposed to which ones look risky.
+The first one is the part I find most interesting. When a teacher approves a generated item, the original draft is frozen first, and the difference between the two is stored: how much moved, and which part of the item it was, whether the passage, the question stem, the options or the answer key. Aggregate that across enough items and you get something I have never seen stated with evidence: which kinds of exam questions a model is bad at, as opposed to which ones look risky.
 
 ## Showing a number instead of enforcing it
 
@@ -40,6 +40,6 @@ I would rather have a guardrail that admits its scope than one that pretends to 
 
 ## What I still cannot tell you
 
-Whether any of this works. The instruments are built and the study is written: task timing against each teacher's own manual baseline, a usability scale, a workload scale, a content-quality rubric, and interviews. I have not run it.
+Whether any of this works. The instruments are built and the study is written: task timing against each teacher's existing preparation routine, a usability scale, a workload scale, a content-quality rubric, and interviews. I have not run it.
 
-That is an uncomfortable thing to publish, and it is also the honest state of the project. The gap between "I built the thing that would measure this" and "I measured it" is the whole distance between a side project and research, and I would rather name it than paper over it.
+The gap between "I built the thing that would measure this" and "I measured it" is the whole distance between a side project and research. Closing it is the next step.

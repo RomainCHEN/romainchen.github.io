@@ -24,7 +24,7 @@ export interface CvSection {
  * reason, as the job résumé's does (see RESUME_UPDATED below), and the reader
  * sees only the date.
  */
-export const CV_UPDATED = '2026-09-16T01:07';
+export const CV_UPDATED = '2026-10-11T02:45';
 
 /** The stamp's date part, which is what gets shown. */
 export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
@@ -43,7 +43,7 @@ export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
  * change when the file changes, and a date cannot distinguish two rebuilds in
  * one day. The résumé prints only its date part.
  */
-export const RESUME_UPDATED = '2026-09-16T00:35';
+export const RESUME_UPDATED = '2026-10-11T02:45';
 
 /**
  * This is the academic CV, written for graduate admissions in learning
@@ -104,14 +104,14 @@ export const RESEARCH: CvSection = {
       },
       points: {
         en: [
-          'Built an agent, not a prompt: the model runs inside a purpose-built harness, with a fixed call sequence, machine-checkable output and typed repair of a named failure.',
-          'Gave it a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules, and folds accepted ones into later drafts. Per teacher, across 15 item types.',
+          'Designed the authoring harness the model runs inside: a fixed call sequence, machine-checked output and typed repair of a named failure.',
+          'Added a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules and folds accepted ones into later drafts, isolated per teacher across 15 item types.',
           'Evaluated the output two ways: structural gates on every draft, an independent audit on every rule.',
         ],
         zh: [
-          '做的是一个 agent，不是提示词框：模型跑在专为该场景定制的 harness 里，调用顺序固定、输出受机器校验、失败按类型修复。',
-          '再加一条自进化回路：离线环节读教师的批改记录、归纳候选规则，被采纳的进入后续出题。按教师隔离，覆盖 15 种题型。',
-          '评测分两层：每份初稿都过结构闸门，每条规则都要过独立审计。',
+          '模型运行在为出题场景定制的 harness 中，调用顺序固定、输出经机器校验、失败按类型修复。',
+          '设计离线自进化回路，从教师批改记录归纳候选规则，教师采纳的规则进入后续出题，按教师隔离，覆盖 15 种题型。',
+          '评测分两层，初稿逐份经结构校验，候选规则逐条经独立审计。',
         ],
       },
     },
@@ -127,12 +127,12 @@ export const RESEARCH: CvSection = {
       },
       points: {
         en: [
-          'Designed and released (MIT) an agent that elicits the learner’s own material through a structured multi-step form before generating answers constrained to the four IELTS band criteria across 100 topics in the current 2026 Sep–Dec question bank.',
-          'Implemented persistent per-topic state in JSON to carry study plans across sessions and across exam seasons; built a validated bank parser, a one-click summary-site generator, and an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.',
+          'Released an open-source agent (MIT) that collects the learner’s own material through a structured multi-step form, then generates answers constrained to the four IELTS band criteria. Covers 100 topics in the 2026 Sep–Dec bank.',
+          'Implemented persistent per-topic state in JSON so study plans carry across sessions and exam seasons; built a validated bank parser, a one-click summary-site generator, and an MCP server that proxies chart images through a vision endpoint so text-only models can handle Writing Task 1.',
         ],
         zh: [
-          '设计并以 MIT 许可开源一个 agent，先经结构化多步表单采集学习者自身素材，再生成受 IELTS 四项评分标准约束的作答，覆盖当前 2026 年 9–12 月题库的 100 个话题。',
-          '以 JSON 实现按话题持久化的状态，使学习计划跨会话、跨考试季度延续；构建带校验的题库解析脚本、一键生成的备考总结站点，以及经视觉接口代理图表图像的 MCP 服务器，使纯文本模型亦可处理写作 Task 1。',
+          '设计并以 MIT 许可开源一个 agent，先用结构化多步表单采集学习者自身的素材，再按 IELTS 四项评分标准生成作答。题库覆盖当前 2026 年 9–12 月的 100 个话题。',
+          '用 JSON 按话题持久化状态，学习计划可跨会话、跨考试季度延续；另实现带校验的题库解析脚本、一键生成的备考总结站点，以及把图表图像代理至视觉接口的 MCP 服务器，纯文本模型也能处理写作 Task 1。',
         ],
       },
     },
@@ -152,8 +152,8 @@ export const RESEARCH: CvSection = {
           'Synthesised the literature on functionalist title translation, regional norm divergence across Greater China and cultural bias in frontier models. Argued that reference-overlap metrics such as BLEU are structurally unsuited to transcreation, since they penalise precisely the divergence that constitutes professional judgement.',
         ],
         zh: [
-          '构建三层认知语言学分析框架，区分翻译策略、认知操作与文化图式，并按认知负荷对四种图式操作进行排序。',
-          '完成文献综述，涵盖功能主义片名翻译、大中华区内部的规范差异及前沿模型已被记录的文化偏见；论证 BLEU 等基于参考重叠度的指标从根本上不适用于译创评估，因其所惩罚者恰为专业判断所在。',
+          '构建三层认知语言学分析框架，区分翻译策略、认知操作与文化图式，并按认知负荷为四种图式操作排序。',
+          '完成文献综述，涵盖功能主义片名翻译、大中华区内部的规范差异以及前沿模型的文化偏见；论证 BLEU 等基于参考重叠度的指标不适用于译创评估，因为它们惩罚的正是专业判断带来的偏离。',
         ],
       },
     },
@@ -196,7 +196,7 @@ export const TEACHING: CvSection = {
           'Supported middle-school English instruction; maintained a quantitative record of interaction frequency and topic-level mastery; delivered differentiated one-to-one tutoring with error-attribution analysis for parents.',
         ],
         zh: [
-          '协助主讲教师开展中学英语教学；建立量化记录，追踪学生互动频次与各知识点掌握程度；实施分层一对一辅导，并向家长反馈错题归因分析。',
+          '协助主讲教师开展中学英语教学；建立量化记录，追踪学生互动频次与各知识点掌握程度；按基础分层开展一对一辅导，定期向家长反馈错题归因。',
         ],
       },
     },
@@ -221,7 +221,7 @@ export const EXPERIENCE: CvSection = {
           'Helped build a retrieval-augmented generation knowledge base over internal business documents, covering preprocessing and ingestion; supported ERP and WMS maintenance and testing.',
         ],
         zh: [
-          '经 Ollama 在企业内网部署并测试量化开源大模型，跨配置基准测试推理吞吐量，为选型提供依据。',
+          '用 Ollama 在企业内网部署并测试量化开源大模型，跨配置基准测试推理吞吐量，为选型提供依据。',
           '参与搭建基于本地模型的企业知识库（RAG），负责业务文档的预处理与接入；协助 ERP 与 WMS 的维护及测试。',
         ],
       },
@@ -287,8 +287,8 @@ export const WRITING_MEDIA: CvSection = {
           'One video passed 100,000 views on the Canton Fair’s official overseas accounts. Also helped run the awards ceremony and two cultural-experience activities.',
         ],
         zh: [
-          '带三人小组，搭起一套从策划到现场执行的标准流程，在展会上采访境外采购商，交付 20 多条宣传视频。',
-          '其中一条在广交会官方境外账号上播放量过十万。另外协助筹办颁奖典礼和两项传统文化体验活动。',
+          '带三人小组，建立从策划到现场执行的标准流程，在展会采访境外采购商，交付 20 多条宣传视频。',
+          '其中一条在广交会官方境外账号播放量超过十万，并协助筹办颁奖典礼与两项传统文化体验活动。',
         ],
       },
     },
@@ -299,7 +299,7 @@ export const WRITING_MEDIA: CvSection = {
         en: [
           'Long-form technology and digital-practice essays on a leading Chinese technology platform; four pieces, more than 181,000 cumulative reads.',
         ],
-        zh: ['为国内主要科技媒体写技术与数字生活类长文，四篇累计阅读 18.1 万+。'],
+        zh: ['为国内主要科技媒体撰写技术与数字生活类长文，四篇累计阅读 18.1 万+。'],
       },
     },
     {
@@ -310,7 +310,7 @@ export const WRITING_MEDIA: CvSection = {
       },
       points: {
         en: ['Essays on English etymology and historical linguistics for a subscriber audience.'],
-        zh: ['给订阅读者写英语词源和历史语言学的文章。'],
+        zh: ['为订阅读者撰写英语词源与历史语言学文章。'],
       },
     },
     {
@@ -325,7 +325,7 @@ export const WRITING_MEDIA: CvSection = {
           'Wrote and published widely read features; interviewed community figures including the president of the United Chinese Association of Southern California; ran homecoming reception.',
         ],
         zh: [
-          '撰写并发布多篇高阅读量报道，采访过美国南加州华人联合总会会长等社会人士，并负责校友返校接待。',
+          '撰写并发布多篇高阅读量报道，采访美国南加州华人联合总会会长等人士，并负责校友返校接待。',
         ],
       },
     },
