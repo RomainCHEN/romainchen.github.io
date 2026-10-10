@@ -24,7 +24,7 @@ export interface CvSection {
  * reason, as the job résumé's does (see RESUME_UPDATED below), and the reader
  * sees only the date.
  */
-export const CV_UPDATED = '2026-10-11T04:00';
+export const CV_UPDATED = '2026-10-11T04:25';
 
 /** The stamp's date part, which is what gets shown. */
 export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
@@ -43,7 +43,7 @@ export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
  * change when the file changes, and a date cannot distinguish two rebuilds in
  * one day. The résumé prints only its date part.
  */
-export const RESUME_UPDATED = '2026-10-11T04:00';
+export const RESUME_UPDATED = '2026-10-11T04:25';
 
 /**
  * This is the academic CV, written for graduate admissions in learning
@@ -81,7 +81,7 @@ export const EDUCATION: CvSection = {
         ],
         zh: [
           '广外翻译方向：英汉对比翻译、基础笔译、中国文化英译、翻译与国际传播、交替传译、同声传译、计算机辅助翻译、语言学导论；在读课程为翻译数据挖掘与应用。',
-          '澳门理工计算机方向：数据结构与算法、Python / Java 程序设计、计算机组成原理、数据库设计、离散数学、电脑网络、软件工程、网页设计与开发、人工智能、数据科学与商业分析；在读课程为自然语言处理、机器翻译、电脑安全（Computer Security）。',
+          '澳门理工计算机方向：数据结构与算法、Python / Java 程序设计、计算机组成原理、数据库设计、离散数学、电脑网络、软件工程、网页设计与开发、人工智能、数据科学与商业分析；在读课程为自然语言处理、机器翻译、电脑安全。',
         ],
       },
     },

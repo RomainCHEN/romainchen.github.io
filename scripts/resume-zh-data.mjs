@@ -20,7 +20,7 @@
  * several rebuilds, and the second one would keep the first one's URL and be
  * served from cache. The footer prints only the date part.
  */
-export const UPDATED = '2026-10-11T04:00';
+export const UPDATED = '2026-10-11T04:25';
 
 export const HEADER = {
   name: '陈泽铭',

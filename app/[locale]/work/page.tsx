@@ -13,12 +13,12 @@ export function generateStaticParams() {
 
 const INTRO: L<string[]> = {
   en: [
-    'Three projects, one question: when a machine can produce a plausible version of the artefact, what exactly is the human contribution, and how would you know if it disappeared?',
-    "One answers it from the teacher's side with edit distances, one from the translator's side with cultural schemas, one from the learner's side by refusing to generate before it has listened. Each page states plainly what has been built, what has been measured, and what has not.",
+    'In the age of AI, almost anyone can produce a usable artefact. The question these three projects pursue is what a person still adds: what the human contributes to the machine, what is lost if that contribution goes, and why I keep finding that a person and a machine together are worth more than either alone.',
+    "One answers it from the teacher's side with edit distances, one from the translator's side with cultural schemas, one from the learner's side by listening before it generates. Each page states plainly what has been built, what has been measured, and what has not.",
   ],
   zh: [
-    '机器已经能做出看得过去的成品，这三个项目追的是同一个问题。人往里面放进去的那部分究竟是什么，它哪天悄悄没了，有谁能察觉。',
-    '第一个站到教师这边，把批改的改动量算成编辑距离；第二个站到译者这边，盯文化图式怎么被挪动；第三个站到学习者这边，要求系统先听完再动笔。做了什么、测了什么、哪些还没测，三页都摊开写。',
+    'AI 时代，几乎人人都能做出看得过去的成品。这三个项目想弄清的，是人在其中还能带来什么：人对机器的贡献究竟是什么，这份贡献一旦消失会怎样。我始终相信，人与机器一起做，胜过任何一方单独去做。',
+    '第一个从教师这边入手，用编辑距离衡量批改的改动量；第二个从译者这边入手，追踪文化图式如何被改动；第三个从学习者这边入手，让系统先听完再动笔。做了什么、测了什么、哪些还没测，三页都如实写明。',
   ],
 };
 

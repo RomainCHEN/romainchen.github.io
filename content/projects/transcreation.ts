@@ -13,7 +13,7 @@ export const transcreation: Project = {
   title: 'Transcreation in the Age of Generative AI',
   subtitle: {
     en: 'Where a language model stops being a translator and starts being a pattern matcher',
-    zh: '评估生成式 AI 在影视片名创译中的表现与能力边界',
+    zh: '评估生成式 AI 在影视片名译创中的表现与能力边界',
   },
   blurb: {
     en: 'A corpus study of film title translation that uses cultural schema theory to locate which cognitive operations humans perform and LLMs cannot.',

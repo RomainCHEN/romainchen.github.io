@@ -13,8 +13,8 @@ export const papercraft: Project = {
   index: '01',
   title: 'PaperCraft',
   subtitle: {
-    en: 'Where the model stops and the teacher starts, recorded item by item',
-    zh: '模型到哪里为止、教师从哪里接手，逐题记录',
+    en: 'The model drafts, the teacher decides, and the decision is recorded',
+    zh: '模型负责起草，教师负责定夺，每一次定夺都留下记录',
   },
   blurb: {
     en: "A teacher-in-the-loop authoring tool for Cambridge KET/PET exercises, instrumented so that the teacher's remaining work becomes data.",
