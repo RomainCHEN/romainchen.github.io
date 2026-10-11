@@ -1,11 +1,18 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import { Reveal } from '@/components/Reveal';
-import { WorkIndex } from '@/components/WorkIndex';
-import { PROJECTS } from '@/content/projects';
-import { CURRENTLY } from '@/content/about';
-import { RESEARCH_INTERESTS, ROLE_LINE, SITE, TAGLINE, UI, path } from '@/content/site';
-import { asLocale, localeParams } from '@/lib/locale';
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Reveal } from "@/components/Reveal";
+import { WorkIndex } from "@/components/WorkIndex";
+import { PROJECTS } from "@/content/projects";
+import { CURRENTLY } from "@/content/about";
+import {
+  RESEARCH_INTERESTS,
+  ROLE_LINE,
+  SITE,
+  TAGLINE,
+  UI,
+  path,
+} from "@/content/site";
+import { asLocale, localeParams } from "@/lib/locale";
 
 export function generateStaticParams() {
   return localeParams();
@@ -21,7 +28,9 @@ export async function generateMetadata({
     // Absolute, or the root layout's template appends the name a second time.
     title: {
       absolute: `${SITE.name} · ${
-        locale === 'en' ? 'learning tools as research objects' : '把学习工具做成研究对象'
+        locale === "en"
+          ? "learning tools as research objects"
+          : "把学习工具做成研究对象"
       }`,
     },
     description: TAGLINE[locale],
@@ -29,7 +38,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
   const locale = asLocale((await params).locale);
 
   return (
@@ -42,17 +55,53 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="canvas pt-20 pb-24 sm:pt-28 lg:pt-36">
         <div className="field">
           <Reveal className="col-margin" as="div">
-            <p className="label">{locale === 'en' ? 'Zeming (Romain) Chen' : '陈泽铭'}</p>
+            <p className="label">
+              {locale === "en" ? "Zeming (Romain) Chen" : "陈泽铭"}
+            </p>
             <p className="mt-3 font-mono text-2xs leading-relaxed text-muted">
-              {locale === 'en' ? SITE.nameZh : SITE.name}
+              {locale === "en" ? SITE.nameZh : SITE.name}
             </p>
           </Reveal>
 
           <div className="col-body">
             <Reveal>
-              <h1 className="max-w-3xl font-display text-3xl leading-[1.14] text-ink text-balance sm:text-4xl lg:text-5xl">
-                {TAGLINE[locale]}
-              </h1>
+              {/* The heading scales with its column so the discipline line always
+                  fits on one line; the caps are the sizes it had before. The
+                  factor is per language because the Latin line is wider. */}
+              <div className="@container">
+                <h1
+                  className={`max-w-3xl font-display leading-[1.14] text-ink text-balance ${
+                    locale === "zh"
+                      ? "text-[min(1.875rem,10.5cqi)] sm:text-[min(2.25rem,10.5cqi)] lg:text-[min(3rem,10.5cqi)]"
+                      : "text-[min(1.875rem,7cqi)] sm:text-[min(2.25rem,7cqi)] lg:text-[min(3rem,7cqi)]"
+                  }`}
+                >
+                  {/* The discipline line sits on its own line and never breaks;
+                    the sentence after it starts below. */}
+                  {(() => {
+                    const text = TAGLINE[locale];
+                    const cut =
+                      locale === "zh"
+                        ? text.indexOf("。") + 1
+                        : text.indexOf(". ") + 1;
+                    return (
+                      <>
+                        <span
+                          data-tagline-head
+                          className="block whitespace-nowrap"
+                        >
+                          {text.slice(0, cut)}
+                        </span>
+                        <span
+                          className={`block ${locale === "zh" ? "break-keep" : ""}`}
+                        >
+                          {text.slice(cut).trim()}
+                        </span>
+                      </>
+                    );
+                  })()}
+                </h1>
+              </div>
             </Reveal>
 
             <Reveal delay={90}>
@@ -87,7 +136,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               {UI.selectedWork[locale]}
             </h2>
             <Link
-              href={path(locale, 'work')}
+              href={path(locale, "work")}
               className="link-draw font-mono text-2xs uppercase tracking-[0.14em] text-muted hover:text-ink"
             >
               {UI.allWork[locale]}
@@ -111,7 +160,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <ul className="space-y-4 border-t border-rule pt-6">
               {CURRENTLY[locale].map((item, i) => (
                 <li key={i} className="flex gap-4">
-                  <span className="mt-2.5 h-px w-6 shrink-0 bg-accent" aria-hidden="true" />
+                  <span
+                    className="mt-2.5 h-px w-6 shrink-0 bg-accent"
+                    aria-hidden="true"
+                  />
                   <span className="max-w-xl font-display text-lg text-ink-soft text-pretty">
                     {item}
                   </span>
@@ -120,10 +172,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </ul>
             <p className="mt-10">
               <Link
-                href={path(locale, 'about')}
+                href={path(locale, "about")}
                 className="link-draw font-mono text-2xs uppercase tracking-[0.14em] text-ink"
               >
-                {locale === 'en' ? 'More about me' : '了解更多'}
+                {locale === "en" ? "More about me" : "了解更多"}
               </Link>
             </p>
           </Reveal>
