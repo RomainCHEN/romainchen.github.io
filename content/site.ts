@@ -18,8 +18,8 @@ export const SITE = {
 } as const;
 
 export const TAGLINE: L = {
-  en: 'Translation × Computer Science. I design learning tools and instrument them as research objects.',
-  zh: '翻译 × 计算机科学。我开发学习工具，并把工具本身做成可供实证研究的对象。',
+  en: 'Translation × Computer Science. From language, into the machine, and back to people.',
+  zh: '翻译 × 计算机科学。从语言出发，走进机器，最后回到人。',
 };
 
 export const ROLE_LINE: L = {
