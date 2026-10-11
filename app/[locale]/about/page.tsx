@@ -22,7 +22,7 @@ export async function generateMetadata({
   const locale = asLocale((await params).locale);
   return {
     title: UI.nav.about[locale],
-    description: ABOUT_LEDE[locale][0],
+    description: ABOUT_LEDE[locale].join(locale === 'zh' ? '' : ' '),
     alternates: { canonical: path(locale, 'about') },
   };
 }
