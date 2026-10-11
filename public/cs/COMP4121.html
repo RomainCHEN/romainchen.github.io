@@ -499,7 +499,7 @@ footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--rule);
     <tr>
       <td>Back-off (trigram)</td>
       <td class="m">α₃(·) if count₃ &gt; 0, else d₃ · p₂_BO</td>
-      <td>First decide the branch. Only if the trigram count is 0 do you drop a level.</td>
+      <td>Decide the branch first. When you drop a level the numerator is the <b>Good-Turing adjusted count c*</b>, not the raw count.</td>
     </tr>
     <tr>
       <td>Entropy</td>
@@ -677,7 +677,7 @@ footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--rule);
     <div class="row hi"><span class="k">bigram types occurring twice</span><span class="v">N₂ = 2</span></div>
     <div class="row"><span class="k">translate <em>translation model</em> (r = 1)</span><span class="v">r* = 2 × 2/6 = ⅔ ≈ 0.667</span></div>
   </div>
-  <p style="margin:11px 0 0;font-size:14.5px;color:var(--ink-soft)">Only the count changes — 1 becomes 0.667. The adjusted count is then normally converted to a probability by dividing by the total, but the quiz stops at r*.</p>
+  <p style="margin:11px 0 0;font-size:14.5px;color:var(--ink-soft)">Only the count changes — 1 becomes 0.667. <b>Do not stop here.</b> The next question backs off to the bigram <em>translation model</em>, and its lower-order probability uses this <b>adjusted</b> count as the numerator — that is exactly why Q2 asks for it.</p>
 </div>
 
 <div class="callout warn">
@@ -696,8 +696,9 @@ footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--rule);
 </ol>
 <p><b>降级之后要重新数：</b>这时要数的不是三元组了，而是<b>后两个词组成的 bigram</b> 出现几次，再除以<b>中间那个词</b>的总次数。</p>
 <p class="m" style="display:block;padding:9px 12px;line-height:2">
-p(w₃ | w₂) = count(w₂,w₃) ÷ count(w₂)
+p(w₃ | w₂) = c*(w₂,w₃) ÷ count(w₂)
 </p>
+<p><b>最容易被漏掉的一步：分子要用「调整后的计数」。</b>如果题目在前一问让你算过 Good-Turing 的 r*，那这里降级算 p(w₂,w₃) 时，<b>分子必须是那个 r*，不是原始 count</b>。Katz back-off 配 Good-Turing 就是这么定义的 —— 这也是为什么老师会把「算 r*」和「算 back-off」拆成前后两问，<b>两问是要连起来做的</b>。</p>
 <p><b>别忘了乘 d₃。</b>这个 d 是折扣系数（&lt;1），题目会给。不乘就少一步。</p>
 </div>
 
@@ -715,7 +716,7 @@ p(w₃ | w₂) = count(w₂,w₃) ÷ count(w₂)
 <div class="fig">
 <div class="scroll">
 <svg viewBox="0 0 620 248" role="img" aria-label="Decision diagram for choosing a back-off branch">
-  <rect class="box-fill" x="170" y="16" width="280" height="42" rx="4"/>
+  <rect class="box-fill" x="140" y="16" width="340" height="42" rx="4"/>
   <text x="310" y="42" text-anchor="middle">count₃(neural, translation, model) &gt; 0 ?</text>
   <path class="flow" d="M 310 58 V 82"/>
   <path class="arrow" d="M 304 74 L 310 84 L 316 74 Z"/>
@@ -735,7 +736,7 @@ p(w₃ | w₂) = count(w₂,w₃) ÷ count(w₂)
   <text x="470" y="172" text-anchor="middle" font-size="11.5">d₃ × p₂(model | translation)</text>
   <text class="t-sm" x="470" y="190" text-anchor="middle">drop to the bigram</text>
 
-  <text class="t-key" x="310" y="228" text-anchor="middle">count₃ = 0 → this branch → 0.6 × 1/6 = 0.10</text>
+  <text class="t-key" x="310" y="228" text-anchor="middle">count₃ = 0 → this branch → 0.6 × (⅔ ÷ 6) = 0.067</text>
 </svg>
 </div>
 <p class="cap"><b>Fig 1.</b> The branch test is always the first step, and it is worth a mark on its own. The corpus contains <em>neural translation works</em> and <em>neural translation helps</em>, but never <em>neural translation model</em> — so the count is 0 and you drop to the bigram.</p>
@@ -745,11 +746,14 @@ p(w₃ | w₂) = count(w₂,w₃) ÷ count(w₂)
   <h4>Worked — Quiz 2, Q3</h4>
   <div class="rows">
     <div class="row"><span class="k">count₃(neural, translation, model)</span><span class="v">0 → lower branch</span></div>
-    <div class="row"><span class="k">count(translation, model)</span><span class="v">1</span></div>
     <div class="row"><span class="k">count(translation)</span><span class="v">6</span></div>
-    <div class="row"><span class="k">p(model | translation)</span><span class="v">1/6 ≈ 0.1667</span></div>
+    <div class="row"><span class="k">raw count(translation, model)</span><span class="v">1 &nbsp;(not used as the numerator)</span></div>
+    <div class="row hi"><span class="k">adjusted c*(translation, model), from Q2</span><span class="v">r* = 2 × 2/6 = ⅔ ≈ 0.667</span></div>
+    <div class="row hi"><span class="k">p₂<sub>BO</sub>(model | translation)</span><span class="v">0.667 / 6 = 1/9 ≈ 0.111</span></div>
   </div>
-  <div class="res">p₃<sub>BO</sub>(model | neural, translation) = 0.6 × 1/6 = <b>0.10</b></div>
+  <div class="res">p₃<sub>BO</sub>(model | neural, translation) = 0.6 × 1/9 = <b>1/15 ≈ 0.067</b></div>
+  <p style="margin:11px 0 0;font-size:14.5px;color:var(--ink-soft)">The numerator is the <b>Good-Turing adjusted count</b>, not the raw count 1.
+    This is why Q2 asks you to compute r* for <em>translation model</em>: the two questions are designed to be worked as a pair.</p>
 </div>
 
 <!-- ================= 2 ENTROPY ================= -->
@@ -1421,7 +1425,7 @@ p(w₃ | w₂) = count(w₂,w₃) ÷ count(w₂)
 
 <div class="drill">
   <p class="qh">Q2 · Good-Turing and back-off <span style="color:var(--ink-soft)">[10 marks]</span></p>
-  <p class="qtext">List the distinct bigrams of the corpus and count each. Give N₁ and N₂. Then compute the Good-Turing adjusted count r* for a bigram occurring once. Finally, for the trigram <em>the works well</em>, decide the back-off branch and evaluate p₃<sub>BO</sub>(well | the, works) using d₃(the, works) = 0.5.</p>
+  <p class="qtext">List the distinct bigrams of the corpus and count each. Give N₁ and N₂. Then compute the Good-Turing adjusted count r* for a bigram occurring once. Finally, for the trigram <em>a system fails</em>, decide the back-off branch and evaluate p₃<sub>BO</sub>(fails | a, system) using d₃(a, system) = 0.5.</p>
   <details><summary>Answer</summary>
   <div class="ansbody">
     <div class="scroll">
@@ -1442,15 +1446,15 @@ p(w₃ | w₂) = count(w₂,w₃) ÷ count(w₂)
       <div class="row hi"><span class="k">N₂</span><span class="v">1</span></div>
       <div class="row"><span class="k">r* for r = 1</span><span class="v">(1+1) × N₂/N₁ = 2 × 1/6 = 0.333</span></div>
     </div>
-    <p style="margin-top:12px"><strong>Back-off.</strong> The word before <em>works</em> is always <em>system</em>, never <em>the</em>, so the trigram <em>the works well</em> never occurs and the count is 0.</p>
+    <p style="margin-top:12px"><strong>Back-off.</strong> Sentence 6 is <em>a system works</em>, so the trigram <em>a system fails</em> never occurs and the count is 0.</p>
     <div class="rows">
-      <div class="row"><span class="k">count₃(the, works, well)</span><span class="v">0 → lower-order branch</span></div>
-      <div class="row"><span class="k">count(works, well)</span><span class="v">3</span></div>
-      <div class="row"><span class="k">count(works)</span><span class="v">4</span></div>
-      <div class="row"><span class="k">p(well | works)</span><span class="v">3/4 = 0.75</span></div>
+      <div class="row"><span class="k">count₃(a, system, fails)</span><span class="v">0 → lower-order branch</span></div>
+      <div class="row"><span class="k">count(system)</span><span class="v">4</span></div>
+      <div class="row hi"><span class="k">adjusted c*(system, fails), from part (a)</span><span class="v">r* = 0.333 &nbsp;(this bigram occurs once)</span></div>
+      <div class="row hi"><span class="k">p₂<sub>BO</sub>(fails | system)</span><span class="v">0.333 / 4 = 1/12 ≈ 0.0833</span></div>
     </div>
-    <div class="res">p₃<sub>BO</sub>(well | the, works) = 0.5 × 0.75 = <b>0.375</b></div>
-    <p style="margin-top:10px">The branch test comes first and is worth a mark on its own: because the trigram count is 0, you must drop a level rather than use α₃.</p>
+    <div class="res">p₃<sub>BO</sub>(fails | a, system) = 0.5 × 1/12 = <b>1/24 ≈ 0.042</b></div>
+    <p style="margin-top:10px">Two marks before any arithmetic: the branch test (count₃ = 0, so drop a level) and using the <b>adjusted</b> count r* as the numerator instead of the raw count.</p>
   </div>
   </details>
 </div>
@@ -1601,7 +1605,7 @@ p(w₃ | w₂) = count(w₂,w₃) ÷ count(w₂)
       <div class="kv">
         <div>Add-One &nbsp;4/13 ≈ 0.308</div>
         <div>Good-Turing &nbsp;2×2/6 ≈ 0.667</div>
-        <div>Back-off &nbsp;0.6 × 1/6 = 0.10</div>
+        <div>Back-off &nbsp;0.6 × (⅔ ÷ 6) = 0.067</div>
         <div>Entropy &nbsp;1.50 bits</div>
         <div>WER &nbsp;2/6 ≈ 33.3%</div>
         <div>AER &nbsp;1 − 6/7 ≈ 0.143</div>
@@ -1614,7 +1618,7 @@ p(w₃ | w₂) = count(w₂,w₃) ÷ count(w₂)
         <li>N₁ counts <em>bigram types</em>, not word occurrences.</li>
         <li>Precision denominator is the <em>output</em> length.</li>
         <li>E-step and M-step normalise along <em>different</em> axes.</li>
-        <li>In back-off, test the branch <em>before</em> computing anything.</li>
+        <li>In back-off, test the branch <em>before</em> computing anything, and use the <em>adjusted</em> count c* — not the raw count — as the numerator.</li>
       </ul>
     </div>
   </div>
