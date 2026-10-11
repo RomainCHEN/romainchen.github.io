@@ -38,12 +38,13 @@ export const papercraft: Project = {
     'CEFR',
   ],
   hero: {
-    src: '/work/papercraft/workspace-bank.webp',
-    w: 2400,
-    h: 1500,
+    src: '/work/papercraft/system-loop.webp',
+    w: 1913,
+    h: 822,
+    thumb: { src: '/work/papercraft/workspace-bank.webp', w: 2400, h: 1500 },
     alt: {
-      en: 'The PaperCraft exercise bank: a filterable list of saved exercises on the left, and an open draft on the right headed with its Cambridge part, its marks, and a verdict that it matches the exam task.',
-      zh: 'PaperCraft 练习库：左侧是可筛选的已存练习列表，右侧打开的初稿标明了剑桥题型、分值，以及「符合考试任务要求」的判定。',
+      en: 'The PaperCraft loop as one diagram: while the teacher waits, the model generates and code checks the draft before the teacher reads and edits it; what is kept is a frozen draft, the edits and the check verdicts; off the generation path, a second model distils and audits rules the teacher then decides on.',
+      zh: 'PaperCraft 回路的整体示意：教师等待时，模型生成、代码校验，随后教师阅读并修改；系统保留冻结的初稿、每次改动与检查结论；在生成路径之外，另一个模型归纳并审计规则，最后交给教师决定。',
     },
   },
   links: [

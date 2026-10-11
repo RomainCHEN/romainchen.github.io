@@ -35,6 +35,7 @@ export const ieltsCoach: Project = {
     src: '/work/ielts-coach/cover.webp',
     w: 2400,
     h: 880,
+    thumb: { src: '/work/ielts-coach/cover-thumb.webp', w: 1248, h: 880 },
     alt: {
       en: 'The IELTS Coach cover: the tagline "Interviews you first, then writes band-calibrated model answers in your own voice", four feature tags, and a Part 2 cue card from the 2026 September to December bank with a target band 7.0 badge.',
       zh: 'IELTS Coach 封面。标语为「先访谈你，再用你自己的声音写出对标目标分数的范文」，下方是四个功能标签。右侧是一张 2026 年 9 至 12 月题库的 Part 2 话题卡，标注目标分数 7.0。',

@@ -19,9 +19,26 @@ import type { Locale, Project } from '@/content/types';
  * banner-shaped image (a poster, say) would lose most of itself to that crop,
  * so anything wider than 2:1 is shown whole instead.
  */
-function fitClass(hero: NonNullable<Project['hero']>): string {
-  const wide = hero.w && hero.h ? hero.w / hero.h > 2 : false;
+function fitClass(w?: number, h?: number): string {
+  const wide = w && h ? w / h > 2 : false;
   return wide ? 'object-contain p-2' : 'object-cover object-left-top';
+}
+
+/**
+ * The image the index and its hover use. A case study can set `hero.thumb`
+ * when its hero is a wide diagram that would be unreadable in a small box; the
+ * index then shows the squarer screenshot while the detail page keeps the
+ * diagram. Without a thumb the hero image is used.
+ */
+function indexImage(hero: NonNullable<Project['hero']>): {
+  src: string;
+  className: string;
+} {
+  const t = hero.thumb;
+  const src = t?.src ?? hero.src;
+  const w = t?.w ?? hero.w;
+  const h = t?.h ?? hero.h;
+  return { src, className: fitClass(w, h) };
 }
 
 export function WorkIndex({ locale, projects }: { locale: Locale; projects: Project[] }) {
@@ -39,11 +56,11 @@ export function WorkIndex({ locale, projects }: { locale: Locale; projects: Proj
             project.hero ? (
               <Image
                 key={project.slug}
-                src={project.hero.src}
+                src={indexImage(project.hero).src}
                 alt=""
                 fill
                 sizes="(min-width: 1024px) 22vw, 0px"
-                className={`${fitClass(project.hero)} transition-opacity duration-500 ${
+                className={`${indexImage(project.hero).className} transition-opacity duration-500 ${
                   shown === project.slug ? 'opacity-100' : 'opacity-0'
                 }`}
               />
@@ -105,11 +122,11 @@ export function WorkIndex({ locale, projects }: { locale: Locale; projects: Proj
                 {project.hero ? (
                   <div className="relative hidden h-20 w-28 shrink-0 overflow-hidden border border-rule bg-paper-sunk sm:block lg:hidden">
                     <Image
-                      src={project.hero.src}
+                      src={indexImage(project.hero).src}
                       alt=""
                       fill
                       sizes="112px"
-                      className={fitClass(project.hero)}
+                      className={indexImage(project.hero).className}
                     />
                   </div>
                 ) : null}

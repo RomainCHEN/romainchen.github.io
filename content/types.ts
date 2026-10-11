@@ -156,7 +156,19 @@ export interface Project {
    * translated one.
    */
   tags: (string | L)[];
-  hero?: { src: string; alt: L; w?: number; h?: number; full?: string };
+  hero?: {
+    src: string;
+    alt: L;
+    w?: number;
+    h?: number;
+    full?: string;
+    /**
+     * Optional image for the index hover and thumbnail. When the case-study
+     * hero is a wide diagram that reads badly in a small cropped box, this
+     * keeps a squarer screenshot in the index. Falls back to `src`.
+     */
+    thumb?: { src: string; w?: number; h?: number };
+  };
   links: ProjectLink[];
   /** Headline facts, shown as a spec block at the top of the case study. */
   facts: { label: L; value: L }[];
