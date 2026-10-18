@@ -17,8 +17,8 @@ const INTRO: L<string[]> = {
     "One answers it from the teacher's side with edit distances, one from the translator's side with cultural schemas, one from the learner's side by listening before it generates. Each page states plainly what has been built, what has been measured, and what has not.",
   ],
   zh: [
-    'AI 时代，几乎人人都能做出看得过去的成品。这三个项目想弄清的，是人在其中还能带来什么：人对机器的贡献究竟是什么，这份贡献一旦消失会怎样。我始终相信，人与机器一起做，胜过任何一方单独去做。',
-    '第一个从教师这边入手，用编辑距离衡量批改的改动量；第二个从译者这边入手，追踪文化图式如何被改动；第三个从学习者这边入手，让系统先听完再动笔。做了什么、测了什么、哪些还没测，三页都如实写明。',
+    'AI 时代，几乎人人都能做出看得过去的产品。这三个项目旨在探索人在其中还能发挥什么作用，人对机器的贡献还能到什么程度，这份贡献一旦消失又会怎样。我始终相信，人和机器的协作能发挥出 1+1>2 的效果。',
+    '第一个从教师的角度入手，用编辑距离衡量批改的改动量；第二个从译者的角度入手，追踪文化图式发生了哪些改动；第三个从学习者的角度入手，让系统先听完再动笔。做了什么、测了什么、哪些还没测，三页都如实写明。',
   ],
 };
 

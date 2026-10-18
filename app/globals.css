@@ -78,9 +78,11 @@
   --font-mono: var(--font-plex-mono), ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* A modular-ish scale, hand-tuned rather than ratio-generated. */
-  --text-2xs: 0.6875rem;
-  --text-2xs--line-height: 1.45;
-  --text-xs: 0.78125rem;
+  /* 12px is the floor. The labels used to sit at 11px, which on a phone is
+     below what anyone reads comfortably, mono or not. */
+  --text-2xs: 0.75rem;
+  --text-2xs--line-height: 1.5;
+  --text-xs: 0.8125rem;
   --text-xs--line-height: 1.5;
   --text-sm: 0.875rem;
   --text-sm--line-height: 1.6;
@@ -102,6 +104,8 @@
   --text-6xl--line-height: 1.0;
 
   --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* A slight overshoot-free spring for things the pointer moves. */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* ---------------------------------------------------------------------------
@@ -245,9 +249,16 @@
   .label {
     font-family: var(--font-mono);
     font-size: var(--text-2xs);
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
+  }
+
+  /* Chinese has no case, and letter-spacing pulls Han characters apart until
+     a label reads as four separate words. Set it in the interface face. */
+  :lang(zh) .label {
+    font-family: var(--font-sans);
+    letter-spacing: 0.04em;
   }
 
   /* Hairline rule with a tick at the left, the "measurement" motif that
@@ -411,6 +422,41 @@
       transition: none;
     }
   }
+
+  /* Press feedback for anything clickable that is not running text: a 1px
+     settle, the way a printed button would give under a finger. */
+  .press {
+    transition: transform 160ms var(--ease-out-quint);
+  }
+
+  .press:active {
+    transform: translateY(1px);
+  }
+
+  /* The index preview in the home margin. Each image is a plate: the incoming
+     one settles from a slightly larger scale while it fades in, so a change of
+     hover reads as one picture replacing another rather than a cross-fade. */
+  .plate {
+    opacity: 0;
+    transform: scale(1.04);
+    transition:
+      opacity 420ms var(--ease-out-soft),
+      transform 900ms var(--ease-out-quint);
+  }
+
+  .plate[data-on='true'] {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .press,
+    .press:active,
+    .plate {
+      transition: opacity 200ms linear;
+      transform: none;
+    }
+  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -487,7 +533,8 @@
     break-after: avoid;
   }
 
-  .reveal {
+  .reveal,
+  .reveal-stagger > * {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -653,10 +700,10 @@
   }
 
   /* Entrance animation, driven by IntersectionObserver in <Reveal>.
-     Deliberately small: 10px and 0.5s. Anything larger reads as a template. */
+     Deliberately small: 14px and 0.6s. Anything larger reads as a template. */
   .reveal {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(14px);
     transition:
       opacity 620ms var(--ease-out-soft),
       transform 620ms var(--ease-out-soft);
@@ -668,8 +715,32 @@
     transform: none;
   }
 
+  /* A list that enters item by item. The parent is revealed as usual; each
+     direct child then follows 70ms after the one before. */
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 560ms var(--ease-out-soft),
+      transform 560ms var(--ease-out-soft);
+  }
+
+  .reveal[data-shown='true'] .reveal-stagger > *,
+  .reveal-stagger[data-shown='true'] > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-stagger > :nth-child(2) { transition-delay: 70ms; }
+  .reveal-stagger > :nth-child(3) { transition-delay: 140ms; }
+  .reveal-stagger > :nth-child(4) { transition-delay: 210ms; }
+  .reveal-stagger > :nth-child(5) { transition-delay: 280ms; }
+  .reveal-stagger > :nth-child(6) { transition-delay: 350ms; }
+  .reveal-stagger > :nth-child(n + 7) { transition-delay: 420ms; }
+
   @media (prefers-reduced-motion: reduce) {
-    .reveal {
+    .reveal,
+    .reveal-stagger > * {
       opacity: 1;
       transform: none;
       transition: none;

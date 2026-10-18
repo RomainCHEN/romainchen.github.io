@@ -169,13 +169,21 @@ describe('evidence claims', () => {
     return section.items.find((item) => item.label.en.includes(labelFragment))?.state;
   }
 
-  it('does not claim the PaperCraft teacher study has a result', () => {
-    // The label was renamed from "usability and efficacy study": the study is
-    // qualitative and has no control arm, so efficacy is not something it can
-    // report. In October 2026 the owner confirmed it is running with six
-    // teachers and data is still being collected, so it moved from 'designed'
-    // to 'collecting'. It must not move further until results are supplied.
-    expect(stateOf('papercraft', 'usability study')).toBe('collecting');
+  it('reports the PaperCraft teacher pilot as a pilot, not as an established result', () => {
+    // The project closed in October 2026 with a final report supplied by the
+    // owner: two teachers, three unmoderated sessions, no control arm. That is
+    // 'piloted', reported descriptively. It must not become 'shipped' (which
+    // would read as validated in use) without a larger study.
+    expect(stateOf('papercraft', 'Teacher pilot')).toBe('piloted');
+    expect(stateOf('papercraft', 'Answer-correctness')).toBe('piloted');
+    expect(stateOf('papercraft', 'Effect of accepted rules')).toBe('piloted');
+  });
+
+  it('does not report questionnaire scores from the PaperCraft pilot', () => {
+    // With two participants the owner chose findings without SUS or NASA-TLX
+    // scores (October 2026).
+    const text = JSON.stringify(getProject('papercraft'));
+    expect(text).not.toMatch(/SUS|NASA-TLX|TLX/);
   });
 
   it('does not claim intervention or item data exists', () => {

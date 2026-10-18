@@ -63,21 +63,28 @@ export default async function Home({
             </p>
           </Reveal>
 
-          <div className="col-body">
+          {/* The heading takes the wide column so it can be set at display
+              size; the facts that qualify it return to the body column. */}
+          <div className="col-wide">
             <Reveal>
               {/* The heading scales with its column so the discipline line always
-                  fits on one line; the caps are the sizes it had before. The
-                  factor is per language because the Latin line is wider. */}
+                  fits on one line; the caps keep it from growing past display
+                  size on a very wide screen. The factor and the cap are per
+                  language because the Latin line is wider. */}
               <div className="@container">
                 <h1
-                  className={`max-w-3xl font-display leading-[1.14] text-ink text-balance ${
+                  className={`font-display text-ink tracking-[-0.022em] ${
                     locale === "zh"
-                      ? "text-[min(1.875rem,10.5cqi)] sm:text-[min(2.25rem,10.5cqi)] lg:text-[min(3rem,10.5cqi)]"
-                      : "text-[min(1.875rem,7cqi)] sm:text-[min(2.25rem,7cqi)] lg:text-[min(3rem,7cqi)]"
+                      ? "text-[min(2.25rem,10.4cqi)] sm:text-[min(3.25rem,10.4cqi)] lg:text-[min(4.75rem,10.4cqi)]"
+                      : "text-[min(2.25rem,7.4cqi)] sm:text-[min(3.25rem,7.4cqi)] lg:text-[min(3.5rem,7.4cqi)]"
                   }`}
                 >
-                  {/* The discipline line sits on its own line and never breaks;
-                    the sentence after it starts below. */}
+                  {/* The discipline line sits on its own line at display size
+                    and never breaks; the sentence after it is set smaller, as
+                    the line that explains it. In English that sentence also
+                    stays on one line (under 90% of the column wide at every
+                    width from a 320px phone up); the Chinese one is held to a
+                    measure instead. */}
                   {(() => {
                     const text = TAGLINE[locale];
                     const cut =
@@ -88,12 +95,16 @@ export default async function Home({
                       <>
                         <span
                           data-tagline-head
-                          className="block whitespace-nowrap"
+                          className="block whitespace-nowrap leading-[1.02]"
                         >
                           {text.slice(0, cut)}
                         </span>
                         <span
-                          className={`block ${locale === "zh" ? "break-keep" : ""}`}
+                          className={`mt-[0.45em] block text-[0.46em] leading-[1.22] tracking-[-0.01em] text-ink-soft ${
+                            locale === "zh"
+                              ? "max-w-[34ch] break-keep text-balance"
+                              : "whitespace-nowrap"
+                          }`}
                         >
                           {text.slice(cut).trim()}
                         </span>
@@ -103,9 +114,11 @@ export default async function Home({
                 </h1>
               </div>
             </Reveal>
+          </div>
 
+          <div className="col-body">
             <Reveal delay={90}>
-              <p className="mt-8 max-w-xl font-display text-lg text-ink-soft text-pretty">
+              <p className="mt-10 max-w-xl font-display text-lg text-ink-soft text-pretty">
                 {ROLE_LINE[locale]}
               </p>
             </Reveal>
@@ -113,7 +126,7 @@ export default async function Home({
             <Reveal delay={150}>
               <div className="mt-10 rule-tick pt-5">
                 <p className="label">{UI.interests[locale]}</p>
-                <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+                <ul className="reveal-stagger mt-3 flex flex-wrap gap-x-5 gap-y-2">
                   {RESEARCH_INTERESTS.map((interest) => (
                     <li key={interest.en} className="text-sm text-ink-soft">
                       {interest[locale]}
@@ -157,7 +170,7 @@ export default async function Home({
             </h2>
           </Reveal>
           <Reveal className="col-body" as="div">
-            <ul className="space-y-4 border-t border-rule pt-6">
+            <ul className="reveal-stagger space-y-4 border-t border-rule pt-6">
               {CURRENTLY[locale].map((item, i) => (
                 <li key={i} className="flex gap-4">
                   <span

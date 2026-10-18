@@ -19,7 +19,7 @@ export const SITE = {
 
 export const TAGLINE: L = {
   en: 'Translation × Computer Science. From language, into the machine, and back to people.',
-  zh: '翻译 × 计算机科学。从语言出发，走进机器，最后回到人。',
+  zh: '翻译 × 计算机科学。从语言出发，走进机器，回归于人。',
 };
 
 export const ROLE_LINE: L = {
@@ -32,7 +32,7 @@ export const RESEARCH_INTERESTS: L<string>[] = [
   { en: 'Learning analytics', zh: '学习分析' },
   { en: 'Teacher-facing tools', zh: '面向教师的工具' },
   { en: 'Language assessment', zh: '语言测评' },
-  { en: 'Human-centered AI', zh: '以人为本的人工智能' },
+  { en: 'Human-centered AI', zh: '以人为中心的人工智能' },
   { en: 'Agent design & evaluation', zh: 'Agent 设计与评估' },
   { en: 'Self-improving agent loops', zh: '自改进 Agent 回路' },
 ];
@@ -85,10 +85,11 @@ export const UI = {
   },
   evidenceLegend: {
     en: 'Every component below is labelled with how much empirical backing it has.',
-    zh: '下面每一项都标注了目前获得的实证支撑程度。',
+    zh: '下面每一项都标注了现有的实证支撑程度。',
   },
   evidenceStates: {
     shipped: { en: 'In use', zh: '已投入使用' },
+    piloted: { en: 'Small-scale result', zh: '已有小规模结果' },
     instrumented: { en: 'Built, no data yet', zh: '已建成，暂无数据' },
     collecting: { en: 'Running, no results yet', zh: '数据收集中，尚无结果' },
     designed: { en: 'Designed, not run', zh: '方案已定，尚未开展' },
@@ -98,8 +99,8 @@ export const UI = {
   sourceTitle: { en: 'Source title', zh: '原片名' },
   humanTitle: { en: 'Human translator', zh: '人工译者' },
   machineTitle: { en: 'Literal / LLM default', zh: '直译或模型默认输出' },
-  fullSize: { en: 'Full sheet', zh: '看完整原图' },
-  what: { en: 'What it does', zh: '做什么' },
+  fullSize: { en: 'Full sheet', zh: '查看完整原图' },
+  what: { en: 'What it does', zh: '作用' },
   why: { en: 'Why it matters for the research', zh: '对研究的意义' },
   writingEmpty: {
     en: 'Nothing published here yet.',
