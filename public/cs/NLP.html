@@ -1,0 +1,1925 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NLP Mid-Term Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
+<style>/* ==========================================================================
+   Palette sampled from the course's own slides:
+     rust block carrying white text, gold rules and table header bars,
+     crimson headings, peach table fills, blue circles for automata states.
+   The four accent roles stay separate — see the note in the header.
+   ========================================================================== */
+:root{
+  /* surfaces */
+  --paper:#fdf8f4;
+  --surface:#ffffff;
+  --surface-2:#fdf6f1;
+  --ink:#241a17;
+  --ink-soft:#6b5a52;
+  --rule:#e8d9d0;
+  --rule-soft:#f3e9e3;
+
+  /* accent — FOUR roles, never collapsed */
+  --accent:#c2700f;         /* gold: borders, dots, chart marks only (3.74:1) */
+  --accent-deep:#a11035;    /* crimson: accent-coloured TEXT — flips light in dark */
+  --accent-solid:#b0501f;   /* rust: solid fills carrying white text — dark in BOTH */
+  --accent-wash:#fbe9dd;
+  --accent-tint:#fdf1e8;
+
+  /* the Chinese guidance layer — deliberately cool against a warm page,
+     because an amber annotation on amber content is not an annotation */
+  --zh:#24457e;
+  --zh-wash:#eaf0f9;
+  --zh-rule:#c3d4ea;
+
+  /* semantics */
+  --red:#a3312f;    --red-wash:#fdecea;
+  --green-deep:#1f6b4f; --green-wash:#e2f4ea;
+  --blue:#1f6fb5;   --blue-deep:#16507f;
+  --zero-blue:#1b4fd8;   /* the slide's "this cell was a zero" blue */
+
+  /* type */
+  --font-display:'Archivo',system-ui,-apple-system,sans-serif;
+  --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-zh:"Microsoft YaHei","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC",
+            "Source Han Sans SC",system-ui,sans-serif;
+
+  --measure:43rem;
+  --shell:60rem;
+  color-scheme:light;
+}
+
+/* Dark values live in ONE place and are applied from two scopes, so an
+   explicit light choice still beats a dark OS setting. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#1c1512; --surface:#241b18; --surface-2:#2b211d;
+    --ink:#f2ebe6; --ink-soft:#bda9a0; --rule:#3d2f29; --rule-soft:#33261f;
+    --accent:#eea646; --accent-deep:#f0a0b4; --accent-solid:#b0501f;
+    --accent-wash:#3a2417; --accent-tint:#2e1d13;
+    --zh:#9fbcdf; --zh-wash:#17222f; --zh-rule:#2c3f56;
+    --red:#f0a3a1; --red-wash:#3a1f1e;
+    --green-deep:#8fd4b4; --green-wash:#14301f;
+    --blue:#79b4e4; --blue-deep:#a8cdf0; --zero-blue:#7ea6ff;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1c1512; --surface:#241b18; --surface-2:#2b211d;
+  --ink:#f2ebe6; --ink-soft:#bda9a0; --rule:#3d2f29; --rule-soft:#33261f;
+  --accent:#eea646; --accent-deep:#f0a0b4; --accent-solid:#b0501f;
+  --accent-wash:#3a2417; --accent-tint:#2e1d13;
+  --zh:#9fbcdf; --zh-wash:#17222f; --zh-rule:#2c3f56;
+  --red:#f0a3a1; --red-wash:#3a1f1e;
+  --green-deep:#8fd4b4; --green-wash:#14301f;
+  --blue:#79b4e4; --blue-deep:#a8cdf0; --zero-blue:#7ea6ff;
+  color-scheme:dark;
+}
+
+/* ------------------------------------------------------------------ base */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--font-body);font-size:16px;line-height:1.62;
+  font-variant-numeric:tabular-nums;
+}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.22;margin:0}
+p{margin:0 0 12px}
+a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:2px}
+code,kbd{font-family:var(--font-mono);font-size:.92em}
+b,strong{font-weight:600}
+
+.shell{max-width:var(--shell);margin:0 auto;
+  padding-inline:clamp(16px,4vw,32px);padding-block:0 90px}
+
+/* --------------------------------------------------------------- masthead */
+.masthead{position:relative;
+  margin-inline:calc(-1 * clamp(16px,4vw,32px));
+  padding:32px clamp(16px,4vw,32px) 28px;
+  background:var(--accent-solid);color:#fff}
+.masthead .kicker{font-family:var(--font-mono);font-size:11.5px;
+  letter-spacing:.14em;text-transform:uppercase;opacity:.84;margin:0 0 9px}
+.masthead h1{font-family:var(--font-display);font-weight:700;
+  font-size:clamp(27px,5vw,42px);line-height:1.08;letter-spacing:-.02em;
+  margin:0 0 11px;text-wrap:balance;max-width:24ch}
+.masthead .sub{margin:0;max-width:56ch;font-size:15.5px;opacity:.93;
+  line-height:1.5}
+.scopechips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.scopechips span{font-family:var(--font-mono);font-size:11.5px;
+  letter-spacing:.03em;padding:4px 10px;border-radius:2px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.24)}
+.scopechips span.out{opacity:.62;text-decoration:line-through}
+.themebtn{position:absolute;top:18px;right:clamp(16px,4vw,32px);
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:#fff;cursor:pointer;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.36);
+  border-radius:3px;padding:5px 11px}
+.themebtn:hover{background:rgba(255,255,255,.26)}
+@media (max-width:620px){.themebtn{position:static;display:inline-block;
+  margin-bottom:14px}}
+
+/* ----------------------------------------------------------- scope strip */
+.scope{margin:22px 0 6px;padding:15px 18px;border:1px solid var(--rule);
+  border-left:4px solid var(--accent-solid);border-radius:0 5px 5px 0;
+  background:var(--surface)}
+.scope h2{font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--accent-deep);margin:0 0 9px}
+.scope ol{margin:0;padding-left:22px;columns:2;column-gap:34px;
+  font-size:14.5px}
+@media (max-width:700px){.scope ol{columns:1}}
+.scope li{margin-bottom:3px;break-inside:avoid}
+.scope .out{margin-top:11px;padding-top:10px;border-top:1px dashed var(--rule);
+  font-size:13.5px;color:var(--ink-soft)}
+.scope .out b{color:var(--red)}
+
+/* ------------------------------------------------------------------ rail */
+.layout{display:grid;grid-template-columns:1fr;gap:24px;margin-top:26px}
+/* A grid item's automatic minimum size is min-content, so a wide table or a
+   520px-minimum figure would otherwise stretch the track and push the whole
+   page sideways on a phone. min-width:0 lets the .scroll wrappers do their
+   job instead. Desktop layout is unaffected. */
+.layout > *{min-width:0}
+@media (min-width:1060px){
+  .layout{grid-template-columns:170px minmax(0,1fr);gap:44px;align-items:start}
+}
+.rail{position:sticky;top:0;z-index:6;
+  margin-inline:calc(-1 * clamp(16px,4vw,32px));
+  padding:9px clamp(16px,4vw,32px);
+  background:var(--paper);border-bottom:1px solid var(--rule);
+  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.rail a{flex:0 0 auto;font-family:var(--font-mono);font-size:11.5px;
+  letter-spacing:.03em;color:var(--ink-soft);text-decoration:none;
+  padding:4px 9px;border:1px solid var(--rule);border-radius:99px;
+  background:var(--surface);white-space:nowrap}
+.rail a:hover{color:var(--accent-deep);border-color:var(--accent)}
+@media (min-width:1060px){
+  .rail{flex-direction:column;gap:1px;top:26px;margin-inline:0;padding:0;
+        border-bottom:0;overflow:visible;background:transparent}
+  .rail a{border:0;border-radius:0;background:transparent;padding:4px 0 4px 11px;
+    border-left:2px solid var(--rule);font-size:12.5px;white-space:normal}
+  .rail a:hover{border-left-color:var(--accent);background:var(--accent-tint)}
+}
+
+/* ------------------------------------------------------------- sections */
+main :is(p,ul,ol,.callout,.lede,.zh){max-width:var(--measure)}
+section{margin-top:46px;scroll-margin-top:16px}
+section > h2{font-size:clamp(19px,3vw,24px);color:var(--accent-deep);
+  margin:0 0 4px;display:flex;align-items:baseline;gap:11px}
+section > h2 .num{font-family:var(--font-mono);font-size:12px;font-weight:600;
+  background:var(--accent-solid);color:#fff;border-radius:3px;
+  padding:2px 7px;letter-spacing:.04em;flex:0 0 auto}
+section > h3{font-size:16.5px;color:var(--ink);margin:26px 0 8px}
+section > h3::before{content:"";display:inline-block;width:9px;height:9px;
+  background:var(--accent);border-radius:2px;margin-right:8px;
+  vertical-align:1px}
+.lede{font-size:17px;color:var(--ink-soft);margin:0 0 18px}
+
+/* ------------------------------------------------------- part dividers */
+.part{display:flex;align-items:baseline;gap:14px;margin:56px 0 4px;
+  padding-bottom:9px;border-bottom:2px solid var(--accent-solid)}
+.part .n{font-family:var(--font-mono);font-size:12px;font-weight:600;
+  letter-spacing:.1em;color:var(--accent-deep)}
+.part h2{margin:0;font-size:clamp(21px,3.4vw,28px);color:var(--accent-deep)}
+
+/* --------------------------------------------------- the Chinese layer */
+.zh{border-left:3px solid var(--zh);background:var(--zh-wash);
+  border-radius:0 4px 4px 0;padding:13px 17px 14px;margin:16px 0;
+  font-family:var(--font-zh);font-size:15px;line-height:1.78;color:var(--ink)}
+.zh > .zhh{display:block;margin:0 0 8px;
+  font-family:var(--font-zh);font-size:12.5px;font-weight:700;
+  letter-spacing:.04em;color:var(--zh)}
+.zh > .zhh::before{content:"中文";display:inline-block;
+  background:var(--zh);color:#fff;border-radius:3px;
+  font-size:10.5px;font-weight:700;letter-spacing:.08em;
+  padding:1px 6px;margin-right:8px;vertical-align:1px}
+.zh :is(p,ul,ol){max-width:var(--measure);margin:0 0 9px}
+.zh :is(p,ul,ol):last-child{margin-bottom:0}
+.zh ul,.zh ol{padding-left:20px}
+.zh .m,.zh code{font-family:var(--font-mono);font-size:13.5px;
+  background:color-mix(in srgb,var(--zh) 10%,var(--surface));
+  border:1px solid color-mix(in srgb,var(--zh) 26%,var(--surface));
+  border-radius:3px;padding:1px 5px}
+.zh .hl{background:color-mix(in srgb,var(--zh) 24%,transparent);
+  border-radius:2px;padding:0 3px;font-weight:700}
+.zhsteps{margin:8px 0 0;padding:0;list-style:none;counter-reset:z}
+.zhsteps>li{counter-increment:z;position:relative;padding-left:30px;
+  margin-bottom:7px}
+.zhsteps>li::before{content:counter(z);position:absolute;left:0;top:2px;
+  width:20px;height:20px;border-radius:50%;background:var(--zh);color:#fff;
+  font-family:var(--font-mono);font-size:11px;font-weight:700;
+  display:grid;place-items:center}
+
+/* --------------------------------------------------------- mark answers */
+.hitline{font-size:13.5px;line-height:1.7;
+  background:color-mix(in srgb,var(--accent) 10%,transparent);
+  border-left:2px solid var(--accent);border-radius:0 3px 3px 0;
+  padding:6px 11px;margin:0 0 11px;max-width:var(--measure)}
+.hitline b{color:var(--accent-deep);margin-right:7px}
+.pts{margin:0;padding:0;list-style:none;max-width:var(--measure)}
+.pts>li{position:relative;padding:5px 0 5px 15px;margin:0;
+  border-bottom:1px solid var(--rule-soft)}
+.pts>li:last-child{border-bottom:0}
+.pts>li::before{content:"";position:absolute;left:2px;top:12px;
+  width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.pts .mk{font-family:var(--font-mono);font-size:11px;font-weight:600;
+  color:var(--accent-deep);white-space:nowrap;margin-right:7px}
+.pts .mk::before{content:"["}
+.pts .mk::after{content:"]"}
+
+/* --------------------------------------------------------------- drills */
+.drill{border:1px solid var(--rule);border-left:3px solid var(--accent-solid);
+  border-radius:0 4px 4px 0;background:var(--surface);
+  padding:13px 16px 14px;margin-bottom:11px}
+.drill .qh{font-family:var(--font-mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.08em;color:var(--accent-deep);margin:0 0 7px}
+.drill details summary{cursor:pointer;list-style:none;
+  font-family:var(--font-mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--accent-deep)}
+.drill details summary::-webkit-details-marker{display:none}
+.drill details summary::before{content:"\25B8\00a0"}
+.drill details[open] summary::before{content:"\25BE\00a0"}
+.drill .ansbody{border-top:1px dashed var(--rule);margin-top:9px;padding-top:10px}
+.drill .ansbody :is(p,ul,ol,.rows,.dt){max-width:var(--measure)}
+.drill .ansbody p:last-child{margin-bottom:0}
+.drill .qtext{font-size:15.5px;margin:0 0 10px}
+.drill .qtext:last-child{margin-bottom:0}
+
+/* ----------------------------------------------------- worked rows/bars */
+.wk{background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+  padding:14px 16px;margin:16px 0 20px}
+.rows{display:flex;flex-direction:column;max-width:var(--measure)}
+.row{display:grid;grid-template-columns:auto 1fr;gap:14px;
+  align-items:baseline;padding:6px 0;border-bottom:1px solid var(--rule-soft)}
+.row:last-child{border-bottom:0}
+.row .k{font-size:13.5px;color:var(--ink-soft)}
+.row .v{font-family:var(--font-mono);font-size:14.5px;text-align:right}
+.row.hi .v{color:var(--accent-deep);font-weight:600}
+.res{background:var(--accent-solid);color:#fff;border-radius:3px;
+  padding:9px 13px;margin-top:11px;font-family:var(--font-mono);font-size:15px;
+  max-width:var(--measure);overflow-x:auto}
+.res.alt{background:var(--blue-deep)}
+
+/* ------------------------------------------------------------- tables */
+/* Scroll shadows: the left/right shadows only appear when there is actually
+   content hidden on that side, so a table that fits shows no decoration. */
+.scroll{overflow-x:auto;padding-bottom:4px;margin:14px 0;
+  background:
+    linear-gradient(to right, var(--surface) 40%, transparent) left / 26px 100% no-repeat local,
+    linear-gradient(to left, var(--surface) 40%, transparent) right / 26px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(0,0,0,.20), transparent) left / 11px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.20), transparent) right / 11px 100% no-repeat scroll;}
+.dt{width:100%;border-collapse:collapse;font-size:14.5px;min-width:460px}
+.dt th,.dt td{border-bottom:1px solid var(--rule-soft);padding:8px 11px;
+  text-align:left;vertical-align:top}
+.dt thead th{font-family:var(--font-display);font-size:11.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);
+  border-bottom:1.5px solid var(--rule);white-space:nowrap}
+.dt td.m,.dt th.m{font-family:var(--font-mono);font-size:13.5px;
+  white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.dt td.c,.dt th.c{text-align:center}
+.dt .z{color:var(--zero-blue);font-weight:600}
+.dt tbody tr:hover{background:var(--accent-tint)}
+.dt caption{caption-side:top;text-align:left;font-size:12.5px;
+  color:var(--ink-soft);padding:0 0 6px}
+.sh1{background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+.sh2{background:color-mix(in srgb,var(--accent) 18%,var(--surface))}
+.sh3{background:color-mix(in srgb,var(--accent) 32%,var(--surface))}
+
+/* ------------------------------------------------------------ callouts */
+.callout{border-left:3px solid var(--accent-solid);background:var(--surface);
+  padding:13px 17px;margin:18px 0;border-radius:0 4px 4px 0}
+.callout h4{margin:0 0 6px;color:var(--ink);font-size:12.5px;
+  letter-spacing:.07em;text-transform:uppercase}
+.callout.warn{border-left-color:var(--accent);background:var(--accent-wash)}
+.callout.err{border-left-color:var(--red);background:var(--red-wash)}
+.callout.tip{border-left-color:var(--green-deep);background:var(--green-wash)}
+.callout :is(p,ul,ol){max-width:var(--measure)}
+.callout :is(p,ul,ol):last-child{margin-bottom:0}
+
+/* ------------------------------------------------------------- figures */
+.fig{margin:18px 0 22px}
+.fig svg{display:block;width:100%;height:auto;min-width:520px;
+  background:var(--surface);border:1px solid var(--rule);border-radius:5px;
+  padding:10px 6px}
+.cap{margin:9px 0 0;font-family:var(--font-mono);font-size:11.5px;
+  letter-spacing:.02em;color:var(--ink-soft);max-width:var(--measure)}
+.cap b{color:var(--accent-deep);font-weight:600}
+.fignote{font-size:12.5px;color:var(--accent-deep);margin:5px 0 0;
+  max-width:var(--measure)}
+.fignote::before{content:"trap ";font-family:var(--font-mono);font-size:10.5px;
+  background:var(--accent-wash);border:1px solid var(--accent);
+  border-radius:3px;padding:1px 5px;margin-right:7px;
+  text-transform:uppercase;letter-spacing:.06em}
+
+/* svg typography — classes, not presentation attributes */
+svg .shape{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round}
+svg .flow{fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round}
+svg .box-fill{fill:var(--surface-2);stroke:var(--ink);stroke-width:1.8}
+svg .box-alt{fill:var(--accent-wash);stroke:var(--accent-deep);stroke-width:1.8}
+svg text{font-family:var(--font-mono);font-size:12px;fill:var(--ink)}
+svg .t-lbl{font-family:var(--font-display);font-weight:600;font-size:12.5px}
+svg .t-sm{font-size:10.5px;fill:var(--ink-soft)}
+svg .t-key{fill:var(--accent-deep);font-weight:600}
+
+/* ---------------------------------------------------------- formula sheet */
+.fs{width:100%;border-collapse:collapse;font-size:14px;min-width:620px}
+.fs th,.fs td{border-bottom:1px solid var(--rule-soft);padding:8px 11px;
+  text-align:left;vertical-align:top}
+.fs thead th{font-family:var(--font-display);font-size:11.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);
+  border-bottom:1.5px solid var(--rule);white-space:nowrap}
+.fs td.f{font-family:var(--font-mono);font-size:13.5px;white-space:nowrap}
+.fs td.tr{font-size:13px;color:var(--red)}
+.fs tbody tr:nth-child(even){background:var(--accent-tint)}
+
+/* ------------------------------------------------------------- mock paper */
+.mockq{border:1px solid var(--rule);border-radius:5px;background:var(--surface);
+  padding:15px 18px;margin-bottom:13px}
+.mockq .qh{font-family:var(--font-mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.08em;color:var(--accent-deep);margin:0 0 8px}
+.mockq .qtext{margin:0 0 10px;font-size:15px}
+.mockq .qtext:last-child{margin-bottom:0}
+
+/* -------------------------------------------------------- last-hour recap */
+.recap{background:var(--surface);border:2px solid var(--accent-deep);
+  border-radius:5px;padding:20px 22px 22px;margin-top:22px}
+.recapgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px 28px;margin-top:14px}
+.recapgrid h4{margin:0 0 8px;color:var(--accent-deep)}
+.recapgrid ul{margin:0;padding-left:18px;font-size:14.5px}
+.recapgrid li{margin-bottom:4px}
+.recapgrid p{font-size:14.5px;margin:0 0 7px}
+
+/* ---------------------------------------------------------------- footer */
+footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--rule);
+  font-size:13px;color:var(--ink-soft)}
+
+/* ------------------------------------------------------------ utilities */
+.pill{display:inline-block;font-family:var(--font-mono);font-size:11px;
+  font-weight:600;letter-spacing:.05em;padding:1px 7px;border-radius:99px;
+  border:1px solid currentColor}
+.pill.in{color:var(--green-deep);background:var(--green-wash)}
+.pill.outx{color:var(--red);background:var(--red-wash)}
+.frac{display:inline-block;vertical-align:-0.55em;text-align:center;
+  font-size:.82em;line-height:1.08;margin:0 .18em}
+.frac>span{display:block;padding:0 .22em}
+.frac .den{border-top:1.2px solid currentColor}
+.small{font-size:13px;color:var(--ink-soft)}
+hr.sep{border:0;border-top:1px solid var(--rule);margin:34px 0}
+
+/* --------------------------------------------------------------- print */
+@media print{
+  .rail,.themebtn{display:none}
+  .shell{max-width:none;padding:0}
+  body{background:#fff;font-size:11.5pt}
+  .masthead{background:#fff;color:#000;border-bottom:3px solid #b0501f;
+    padding:0 0 12px;margin-inline:0}
+  .masthead h1,.masthead .sub,.masthead .eyebrow{color:#000}
+  section{margin-top:22px;break-inside:auto}
+  section > h2{break-after:avoid}
+  details{display:block}
+  details > summary{display:none}
+  details > *{display:block !important}
+  figure,.callout,.drill,.mockq,.wk,tr{break-inside:avoid}
+  .zh{break-inside:avoid}
+  .scope ol{columns:1}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+
+<div class="shell">
+
+<header class="masthead">
+  <button class="themebtn" id="themeBtn" type="button">Dark mode</button>
+  <p class="kicker">CSAI3122 Natural Language Processing · Mid-Term</p>
+  <h1>NLP Mid-Term Review</h1>
+  <p class="sub">The exam scope only, in teaching order — worked calculations, model answers with
+  mark tags, a fresh mock paper, and a last-hour recap. Built from the two <i>Mid-Term Exam
+  Highlights</i> files: the topic list and the lecture recording.</p>
+  <div class="scopechips">
+    <span>In scope: the 10 highlighted topics</span>
+    <span class="out">Byte-Pair Encoding</span>
+    <span class="out">Perplexity</span>
+    <span class="out">Backoff &amp; interpolation</span>
+    <span class="out">Sentiment lexicons</span>
+    <span class="out">Naive Bayes derivation</span>
+  </div>
+</header>
+
+<div class="layout">
+
+<nav class="rail" aria-label="Contents">
+  <a href="#scope">Scope</a>
+  <a href="#plan">How to use this</a>
+  <a href="#formulas">Formula sheet</a>
+  <a href="#t1">1 · Words &amp; vocabulary</a>
+  <a href="#t2">2 · Lemma vs stem</a>
+  <a href="#t3">3 · Regular expressions</a>
+  <a href="#t4">4 · Finite state automata</a>
+  <a href="#t5">5 · Language models</a>
+  <a href="#t6">6 · Laplace smoothing</a>
+  <a href="#t7">7 · Embeddings &amp; cosine</a>
+  <a href="#t8">8 · Classification harms</a>
+  <a href="#t9">9 · Hidden Markov models</a>
+  <a href="#mock">Mock paper</a>
+  <a href="#recap">Last hour</a>
+</nav>
+
+<main>
+
+<!-- ================= SCOPE ================= -->
+<section id="scope">
+  <h2>Scope</h2>
+  <p class="lede">Ten topics, taken from <i>Mid-Term Exam Highlights.docx</i> and confirmed word for
+  word by the lecture recording. The slides are background reading — only what the highlights and the
+  recording name is worked in full below.</p>
+  <ol>
+    <li>Word instances, types, and the size of the vocabulary</li>
+    <li>Space-based tokenization</li>
+    <li>Lemmatization and stemming — definitions, differences, and applying them to given words</li>
+    <li>Laplace (add-one) smoothing — why it is needed, how it works, and the formula</li>
+    <li>Regular expressions — the motivation, and writing one for a stated purpose</li>
+    <li>Finite state automata — the relationship to a regular expression, <b>both directions</b></li>
+    <li>Language models — unigram / bigram / n-gram, and computing probabilities from word counts</li>
+    <li>Word embeddings — the concept and the objective function; cosine similarity from a word-word matrix</li>
+    <li>Text classification — the problems, drawbacks and harms</li>
+    <li>Hidden Markov models — the components, and the three core computations</li>
+  </ol>
+  <p class="small" style="margin-top:12px"><b>Deliberately left out</b> — not named in either
+  highlight file, so not revised here: Byte-Pair Encoding and other subword tokenizers · perplexity and
+  train/dev/test splits · backoff and interpolation · sentiment lexicons and negation handling · the
+  Naive Bayes derivation · the history-of-NLP timeline · word2vec gradient derivations and SGD. They
+  are worth a glance if you have time, but they are not what the recording asks for.</p>
+</section>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">00</span><h2 id="plan">How to use this page</h2></div>
+  <p class="lede">Ten topics. Four of them are pure calculation and can be drilled to certainty.
+  Three are "write this" tasks with a fixed recipe. Three are explanation questions where the marks
+  are in naming the right things.</p>
+
+  <div class="zh">
+    <span class="zhh">先看这里：这门考试怎么答</span>
+    <p>录音里老师把范围讲得很具体，题型基本可以分成三类，复习顺序建议按下面的来：</p>
+    <ol class="zhsteps">
+      <li><span class="hl">先练计算题</span>：余弦相似度、bigram 概率、拉普拉斯平滑、HMM 的
+        forward 算法。这四类有唯一正确答案，练到不会错为止，性价比最高。</li>
+      <li><span class="hl">再练"写出来"的题</span>：写正则表达式、画有限状态自动机、给词做
+        lemmatization / stemming。都有固定套路，背模板即可。</li>
+      <li><span class="hl">最后背"说清楚"的题</span>：语言模型为什么重要、文本分类的危害、
+        HMM 是什么。答案是"关键词清单"，写全关键词就有分。</li>
+    </ol>
+    <p>重要提醒：<span class="hl">所有答案用英文写</span>。术语（lemma、stem、smoothing、
+      transition probability）必须用英文原词，中文只用来帮你理解。本页所有中文都放在这种蓝色框里，
+      框外的英文才是你要写进答卷的内容。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>About the mark tags</h4>
+    <p>Every model answer below opens with a <b>Marks</b> line and then one bullet per scoring point,
+    tagged like <span class="mk">4.2 · 2</span> — "question 4, point 2, roughly 2 marks". There is no
+    official marking scheme in the highlight files, so treat the numbers as <b>indicative weights</b>
+    that show where the emphasis sits, not as a published key. The <i>structure</i> — one bullet per
+    point, no padding — is the part worth copying in the exam.</p>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">REF</span><h2 id="formulas">Formula sheet</h2></div>
+  <p class="lede">Every formula the recording points at, with the mistake that costs most marks in
+  that row. Learn the <i>right-hand column</i>, not just the formula.</p>
+
+  <div class="scroll">
+  <table class="fs">
+    <thead>
+      <tr><th>Quantity</th><th>Formula</th><th>Most common mistake</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Lexical diversity</td>
+        <td class="f">LDS = |V| / N</td>
+        <td class="tr">Counting punctuation as a token. Decide once and say which convention you used.</td>
+      </tr>
+      <tr>
+        <td>Heaps' law</td>
+        <td class="f">|V| = k·N<sup>β</sup>, 0.67 &lt; β &lt; 0.75</td>
+        <td class="tr">Reading β as an exact constant. It is a range, and vocabulary grows faster than √N.</td>
+      </tr>
+      <tr>
+        <td>Bigram MLE</td>
+        <td class="f">P(w<sub>n</sub> | w<sub>n−1</sub>) = <span class="frac"><span class="num">C(w<sub>n−1</sub>w<sub>n</sub>)</span><span class="den">C(w<sub>n−1</sub>)</span></span></td>
+        <td class="tr">Dividing by the total number of bigrams. The denominator is the count of the <b>first</b> word only.</td>
+      </tr>
+      <tr>
+        <td>Chain rule</td>
+        <td class="f">P(w<sub>1..n</sub>) = Π<sub>k</sub> P(w<sub>k</sub> | w<sub>1..k−1</sub>)</td>
+        <td class="tr">Forgetting the first factor P(w<sub>1</sub>), which has no condition.</td>
+      </tr>
+      <tr>
+        <td>Bigram sentence probability</td>
+        <td class="f">P(w<sub>1..n</sub>) ≈ Π<sub>k</sub> P(w<sub>k</sub> | w<sub>k−1</sub>)</td>
+        <td class="tr">Using counts directly instead of the per-word conditional probabilities.</td>
+      </tr>
+      <tr>
+        <td>Laplace (add-one)</td>
+        <td class="f">P*(w<sub>n</sub> | w<sub>n−1</sub>) = <span class="frac"><span class="num">C(w<sub>n−1</sub>w<sub>n</sub>) + 1</span><span class="den">C(w<sub>n−1</sub>) + V</span></span></td>
+        <td class="tr">Adding 1 to the denominator instead of <b>V</b>. The denominator grows by the vocabulary size.</td>
+      </tr>
+      <tr>
+        <td>Cosine similarity</td>
+        <td class="f">cos(a,b) = <span class="frac"><span class="num">a · b</span><span class="den">‖a‖ ‖b‖</span></span></td>
+        <td class="tr">Forgetting the two norms, i.e. reporting the dot product.</td>
+      </tr>
+      <tr>
+        <td>HMM forward step</td>
+        <td class="f">α<sub>t</sub>(j) = [Σ<sub>i</sub> α<sub>t−1</sub>(i)·a<sub>ij</sub>] · b<sub>j</sub>(o<sub>t</sub>)</td>
+        <td class="tr">Multiplying the emission term inside the sum. It comes out of the sum once.</td>
+      </tr>
+      <tr>
+        <td>Observation likelihood</td>
+        <td class="f">P(o<sub>1..T</sub>) = Σ<sub>j</sub> α<sub>T</sub>(j)</td>
+        <td class="tr">Summing <i>every</i> column. Only the final column is summed.</td>
+      </tr>
+      <tr>
+        <td>Viterbi step</td>
+        <td class="f">v<sub>t</sub>(j) = max<sub>i</sub>[v<sub>t−1</sub>(i)·a<sub>ij</sub>] · b<sub>j</sub>(o<sub>t</sub>)</td>
+        <td class="tr">Using Σ instead of max. Summing gives the likelihood, not the best path.</td>
+      </tr>
+      <tr>
+        <td>Supervised transition</td>
+        <td class="f">a<sub>ij</sub> = C(i→j) / C(i)</td>
+        <td class="tr">Dividing by the total transitions in the corpus rather than by the count of state <i>i</i>.</td>
+      </tr>
+      <tr>
+        <td>Supervised emission</td>
+        <td class="f">b<sub>j</sub>(o) = C(o, j) / C(j)</td>
+        <td class="tr">Dividing by the count of the observation instead of the count of the state.</td>
+      </tr>
+      <tr>
+        <td>Baum-Welch re-estimation</td>
+        <td class="f">a<sub>ij</sub> = <span class="frac"><span class="num">Σ<sub>t</sub> ξ<sub>t</sub>(i,j)</span><span class="den">Σ<sub>t</sub> γ<sub>t</sub>(i)</span></span></td>
+        <td class="tr">Using hard counts. Unsupervised EM uses <b>expected</b> counts, ξ and γ.</td>
+      </tr>
+      <tr>
+        <td>Posterior state probability</td>
+        <td class="f">γ<sub>t</sub>(i) = <span class="frac"><span class="num">α<sub>t</sub>(i)·β<sub>t</sub>(i)</span><span class="den">P(O)</span></span></td>
+        <td class="tr">Omitting the normalisation by P(O) — γ must sum to 1 over states at each t.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">01</span><h2 id="t1">Words, instances and vocabulary</h2></div>
+  <p class="lede">The first thing the topic list names. Two definitions, one ratio, one tokenizer.</p>
+
+  <div class="zh">
+    <span class="zhh">这一题的起手式</span>
+    <p>看到一段话让你算 N 和 |V|，按住这个顺序走，不要临场发挥：</p>
+    <ol class="zhsteps">
+      <li>先决定<span class="hl">标点算不算 token</span>。算，就在答案里写一句
+        <span class="m">"punctuation counted as tokens"</span>；不算，就写
+        <span class="m">"punctuation excluded"</span>。这一句本身就是分。</li>
+      <li>全部转小写再切词，这样 <span class="m">The</span> 和 <span class="m">the</span>
+        才算同一个 type。</li>
+      <li><span class="m">N</span> = 数出来的词总数（instances，带重复）；
+        <span class="m">|V|</span> = 去重后的个数（types）。</li>
+      <li><span class="m">LDS = |V| / N</span>，除完保留 3–4 位小数，顺手写一句
+        "the higher the score, the less repetition"。</li>
+    </ol>
+    <p>常见的坑：把 <span class="m">|V|</span> 当成"字典里所有词"。<span class="m">|V|</span>
+      是<b>这一篇文本里</b>出现过的不同词数。</p>
+  </div>
+
+  <h3>Model answer — "What are word instances and what is vocabulary size?"</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>types vs instances · N is running total · |V| is distinct · LDS · space tokenization</p>
+    <ul class="pts">
+      <li><span class="mk">1.1 · 2</span><b>Instance</b> (also called a <i>token</i>) = one occurrence of a
+        word in running text. <b>N</b> is the total number of instances — every repetition counted.</li>
+      <li><span class="mk">1.2 · 2</span><b>Type</b> = a distinct word form. The <b>vocabulary</b> V is the
+        <i>set</i> of all types, and the <b>size of the vocabulary |V|</b> is how many distinct words occur.</li>
+      <li><span class="mk">1.3 · 2</span>Worked contrast: <i>"the cat sat on the mat"</i> → N = 6, but
+        |V| = 5, because <i>the</i> occurs twice and is counted once.</li>
+      <li><span class="mk">1.4 · 2</span><b>Lexical diversity</b> = |V| / N. It falls as a text gets longer;
+        the two limits are 1/N (all words identical) and 1 (no word repeated).</li>
+      <li><span class="mk">1.5 · 2</span><b>Heaps' law</b>: |V| = k·N<sup>β</sup> with 0.67 &lt; β &lt; 0.75 —
+        vocabulary grows sub-linearly, faster than √N. A corpus twice as long does <i>not</i> have twice
+        as many distinct words.</li>
+    </ul>
+  </div>
+
+  <h3>Space-based tokenization</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>split on whitespace · works for spaced scripts · fails on punctuation, clitics, no-space languages</p>
+    <ul class="pts">
+      <li><span class="mk">2.1 · 2</span>Split the string wherever a space character occurs; each run of
+        non-space characters becomes one token. In Python, <code>text.split()</code>.</li>
+      <li><span class="mk">2.2 · 2</span>It is appropriate for languages written with spaces —
+        Latin, Cyrillic, Greek, Arabic — and it is the cheapest possible baseline.</li>
+      <li><span class="mk">2.3 · 2</span>It fails on <b>punctuation glued to words</b> (<code>mat.</code>),
+        <b>multiword expressions</b> (<i>New York</i>), <b>clitics</b> (<i>we're</i> → <i>we</i> + <i>are</i>),
+        and it produces no token at all for <b>languages without spaces</b> (Chinese, Japanese, Thai).</li>
+      <li><span class="mk">2.4 · 2</span>Consequence: the vocabulary is polluted with
+        <i>mat</i> and <i>mat.</i> as different types, which inflates |V| and splits statistics.</li>
+    </ul>
+  </div>
+
+  <div class="drill">
+    <p class="qh">DRILL 1.A</p>
+    <p class="qtext">For the sentence below, give N, |V| and LDS. State your punctuation convention.</p>
+    <p class="qtext"><i>"The small cat sat on the warm mat and the cat slept"</i></p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>convention stated · N · |V| · the ratio</p>
+        <ul class="pts">
+          <li><span class="mk">A · 1</span>No punctuation present, so the convention does not arise.</li>
+          <li><span class="mk">A · 2</span>Tokens (lower-cased): the, small, cat, sat, on, the, warm, mat, and, the, cat, slept
+            → <b>N = 12</b>.</li>
+          <li><span class="mk">A · 2</span>Distinct forms: and, cat, mat, on, sat, slept, small, the, warm
+            → <b>|V| = 9</b>. <i>the</i> appears 3×, <i>cat</i> 2×.</li>
+          <li><span class="mk">A · 1</span><b>LDS = 9/12 = 0.75</b>.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">02</span><h2 id="t2">Lemmatization and stemming</h2></div>
+  <p class="lede">Both reduce a word to a shorter form. Only one of them produces a real word.</p>
+
+  <div class="zh">
+    <span class="zhh">一定要能当场举例</span>
+    <p>老师明确说了要"举例，并写出给定单词处理后的结果"。所以别只背定义，把下面这三组对照背下来，
+      考试直接套：</p>
+    <ul>
+      <li><span class="m">am / is / are / was</span> → lemma <span class="m">be</span>，但 stem 会变成
+        <span class="m">am / is / ar / wa</span> 之类，<b>很多不是真词</b>。</li>
+      <li><span class="m">studies</span> → lemma <span class="m">study</span>（真词）；
+        stem <span class="m">studi</span>（不是真词）。这一组最能说明区别。</li>
+      <li><span class="m">better</span> → lemma <span class="m">good</span>（要查词典才知道）；
+        stem 还是 <span class="m">better</span>（规则砍不掉）。</li>
+    </ul>
+    <p>答题模板：「Lemma 是<b>词典词</b>，要做形态分析、看词性；Stem 是<b>砍前后缀</b>，
+      不管是不是真词、快但粗糙。」然后立刻跟上例子。</p>
+  </div>
+
+  <h3>Model answer — "Explain lemmatization and stemming, their difference, and give examples."</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>definition ×2 · dictionary word vs chopped affixes · POS needed · examples · speed/accuracy trade-off</p>
+    <ul class="pts">
+      <li><span class="mk">3.1 · 2</span><b>Lemmatization</b> maps a word form to its <b>lemma</b> —
+        the dictionary headword, i.e. the base form you would look up. It needs a dictionary and the
+        word's part of speech: <i>am, is, are, was</i> → <b>be</b>; <i>cars</i> → <b>car</b>.</li>
+      <li><span class="mk">3.2 · 2</span><b>Stemming</b> chops affixes off with rewrite rules and
+        <i>does not</i> care whether the result is a real word: <i>studies</i> → <b>studi</b>,
+        <i>happiness</i> → <b>happi</b>, <i>relational</i> → <b>relat</b>.</li>
+      <li><span class="mk">3.3 · 2</span>Two differences that carry the marks: (a) a lemma is a
+        <b>real word</b>, a stem need not be; (b) lemmatization is <b>POS-dependent and
+        dictionary-driven</b>, stemming is <b>rule-driven and POS-blind</b>.</li>
+      <li><span class="mk">3.4 · 2</span>Consequence: stemming is <b>faster</b> and needs no lexicon, so it
+        suits large-scale information retrieval; lemmatization is <b>more accurate</b>, and is preferred
+        when the actual word matters (translation, question answering).</li>
+      <li><span class="mk">3.5 · 2</span>Both are <b>word normalization</b>: they collapse different
+        surface forms so that <i>car</i> and <i>cars</i> share statistics. Neither can be undone — the
+        information about number and tense is lost.</li>
+    </ul>
+  </div>
+
+  <div class="drill">
+    <p class="qh">DRILL 2.A</p>
+    <p class="qtext">Give the lemma and a plausible stem for: <b>better</b>, <b>studies</b>, <b>are</b>,
+      <b>mice</b>.</p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>lemma must be a real word · stem may not be</p>
+        <ul class="pts">
+          <li><span class="mk">A · 2</span><b>better</b> → lemma <b>good</b> (irregular; only a dictionary
+            finds this). A Porter-type stemmer leaves it as <b>better</b>, because no suffix rule fires.</li>
+          <li><span class="mk">A · 2</span><b>studies</b> → lemma <b>study</b> (<i>-ies → -y</i>);
+            stem <b>studi</b> (the rule just strips the <i>s</i>).</li>
+          <li><span class="mk">A · 1</span><b>are</b> → lemma <b>be</b>; stem typically <b>are</b>
+            (an irregular verb has no suffix to chop).</li>
+          <li><span class="mk">A · 2</span><b>mice</b> → lemma <b>mouse</b> (suppletive plural —
+            a stemmer cannot handle it at all).</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">03</span><h2 id="t3">Regular expressions</h2></div>
+  <p class="lede">Two things are asked: <i>why</i> they are used, and <i>write one that matches this</i>.</p>
+
+  <div class="zh">
+    <span class="zhh">写正则的答题流程</span>
+    <p>老师举的例子是"写出所有以 <span class="m">le</span> 结尾的单词"。写正则按四步走，写完在草稿纸上
+      心算两个例子验证：</p>
+    <ol class="zhsteps">
+      <li>先写<b>词边界</b>：<span class="m">\b ... \b</span>。不加边界，<span class="m">led</span>、
+        <span class="m">sleep</span> 里的 <span class="m">le</span> 也会被匹配到。</li>
+      <li>中间填<b>允许的字符集和数量</b>：字母是 <span class="m">[A-Za-z]*</span>；若是"若干个数字"就用
+        <span class="m">\d{n}</span>。</li>
+      <li>把<b>必须出现的字面量</b>放在最后：<span class="m">le</span>。</li>
+      <li><b>双向验证</b>：拿一个应该匹配的、一个不该匹配的，各测一次。这一步很多人跳过，然后丢分。</li>
+    </ol>
+    <p>常见的量词陷阱：<span class="m">?</span> 只管<b>前面一个字符</b>（<span class="m">colou?r</span>
+      是 color 或 colour）；<span class="m">+</span> 也是只管前面一个（<span class="m">stars+!</span>
+      要<b>两个 s</b>）。</p>
+  </div>
+
+  <div class="fig" id="regex_fsa_map"><div class="scroll"><svg viewBox="12.0 63.0 738.0 161.9" role="img" aria-label="A regular expression and a finite state automaton describe the same language" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-deep)"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c2700f"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1b5580"/></marker></defs><rect x="28.0" y="79.0" width="250.0" height="78.0" rx="4" fill="var(--accent-wash)" stroke="#c2700f" stroke-width="1.8"/><text x="153.0" y="103.0" text-anchor="middle" font-weight="700" font-family="var(--font-display)" font-size="13">regular expression</text><text x="153.0" y="137.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="700" font-family="var(--font-mono)" font-size="17">/baa+!/</text><rect x="466.0" y="79.0" width="268.0" height="78.0" rx="4" fill="var(--surface)" stroke="#1b5580" stroke-width="1.8"/><text x="600.0" y="103.0" text-anchor="middle" font-weight="700" font-family="var(--font-display)" font-size="13">finite state automaton</text><text x="600.0" y="137.0" text-anchor="middle" fill="#1b5580" font-weight="600" font-family="var(--font-mono)" font-size="13">q0→q1→q2 ↺ q3→q4</text><path d="M 288.0 102.0 L 456.0 102.0" fill="none" stroke="var(--accent-deep)" stroke-width="2.0" marker-end="url(#ahc)" stroke-linecap="round"/><text x="372.0" y="88.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">Thompson construction</text><path d="M 456.0 136.0 L 288.0 136.0" fill="none" stroke="var(--accent-deep)" stroke-width="2.0" marker-end="url(#ahc)" stroke-linecap="round"/><text x="372.0" y="162.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">read the path labels</text><text x="28.0" y="206.0" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">the two notations describe exactly the same set of strings — the regular language</text></svg></div></div><p class="cap"><b>The relationship the recording asks you to explain</b> A regular expression and a finite state automaton are two notations for the same regular language, and you can convert in either direction.</p><p class="fignote">One way is Thompson's construction; the other is reading the labels off the accepting paths.</p>
+
+  <h3>Model answer — "Why do we need regular expressions in NLP?"</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>formal language for strings · pre-processing role · not a general NLP solution · precision/recall</p>
+    <ul class="pts">
+      <li><span class="mk">4.1 · 2</span>A regular expression is a <b>formal language for specifying a set
+        of text strings</b>. It is a <i>pattern</i>, not a program: it describes which strings belong to
+        a language.</li>
+      <li><span class="mk">4.2 · 2</span>It sits inside bigger systems as a <b>pre-processing and
+        formatting</b> tool — tokenizing, cleaning, extracting emails, dates, prices, hashtags from raw text.</li>
+      <li><span class="mk">4.3 · 2</span>It is <b>not a general NLP solution</b>. Anything needing
+        semantics — translation, sentiment, question answering — is out of reach of a regex.</li>
+      <li><span class="mk">4.4 · 2</span>Designing one is a <b>precision/recall trade-off</b>: a broader
+        pattern finds more true cases but adds <b>false positives</b> (<i>there</i> matched by
+        <code>[tT]he</code>); a narrower one misses true cases, adding <b>false negatives</b>.</li>
+      <li><span class="mk">4.5 · 2</span>In Python use the <code>re</code> module with a <b>raw string</b>
+        (<code>r"\d+"</code>), otherwise <code>\n</code> is read as a newline character rather than
+        "backslash-n".</li>
+    </ul>
+  </div>
+
+  <h3>Patterns you should be able to write from memory</h3>
+  <div class="scroll">
+  <table class="dt">
+    <caption>All patterns below were executed against the accept / reject examples shown.</caption>
+    <thead>
+      <tr><th>Task</th><th>Regular expression</th><th>Matches</th><th>Rejects</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Any word ending in <b>le</b></td><td class="m">\b[A-Za-z]*le\b</td>
+          <td class="m">apple, ale, whistle</td><td class="m">led, sleep, level</td></tr>
+      <tr><td>Any word ending in <b>ing</b></td><td class="m">\b\w+ing\b</td>
+          <td class="m">doing, swimming</td><td class="m">ing, singe</td></tr>
+      <tr><td>A word of all capitals</td><td class="m">\b[A-Z]+\b</td>
+          <td class="m">BOOK, NLP</td><td class="m">Book, book</td></tr>
+      <tr><td>Phone number <i>0000-0000</i></td><td class="m">\b\d{4}-\d{4}\b</td>
+          <td class="m">8201-1280</td><td class="m">820-1280, 82011-1280</td></tr>
+      <tr><td>Price with exactly 2 decimals</td><td class="m">\b\d+\.\d{2}\b</td>
+          <td class="m">972.50</td><td class="m">972.5, 972.505</td></tr>
+      <tr><td>Floating point, any decimals</td><td class="m">\b\d+(\.\d+)?\b</td>
+          <td class="m">864, 864.1, 900.127</td><td class="m">abc, .5</td></tr>
+      <tr><td>The determiner <i>the</i></td><td class="m">\b[tT]he\b</td>
+          <td class="m">The, the</td><td class="m">there, then, their</td></tr>
+      <tr><td>An optional letter</td><td class="m">colou?r</td>
+          <td class="m">color, colour</td><td class="m">colr, colouur</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout err">
+    <h4>The three mistakes that lose marks here</h4>
+    <ul>
+      <li><b>No anchors or word boundaries.</b> <code>[tT]he</code> also matches inside <i>their</i>.
+        The sentence <i>"The recent attempt by the police to retain their current rates"</i> has three
+        matches for <code>[tT]he</code> but only two for <code>\b[tT]he\b</code>.</li>
+      <li><b>Misreading a quantifier's scope.</b> <code>? * +</code> bind to the <b>single preceding
+        character</b>, not to the whole expression. <code>/baa+!/</code> requires
+        <i>b</i>, then <i>a</i>, then <b>one or more further <i>a</i></b>, then <i>!</i> — so
+        <b>ba!</b> is rejected; the shortest accepted string is <b>baa!</b>.</li>
+      <li><b>Using a greedy quantifier when an exact count is meant.</b> For "exactly two decimal
+        places" write <code>\d{2}</code>, not <code>\d+</code>.</li>
+    </ul>
+  </div>
+
+  <div class="drill">
+    <p class="qh">DRILL 3.A</p>
+    <p class="qtext">Write a regular expression for each: (a) a hexadecimal colour code
+      <i>#RRGGBB</i>; (b) a date in <i>DD/MM/YYYY</i> form; (c) any word starting with a capital
+      letter followed only by lower-case letters.</p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>boundaries · exact counts · character classes</p>
+        <ul class="pts">
+          <li><span class="mk">A · 3</span><b>(a)</b> <code>#[0-9A-Fa-f]{6}\b</code> — six hex digits
+            exactly. <code>{6}</code>, not <code>+</code>: <i>#FFF</i> must not match.</li>
+          <li><span class="mk">A · 3</span><b>(b)</b> <code>\b\d{2}/\d{2}/\d{4}\b</code> — and note that
+            <code>/</code> is not special, so it needs no escape, while a literal <code>.</code> would
+            (<code>\.</code>) because <code>.</code> means "any character".</li>
+          <li><span class="mk">A · 3</span><b>(c)</b> <code>\b[A-Z][a-z]+\b</code> — the second class is
+            <code>+</code> not <code>*</code> if a single capital letter should not count as a word.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">04</span><h2 id="t4">Finite state automata</h2></div>
+  <p class="lede">The recording asks for the relationship in <b>both directions</b>: regex → diagram,
+  and diagram → regex.</p>
+
+  <div class="zh">
+    <span class="zhh">画 FSA 的固定套路</span>
+    <p>老师特意强调"vice versa"，两个方向都要会。画图按这个流程，一定不会错：</p>
+    <ol class="zhsteps">
+      <li>数一数正则里<b>必须按顺序出现的符号</b>，每个符号一个状态。开头加 <span class="m">q0</span>。</li>
+      <li>遇到 <span class="m">*</span> 或 <span class="m">+</span>，在<b>那个符号所在的状态上画自环</b>
+        （箭头绕回自己）。<span class="m">+</span> 表示至少一次，所以自环之外还要有一条正向的进入边。</li>
+      <li>遇到 <span class="m">?</span>，从同一个状态<b>分两条路</b>，一条经过该符号，一条绕过它。</li>
+      <li>最后一个状态画<b>双圈</b>表示接受状态（accepting / final state）。</li>
+      <li>反过来"看图写正则"：从 q0 走到双圈，把一路上每条边的标签按顺序读出来，
+        <b>自环</b>读成 <span class="m">+</span>（或 <span class="m">*</span>），<b>平行分支</b>合成
+        <span class="m">|</span> 或 <span class="m">?</span>。</li>
+    </ol>
+    <p>要背的定义五元组：<span class="m">Q</span>（状态集）、<span class="m">Σ</span>（字母表）、
+      <span class="m">q0</span>（起始状态）、<span class="m">F</span>（接受状态集）、
+      <span class="m">δ</span>（转移函数）。</p>
+  </div>
+
+  <div class="fig" id="fsa_baa"><div class="scroll"><svg viewBox="8.0 8.0 626.8 197.8" role="img" aria-label="Finite state automaton for the regular expression baa+!" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-deep)"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c2700f"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1b5580"/></marker></defs><path d="M 24.0 108.0 L 48.5 108.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="24.0" y="66.0" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="10.5">start</text><circle cx="80.0" cy="108.0" r="25" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="80.0" y="112.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q0</text><circle cx="208.0" cy="108.0" r="25" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="208.0" y="112.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q1</text><circle cx="336.0" cy="108.0" r="25" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="336.0" y="112.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q2</text><circle cx="464.0" cy="108.0" r="25" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="464.0" y="112.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q3</text><circle cx="592.0" cy="108.0" r="25" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="592.0" y="112.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q4</text><path d="M 106.0 108.0 L 176.5 108.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="144.0" y="96.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="14">b</text><path d="M 234.0 108.0 L 304.5 108.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="272.0" y="96.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="14">a</text><path d="M 362.0 108.0 L 432.5 108.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="400.0" y="96.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="14">a</text><path d="M 445.4 91.3 C 430.2 45.5, 500.2 51.8, 482.6 91.3" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)"/><text x="464.0" y="35.5" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-display)" font-size="14">a</text><path d="M 490.0 108.0 L 560.5 108.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="528.0" y="96.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="14">!</text><text x="592.0" y="157.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="10.5">final</text><text x="24.0" y="187.0" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">double ring = accepting state   ·   the a loop on q3 is the Kleene +</text></svg></div></div><p class="cap"><b>The course's own FSA for <code>/baa+!/</code></b> Five states, five transitions. q0 is the start state and q4 the accepting state. The <b>a</b> loop drawn on q3 is what the Kleene <code>+</code> looks like as a diagram: one mandatory <b>a</b> plus any number of further ones.</p><p class="fignote">Exam form: “given this regex, draw the diagram” — and the reverse, read the path labels off a diagram and write the regex.</p>
+
+  <h3>Model answer — "What is the relationship between a regular expression and an FSA?"</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>same regular language · two notations · 5-tuple definition · both directions · determinism</p>
+    <ul class="pts">
+      <li><span class="mk">5.1 · 2</span>A regular expression and a finite state automaton are
+        <b>two notations for exactly the same thing</b>: a <b>regular language</b>. Every regex has an
+        equivalent FSA and every FSA has an equivalent regex.</li>
+      <li><span class="mk">5.2 · 2</span>Definition to quote — an FSA is a <b>5-tuple</b>:
+        <b>Q</b> a finite set of states; <b>Σ</b> an alphabet of symbols; <b>q<sub>0</sub></b> the start
+        state; <b>F ⊆ Q</b> the set of accepting states; <b>δ: Q × Σ → Q</b> the transition function.
+        It is a directed graph with labelled nodes and labelled arcs.</li>
+      <li><span class="mk">5.3 · 2</span><b>Recognition</b> (acceptance) = start in q<sub>0</sub>, read the
+        input left to right, follow the arc whose label matches, move to the new state. Accept the string
+        iff you run out of input while standing in a state in F.</li>
+      <li><span class="mk">5.4 · 2</span><b>Regex → FSA:</b> build one state per symbol in order, and turn
+        each Kleene operator into a diagram feature — <code>*</code>/<code>+</code> become a
+        <b>self-loop</b>, <code>?</code> becomes a <b>bypass arc</b>, <code>|</code> becomes a
+        <b>parallel branch</b>. Mark the last state as accepting.</li>
+      <li><span class="mk">5.5 · 2</span><b>FSA → regex:</b> read the labels along every path from
+        q<sub>0</sub> to a state in F and join them; a self-loop contributes <code>+</code>, alternative
+        paths are joined with <code>|</code>.</li>
+      <li><span class="mk">5.6 · 2</span><b>Deterministic</b> means that at every point there is exactly
+        one thing to do — no choices. A table-driven interpreter (D-RECOGNIZE) runs any such machine, and
+        <b>to change the machine you change the table</b>.</li>
+    </ul>
+  </div>
+
+  <div class="fig" id="fsa_stars"><div class="scroll"><svg viewBox="0.0 10.3 673.8 174.5" role="img" aria-label="Finite state automaton for stars+!" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-deep)"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c2700f"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1b5580"/></marker></defs><path d="M 16.0 102.0 L 29.5 102.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><circle cx="58.0" cy="102.0" r="22" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="58.0" y="106.1" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="12">q0</text><circle cx="154.0" cy="102.0" r="22" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="154.0" y="106.1" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="12">q1</text><circle cx="250.0" cy="102.0" r="22" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="250.0" y="106.1" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="12">q2</text><circle cx="346.0" cy="102.0" r="22" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="346.0" y="106.1" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="12">q3</text><circle cx="442.0" cy="102.0" r="22" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="442.0" y="106.1" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="12">q4</text><circle cx="538.0" cy="102.0" r="22" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="538.0" y="106.1" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="12">q5</text><circle cx="634.0" cy="102.0" r="22" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><circle cx="634.0" cy="102.0" r="17" fill="none" stroke="#ffffff" stroke-width="1.6"/><text x="634.0" y="106.1" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="12">q6</text><path d="M 81.0 102.0 L 125.5 102.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="106.0" y="91.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">s</text><path d="M 177.0 102.0 L 221.5 102.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="202.0" y="91.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">t</text><path d="M 273.0 102.0 L 317.5 102.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="298.0" y="91.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">a</text><path d="M 369.0 102.0 L 413.5 102.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="394.0" y="91.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">r</text><path d="M 425.7 87.3 C 412.3 47.0, 473.9 52.5, 458.3 87.3" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)"/><text x="442.0" y="37.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-display)" font-size="13">s</text><path d="M 465.0 102.0 L 509.5 102.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="490.0" y="91.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">s</text><path d="M 561.0 102.0 L 605.5 102.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="586.0" y="91.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">!</text><text x="16.0" y="166.0" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">shortest accepted string is “stars!”  —  “star!” is rejected (only one s)</text></svg></div></div><p class="cap"><b>FSA for <code>/stars+!/</code> (Assignment Q8.1)</b> Read the labels along an accepting path: s, t, a, r, then the <b>s</b> loop (one or more), then <b>!</b>. The loop sits on q4 — the state you reach <i>after</i> the first s.</p><p class="fignote">Trap: <code>stars+!</code> needs at least two s characters, so “star!” is rejected.</p>
+  <div class="fig" id="fsa_colour"><div class="scroll"><svg viewBox="4.0 20.2 685.8 252.7" role="img" aria-label="Finite state automaton for colou?r" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-deep)"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c2700f"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1b5580"/></marker></defs><path d="M 20.0 168.0 L 45.5 168.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><circle cx="76.0" cy="168.0" r="24" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="76.0" y="172.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q0</text><circle cx="182.0" cy="168.0" r="24" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="182.0" y="172.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q1</text><circle cx="288.0" cy="168.0" r="24" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="288.0" y="172.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q2</text><circle cx="394.0" cy="168.0" r="24" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="394.0" y="172.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q3</text><path d="M 101.0 168.0 L 151.5 168.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="129.0" y="157.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">c</text><path d="M 207.0 168.0 L 257.5 168.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="235.0" y="157.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">o</text><path d="M 313.0 168.0 L 363.5 168.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="341.0" y="157.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">l</text><circle cx="516.0" cy="62.0" r="24" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="516.0" y="66.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q5</text><circle cx="648.0" cy="168.0" r="24" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><circle cx="648.0" cy="168.0" r="19" fill="none" stroke="#ffffff" stroke-width="1.6"/><text x="648.0" y="172.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q6</text><path d="M 412.9 151.6 Q 426.7 86.6 493.0 82.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="468.0" y="96.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">u</text><path d="M 535.5 77.7 Q 599.9 88.3 624.2 148.9" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="612.0" y="96.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">r</text><path d="M 419.0 168.0 Q 518.2 214.0 617.5 168.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="552.0" y="210.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="13">r</text><text x="20.0" y="254.0" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">two ways into q6: with the u (colour) and without it (color)</text></svg></div></div><p class="cap"><b>FSA for <code>/colou?r/</code> (Assignment Q8.2)</b> The <code>?</code> makes the <b>u</b> optional, so q3 gains a second outgoing arc and there are two routes into the accepting state q6.</p><p class="fignote">This is an NFA: from q3 on input <b>r</b> you may take the lower arc directly.</p>
+  <div class="fig" id="fsa_le"><div class="scroll"><svg viewBox="8.0 22.3 628.8 199.5" role="img" aria-label="Finite state automaton for any word ending in le" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-deep)"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c2700f"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1b5580"/></marker></defs><path d="M 24.0 122.0 L 106.5 122.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><circle cx="140.0" cy="122.0" r="27" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="140.0" y="126.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q0</text><circle cx="386.0" cy="122.0" r="27" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><text x="386.0" y="126.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q1</text><circle cx="592.0" cy="122.0" r="27" fill="#2a7ab8" stroke="#1b5580" stroke-width="1.8"/><circle cx="592.0" cy="122.0" r="22" fill="none" stroke="#ffffff" stroke-width="1.6"/><text x="592.0" y="126.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="13">q2</text><path d="M 119.9 103.9 C 83.5 62.6, 200.7 68.5, 160.1 103.9" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)"/><text x="140.0" y="48.6" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-display)" font-size="12.5">[A-Za-z]</text><path d="M 168.0 122.0 L 352.5 122.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="263.0" y="110.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="14">l</text><path d="M 414.0 122.0 L 558.5 122.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="489.0" y="110.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="14">e</text><text x="592.0" y="173.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="10.5">final</text><text x="24.0" y="203.0" fill="var(--ink-soft)" font-family="var(--font-mono)" font-size="11">regex:  \b[A-Za-z]*le\b        (q0 is a choice point on the letter l — an NFA)</text></svg></div></div><p class="cap"><b>FSA for “any word ending in <b>le</b>”</b> The self-loop on q0 consumes any letter; you only commit to the tail once you see an <b>l</b> followed by an <b>e</b> that ends the word.</p><p class="fignote">Regex: <code>\b[A-Za-z]*le\b</code>. The word boundaries are what keep the “le” inside “led” or “sleep” out.</p>
+
+  <div class="callout err">
+    <h4>Reading the diagrams backwards is where marks are lost</h4>
+    <ul>
+      <li><b>The loop sits on the state reached <i>after</i> the repeated symbol.</b> In
+        <code>/baa+!/</code> the <i>a</i> loop is on q3 — the state you are in once you have read
+        <i>b a a</i>. Putting it on q2 gives <code>/ba+!/</code>, which accepts a different language.</li>
+      <li><b>A double ring is not decoration.</b> Only states in F are accepting; a diagram with no
+        double ring accepts nothing.</li>
+      <li><b>An FSA reads the whole string.</b> Stopping in an accepting state midway is not enough —
+        the input must be exhausted exactly there.</li>
+    </ul>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">05</span><h2 id="t5">Language models and n-grams</h2></div>
+  <p class="lede">What a language model is, why it matters, how unigram / bigram / n-gram differ, and
+  computing a probability from a table of counts.</p>
+
+  <div class="zh">
+    <span class="zhh">算 bigram 概率：只要认准分母</span>
+    <p>老师说要"给你一份简单的词频统计，让你算概率"。所有错误几乎都出在<b>分母</b>上：</p>
+    <ol class="zhsteps">
+      <li>写 <span class="m">P(want | I)</span> 时，先在表里找<b>行 = I、列 = want</b> 的那个格子，
+        那就是分子 <span class="m">C(I want)</span>。</li>
+      <li>分母是<b>行首那个词自己的词频</b> <span class="m">C(I)</span>，也就是 I 在整个语料里出现多少次。
+        <span class="hl">不是总词数，也不是格子总和</span>。</li>
+      <li>算整句概率就把每个 bigram 概率连乘。中间的 <span class="m">&lt;s&gt;</span> 和
+        <span class="m">&lt;/s&gt;</span> 也算一个词，别忘了它们那一步。</li>
+      <li>乘出来数字很小是正常的，写成科学计数法；千万不要写成 0。</li>
+    </ol>
+    <p>一句话记住：<span class="hl">横着看行、竖着找列、除以行首</span>。</p>
+  </div>
+
+  <h3>Model answer — "What is a language model and why is it important in NLP?"</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>assigns probability to sequences · next-word prediction · downstream tasks · LLMs · n-gram limits</p>
+    <ul class="pts">
+      <li><span class="mk">6.1 · 2</span>A language model is a system that <b>assigns a probability to a
+        sequence of words</b>, P(w<sub>1</sub>…w<sub>n</sub>), and equivalently to an unseen upcoming
+        word, P(w<sub>n</sub> | w<sub>1</sub>…w<sub>n−1</sub>).</li>
+      <li><span class="mk">6.2 · 2</span>It is important because <b>word prediction is a component of
+        many tasks</b>: spelling and grammar correction (<i>Their are</i> → <i>There are</i>), speech
+        recognition (<i>bassoon dish</i> → <i>back soonish</i>), machine translation, and text generation.</li>
+      <li><span class="mk">6.3 · 2</span>It is also <b>how large language models work</b>: an
+        autoregressive LLM is trained to predict the next word and generates by predicting the next word
+        over and over.</li>
+      <li><span class="mk">6.4 · 2</span>Estimation uses the <b>Chain Rule</b>
+        P(w<sub>1..n</sub>) = Π P(w<sub>k</sub> | w<sub>1..k−1</sub>), which is exact but needs
+        probabilities we can never observe — hence the need for an approximation.</li>
+      <li><span class="mk">6.5 · 2</span>The <b>Markov assumption</b> truncates the history to the last
+        n−1 words: P(w<sub>n</sub> | w<sub>1..n−1</sub>) ≈ P(w<sub>n</sub> | w<sub>n−N+1..n−1</sub>).
+        That is the whole difference between the model orders below.</li>
+    </ul>
+  </div>
+
+  <h3>Unigram vs bigram vs n-gram — the answer the recording wants</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>how much context · one table · the trade-off · example</p>
+    <ul class="pts">
+      <li><span class="mk">7.1 · 2</span><b>Unigram:</b> P(w<sub>1..n</sub>) ≈ Π P(w<sub>i</sub>). Every
+        word is independent of every other. It ignores word order completely, so it cannot tell
+        <i>the dog bit the man</i> from <i>the man bit the dog</i>.</li>
+      <li><span class="mk">7.2 · 2</span><b>Bigram:</b> P(w<sub>k</sub> | w<sub>1..k−1</sub>) ≈
+        P(w<sub>k</sub> | w<sub>k−1</sub>). Conditions on <b>one</b> previous word; needs a
+        V × V table of counts.</li>
+      <li><span class="mk">7.3 · 2</span><b>n-gram:</b> conditions on the previous <b>n−1</b> words.
+        Trigram = two words of context, and so on. Larger n means more context and a
+        V<sup>n</sup>-sized table.</li>
+      <li><span class="mk">7.4 · 2</span>The trade-off: <b>larger n captures longer dependencies but
+        makes the data sparser</b> — most n-grams in the table have never been seen, so more of the
+        probability mass sits on counts of zero.</li>
+      <li><span class="mk">7.5 · 2</span>An <b>n-gram is a sequence of n consecutive words</b>; the model
+        order is what varies, not the definition. A bigram model scores a sentence with n−1 bigrams.</li>
+    </ul>
+  </div>
+
+  <div class="fig" id="bigram_chain"><div class="scroll"><svg viewBox="24.0 56.2 692.0 305.1" role="img" aria-label="A sentence probability as a product of bigram probabilities" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-deep)"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c2700f"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1b5580"/></marker></defs><rect x="40.0" y="76.0" width="100.0" height="40.0" rx="4" fill="var(--accent-wash)" stroke="#c2700f" stroke-width="1.5"/><text x="90.0" y="101.0" text-anchor="middle" font-weight="600" font-family="var(--font-mono)" font-size="13">&lt;s&gt;</text><rect x="180.0" y="76.0" width="100.0" height="40.0" rx="4" fill="var(--surface)" stroke="#c2700f" stroke-width="1.5"/><text x="230.0" y="101.0" text-anchor="middle" font-weight="600" font-family="var(--font-mono)" font-size="13">i</text><rect x="320.0" y="76.0" width="100.0" height="40.0" rx="4" fill="var(--surface)" stroke="#c2700f" stroke-width="1.5"/><text x="370.0" y="101.0" text-anchor="middle" font-weight="600" font-family="var(--font-mono)" font-size="13">want</text><rect x="320.0" y="230.0" width="100.0" height="40.0" rx="4" fill="var(--surface)" stroke="#c2700f" stroke-width="1.5"/><text x="370.0" y="255.0" text-anchor="middle" font-weight="600" font-family="var(--font-mono)" font-size="13">english</text><rect x="460.0" y="230.0" width="100.0" height="40.0" rx="4" fill="var(--surface)" stroke="#c2700f" stroke-width="1.5"/><text x="510.0" y="255.0" text-anchor="middle" font-weight="600" font-family="var(--font-mono)" font-size="13">food</text><rect x="600.0" y="230.0" width="100.0" height="40.0" rx="4" fill="var(--accent-wash)" stroke="#c2700f" stroke-width="1.5"/><text x="650.0" y="255.0" text-anchor="middle" font-weight="600" font-family="var(--font-mono)" font-size="13">&lt;/s&gt;</text><path d="M 140.0 96.0 L 180.0 96.0" fill="none" stroke="var(--accent-deep)" stroke-width="1.5" marker-end="url(#ahc)" stroke-linecap="round"/><text x="160.0" y="82.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12">0.25</text><text x="160.0" y="142.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-mono)" font-size="11">P(i | &lt;s&gt;)</text><path d="M 280.0 96.0 L 320.0 96.0" fill="none" stroke="var(--accent-deep)" stroke-width="1.5" marker-end="url(#ahc)" stroke-linecap="round"/><text x="300.0" y="82.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12">0.33</text><text x="300.0" y="142.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-mono)" font-size="11">P(want | i)</text><path d="M 370.0 116.0 L 370.0 230.0" fill="none" stroke="var(--accent-deep)" stroke-width="1.5" marker-end="url(#ahc)" stroke-linecap="round"/><text x="340.0" y="159.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12">0.0011</text><text x="380.0" y="177.0" fill="var(--ink-soft)" font-family="var(--font-mono)" font-size="11">P(english | want)</text><path d="M 420.0 250.0 L 460.0 250.0" fill="none" stroke="var(--accent-deep)" stroke-width="1.5" marker-end="url(#ahc)" stroke-linecap="round"/><text x="440.0" y="236.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12">0.5</text><text x="440.0" y="296.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-mono)" font-size="11">P(food | english)</text><path d="M 560.0 250.0 L 600.0 250.0" fill="none" stroke="var(--accent-deep)" stroke-width="1.5" marker-end="url(#ahc)" stroke-linecap="round"/><text x="580.0" y="236.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12">0.68</text><text x="580.0" y="296.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-mono)" font-size="11">P(&lt;/s&gt; | food)</text><text x="40.0" y="342.0" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">multiply along the chain:   0.25 × 0.33 × 0.0011 × 0.5 × 0.68 = 3.09 × 10⁻⁵</text></svg></div></div><p class="cap"><b>A sentence probability is a product along a chain</b> Each arc carries one conditional bigram probability. Multiplying them gives the probability of the whole sentence — the Chain Rule plus the bigram Markov assumption, nothing more. The chain is folded onto two lines here only to keep it readable.</p><p class="fignote">If any single arc is 0 the whole sentence scores 0 — exactly the problem Laplace smoothing exists to fix.</p>
+
+  <h3>The course's worked example — Berkeley Restaurant Project</h3>
+  <p>These are the numbers on the slides, all independently recomputed. Raw bigram counts (row = first
+  word, column = second word), with the unigram counts in the header row:</p>
+
+  <div class="scroll">
+  <table class="dt">
+    <caption>Raw bigram counts out of 9,222 sentences. A blue entry is a <b>zero</b> — the cells
+    Laplace smoothing has to repair.</caption>
+    <thead>
+      <tr><th>w<sub>i−1</sub> \ w<sub>i</sub></th><th class="m">i</th><th class="m">want</th>
+          <th class="m">to</th><th class="m">eat</th><th class="m">chinese</th><th class="m">food</th>
+          <th class="m">lunch</th><th class="m">spend</th><th class="m">C(w<sub>i−1</sub>)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>i</td><td class="m">5</td><td class="m">827</td><td class="m z">0</td>
+          <td class="m">9</td><td class="m z">0</td><td class="m z">0</td><td class="m z">0</td>
+          <td class="m">2</td><td class="m">2533</td></tr>
+      <tr><td>want</td><td class="m">2</td><td class="m z">0</td><td class="m">608</td>
+          <td class="m">1</td><td class="m">6</td><td class="m">6</td><td class="m">5</td>
+          <td class="m">1</td><td class="m">927</td></tr>
+      <tr><td>to</td><td class="m">2</td><td class="m z">0</td><td class="m">4</td>
+          <td class="m">686</td><td class="m">2</td><td class="m z">0</td><td class="m">6</td>
+          <td class="m">211</td><td class="m">2417</td></tr>
+      <tr><td>eat</td><td class="m z">0</td><td class="m z">0</td><td class="m">2</td>
+          <td class="m z">0</td><td class="m">16</td><td class="m">2</td><td class="m">42</td>
+          <td class="m z">0</td><td class="m">746</td></tr>
+      <tr><td>chinese</td><td class="m">1</td><td class="m z">0</td><td class="m z">0</td>
+          <td class="m z">0</td><td class="m z">0</td><td class="m">82</td><td class="m">1</td>
+          <td class="m z">0</td><td class="m">158</td></tr>
+      <tr><td>food</td><td class="m">15</td><td class="m z">0</td><td class="m">15</td>
+          <td class="m z">0</td><td class="m">1</td><td class="m">4</td><td class="m z">0</td>
+          <td class="m z">0</td><td class="m">1093</td></tr>
+      <tr><td>lunch</td><td class="m">2</td><td class="m z">0</td><td class="m z">0</td>
+          <td class="m z">0</td><td class="m z">0</td><td class="m">1</td><td class="m z">0</td>
+          <td class="m z">0</td><td class="m">341</td></tr>
+      <tr><td>spend</td><td class="m">1</td><td class="m z">0</td><td class="m">1</td>
+          <td class="m z">0</td><td class="m z">0</td><td class="m z">0</td><td class="m z">0</td>
+          <td class="m z">0</td><td class="m">278</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="wk">
+    <div class="rows">
+      <div class="row"><span class="k">P(want | i)</span><span class="v">= 827 / 2533 = 0.326490</span></div>
+      <div class="row"><span class="k">P(to | want)</span><span class="v">= 608 / 927 = 0.655879</span></div>
+      <div class="row"><span class="k">P(eat | to)</span><span class="v">= 686 / 2417 = 0.283823</span></div>
+      <div class="row"><span class="k">P(food | chinese)</span><span class="v">= 82 / 158 = 0.518987</span></div>
+      <div class="row hi"><span class="k">P(food | to)</span><span class="v">= 0 / 2417 = 0 &nbsp;← the zero that breaks everything</span></div>
+    </div>
+    <div class="res">P(&lt;s&gt; i want english food &lt;/s&gt;) = 0.25 × 0.33 × 0.0011 × 0.5 × 0.68
+      = 3.09 × 10<sup>−5</sup></div>
+  </div>
+
+  <div class="zh">
+    <span class="zhh">这道题怎么检查自己算对了</span>
+    <p>算完 <span class="m">P(want | i) = 827/2533</span>，用这个动作自查：</p>
+    <ul>
+      <li>结果一定<b>在 0 和 1 之间</b>。如果算出大于 1，说明分母用错了（多半除了个更小的数）。</li>
+      <li>拿同一行的所有格子分别除以 <span class="m">C(i)=2533</span>，加起来应该<b>接近但不超过 1</b>。
+        幻灯片上只显示了 8 列，所以加起来不到 1 是对的。</li>
+      <li>如果题目给的词有 <span class="m">C(w)=0</span>（这个词根本没出现过），那整行都没有定义，
+        要说明这一点。</li>
+    </ul>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">06</span><h2 id="t6">Laplace (add-one) smoothing</h2></div>
+  <p class="lede">Why it exists, how it works, and the formula — the recording asks for all three.</p>
+
+  <div class="zh">
+    <span class="zhh">考这题就写三件事</span>
+    <p>录音里明确问了三问：定义、为什么需要、公式。答的时候按这个顺序写，一段一个关键词：</p>
+    <ol class="zhsteps">
+      <li><b>为什么</b>：训练集里没出现的 bigram 计数是 0，概率就是 0；句子概率是连乘，一个 0 就让
+        整句变成 0，perplexity 也就没法算了（不能除以 0）。这叫 <span class="hl">zero-probability
+        problem / data sparsity</span>。</li>
+      <li><b>怎么做</b>：假装每个 bigram 都<b>多见过一次</b>，把所有计数 +1；为了仍然是合法概率分布，
+        分母要加上词汇量 <span class="m">V</span>。</li>
+      <li><b>公式</b>：<span class="m">P*(w<sub>n</sub>|w<sub>n−1</sub>) = (C(w<sub>n−1</sub>w<sub>n</sub>)+1) / (C(w<sub>n−1</sub>)+V)</span>。
+        分母加的是 <span class="hl">V，不是 1</span>，这是最常见的错。</li>
+    </ol>
+    <p>加分点：说明 add-1 对 n-gram 来说是"钝器"（blunt instrument），因为它把太多概率质量分给了
+      没出现过的组合；实际中更多用 interpolation 或 backoff。<b>但老师只要求 add-1，写这一句是加分，
+      不写也不扣。</b></p>
+  </div>
+
+  <h3>Model answer — "What is Laplace smoothing? Why is it needed, and what is the formula?"</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>zero problem · add one to every count · denominator +V · never zero · V = vocabulary size</p>
+    <ul class="pts">
+      <li><span class="mk">8.1 · 2</span><b>The problem:</b> a bigram that never occurs in training has
+        C = 0, so its MLE probability is 0. Because a sentence probability is a <b>product</b>, a single
+        zero makes the whole sentence score 0 — and perplexity becomes undefined.</li>
+      <li><span class="mk">8.2 · 2</span><b>The idea:</b> pretend every bigram was seen <b>one more time
+        than it actually was</b> — add 1 to every count in the table. Nothing stays at zero, so the model
+        can generalise to unseen text.</li>
+      <li><span class="mk">8.3 · 3</span><b>The formula:</b>
+        P<sub>Laplace</sub>(w<sub>n</sub> | w<sub>n−1</sub>) =
+        (C(w<sub>n−1</sub>w<sub>n</sub>) + 1) / (C(w<sub>n−1</sub>) + V),
+        where <b>V is the size of the vocabulary</b>. The denominator gains V because the numerator of
+        every one of the V possible continuations was increased by 1 — this is what keeps each row a
+        valid distribution summing to 1.</li>
+      <li><span class="mk">8.4 · 2</span><b>Worked number:</b> with C(i want) = 827, C(i) = 2533 and
+        V = 1446: MLE gives 827/2533 = 0.326; Laplace gives (827+1)/(2533+1446) = 828/3979 = <b>0.208</b>.
+        For a cell that was zero, e.g. C(i to) = 0: (0+1)/3979 = <b>0.00025</b> — small, but no longer zero.</li>
+      <li><span class="mk">8.5 · 2</span><b>Side effect worth stating:</b> add-one takes probability mass
+        away from the frequent, well-attested bigrams and gives it to the unseen ones. That is why it is
+        described as a <b>blunt instrument</b> for n-grams, and why backoff and interpolation are used in
+        practice — but add-1 remains the standard choice for <b>text classification</b>, where the number
+        of zeros is far smaller.</li>
+    </ul>
+  </div>
+
+  <div class="scroll">
+  <table class="dt">
+    <caption>Laplace-smoothed bigrams, V = 1446. Blue = a cell whose raw count was <b>zero</b>;
+    compare with the same cell in the raw table above.</caption>
+    <thead>
+      <tr><th>w<sub>i−1</sub> \ w<sub>i</sub></th><th class="m">i</th><th class="m">want</th>
+          <th class="m">to</th><th class="m">eat</th><th class="m">chinese</th><th class="m">food</th>
+          <th class="m">lunch</th><th class="m">spend</th><th class="m">denominator</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>i</td><td class="m">0.0015</td><td class="m">0.21</td><td class="m z">0.00025</td>
+          <td class="m">0.0025</td><td class="m z">0.00025</td><td class="m z">0.00025</td>
+          <td class="m z">0.00025</td><td class="m">0.00075</td><td class="m">2533+1446 = 3979</td></tr>
+      <tr><td>want</td><td class="m">0.0013</td><td class="m z">0.00042</td><td class="m">0.26</td>
+          <td class="m">0.00084</td><td class="m">0.0029</td><td class="m">0.0029</td>
+          <td class="m">0.0025</td><td class="m">0.00084</td><td class="m">927+1446 = 2373</td></tr>
+      <tr><td>to</td><td class="m">0.00078</td><td class="m z">0.00026</td><td class="m">0.0013</td>
+          <td class="m">0.18</td><td class="m">0.00078</td><td class="m z">0.00026</td>
+          <td class="m">0.0018</td><td class="m">0.055</td><td class="m">2417+1446 = 3863</td></tr>
+      <tr><td>eat</td><td class="m z">0.00046</td><td class="m z">0.00046</td><td class="m">0.0014</td>
+          <td class="m z">0.00046</td><td class="m">0.0078</td><td class="m">0.0014</td>
+          <td class="m">0.02</td><td class="m z">0.00046</td><td class="m">746+1446 = 2192</td></tr>
+      <tr><td>chinese</td><td class="m">0.0012</td><td class="m z">0.00062</td><td class="m z">0.00062</td>
+          <td class="m z">0.00062</td><td class="m z">0.00062</td><td class="m">0.052</td>
+          <td class="m">0.0012</td><td class="m z">0.00062</td><td class="m">158+1446 = 1604</td></tr>
+      <tr><td>food</td><td class="m">0.0063</td><td class="m z">0.00039</td><td class="m">0.0063</td>
+          <td class="m z">0.00039</td><td class="m">0.00079</td><td class="m">0.002</td>
+          <td class="m z">0.00039</td><td class="m z">0.00039</td><td class="m">1093+1446 = 2539</td></tr>
+      <tr><td>lunch</td><td class="m">0.0017</td><td class="m z">0.00056</td><td class="m z">0.00056</td>
+          <td class="m z">0.00056</td><td class="m z">0.00056</td><td class="m">0.0011</td>
+          <td class="m z">0.00056</td><td class="m z">0.00056</td><td class="m">341+1446 = 1787</td></tr>
+      <tr><td>spend</td><td class="m">0.0012</td><td class="m z">0.00058</td><td class="m">0.0012</td>
+          <td class="m z">0.00058</td><td class="m z">0.00058</td><td class="m z">0.00058</td>
+          <td class="m z">0.00058</td><td class="m z">0.00058</td><td class="m">278+1446 = 1724</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="drill">
+    <p class="qh">DRILL 6.A</p>
+    <p class="qtext">A corpus has V = 10 and these counts: C(the) = 6, C(the cat) = 2, C(the dog) = 1.
+      Give P(cat | the) and P*(cat | the). Then explain in one sentence why the two differ.</p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>MLE · Laplace with +V · one-line reason</p>
+        <ul class="pts">
+          <li><span class="mk">A · 2</span><b>MLE:</b> P(cat | the) = C(the cat) / C(the) = 2/6 = <b>0.333</b>.</li>
+          <li><span class="mk">A · 3</span><b>Laplace:</b> P*(cat | the) = (2+1)/(6+10) = 3/16 = <b>0.1875</b>.
+            The denominator gained <b>V = 10</b>, not 1.</li>
+          <li><span class="mk">A · 2</span>They differ because add-one <b>moves probability mass away
+            from observed events</b> and gives it to the V−2 continuations of <i>the</i> that were never
+            seen, so every observed bigram is scored lower than its raw frequency suggests.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">07</span><h2 id="t7">Word embeddings and cosine similarity</h2></div>
+  <p class="lede">The recording asks for the idea, the <b>objective function</b>, and a cosine
+  similarity computation from a given word-word matrix.</p>
+
+  <div class="zh">
+    <span class="zhh">余弦相似度：先算三个数，再相除</span>
+    <p>题目给你一个"词-词矩阵"（word-word matrix / co-occurrence matrix），让你算两个词的余弦相似度。
+      按这个顺序写，步骤分就拿到了：</p>
+    <ol class="zhsteps">
+      <li>从矩阵里<b>各取一行</b>作为两个向量 <span class="m">a</span> 和 <span class="m">b</span>。
+        矩阵的每一行就是一个词的向量。</li>
+      <li>算<b>点积</b> <span class="m">a·b</span> = 对应位置相乘再相加。</li>
+      <li>算两个<b>模长</b> <span class="m">‖a‖ = √(Σa<sub>i</sub>²)</span>，<span class="m">‖b‖</span> 同理。</li>
+      <li>相除：<span class="m">cos = a·b / (‖a‖·‖b‖)</span>。结果一定在 0 到 1 之间
+        （词频矩阵没有负数）。</li>
+    </ol>
+    <p>自查：两个向量<b>完全相同</b>时结果必须正好是 1；如果算出大于 1，一定是模长算错了。
+      另外要写一句解释：<span class="hl">值越接近 1，说明这两个词出现的上下文越像，语义越接近</span>。</p>
+  </div>
+
+  <div class="fig" id="cosine"><div class="scroll"><svg viewBox="54.0 26.0 716.0 318.0" role="img" aria-label="Cosine similarity as the angle between two word vectors" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-deep)"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c2700f"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1b5580"/></marker></defs><path d="M 96.0 268.0 L 360.0 268.0" fill="none" stroke="var(--ink-soft)" stroke-width="1.0" stroke-dasharray="4 4"/><path d="M 130.0 42.0 L 130.0 298.0" fill="none" stroke="var(--ink-soft)" stroke-width="1.0" stroke-dasharray="4 4"/><path d="M 287.9 217.6 L 287.9 268.0" fill="none" stroke="#c2700f" stroke-width="1.0" stroke-dasharray="4 4"/><path d="M 130 268 L 287.9 217.6" stroke="#c2700f" stroke-width="2.6" fill="none" marker-end="url(#ahg)"/><path d="M 130 268 L 247.6 133.6" stroke="#2a7ab8" stroke-width="2.6" fill="none" marker-end="url(#ahb)"/><text x="303.9" y="239.6" fill="#8f5209" font-weight="600" font-family="var(--font-display)" font-size="12.5">apple</text><text x="261.6" y="127.6" fill="#1b5580" font-weight="600" font-family="var(--font-display)" font-size="12.5">banana</text><path d="M 187.2 249.8 A 60 60 0 0 0 169.5 222.8" fill="none" stroke="var(--accent-deep)" stroke-width="1.5"/><text x="205.3" y="218.6" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-display)" font-size="16">θ</text><text x="136.0" y="294.0" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">0</text><text x="452.0" y="60.0" font-weight="700" font-family="var(--font-display)" font-size="12">word pair</text><text x="648.0" y="60.0" font-weight="700" font-family="var(--font-display)" font-size="12">cosine</text><rect x="438.0" y="77.0" width="316.0" height="32.0" rx="4" fill="var(--accent-wash)" stroke="none" stroke-width="1.4" opacity="0.62"/><text x="452.0" y="100.0" font-family="var(--font-display)" font-size="12.5">apple · banana</text><text x="648.0" y="100.0" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">0.973</text><rect x="438.0" y="117.0" width="316.0" height="32.0" rx="4" fill="var(--accent-wash)" stroke="none" stroke-width="1.4" opacity="0.51"/><text x="452.0" y="140.0" font-family="var(--font-display)" font-size="12.5">car · truck</text><text x="648.0" y="140.0" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">0.995</text><rect x="438.0" y="157.0" width="316.0" height="32.0" rx="4" fill="var(--accent-wash)" stroke="none" stroke-width="1.4" opacity="0.4"/><text x="452.0" y="180.0" font-family="var(--font-display)" font-size="12.5">car · road</text><text x="648.0" y="180.0" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">0.982</text><rect x="438.0" y="197.0" width="316.0" height="32.0" rx="4" fill="var(--accent-wash)" stroke="none" stroke-width="1.4" opacity="0.29"/><text x="452.0" y="220.0" font-family="var(--font-display)" font-size="12.5">apple · car</text><text x="648.0" y="220.0" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">0.000</text><text x="452.0" y="288.0" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">cos → 1: the two words appear in</text><text x="452.0" y="308.0" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">the same contexts.  0: unrelated.</text></svg></div></div><p class="cap"><b>Cosine similarity is the angle between two word vectors</b> Only the direction matters, not the length — which is why cosine is preferred to Euclidean distance when the words have very different frequencies.</p><p class="fignote">Range is −1 to 1. For word-count vectors, whose entries are all ≥ 0, it is 0 to 1.</p>
+
+  <div class="callout">
+    <h4>Why vectors at all — one line of motivation</h4>
+    <p>One-hot vectors make every pair of distinct words <b>orthogonal</b>: <i>motel</i> and
+    <i>hotel</i> have cosine similarity exactly 0 (verified), so a search for <i>Seattle motel</i>
+    cannot match a page about <i>Seattle hotel</i>. Hand-built resources such as WordNet patch this
+    over but miss nuance, miss new meanings, and need human labour. The fix is to <b>learn to encode
+    similarity in the vectors themselves</b>.</p>
+  </div>
+
+  <h3>Model answer — "What are word embeddings, and what is the objective function?"</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>dense vector · distributional semantics · centre vs context vector · softmax · <b>minimise</b> J(θ) · SG vs CBOW</p>
+    <ul class="pts">
+      <li><span class="mk">9.1 · 2</span>A <b>word embedding</b> (word vector / word representation) is
+        a <b>dense vector of real numbers</b> for each word, chosen so that it is <b>similar to the
+        vectors of words appearing in similar contexts</b> —
+        <i>banking</i> = [0.286, 0.792, −0.177, −0.107, 0.109, −0.542, 0.349, 0.271]. It is a
+        <b>distributed representation</b>, not a one-hot code.</li>
+      <li><span class="mk">9.2 · 2</span>The concept is <b>distributional semantics</b>: a word's
+        meaning is given by the words that frequently appear close by — "you shall know a word by the
+        company it keeps" (Firth 1957). The <b>context</b> is the set of words inside a fixed-size
+        window around the target.</li>
+      <li><span class="mk">9.3 · 2</span><b>Word2vec</b> (Mikolov et al. 2013) learns them by walking
+        through every position <i>t</i>, taking a <b>centre word c</b> and its
+        <b>context ("outside") words o</b>, using the similarity of their vectors to compute the
+        probability of <i>o</i> given <i>c</i>, and <b>adjusting the vectors to maximise that
+        probability</b>. Each word holds <b>two</b> vectors — <b>v<sub>w</sub></b> as a centre word
+        and <b>u<sub>w</sub></b> as a context word.</li>
+      <li><span class="mk">9.4 · 3</span><b>Prediction function</b> — a softmax over the whole
+        vocabulary:<br>
+        P(o | c) = exp(u<sub>o</sub><sup>T</sup>v<sub>c</sub>) /
+        Σ<sub>w ∈ V</sub> exp(u<sub>w</sub><sup>T</sup>v<sub>c</sub>).
+        The denominator runs over all V words, which is exactly why the objective is expensive.</li>
+      <li><span class="mk">9.5 · 3</span><b>Objective function</b> — predict the context words within a
+        window of size m at every position, and take the negative log likelihood over the corpus:<br>
+        <b>J(θ) = −(1/T) Σ<sub>t=1</sub><sup>T</sup>
+        Σ<sub>−m ≤ j ≤ m, j ≠ 0</sub> log P(w<sub>t+j</sub> | w<sub>t</sub>)</b>.<br>
+        We <b>minimise</b> J(θ). The leading minus sign is the part most often dropped — minimising the
+        negative log likelihood <i>is</i> maximising the probability of the observed context words.</li>
+      <li><span class="mk">9.6 · 2</span><b>Two variants:</b> <b>Skip-gram</b> predicts context words
+        from the centre word; <b>CBOW</b> predicts the centre word from the bag of context words.
+        <b>Negative sampling</b> is the standard efficiency trick, since the softmax denominator above
+        touches every word in V for every window.</li>
+      <li><span class="mk">9.7 · 2</span><b>Count-based alternative:</b> build a <b>word-word
+        co-occurrence matrix</b>, reweight the cells (e.g. <b>PPMI</b>), then reduce dimension with
+        <b>SVD</b>. The matrix in the cosine question below is a small version of this route.</li>
+    </ul>
+  </div>
+
+  <div class="zh">
+    <span class="zhh">目标函数这一问的答法</span>
+    <p>录音里问的是 "what are the objective functions for the word matrix"。课件里 word2vec 的目标函数
+      是<b>最小化</b>，别写成最大化：</p>
+    <ol class="zhsteps">
+      <li>先写<b>预测函数</b>（softmax）：<span class="m">P(o|c) = exp(u_oᵀv_c) / Σ_w exp(u_wᵀv_c)</span>。
+        分母要扫过<b>整个词表</b>。</li>
+      <li>再写<b>目标函数</b>：<span class="m">J(θ) = −(1/T) Σ_t Σ_{−m≤j≤m, j≠0} log P(w_{t+j} | w_t)</span>。
+        注意前面有个<b>负号</b>，所以是 minimize。</li>
+      <li>别忘了提<b>每个词有两个向量</b>：<span class="m">v</span>（做中心词时）和
+        <span class="m">u</span>（做上下文词时）。这是常见采分点。</li>
+      <li>最后补一句 <span class="hl">Skip-gram 和 CBOW 的区别</span>：SG 用中心词预测上下文，
+        CBOW 用上下文预测中心词。</li>
+    </ol>
+    <p>提醒：课件里 gradient 推导、SGD、WordNet 的细节都属于<b>背景知识</b>，录音没有点名，
+      时间紧就先跳过，把上面四点背熟。</p>
+  </div>
+
+  <h3>Model answer — cosine similarity from a word-word matrix</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>row = vector · dot product · two norms · the ratio · interpretation</p>
+    <ul class="pts">
+      <li><span class="mk">10.1 · 2</span>Each <b>row</b> of the matrix is that word's vector; read off
+        the row for each of the two words.</li>
+      <li><span class="mk">10.2 · 2</span>cos(a,b) = (a · b) / (‖a‖ ‖b‖), with
+        a · b = Σ a<sub>i</sub>b<sub>i</sub> and ‖a‖ = √(Σ a<sub>i</sub>²).</li>
+      <li><span class="mk">10.3 · 2</span>Cosine measures the <b>angle</b> between the vectors, ignoring
+        their length. That is why it is preferred to Euclidean distance here: it does not punish a
+        frequent word for having a longer vector.</li>
+      <li><span class="mk">10.4 · 2</span>Range is −1 to 1; since word counts are never negative, in
+        practice it is <b>0 to 1</b>. 1 means identical context distribution, 0 means no shared contexts.</li>
+      <li><span class="mk">10.5 · 2</span>Interpretation, always state it: a high cosine means the two
+        words are <b>distributionally similar</b> and hence likely semantically related — which is
+        exactly the evidence an embedding is built from.</li>
+    </ul>
+  </div>
+
+  <div class="drill">
+    <p class="qh">DRILL 7.A</p>
+    <p class="qtext">Using the matrix below, compute cos(run, walk). Show the dot product and both norms.</p>
+    <div class="scroll">
+    <table class="dt">
+      <thead><tr><th></th><th class="m">run</th><th class="m">walk</th><th class="m">moon</th><th class="m">star</th></tr></thead>
+      <tbody>
+        <tr><td>run</td><td class="m">8</td><td class="m">6</td><td class="m">0</td><td class="m">0</td></tr>
+        <tr><td>walk</td><td class="m">6</td><td class="m">9</td><td class="m">0</td><td class="m">1</td></tr>
+        <tr><td>moon</td><td class="m">0</td><td class="m">0</td><td class="m">9</td><td class="m">7</td></tr>
+        <tr><td>star</td><td class="m">0</td><td class="m">1</td><td class="m">7</td><td class="m">9</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>dot · norm · norm · ratio · comment</p>
+        <ul class="pts">
+          <li><span class="mk">A · 2</span>run = [8, 6, 0, 0], walk = [6, 9, 0, 1].</li>
+          <li><span class="mk">A · 2</span>a · b = 8×6 + 6×9 + 0×0 + 0×1 = 48 + 54 = <b>102</b>.</li>
+          <li><span class="mk">A · 2</span>‖run‖ = √(64 + 36) = √100 = <b>10</b>;
+            ‖walk‖ = √(36 + 81 + 1) = √118 = <b>10.8628</b>.</li>
+          <li><span class="mk">A · 2</span>cos(run, walk) = 102 / (10 × 10.8628) = 102 / 108.628 =
+            <b>0.939</b>.</li>
+          <li><span class="mk">A · 1</span>0.94 is close to 1, so <i>run</i> and <i>walk</i> occupy very
+            similar contexts — as expected for two verbs of motion.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">08</span><h2 id="t8">Harms and drawbacks of text classification</h2></div>
+  <p class="lede">The recording asks you to <i>summarise the problems, drawbacks and harms of any text
+  classification algorithm</i>. This one is a checklist — write the named categories.</p>
+
+  <div class="zh">
+    <span class="zhh">这题是"点名得分"，背关键词</span>
+    <p>老师说 "summarize the problems or drawbacks or harms of any text classification algorithm"。
+      注意 <b>any</b>：不是只问 Naive Bayes，是问<b>所有分类器共有的</b>问题。所以要写三类危害的
+      <b>英文专名</b>，每个配一个例子：</p>
+    <ul>
+      <li><span class="hl">Representational harms</span> —— 系统贬低某个群体、固化刻板印象。
+        例子：Kiritchenko &amp; Mohammad 发现同样的句子只换名字（Shaniqua vs Stephanie），
+        情感打分就不一样。</li>
+      <li><span class="hl">Harms of censorship</span> —— 毒性检测误判。例子：只是提到
+        "blind" 或 "gay" 这类词的中性句子被判成有害，导致这些群体的发言被删。</li>
+      <li><span class="hl">Performance disparities</span> —— 对低资源语言、以及英语内部的方言
+        （非裔美国人英语、印度英语）表现更差。</li>
+    </ul>
+    <p>最后一定要写<b>成因与结论</b>三句话：成因是数据问题（模型放大训练数据里的偏见）、标签问题、
+      算法目标问题；结论是<span class="hl">目前没有通用的解决办法</span>，但这是活跃的研究方向。</p>
+  </div>
+
+  <h3>Model answer — "Summarise the problems, drawbacks and harms of text classification."</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>3 named harm types with examples · causes · no general fix · applies to all classifiers</p>
+    <ul class="pts">
+      <li><span class="mk">11.1 · 2</span><b>This applies to any classifier</b>, Naive Bayes or otherwise —
+        the harms come from the data and the objective, not from one algorithm. State that first.</li>
+      <li><span class="mk">11.2 · 3</span><b>Representational harms</b> — a system that demeans a social
+        group or perpetuates a negative stereotype. Kiritchenko and Mohammad (2018) ran 200 sentiment
+        systems on sentence pairs identical except for the name (<i>Shaniqua</i> vs <i>Stephanie</i>):
+        the systems assigned <b>lower sentiment and more negative emotion</b> to the African-American
+        names. Downstream, this makes NLP tools treat people differently.</li>
+      <li><span class="mk">11.3 · 3</span><b>Harms of censorship</b> — <b>toxicity detection</b>
+        (identifying hate speech, abuse, harassment) wrongly flags non-toxic sentences that merely
+        <i>mention</i> minority identities, e.g. the words "blind" or "gay". Documented for women
+        (Park et al. 2018), disabled people (Hutchinson et al. 2020) and gay people (Dixon et al. 2018).
+        Downstream, this <b>censors speech</b> and nudges writers to avoid writing about themselves.</li>
+      <li><span class="mk">11.4 · 3</span><b>Performance disparities</b> — classifiers do worse on
+        (a) many of the world's languages, through lack of data or labels, and (b) <b>varieties of
+        high-resource languages</b>, e.g. English language identification is worse for writers who are
+        African American (Blodgett &amp; O'Connor 2017) or from India (Jurgens et al. 2017).</li>
+      <li><span class="mk">11.5 · 2</span><b>Causes:</b> (i) problems in the data — systems
+        <b>amplify biases already present in the training data</b>; (ii) problems in the labels;
+        (iii) problems in the algorithm, i.e. <b>what the model is trained to optimise</b>.</li>
+      <li><span class="mk">11.6 · 2</span><b>Prevalence and solutions:</b> the same problems occur
+        throughout NLP, including in large language models. There are <b>no general mitigations</b>,
+        but harm mitigation is an active research area and standard benchmarks exist for measuring
+        some of the harms.</li>
+    </ul>
+  </div>
+
+  <div class="callout tip">
+    <h4>If the question says "drawbacks" rather than "harms"</h4>
+    <p>The recording uses "problems / drawbacks / harms" loosely. If the wording leans technical rather
+    than ethical, add the <b>algorithmic</b> drawbacks as well: hand-coded rules are
+    <b>expensive to build and maintain</b> and are too literal, giving <b>high precision but low
+    recall</b>; supervised classifiers need <b>labelled training data</b>; the bag-of-words
+    representation <b>discards word order</b> and so cannot handle negation (<i>I really don't like this
+    movie</i>) without extra machinery; and most classifiers must contend with the
+    <b>zero-probability problem</b>, which is why Laplace smoothing is used.</p>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">09</span><h2 id="t9">Hidden Markov models</h2></div>
+  <p class="lede">The largest single topic in the recording. It names three computations explicitly —
+  work all three until they are automatic.</p>
+
+  <div class="zh">
+    <span class="zhh">HMM 是这门考试的重头，三个计算都要会</span>
+    <p>录音里数得很清楚："given a hidden Markov model, can you calculate the likelihood of an
+      observation"、"given an observation sequence, can you compute the probability of the hidden state
+      sequence"、"there are three ways to estimate the parameters"。所以是<b>三问</b>：</p>
+    <ol class="zhsteps">
+      <li><b>第一问 · 算观测概率</b> <span class="m">P(o₁…o_T)</span>：用 <b>forward 算法</b>，
+        逐列填 <span class="m">α</span>，最后<b>只把最后一列相加</b>。忘掉这一点是最常见的失分。</li>
+      <li><b>第二问 · 猜隐藏状态序列</b>：用 <b>Viterbi</b>，每一步把 <span class="m">Σ</span>
+        换成 <span class="m">max</span>，并<b>记下是从哪个状态过来的</b>（backpointer），最后倒推回去。</li>
+      <li><b>第三问 · 估参数</b>：三种方法 —— <b>supervised</b>（有标注就直接数数相除）、
+        <b>unsupervised</b>（Baum-Welch / EM，用期望计数）、<b>semi-supervised</b>（有标注的用数数，
+        没标注的用 EM）。</li>
+    </ol>
+    <p>最容易混的一点：<span class="hl">forward 用 Σ，Viterbi 用 max</span>。
+      forward 算的是"所有路径加起来"，Viterbi 算的是"最好的那一条路"。所以 Viterbi 的结果
+      <b>永远不会大于</b> forward 的结果——这可以拿来自查。</p>
+  </div>
+
+  <h3>Warm-up: a Markov chain, not yet hidden</h3>
+  <p>A <b>Markov model</b> (Markov chain) is a finite state machine with <b>probabilistic state
+  transitions</b>: the next state depends only on the current state, not on the history before it.
+  The lecture's POS chain (start → Det / PropNoun / Verb, then between tags, then stop) gives a
+  sentence's probability by multiplying the transitions along its path:</p>
+
+  <div class="wk">
+    <div class="rows">
+      <div class="row"><span class="k">P(PropNoun | start)</span><span class="v">0.4</span></div>
+      <div class="row"><span class="k">× P(Verb | PropNoun)</span><span class="v">0.8 &nbsp;→ 0.32</span></div>
+      <div class="row"><span class="k">× P(Det | Verb)</span><span class="v">0.25 &nbsp;→ 0.08</span></div>
+      <div class="row"><span class="k">× P(Noun | Det)</span><span class="v">0.95 &nbsp;→ 0.076</span></div>
+      <div class="row hi"><span class="k">× P(stop | Noun)</span><span class="v">0.1 &nbsp;→ 0.0076</span></div>
+    </div>
+    <div class="res">P(PropNoun Verb Det Noun) = 0.4 × 0.8 × 0.25 × 0.95 × 0.1 = 0.0076</div>
+  </div>
+
+  <p class="small">Every row of that diagram sums to 1 — a free check you should run on any
+  transition table you are handed.</p>
+
+  <h3>The materials — what an HMM is made of</h3>
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>hidden states · s0 and sF · observation vocabulary · A · B · <b>λ = {A, B}</b> · rows sum to 1</p>
+    <ul class="pts">
+      <li><span class="mk">12.1 · 2</span>A <b>hidden Markov model</b> is a <b>probabilistic generative
+        model for sequences</b>. There is an underlying set of <b>hidden (unobserved, latent)
+        states</b>; the model makes <b>probabilistic transitions</b> between them over time; and it
+        <b>probabilistically generates a token</b> from whatever state it is in. You only ever see the
+        generated tokens, never the states.</li>
+      <li><span class="mk">12.2 · 3</span><b>The materials — quote the formal definition:</b>
+        <ul>
+          <li>a set of <b>N + 2 states S = {s<sub>0</sub>, s<sub>1</sub>, …, s<sub>N</sub>, s<sub>F</sub>}</b>,
+            with a distinguished <b>start state s<sub>0</sub></b> and a distinguished
+            <b>final state s<sub>F</sub></b>;</li>
+          <li>a set of <b>M possible observations V = {v<sub>1</sub>, …, v<sub>M</sub>}</b>
+            (the vocabulary);</li>
+          <li>a <b>state transition probability distribution A = {a<sub>ij</sub>}</b>,
+            a<sub>ij</sub> = P(next state s<sub>j</sub> | current state s<sub>i</sub>);</li>
+          <li>an <b>observation (emission) probability distribution for each state j,
+            B = {b<sub>j</sub>(k)}</b>, b<sub>j</sub>(k) = P(emit observation v<sub>k</sub> | state
+            s<sub>j</sub>);</li>
+          <li>the whole parameter set is <b>λ = {A, B}</b>.</li>
+        </ul>
+        Note there is <b>no separate initial-distribution vector</b>: the initial distribution is
+        carried by the transitions <i>out of the start state s<sub>0</sub></i>, i.e. a<sub>0j</sub>.</li>
+      <li><span class="mk">12.3 · 2</span><b>Every row of A and of B sums to 1</b>:
+        Σ<sub>j</sub> a<sub>ij</sub> = 1 for every i, Σ<sub>k</sub> b<sub>j</sub>(k) = 1 for every j.
+        Checking this is a free sanity test in the exam.</li>
+      <li><span class="mk">12.4 · 2</span>Two assumptions make it tractable: the <b>Markov
+        assumption</b>, that the next state depends only on the current state, and the
+        <b>output independence</b> assumption, that the observation depends only on the state that
+        emitted it.</li>
+      <li><span class="mk">12.5 · 2</span><b>The NLP reading:</b> the states are <b>part-of-speech
+        tags</b> (Det, Noun, PropNoun, Verb) and the observations are <b>words</b>
+        (<i>the, a, cat, dog, bit, ate</i>). Tagging a sentence is then "find the most likely state
+        sequence" — computation 2 below.</li>
+    </ul>
+  </div>
+
+  <div class="zh">
+    <span class="zhh">定义这题必须写对的三件事</span>
+    <ol class="zhsteps">
+      <li>状态集写成 <span class="m">S = {s₀, s₁, …, s_N, s_F}</span>，<b>点明 s₀ 是起始状态、
+        s_F 是终止状态</b>。这两个是课件专门标出来的，写了才有分。</li>
+      <li>参数集写 <span class="m">λ = {A, B}</span>，<b>不要写 π</b>。课件把初始分布放在
+        <span class="m">s₀</span> 的出边上（<span class="m">a₀ⱼ</span>），没有单独的 π 向量。</li>
+      <li><span class="m">A</span> 是状态转移概率，<span class="m">B</span> 是发射（观测）概率，
+        两个矩阵<b>每一行都要加起来等于 1</b>。</li>
+    </ol>
+    <p>如果考卷上给的是带 <span class="m">π</span> 的版本，那就是把 <span class="m">π</span> 当作
+      <span class="m">s₀</span> 的出边，两者等价，照算即可。</p>
+  </div>
+
+  <div class="callout">
+    <h4>The three useful HMM tasks — the lecture's own names</h4>
+    <p>The recording asks for exactly these three, and the slide titles them as follows. Using the
+    lecture's names is worth marks in itself.</p>
+    <div class="rows">
+      <div class="row"><span class="k"><b>1. Observation likelihood</b></span>
+        <span class="v">compute P(O | λ) — to classify and order sequences</span></div>
+      <div class="row"><span class="k"><b>2. Most likely state sequence (decoding)</b></span>
+        <span class="v">find Q = q₁…q_T — to tag each token</span></div>
+      <div class="row"><span class="k"><b>3. Maximum likelihood training (learning)</b></span>
+        <span class="v">estimate λ = {A, B} from data</span></div>
+    </div>
+  </div>
+
+  <div class="fig" id="hmm_structure"><div class="scroll"><svg viewBox="-23.4 18.6 762.7 387.3" role="img" aria-label="Hidden Markov model: hidden states, transitions and emissions" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-deep)"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c2700f"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1b5580"/></marker></defs><circle cx="226.0" cy="132.0" r="36" fill="#c2700f" stroke="#8f5209" stroke-width="1.8"/><text x="226.0" y="137.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="16">H</text><circle cx="486.0" cy="132.0" r="36" fill="#6b5a52" stroke="#3c332e" stroke-width="1.8"/><text x="486.0" y="137.4" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="16">C</text><path d="M 263.0 132.0 Q 353.2 96.0 443.5 132.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="356.0" y="84.0" text-anchor="middle" fill="var(--ink)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">a(H,C)</text><path d="M 449.0 132.0 Q 358.8 168.0 268.5 132.0" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)" stroke-linecap="round"/><text x="356.0" y="184.0" text-anchor="middle" fill="var(--ink)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">a(C,H)</text><path d="M 199.2 107.9 C 167.7 56.4, 288.6 64.0, 252.8 107.9" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)"/><text x="226.0" y="44.4" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-display)" font-size="12">a(H,H)</text><path d="M 459.2 107.9 C 427.7 56.4, 548.6 64.0, 512.8 107.9" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#ah)"/><text x="486.0" y="44.4" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-display)" font-size="12">a(C,C)</text><path d="M 96.0 70.0 L 187.6 113.7" fill="none" stroke="var(--accent-deep)" stroke-width="1.6" marker-end="url(#ahc)" stroke-linecap="round"/><text x="80.0" y="62.0" text-anchor="end" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-display)" font-size="12">a(s₀,H) = 0.8</text><path d="M 620.0 70.0 L 524.6 114.2" fill="none" stroke="var(--accent-deep)" stroke-width="1.6" marker-end="url(#ahc)" stroke-linecap="round"/><text x="636.0" y="62.0" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-display)" font-size="12">a(s₀,C) = 0.2</text><path d="M 208.6 164.7 Q 163.2 224.6 138.9 295.7" fill="none" stroke="#c2700f" stroke-width="1.5" marker-end="url(#ahg)" stroke-linecap="round"/><path d="M 453.2 149.1 Q 307.3 238.8 150.4 307.3" fill="none" stroke="#6b5a52" stroke-width="1.4" stroke-dasharray="3 3" marker-end="url(#ah)" stroke-linecap="round"/><path d="M 247.0 162.4 Q 283.8 236.7 340.4 297.4" fill="none" stroke="#c2700f" stroke-width="1.5" marker-end="url(#ahg)" stroke-linecap="round"/><path d="M 465.0 162.4 Q 428.2 236.7 371.6 297.4" fill="none" stroke="#6b5a52" stroke-width="1.4" stroke-dasharray="3 3" marker-end="url(#ah)" stroke-linecap="round"/><path d="M 258.8 149.1 Q 404.7 238.8 561.6 307.3" fill="none" stroke="#c2700f" stroke-width="1.5" marker-end="url(#ahg)" stroke-linecap="round"/><path d="M 503.4 164.7 Q 548.8 224.6 573.1 295.7" fill="none" stroke="#6b5a52" stroke-width="1.4" stroke-dasharray="3 3" marker-end="url(#ah)" stroke-linecap="round"/><circle cx="126.0" cy="320.0" r="21" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.6"/><text x="126.0" y="324.5" text-anchor="middle" fill="var(--ink)" font-family="var(--font-mono)" font-size="14">1</text><text x="122.0" y="265.0" text-anchor="middle" fill="#8f5209" font-family="var(--font-mono)" font-size="10.5">b(H,1)</text><text x="130.0" y="283.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-mono)" font-size="10.5">b(C,1)</text><circle cx="356.0" cy="320.0" r="21" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.6"/><text x="356.0" y="324.5" text-anchor="middle" fill="var(--ink)" font-family="var(--font-mono)" font-size="14">2</text><text x="352.0" y="265.0" text-anchor="middle" fill="#8f5209" font-family="var(--font-mono)" font-size="10.5">b(H,2)</text><text x="360.0" y="283.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-mono)" font-size="10.5">b(C,2)</text><circle cx="586.0" cy="320.0" r="21" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.6"/><text x="586.0" y="324.5" text-anchor="middle" fill="var(--ink)" font-family="var(--font-mono)" font-size="14">3</text><text x="582.0" y="265.0" text-anchor="middle" fill="#8f5209" font-family="var(--font-mono)" font-size="10.5">b(H,3)</text><text x="590.0" y="283.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-mono)" font-size="10.5">b(C,3)</text><text x="60.0" y="387.0" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">gold solid = “H emits this”     grey dashed = “C emits this”</text></svg></div></div><p class="cap"><b>What a hidden Markov model is made of</b> Two hidden states; transition probabilities on the arcs between them; an initial distribution π; and emission probabilities on the arrows down to the observations. Those are the <i>materials</i> the recording asks you to list.</p><p class="fignote">Q = {H, C} · A = transition matrix · O = {1, 2, 3} · B = emissions · π = start distribution.</p>
+
+  <div class="scroll">
+  <table class="dt">
+    <caption>The model used throughout this section. Left: the transition matrix A. Right: the
+    emission matrix B. Every row sums to 1.</caption>
+    <thead>
+      <tr><th colspan="3">A — a<sub>ij</sub></th><th class="m"></th>
+          <th colspan="4">B — b<sub>j</sub>(o)</th></tr>
+      <tr><th>from \ to</th><th class="m">H</th><th class="m">C</th><th class="m"></th>
+          <th>state \ obs</th><th class="m">1</th><th class="m">2</th><th class="m">3</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>H</td><td class="m">0.7</td><td class="m">0.3</td><td class="m"></td>
+          <td>H</td><td class="m">0.2</td><td class="m">0.4</td><td class="m">0.4</td></tr>
+      <tr><td>C</td><td class="m">0.4</td><td class="m">0.6</td><td class="m"></td>
+          <td>C</td><td class="m">0.5</td><td class="m">0.4</td><td class="m">0.1</td></tr>
+      <tr><td><b>s<sub>0</sub></b></td><td class="m">0.8</td><td class="m">0.2</td><td class="m"></td>
+          <td colspan="4"><i>the start state carries the initial distribution, exactly as
+          λ = {A, B} requires — there is no separate π vector.</i></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Computation 1 — the likelihood of an observation sequence</h3>
+  <div class="fig" id="hmm_trellis"><div class="scroll"><svg viewBox="32.0 15.0 645.8 348.4" role="img" aria-label="Forward algorithm trellis for the observation sequence 3 1 3" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-deep)"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c2700f"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1b5580"/></marker></defs><path d="M 201.0 100.0 L 363.5 100.0" fill="none" stroke="var(--ink-soft)" stroke-width="1.0" marker-end="url(#ah)" stroke-linecap="round"/><path d="M 196.5 116.1 L 368.8 221.0" fill="none" stroke="var(--ink-soft)" stroke-width="1.0" marker-end="url(#ah)" stroke-linecap="round"/><path d="M 196.5 223.9 L 368.8 119.0" fill="none" stroke="var(--ink-soft)" stroke-width="1.0" marker-end="url(#ah)" stroke-linecap="round"/><path d="M 201.0 240.0 L 363.5 240.0" fill="none" stroke="var(--ink-soft)" stroke-width="1.0" marker-end="url(#ah)" stroke-linecap="round"/><path d="M 431.0 100.0 L 593.5 100.0" fill="none" stroke="var(--ink-soft)" stroke-width="1.0" marker-end="url(#ah)" stroke-linecap="round"/><path d="M 426.5 116.1 L 598.8 221.0" fill="none" stroke="var(--ink-soft)" stroke-width="1.0" marker-end="url(#ah)" stroke-linecap="round"/><path d="M 426.5 223.9 L 598.8 119.0" fill="none" stroke="var(--ink-soft)" stroke-width="1.0" marker-end="url(#ah)" stroke-linecap="round"/><path d="M 431.0 240.0 L 593.5 240.0" fill="none" stroke="var(--ink-soft)" stroke-width="1.0" marker-end="url(#ah)" stroke-linecap="round"/><path d="M 48.0 100.0 L 133.5 100.0" fill="none" stroke="var(--accent-deep)" stroke-width="1.6" marker-end="url(#ahc)" stroke-linecap="round"/><path d="M 48.0 240.0 L 133.5 240.0" fill="none" stroke="var(--accent-deep)" stroke-width="1.6" marker-end="url(#ahc)" stroke-linecap="round"/><circle cx="170.0" cy="100.0" r="30" fill="#c2700f" stroke="#8f5209" stroke-width="1.8"/><text x="170.0" y="104.8" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="14">H</text><text x="170.0" y="152.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">0.3200</text><circle cx="400.0" cy="100.0" r="30" fill="#c2700f" stroke="#8f5209" stroke-width="1.8"/><text x="400.0" y="104.8" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="14">H</text><text x="400.0" y="152.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">0.0464</text><circle cx="630.0" cy="100.0" r="30" fill="#c2700f" stroke="#8f5209" stroke-width="1.8"/><text x="630.0" y="104.8" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="14">H</text><text x="630.0" y="152.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">0.021632</text><circle cx="170.0" cy="240.0" r="30" fill="#6b5a52" stroke="#3c332e" stroke-width="1.8"/><text x="170.0" y="244.8" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="14">C</text><text x="170.0" y="292.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">0.0200</text><circle cx="400.0" cy="240.0" r="30" fill="#6b5a52" stroke="#3c332e" stroke-width="1.8"/><text x="400.0" y="244.8" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="14">C</text><text x="400.0" y="292.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">0.0540</text><circle cx="630.0" cy="240.0" r="30" fill="#6b5a52" stroke="#3c332e" stroke-width="1.8"/><text x="630.0" y="244.8" text-anchor="middle" fill="#ffffff" font-weight="600" font-family="var(--font-display)" font-size="14">C</text><text x="630.0" y="292.0" text-anchor="middle" fill="var(--accent-deep)" font-weight="600" font-family="var(--font-mono)" font-size="12.5">0.004632</text><text x="170.0" y="344.0" text-anchor="middle" font-weight="600" font-family="var(--font-display)" font-size="13">o = 3</text><text x="170.0" y="40.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">t = 1</text><text x="400.0" y="344.0" text-anchor="middle" font-weight="600" font-family="var(--font-display)" font-size="13">o = 1</text><text x="400.0" y="40.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">t = 2</text><text x="630.0" y="344.0" text-anchor="middle" font-weight="600" font-family="var(--font-display)" font-size="13">o = 3</text><text x="630.0" y="40.0" text-anchor="middle" fill="var(--ink-soft)" font-family="var(--font-display)" font-size="11">t = 3</text><text x="48.0" y="54.0" fill="var(--accent-deep)" font-family="var(--font-display)" font-size="11">a(s₀,H)=0.8</text><text x="48.0" y="302.0" fill="var(--accent-deep)" font-family="var(--font-display)" font-size="11">a(s₀,C)=0.2</text></svg></div></div><p class="cap"><b>Computing P(3 1 3) with the forward algorithm</b> Every path through the trellis is one way the model could have produced the observations. Each α is the probability of arriving at that node having emitted the observations so far. Summing the <b>last column</b>, 0.021632 + 0.004632, gives <b>P(3 1 3) = 0.026264</b>.</p><p class="fignote">Do not add the α values at t=1 and t=2 — only the final column is summed.</p>
+
+  <div class="wk">
+    <div class="rows">
+      <div class="row"><span class="k">α₁(H) = a(s<sub>0</sub>,H)·b<sub>H</sub>(3) = 0.8 × 0.4</span><span class="v">0.3200</span></div>
+      <div class="row"><span class="k">α₁(C) = a(s<sub>0</sub>,C)·b<sub>C</sub>(3) = 0.2 × 0.1</span><span class="v">0.0200</span></div>
+      <div class="row"><span class="k">α₂(H) = [0.3200×0.7 + 0.0200×0.4] × 0.2</span><span class="v">0.046400</span></div>
+      <div class="row"><span class="k">α₂(C) = [0.3200×0.3 + 0.0200×0.6] × 0.5</span><span class="v">0.054000</span></div>
+      <div class="row"><span class="k">α₃(H) = [0.0464×0.7 + 0.0540×0.4] × 0.4</span><span class="v">0.021632</span></div>
+      <div class="row"><span class="k">α₃(C) = [0.0464×0.3 + 0.0540×0.6] × 0.1</span><span class="v">0.004632</span></div>
+      <div class="row hi"><span class="k">P(3 1 3) = α₃(H) + α₃(C)</span><span class="v">0.026264</span></div>
+    </div>
+    <div class="res">P(o₁o₂o₃ | λ) = Σ<sub>j</sub> α₃(j) = 0.021632 + 0.004632 = 0.026264</div>
+  </div>
+
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>forward recursion · emission outside the sum · sum only the last column · why not enumerate</p>
+    <ul class="pts">
+      <li><span class="mk">13.1 · 3</span><b>Forward recursion:</b> initialisation
+        α₁(j) = a(s<sub>0</sub>, j) · b<sub>j</sub>(o₁); recursion
+        α<sub>t</sub>(j) = [Σ<sub>i</sub> α<sub>t−1</sub>(i)·a<sub>ij</sub>] · b<sub>j</sub>(o<sub>t</sub>).</li>
+      <li><span class="mk">13.2 · 2</span><b>Answer:</b> P(o<sub>1..T</sub>) = Σ<sub>j</sub> α<sub>T</sub>(j)
+        — sum the <b>final column only</b>. Summing every α would count each path many times over.</li>
+      <li><span class="mk">13.3 · 2</span><b>Why not just enumerate:</b> there are N<sup>T</sup> state
+        sequences. For N = 2, T = 50 that is 10<sup>15</sup> paths. The forward algorithm is
+        <b>O(N²T)</b> because each α is computed once and reused.</li>
+      <li><span class="mk">13.4 · 2</span><b>Reading the answer:</b> α<sub>t</sub>(j) is the probability of
+        having emitted o<sub>1</sub>…o<sub>t</sub> <i>and</i> currently standing in state j. The emission
+        factor multiplies the summed transitions — it is <b>outside</b> the Σ, because the observation at
+        time t depends only on the state at time t.</li>
+    </ul>
+  </div>
+
+  <h3>Computation 2 — the best hidden state sequence</h3>
+  <div class="wk">
+    <div class="rows">
+      <div class="row"><span class="k">v₁(H) = 0.8×0.4</span><span class="v">0.3200</span></div>
+      <div class="row"><span class="k">v₁(C) = 0.2×0.1</span><span class="v">0.0200</span></div>
+      <div class="row"><span class="k">v₂(H) = max(0.3200×0.7, 0.0200×0.4) × 0.2</span><span class="v">0.044800</span></div>
+      <div class="row"><span class="k">v₂(C) = max(0.3200×0.3, 0.0200×0.6) × 0.5</span><span class="v">0.048000</span></div>
+      <div class="row"><span class="k">v₃(H) = max(0.0448×0.7, 0.0480×0.4) × 0.4</span><span class="v">0.012544</span></div>
+      <div class="row"><span class="k">v₃(C) = max(0.0448×0.3, 0.0480×0.6) × 0.1</span><span class="v">0.002880</span></div>
+      <div class="row hi"><span class="k">argmax at t=3 is H → backpointers H ← H ← H</span><span class="v">H H H</span></div>
+    </div>
+    <div class="res">best path = H → H → H, with P(path, observations) = 0.012544</div>
+    <div class="res alt">compare: P(observations) = 0.026264 — the best single path is only 2.09× smaller than all paths combined</div>
+  </div>
+
+  <div class="ansbody">
+    <p class="hitline"><b>Marks</b>Viterbi recursion with max · backpointers · the path is not the likelihood</p>
+    <ul class="pts">
+      <li><span class="mk">14.1 · 3</span><b>Viterbi recursion:</b> v₁(j) = a(s<sub>0</sub>, j)·b<sub>j</sub>(o₁),
+        then v<sub>t</sub>(j) = <b>max</b><sub>i</sub>[v<sub>t−1</sub>(i)·a<sub>ij</sub>] · b<sub>j</sub>(o<sub>t</sub>).</li>
+      <li><span class="mk">14.2 · 2</span><b>Backpointers are essential.</b> At each step record
+        argmax<sub>i</sub>, then trace backwards from the best final state. Without them you know the
+        score but not the path.</li>
+      <li><span class="mk">14.3 · 2</span><b>Answer:</b> best path <b>H H H</b>, scoring 0.012544.</li>
+      <li><span class="mk">14.4 · 2</span><b>The distinction that earns marks:</b> Viterbi returns the
+        probability of the <b>single most likely path</b>, which is <b>not</b> P(observations). Here
+        0.012544 ≠ 0.026264 because the latter sums over all eight paths. State this — it is the most
+        commonly confused pair in the whole topic.</li>
+    </ul>
+  </div>
+
+  <div class="zh">
+    <span class="zhh">Σ 和 max 的区别，一句话检验</span>
+    <p>检查自己有没有搞混：<span class="hl">Viterbi 的结果一定 ≤ forward 的结果</span>。
+      如果算出来 Viterbi 比 forward 大，一定是把某个 <span class="m">max</span> 写成了
+      <span class="m">Σ</span>，或者把 forward 的最后一列加错了。这道例题里
+      <span class="m">0.012544 &lt; 0.026264</span>，符合规律。</p>
+  </div>
+
+  <h3>Computation 3 — estimating the parameters, three ways</h3>
+
+  <div class="callout">
+    <h4>(a) Supervised — every training sequence is completely labelled (tagged)</h4>
+    <p>With the state sequence annotated, <b>all of λ = {A, B} can be estimated directly</b>:</p>
+    <div class="rows" style="margin-top:8px">
+      <div class="row"><span class="k">a<sub>ij</sub> = C(i → j) / C(i)</span><span class="v">from <b>tag-bigram and tag-unigram</b> counts</span></div>
+      <div class="row"><span class="k">b<sub>j</sub>(o) = C(o, j) / C(j)</span><span class="v">from <b>tag/word co-occurrence</b> counts</span></div>
+      <div class="row"><span class="k">a(s<sub>0</sub>, j) = C(start at j) / number of sequences</span><span class="v">the start-state row</span></div>
+    </div>
+    <p style="margin-top:9px">Add the lecture's own closing line: <b>use appropriate smoothing if the
+    training data is sparse</b> — which is precisely the Laplace smoothing of topic 6, applied here to
+    A and B.</p>
+  </div>
+
+  <div class="callout">
+    <h4>(b) Unsupervised — Baum-Welch (EM)</h4>
+    <p>With no labels you cannot count, so you count <b>in expectation</b>. Run forward and backward to
+    get α and β, then:</p>
+    <div class="rows" style="margin-top:8px">
+      <div class="row"><span class="k">γ<sub>t</sub>(i) = α<sub>t</sub>(i)·β<sub>t</sub>(i) / P(O)</span><span class="v">P(state i at time t)</span></div>
+      <div class="row"><span class="k">ξ<sub>t</sub>(i,j) = α<sub>t</sub>(i)·a<sub>ij</sub>·b<sub>j</sub>(o<sub>t+1</sub>)·β<sub>t+1</sub>(j) / P(O)</span><span class="v">P(i→j at t)</span></div>
+      <div class="row"><span class="k">â(s<sub>0</sub>, j) = γ₁(j)</span><span class="v">the start-state row</span></div>
+      <div class="row"><span class="k">â<sub>ij</sub> = Σ<sub>t</sub> ξ<sub>t</sub>(i,j) / Σ<sub>t</sub> γ<sub>t</sub>(i)</span><span class="v">expected transitions</span></div>
+      <div class="row"><span class="k">b̂<sub>j</sub>(o) = Σ<sub>t: o<sub>t</sub>=o</sub> γ<sub>t</sub>(j) / Σ<sub>t</sub> γ<sub>t</sub>(j)</span><span class="v">expected emissions</span></div>
+    </div>
+    <p style="margin-top:9px">Iterate until the likelihood stops rising. <b>EM guarantees the likelihood
+    never decreases</b> — a useful check, and a fact worth quoting. Note it finds a
+    <i>local</i> optimum, so the starting guess matters.</p>
+  </div>
+
+  <div class="callout">
+    <h4>(c) Semi-supervised — labels for part of the data</h4>
+    <p>Use the labelled portion to get exact counts (method a), then treat the unlabelled portion as
+    Baum-Welch's expected counts (method b), <b>add the two, and normalise once at the end</b>. The
+    normalisation step is the same division as in the supervised case; that is why the semi-supervised
+    version needs no new formula.</p>
+  </div>
+
+  <div class="wk">
+    <div class="rows">
+      <div class="row hi"><span class="k">Supervised</span><span class="v">hard counts C(i→j), C(o,j)</span></div>
+      <div class="row hi"><span class="k">Unsupervised</span><span class="v">expected counts Σξ, Σγ from forward-backward</span></div>
+      <div class="row hi"><span class="k">Semi-supervised</span><span class="v">hard counts + expected counts, added then normalised</span></div>
+    </div>
+  </div>
+
+  <div class="zh">
+    <span class="zhh">三种估参数方法怎么写答案</span>
+    <p>老师把这一问拆得很细，答题时每一问都写三件事：<b>需要什么数据 → 怎么算 → 有什么局限</b>。</p>
+    <ul>
+      <li><b>Supervised</b>：需要<b>带标注</b>的语料（每个词都标了词性）。直接数数相除。局限：标注贵。</li>
+      <li><b>Unsupervised</b>：只需要<b>原始文本</b>。用 Baum-Welch（EM），先跑 forward-backward 得到
+        <span class="m">γ</span> 和 <span class="m">ξ</span>，再用<b>期望计数</b>重新估参数，反复迭代。
+        局限：只能收敛到局部最优，起始值有影响。</li>
+      <li><b>Semi-supervised</b>：一部分有标注。有标注的按第一种种数数，没标注的按第二种种算期望计数，
+        <b>两个加起来再统一归一化</b>。局限：需要设计好两边怎么加权。</li>
+    </ul>
+    <p>无论哪种方法，写完都要补一句：<span class="hl">检查每一行加起来是不是 1</span>。
+      这是最容易被忽略的送分点。</p>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">MOCK</span><h2 id="mock">Mock paper</h2></div>
+  <p class="lede">Same question shapes as the highlights and Assignment 1, but with
+  <b>fresh numbers</b> so you cannot answer from memory. Work it under time, then reveal each answer.</p>
+
+  <div class="zh">
+    <span class="zhh">怎么用这份模拟卷</span>
+    <p>建议<b>掐时间做 35 分钟</b>，做完再对答案。答案默认折叠，先自己做，不要偷看。
+      每题后面的中文提示会告诉你"这题在考哪个知识点"。</p>
+    <p>如果某题卡住超过 5 分钟，直接看答案，然后<b>回到上面那一节重做例题</b>——那份例题和考题同型，
+      比模拟卷更重要。</p>
+  </div>
+
+  <div class="mockq">
+    <p class="qh">QUESTION 1 · 6 marks</p>
+    <p class="qtext">For each text below give <b>N</b>, <b>|V|</b> and the <b>lexical diversity score</b>.
+      State your tokenization convention.</p>
+    <p class="qtext">(a) <i>The small cat sat on the warm mat and the cat slept</i><br>
+       (b) <i>Language models assign a probability to every word in a sentence</i></p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>convention · N · |V| · LDS ×2</p>
+        <ul class="pts">
+          <li><span class="mk">1.1 · 1</span>Convention: lower-case everything; neither text contains
+            punctuation, so no punctuation decision is needed.</li>
+          <li><span class="mk">1.2 · 2</span><b>(a)</b> N = 12; |V| = 9 (<i>the</i> ×3, <i>cat</i> ×2);
+            <b>LDS = 9/12 = 0.750</b>.</li>
+          <li><span class="mk">1.3 · 3</span><b>(b)</b> N = 11; |V| = 10 (only <i>a</i> repeats);
+            <b>LDS = 10/11 = 0.909</b>. (b) is the more lexically diverse text — it repeats less.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="mockq">
+    <p class="qh">QUESTION 2 · 8 marks</p>
+    <p class="qtext">Write a regular expression for each of the following:
+      (a) any word ending in <b>ing</b>; (b) a date in <i>DD/MM/YYYY</i> form;
+      (c) a hexadecimal colour code <i>#RRGGBB</i>; (d) a capitalised word.</p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>word boundaries · exact counts · character classes · anchors</p>
+        <ul class="pts">
+          <li><span class="mk">2.1 · 2</span><b>(a)</b> <code>\b\w+ing\b</code> — matches
+            <i>running</i>, <i>sing</i>; rejects <i>kingdom</i>, and rejects <i>ing</i> itself because
+            <code>\w+</code> needs at least one character before it.</li>
+          <li><span class="mk">2.2 · 2</span><b>(b)</b> <code>\b\d{2}/\d{2}/\d{4}\b</code>. Exact counts,
+            because <code>\d+</code> would also accept <i>1/1/26</i>.</li>
+          <li><span class="mk">2.3 · 2</span><b>(c)</b> <code>#[0-9A-Fa-f]{6}\b</code> — six hex digits,
+            not <code>+</code>, so <i>#FFF</i> is rejected.</li>
+          <li><span class="mk">2.4 · 2</span><b>(d)</b> <code>\b[A-Z][a-z]+\b</code> — a capital followed
+            by one or more lower-case letters; rejects <i>MACAO</i> and <i>cat</i>.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="mockq">
+    <p class="qh">QUESTION 3 · 8 marks</p>
+    <p class="qtext">(a) Draw the finite state automaton for <code>/ab*c/</code>.
+      (b) Give the regular expression recognised by an automaton that accepts <code>abc</code>,
+      <code>ababc</code>, <code>abababc</code> but not <code>ac</code> or <code>abbc</code>.
+      State how many states your machine needs.</p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>one state per required symbol · loop placement · double ring · reading back</p>
+        <ul class="pts">
+          <li><span class="mk">3.1 · 4</span><b>(a)</b> <code>a b* c</code> → q0 —a→ q1, where <b>q1
+            carries a self-loop on b</b>, then q1 —c→ q2 (double ring). The loop is on the state reached
+            <i>after</i> the a, and <code>*</code> means <b>zero or more</b>, so <i>ac</i> is accepted
+            as well as <i>abc</i> and <i>abbc</i>.</li>
+          <li><span class="mk">3.2 · 4</span><b>(b)</b> <code>/(ab)+c/</code>. Reading it back off a
+            diagram: the loop covers <b>two symbols</b> (a then b), so it must be drawn as an arc from
+            the state after <i>ab</i> back to the state before <i>a</i> — <b>four states plus the loop
+            arc</b>. The <code>+</code> guarantees at least one <i>ab</i>, so <i>ac</i> is rejected;
+            <i>abbc</i> is rejected because the loop only fires on a whole <i>ab</i>.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="mockq">
+    <p class="qh">QUESTION 4 · 10 marks</p>
+    <p class="qtext">A corpus of three sentences, |V| = 10:</p>
+    <p class="qtext" style="font-family:var(--font-mono);font-size:13.5px">
+      &lt;s&gt; the cat sat on the mat &lt;/s&gt;<br>
+      &lt;s&gt; the dog sat on the mat &lt;/s&gt;<br>
+      &lt;s&gt; the cat ate the fish &lt;/s&gt;
+    </p>
+    <p class="qtext">Counts: C(the) = 6, C(the cat) = 2, C(the dog) = 1, C(the mat) = 2,
+      C(sat) = 2, C(cat sat) = 1, C(cat) = 2.</p>
+    <p class="qtext">(a) Give P(cat | the) and P(sat | cat). (b) Apply Laplace smoothing to both,
+      showing the denominator. (c) Compute P(&lt;s&gt; the cat sat on the mat &lt;/s&gt;) from the raw
+      counts. (d) Why can the smoothed version never be zero?</p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>MLE ÷ C(first word) · Laplace ÷ (C+V) · sentence product · the zero argument</p>
+        <ul class="pts">
+          <li><span class="mk">4.1 · 2</span><b>(a)</b> P(cat | the) = C(the cat)/C(the) = 2/6 =
+            <b>0.3333</b>. P(sat | cat) = C(cat sat)/C(cat) = 1/2 = <b>0.5</b>.</li>
+          <li><span class="mk">4.2 · 3</span><b>(b)</b> Laplace with V = 10:
+            P*(cat | the) = (2+1)/(6+10) = 3/16 = <b>0.1875</b>;
+            P*(sat | cat) = (1+1)/(2+10) = 2/12 = <b>0.1667</b>.
+            The denominator gains <b>V</b>, not 1.</li>
+          <li><span class="mk">4.3 · 3</span><b>(c)</b>
+            P(the|&lt;s&gt;)·P(cat|the)·P(sat|cat)·P(on|sat)·P(the|on)·P(mat|the)·P(&lt;/s&gt;|mat)
+            = (3/3) × (2/6) × (1/2) × (2/2) × (2/2) × (2/6) × (2/2) = <b>0.05556</b>.</li>
+          <li><span class="mk">4.4 · 2</span><b>(d)</b> Every numerator is C+1, so no factor can be 0,
+            and every denominator is finite and positive — the product is therefore strictly positive
+            for any string. That is exactly the point: a single zero in the raw product would force the
+            whole sentence probability to 0 and make perplexity undefined.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="mockq">
+    <p class="qh">QUESTION 5 · 7 marks</p>
+    <p class="qtext">Using the word-word matrix in Drill 7.A, compute cos(moon, star) and cos(run, moon).
+      Show the dot product and both norms, and say in one line what each value means.</p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>two vectors · dot · norms · ratio · interpretation ×2</p>
+        <ul class="pts">
+          <li><span class="mk">5.1 · 3</span>moon = [0,0,9,7], star = [0,1,7,9].
+            dot = 0+0+63+63 = <b>126</b>. ‖moon‖ = √(81+49) = √130 = <b>11.4018</b>;
+            ‖star‖ = √(1+49+81) = √131 = <b>11.4455</b>.
+            cos = 126 / (11.4018 × 11.4455) = 126 / 130.499 = <b>0.9655</b>.</li>
+          <li><span class="mk">5.2 · 3</span>run = [8,6,0,0], moon = [0,0,9,7]. dot = 0 + 0 + 0 + 0 = <b>0</b>,
+            so cos = <b>0</b> — the two words share no contexts at all.</li>
+          <li><span class="mk">5.3 · 1</span>0.97 means <i>moon</i> and <i>star</i> are used in almost
+            identical contexts (celestial); 0 means <i>run</i> and <i>moon</i> are unrelated by this
+            matrix.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="mockq">
+    <p class="qh">QUESTION 6 · 12 marks</p>
+    <p class="qtext">An HMM has states {A, B} and observations {x, y}, with</p>
+    <div class="scroll">
+    <table class="dt" style="min-width:380px">
+      <thead><tr><th colspan="3">A</th><th class="m"></th><th colspan="3">B</th></tr>
+        <tr><th>from \ to</th><th class="m">A</th><th class="m">B</th><th class="m"></th>
+            <th>state \ obs</th><th class="m">x</th><th class="m">y</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td class="m">0.5</td><td class="m">0.5</td><td class="m"></td>
+            <td>A</td><td class="m">0.8</td><td class="m">0.2</td></tr>
+        <tr><td>B</td><td class="m">0.3</td><td class="m">0.7</td><td class="m"></td>
+            <td>B</td><td class="m">0.3</td><td class="m">0.7</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="qtext">The start-state transitions are a(s<sub>0</sub>,A) = 0.6 and a(s<sub>0</sub>,B) = 0.4. The observation sequence is <b>x y</b>.</p>
+    <p class="qtext">(a) Compute P(x y) using the forward algorithm. (b) Find the most likely state
+      sequence with Viterbi. (c) Verify your answer to (a) by brute force over all state sequences.
+      (d) Name the three ways of estimating the parameters, and say which one needs labelled data.</p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>forward with Σ · Viterbi with max + backpointers · brute force · three estimation methods</p>
+        <ul class="pts">
+          <li><span class="mk">6.1 · 4</span><b>(a)</b>
+            α₁(A) = a(s₀,A)·b<sub>A</sub>(x) = 0.6 × 0.8 = <b>0.48</b>; α₁(B) = a(s₀,B)·b<sub>B</sub>(x) = 0.4 × 0.3 = <b>0.12</b>.
+            α₂(A) = (0.48 × 0.5 + 0.12 × 0.3) × 0.2 = (0.24 + 0.036) × 0.2 = <b>0.0552</b>.
+            α₂(B) = (0.48 × 0.5 + 0.12 × 0.7) × 0.7 = (0.24 + 0.084) × 0.7 = <b>0.2268</b>.
+            <b>P(x y) = 0.0552 + 0.2268 = 0.2820</b>.</li>
+          <li><span class="mk">6.2 · 3</span><b>(b)</b>
+            v₁(A) = 0.48, v₁(B) = 0.12.
+            v₂(A) = max(0.48×0.5, 0.12×0.3) × 0.2 = 0.24 × 0.2 = <b>0.048</b>, backpointer <b>A</b>.
+            v₂(B) = max(0.48×0.5, 0.12×0.7) × 0.7 = 0.24 × 0.7 = <b>0.168</b>, backpointer <b>A</b>.
+            Best final state is B, tracing back gives <b>A → B</b>, with score <b>0.168</b>.</li>
+          <li><span class="mk">6.3 · 3</span><b>(c)</b> Over all four sequences:
+            P(AA) = a(s₀,A)·b<sub>A</sub>(x) × a(A,A)·b<sub>A</sub>(y) = 0.6×0.8 × 0.5×0.2 = 0.048;
+            P(AB) = 0.6×0.8 × 0.5×0.7 = <b>0.168</b>;
+            P(BA) = 0.4×0.3 × 0.3×0.2 = 0.0072;
+            P(BB) = 0.4×0.3 × 0.7×0.7 = 0.0588.
+            Total = 0.048 + 0.168 + 0.0072 + 0.0588 = <b>0.2820</b> ✓ matches (a).
+            Note the best path 0.168 is smaller than the total 0.282 — Viterbi ≠ likelihood.</li>
+          <li><span class="mk">6.4 · 2</span><b>(d)</b> <b>Supervised</b> (count C(i→j)/C(i),
+            C(o,j)/C(j) from labelled data — this is the one that needs labels),
+            <b>unsupervised</b> (Baum-Welch / EM on expected counts γ and ξ from forward-backward),
+            and <b>semi-supervised</b> (hard counts from the labelled part plus expected counts from the
+            unlabelled part, added and normalised once).</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="mockq">
+    <p class="qh">QUESTION 7 · 6 marks</p>
+    <p class="qtext">(a) Explain the difference between lemmatization and stemming, with one example
+      each. (b) Give the lemma and a plausible stem for <i>studies</i> and <i>better</i>.
+      (c) Name the three categories of harm in text classification and give one example of each.</p>
+    <details>
+      <summary>Show answer</summary>
+      <div class="ansbody">
+        <p class="hitline"><b>Marks</b>real word vs chopped · POS/dictionary · worked pairs · 3 named harms with examples</p>
+        <ul class="pts">
+          <li><span class="mk">7.1 · 2</span><b>(a)</b> Lemmatization returns the <b>dictionary
+            headword</b> and needs a lexicon plus the part of speech (<i>are</i> → <i>be</i>); stemming
+            <b>chops affixes by rule</b> and the result need not be a word
+            (<i>happiness</i> → <i>happi</i>). Stemming is faster, lemmatization is more accurate.</li>
+          <li><span class="mk">7.2 · 2</span><b>(b)</b> <i>studies</i> → lemma <b>study</b>,
+            stem <b>studi</b> (the rule just strips the <i>s</i>). <i>better</i> → lemma <b>good</b>
+            (irregular, dictionary needed); a stemmer leaves it as <b>better</b> because no suffix rule
+            fires.</li>
+          <li><span class="mk">7.3 · 2</span><b>(c)</b> <b>Representational harms</b> — sentiment systems
+            score sentences with African-American names more negatively (Kiritchenko &amp; Mohammad 2018).
+            <b>Harms of censorship</b> — toxicity detectors flag non-toxic sentences that merely mention
+            "blind" or "gay", silencing those groups. <b>Performance disparities</b> — language
+            identification is less accurate for African-American or Indian writers of English.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+<!-- ==================================================================== -->
+<div class="part"><span class="n">RECAP</span><h2 id="recap">Last hour</h2></div>
+  <p class="lede">Everything on this page, on one screen. Read this in the queue outside the hall.</p>
+
+  <div class="recap">
+  <div class="recapgrid">
+    <div>
+      <h4>Text, tokens &amp; patterns</h4>
+      <ul>
+        <li><b>Types vs instances.</b> N = running total with repeats. |V| = distinct forms.
+        <b>LDS = |V|/N.</b> Heaps: |V| = kN<sup>β</sup>, 0.67 &lt; β &lt; 0.75.</li>
+        <li><b>Space tokenization</b> splits on whitespace. Fails on punctuation, clitics
+        (<i>we're</i>), multiword names, and Chinese/Japanese/Thai.</li>
+        <li><b>Lemma = dictionary word</b>, needs POS + a lexicon (<i>better</i> → <i>good</i>).
+        <b>Stem = chopped</b>, may not be a word (<i>studies</i> → <i>studi</i>).</li>
+        <li><b>Regex:</b> <code>?</code> <code>*</code> <code>+</code> bind to <b>one</b> preceding
+        character. Use <code>\b</code> or <code>^…$</code> or you match inside words.
+        <code>\d{2}</code> for exactly two digits.</li>
+        <li><b>FSA</b> = 5-tuple (Q, Σ, q0, F, δ). Regex ↔ FSA both directions; same regular language.
+        <code>+</code>/<code>*</code> → self-loop, <code>?</code> → bypass arc, <code>|</code> → branch.
+        Double ring = accepting.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Language models &amp; probability</h4>
+      <ul>
+        <li><b>Bigram MLE:</b> P(w<sub>n</sub>|w<sub>n−1</sub>) = C(w<sub>n−1</sub>w<sub>n</sub>) /
+        C(w<sub>n−1</sub>). <b>Divide by the first word's count only.</b></li>
+        <li><b>Laplace:</b> (C+1) / (C(w<sub>n−1</sub>) + <b>V</b>). The denominator gains V, not 1.
+        It exists because one zero makes a whole sentence probability zero.</li>
+        <li><b>Cosine:</b> a·b / (‖a‖ · ‖b‖). Range 0…1 for count vectors. Identical vectors → exactly 1.
+        High cosine = similar contexts = similar meaning.</li>
+        <li><b>Embeddings objective:</b> push real (word, context) pairs together with
+        log P(o | c) where P(o|c) = exp(u<sub>o</sub><sup>T</sup>v<sub>c</sub>) / Σ<sub>w</sub>exp(u<sub>w</sub><sup>T</sup>v<sub>c</sub>), and <b>minimise</b> J(θ) = −(1/T) Σ<sub>t</sub> Σ<sub>j≠0</sub> log P(w<sub>t+j</sub>|w<sub>t</sub>).</li>
+        <li><b>Classification harms:</b> representational · censorship · performance disparities.
+        Causes: data, labels, objective. <b>No general fix.</b></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hidden Markov models &amp; wrap-up</h4>
+      <ul>
+        <li><b>HMM materials:</b> S = {s<sub>0</sub>, s<sub>1</sub>…s<sub>N</sub>, s<sub>F</sub>} · observations V · A · B · <b>λ = {A, B}</b> (no separate π — the start state carries it). Every row of A and B sums to 1.</li>
+        <li><b>Forward</b> uses <b>Σ</b>, gives P(observations); sum only the <b>last column</b>.
+        <b>Viterbi</b> uses <b>max</b> + backpointers, gives the best path.
+        <b>Viterbi ≤ forward, always.</b></li>
+        <li><b>Supervised</b> = count and divide. <b>Unsupervised</b> = Baum-Welch EM with expected
+        counts γ and ξ; likelihood never decreases. <b>Semi-supervised</b> = both counts added, then
+        normalised once.</li>
+        <li><b>Always finish with a sanity check:</b> probabilities in [0,1], rows sum to 1,
+        cosine ≤ 1, Viterbi ≤ forward.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+  <div class="zh">
+    <span class="zhh">进考场前最后 60 秒</span>
+    <ul>
+      <li>所有答案<b>用英文</b>，术语用英文原词。</li>
+      <li>计算题<b>写出中间步骤</b>：点积、模长、分母。步骤分比结果分多。</li>
+      <li>bigram 分母认准<span class="hl">行首词</span>；Laplace 分母加的是
+        <span class="hl">V</span>。</li>
+      <li>forward 用 <span class="m">Σ</span>、Viterbi 用 <span class="m">max</span>，别写反。</li>
+      <li>画 FSA 记得<b>双圈</b>；写正则记得<b>词边界</b>。</li>
+      <li>每道计算题做完，用一句话自查（概率是否在 0–1、行是否加起来为 1）。</li>
+    </ul>
+  </div>
+
+<footer>
+  <p>CSAI3122 Natural Language Processing · Mid-Term review · Scope: the ten topics named in <i>Mid-Term Exam Highlights.docx</i> and confirmed by the lecture recording. Every number on this page was recomputed independently from first principles; the slide values quoted in the n-gram and smoothing sections were checked against those recomputations and agree.</p>
+</footer>
+
+</main>
+</div><!-- /layout -->
+</div><!-- /shell -->
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById('themeBtn');
+  try {
+    var saved = localStorage.getItem('nlp-theme');
+    if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+  } catch (e) { /* storage blocked — keep the default light theme */ }
+  function label() {
+    btn.textContent = root.getAttribute('data-theme') === 'dark' ? 'Light mode' : 'Dark mode';
+  }
+  btn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('nlp-theme', next); } catch (e) {}
+    label();
+  });
+  label();
+})();
+</script>
+</html>

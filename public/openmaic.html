@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>缺席的那一行 · OpenMAIC 同行者计划补充说明 · 陈泽铭</title>
+<meta name="description" content="论文记录了 10 万条行为，学生的每一类活动都在其中，教育者的判断不在。这是我想补的位置。">
+<meta property="og:title" content="缺席的那一行 · OpenMAIC 同行者计划补充说明">
+<meta property="og:description" content="生成已经足够便宜，判断仍然稀缺。">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#faf7f1;
+  --bg-deep:#f1ebe0;
+  --ink:#100f0d;
+  --ink-2:#46423a;
+  --ink-3:#857d6e;
+  --rule:#ded6c6;
+  --rule-strong:#c4b9a4;
+  --accent:#c9351a;
+  --accent-soft:#f6e2db;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --latin:"Instrument Serif",Georgia,serif;
+  --gut:clamp(1.25rem,5vw,3.5rem);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:17px; line-height:1.85;
+  font-feature-settings:"kern" 1; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent);color:#fff}
+.wrap{max-width:74rem;margin:0 auto;padding-left:var(--gut);padding-right:var(--gut)}
+.col{max-width:40rem}
+
+/* ── motion ───────────────────────────────── */
+.rise{opacity:0;transform:translateY(28px);
+  transition:opacity .85s cubic-bezier(.22,.61,.36,1),transform .85s cubic-bezier(.22,.61,.36,1)}
+.rise.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .rise{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* ── hero ─────────────────────────────────── */
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;
+  padding-block:6rem 4rem;position:relative}
+.kicker{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;
+  color:var(--accent);display:flex;align-items:center;gap:.9rem;
+  margin-bottom:clamp(2rem,6vh,3.5rem)}
+.kicker::after{content:"";height:1px;background:var(--rule-strong);flex:1;max-width:8rem}
+h1{font-family:var(--serif);font-weight:900;letter-spacing:-.03em;
+  font-size:clamp(2.5rem,7.4vw,5.4rem);line-height:1.06;text-wrap:balance}
+h1 em{font-family:var(--latin);font-style:italic;font-weight:400;
+  font-size:1.06em;letter-spacing:-.01em;color:var(--accent)}
+h1 .thin{font-weight:600;color:var(--ink-3)}
+.hero .deck{margin-top:clamp(1.75rem,4vh,2.75rem);max-width:34rem;
+  font-size:clamp(1.08rem,1.75vw,1.32rem);line-height:1.75;color:var(--ink-2)}
+.hero .deck b{font-weight:600;color:var(--ink);
+  box-shadow:inset 0 -0.55em 0 var(--accent-soft)}
+.byline{margin-top:clamp(2.5rem,7vh,4.5rem);padding-top:1.25rem;
+  border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:.4rem 1.75rem;
+  font-family:var(--mono);font-size:.735rem;letter-spacing:.04em;color:var(--ink-3)}
+.byline a{color:var(--ink-2)}
+.cue{position:absolute;bottom:2rem;left:var(--gut);
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-3);
+  animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+@media (prefers-reduced-motion:reduce){.cue{animation:none}}
+
+/* ── section scaffolding ──────────────────── */
+section{padding-block:clamp(4.5rem,10vh,7.5rem);border-top:1px solid var(--rule)}
+section>*:last-child{margin-bottom:0}
+.shead{display:flex;align-items:baseline;gap:1.25rem;margin-bottom:clamp(1.75rem,3.5vh,2.5rem)}
+.snum{font-family:var(--latin);font-style:italic;font-size:clamp(1.5rem,3.4vw,2.2rem);
+  line-height:1;color:var(--accent);letter-spacing:-.02em;flex:none;
+  min-width:2.2rem;text-align:right}
+.stitle{font-family:var(--serif);font-weight:900;letter-spacing:-.02em;
+  font-size:clamp(1.6rem,3.6vw,2.6rem);line-height:1.2}
+.lead{font-size:clamp(1.05rem,1.7vw,1.24rem);line-height:1.8;color:var(--ink-2);
+  max-width:38rem;margin-bottom:2rem}
+.lead strong{color:var(--ink);font-weight:600}
+p+p{margin-top:1.15rem}
+.col p{color:var(--ink-2)}
+.col p strong{color:var(--ink);font-weight:600}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft)}
+a:hover{border-bottom-color:var(--accent)}
+
+/* ── the chart ────────────────────────────── */
+.chart{margin:clamp(2.5rem,6vh,3.5rem) 0 0;border-top:1px solid var(--rule-strong)}
+.crow{display:grid;grid-template-columns:minmax(6.5rem,9.5rem) 1fr auto;
+  align-items:center;gap:1rem;padding:.62rem 0;border-bottom:1px solid var(--rule)}
+.crow .lbl{font-size:.875rem;color:var(--ink-2);line-height:1.4}
+.crow .lbl span{display:block;font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.04em;color:var(--ink-3)}
+.track{height:14px;background:var(--bg-deep);position:relative;overflow:hidden}
+.bar{position:absolute;inset:0 auto 0 0;width:0;background:var(--ink-2);
+  transition:width 1.1s cubic-bezier(.22,.61,.36,1)}
+.in .bar{width:var(--w)}
+.crow .val{font-family:var(--mono);font-size:.78rem;font-weight:600;
+  color:var(--ink-2);min-width:3.4rem;text-align:right}
+.crow.miss{border-bottom:0;margin-top:.35rem;padding-top:1.1rem;
+  border-top:2px solid var(--accent)}
+.crow.miss .lbl{color:var(--accent);font-weight:600}
+.crow.miss .lbl span{color:var(--accent);opacity:.75}
+.crow.miss .track{background:transparent;border:1.5px dashed var(--accent)}
+.crow.miss .val{color:var(--accent)}
+.crow.miss .val::after{content:"";display:inline-block;width:.5rem}
+@media (max-width:34rem){
+  .crow{grid-template-columns:1fr auto;gap:.15rem .75rem;padding:.85rem 0}
+  .crow .lbl{grid-column:1/-1}
+  .crow .lbl span{display:inline;margin-left:.4rem}
+}
+
+/* ── proposal list ────────────────────────── */
+.works{margin-top:3rem;display:grid;gap:0}
+.work{display:grid;grid-template-columns:4.5rem 1fr;gap:1.5rem;
+  padding:clamp(2rem,4vh,2.75rem) 0;border-top:1px solid var(--rule)}
+.work:first-child{border-top:2px solid var(--ink)}
+.work .wn{font-family:var(--latin);font-style:italic;font-size:2.6rem;
+  line-height:1;color:var(--accent);letter-spacing:-.02em}
+.work h3{font-family:var(--serif);font-weight:600;font-size:clamp(1.15rem,2.1vw,1.45rem);
+  line-height:1.45;letter-spacing:-.01em;margin-bottom:.7rem}
+.work p{color:var(--ink-2);max-width:40rem}
+@media (max-width:44rem){
+  .work{grid-template-columns:1fr;gap:.5rem}
+  .work .wn{font-size:2rem}
+}
+
+/* ── quotes ───────────────────────────────── */
+.quotes{margin-top:3rem}
+.q{padding:clamp(2.25rem,5vh,3.25rem) 0;border-top:1px solid var(--rule)}
+.q:first-child{border-top:2px solid var(--ink)}
+.q blockquote{font-family:var(--latin);font-size:clamp(1.3rem,3vw,2rem);
+  line-height:1.42;letter-spacing:-.015em;color:var(--ink);max-width:44rem}
+.q blockquote::before{content:"“";color:var(--accent)}
+.q blockquote::after{content:"”";color:var(--accent)}
+.q .src{margin-top:1.1rem;font-family:var(--mono);font-size:.7rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.q .gloss{margin-top:1.5rem;max-width:40rem;color:var(--ink-2);
+  padding-left:1.25rem;border-left:2px solid var(--rule-strong)}
+
+/* ── sources ──────────────────────────────── */
+.srcs{list-style:none;margin-top:2.5rem;border-top:2px solid var(--ink)}
+.srcs li{display:grid;grid-template-columns:9.5rem 1fr;gap:1.5rem;
+  padding:1.15rem 0;border-bottom:1px solid var(--rule);font-size:.92rem;color:var(--ink-2)}
+.srcs .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);padding-top:.28em}
+@media (max-width:34rem){.srcs li{grid-template-columns:1fr;gap:.2rem}}
+
+footer{margin-top:clamp(4rem,10vh,7rem);padding:2rem 0 4rem;
+  border-top:2px solid var(--ink);display:flex;flex-wrap:wrap;gap:.5rem 2rem;
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.03em;color:var(--ink-3)}
+footer .sig{font-family:var(--serif);font-weight:600;font-size:.95rem;
+  letter-spacing:0;color:var(--ink)}
+
+@media print{
+  :root{--bg:#fff;--bg-deep:#f4f4f4;--ink:#000;--ink-2:#222;--ink-3:#666;
+        --rule:#ccc;--rule-strong:#999;--accent:#b32c14;--accent-soft:#eee}
+  body{font-size:10.5pt;line-height:1.6}
+  .wrap{max-width:none;padding:0}
+  .hero{min-height:0;padding-block:0 1.5rem}
+  .cue{display:none}
+  section{padding-block:1.75rem;page-break-inside:auto}
+  .rise{opacity:1;transform:none}
+  .bar,.seg{transition:none}
+  h1{font-size:2.2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ───────────────────────────────────────── -->
+<header class="hero wrap">
+  <p class="kicker">OpenMAIC 同行者计划 · 补充说明</p>
+  <h1>生成已经足够便宜。<br>判断<span class="thin">仍然稀缺。</span></h1>
+  <p class="deck">论文记录了 10 万条行为。学生的每一类活动都在其中。<b>教育者的判断不在。</b>这是我想补的位置。</p>
+  <div class="byline">
+    <span>陈泽铭 · Zeming (Romain) Chen</span>
+    <span>Agent 工程（主）· 教育与 AIED 研究（备选）</span>
+    <a href="mailto:contact@z-chen.dev">contact@z-chen.dev</a>
+    <a href="https://z-chen.dev">z-chen.dev</a>
+  </div>
+  <span class="cue">向下滚动</span>
+</header>
+
+<!-- ── 01 ────────────────────────────────────────── -->
+<section class="wrap" id="s1">
+  <div class="shead rise"><span class="snum">I</span><h2 class="stitle">缺席的那一行</h2></div>
+  <p class="lead rise">论文这样介绍 MAIC-Craft：<em>a collaborative multi-agent architecture with human-in-the-loop oversight</em>。10 万条行为记录分成七类，每一类学生活动都有对应的占比。</p>
+
+  <div class="chart rise">
+    <div class="crow"><span class="lbl">提问<span>Asking Questions</span></span><div class="track"><div class="bar" style="--w:60.9%"></div></div><span class="val">60.9%</span></div>
+    <div class="crow"><span class="lbl">提出想法<span>Initiating Ideas</span></span><div class="track"><div class="bar" style="--w:18.1%"></div></div><span class="val">18.1%</span></div>
+    <div class="crow"><span class="lbl">协商与验证<span>Negotiating</span></span><div class="track"><div class="bar" style="--w:9.6%"></div></div><span class="val">9.6%</span></div>
+    <div class="crow"><span class="lbl">回应<span>Responding</span></span><div class="track"><div class="bar" style="--w:5.3%"></div></div><span class="val">5.3%</span></div>
+    <div class="crow"><span class="lbl">情绪分享<span>Sharing Emotions</span></span><div class="track"><div class="bar" style="--w:3.9%"></div></div><span class="val">3.9%</span></div>
+    <div class="crow"><span class="lbl">调节流程<span>Regulating Process</span></span><div class="track"><div class="bar" style="--w:1.5%"></div></div><span class="val">1.5%</span></div>
+    <div class="crow"><span class="lbl">调节同伴<span>Regulating Classmates</span></span><div class="track"><div class="bar" style="--w:0.7%"></div></div><span class="val">0.7%</span></div>
+    <div class="crow miss"><span class="lbl">教育者的判断<span>Educator Judgement</span></span><div class="track"></div><span class="val">无记录</span></div>
+  </div>
+
+  <div class="col rise" style="margin-top:2.75rem">
+    <p>学生行为已经测得很细。但 <strong>oversight 目前仍只是一句设计声明，还没有可报告的度量。</strong></p>
+    <p>在论文的 Predicted Impact 一节里，你们自己写下了这个风险：依赖 AI 系统可能减少人类教师的机会，削弱教育者在学习过程中的角色。但监测的前提是得有东西可测。上面那张表里，这一行是空的。</p>
+  </div>
+</section>
+
+<!-- ── 02 ── -->
+<section class="wrap" id="s2">
+  <div class="shead rise"><span class="snum">II</span><h2 class="stitle">我建过这条回路</h2></div>
+  <p class="lead rise">在 PaperCraft 里，教师的每一次编辑都会进入一条回路，最终变成生成器下次必须遵守的规则。这条回路有四道关口，每一道都来自一次具体的失败。</p>
+
+  <div class="works">
+    <article class="work rise">
+      <span class="wn">i</span>
+      <div>
+        <h3>记录层可以读，但改不了，也进不了 prompt</h3>
+        <p>教师的每一次修改都写进一张只增不改的表，只有 select 和 insert，没有 update 和 delete。一条事后还能改动的记录不算证据。这一层的内容永远不进 prompt：用原始记录拼出来的提示词会无限增长，而且取决于此前谁改过什么，无法复现。</p>
+      </div>
+    </article>
+
+    <article class="work rise">
+      <span class="wn">ii</span>
+      <div>
+        <h3>频率不是理由</h3>
+        <p>蒸馏离线跑。一个模式要出现在至少三道不同的题里才算候选，而且按不同次生成计数，不按事件计数：同一道题里改四个选项，那是一个决定。蒸馏器同时拿到该题型的考纲原文，否则最多只能归纳出这里被改过。</p>
+        <p>我在这条上吃过一次教训。给蒸馏器三处任意替换，九改成十、红改成蓝、公园改成海滩，它归纳出「事实细节应当准确」，理由是教师改掉了可能不准的说法。可证据里没有来源材料，也没有任何地方说博物馆几点开门。这个理由是在给证据加内容，而不是读证据。</p>
+      </div>
+    </article>
+
+    <article class="work rise">
+      <span class="wn">iii</span>
+      <div>
+        <h3>先证伪，再见人</h3>
+        <p>每条候选规则先交给另一次模型调用去反驳，用不同厂商的模型，温度为零，指令是证伪而不是改进。上面那条「事实准确」的规则没能通过这一步：证据只显示任意替换，没有任何不准确的迹象。这一步没有人类参与，无论蒸馏是定时跑的，还是教师手动触发的。</p>
+      </div>
+    </article>
+
+    <article class="work rise">
+      <span class="wn">iv</span>
+      <div>
+        <h3>采纳权在教师手里，也可以收回</h3>
+        <p>没有教师点头，任何规则都不会生效。教师也可以让一条已生效的规则退役。一套只能增长的规则集，描述的是一个越来越自信、越来越不准确的系统。</p>
+        <p>规则的 stage 决定它什么时候生效。<code>before</code> 约束整份题（长度、文本类型、题目数量、答案键分布），必须在动笔之前定下来；<code>during</code> 约束每道题怎么写；<code>check</code> 是成稿之后跑的检查。答案键分布属于 <code>before</code>：它是整份题的性质，写成之后再改单道题是补不回来的。</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ── 03 ── -->
+<section class="wrap" id="s3">
+  <div class="shead rise"><span class="snum">III</span><h2 class="stitle">落到 OpenMAIC</h2></div>
+  <div class="col rise">
+    <p>论文里有一句我印象很深。agent 自我改进的系统，默认由 agent 自己决定写什么进记忆，没有用户会读它。这在一次错误只浪费一次重试时说得通。但一条关于「考试题该怎么出」的规则不同：它在输出里看不见，作用于之后每一次生成，而教师要为学生拿到的东西负责。</p>
+    <p>上面那条回路解决的就是这件事。记录层对应 <code>lib/server/agent-runtime</code> 的会话与技能，<code>lib/generation</code> 的两阶段管线是它的作用面。<a href="https://github.com/THU-MAIC/OpenMAIC/issues/202">#202</a> 正在把「能不能改」补上，这条回路补的是「改完之后系统获得了什么」。</p>
+  </div>
+</section>
+
+<!-- ── 04 ────────────────────────────────────────── -->
+<section class="wrap" id="s4">
+  <div class="shead rise"><span class="snum">IV</span><h2 class="stitle">让我停下来的两段话</h2></div>
+
+  <div class="quotes">
+    <div class="q rise">
+      <blockquote>Teachers will directly tell me whether my question is correct, valuable, or not, based on their understanding. The teacher's questions can challenge my ingrained cognition and help me break my own limitations, but the AI teacher and AI classmates in this course do not seem capable of doing that.</blockquote>
+      <p class="src">学生访谈 · 论文 §5.2</p>
+      <p class="gloss">真人教师能判断「你这个问题值不值得问」，AI 不能。这位学生要的正是这个判断，而它是教育者身上最不该拿掉的部分。</p>
+    </div>
+
+    <div class="q rise">
+      <blockquote>The reliance on AI systems could lead to reduced opportunities for human instructors, potentially diminishing the role of educators in the learning process.</blockquote>
+      <p class="src">Predicted Impact · 论文 §7</p>
+      <p class="gloss">你们主动把这个风险写进了影响预测。我想做的，就是把教师的判断记下来、量化，让它影响之后的每一次生成。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 05 ── -->
+<section class="wrap" id="s5">
+  <div class="shead rise"><span class="snum">V</span><h2 class="stitle">翻译学的视角</h2></div>
+  <div class="col rise">
+    <p>我读的是翻译学与计算机科学双学位，也有一年多的教学经历。在我看来，教书是一种受约束的转述：把学科知识转述成学生此刻能听懂的样子。翻译学对转述中的信息损耗、对等和受众适配有一整套分析工具，我们评测 AI 讲解质量时，手里通常只有「像不像人讲的」或者一个 1 到 5 分的量表。OpenMAIC 支持 12 个 locale，同一节课在不同语言里，转述质量会在哪一步掉下来，正好拿它来试这把尺子。</p>
+  </div>
+</section>
+
+<!-- ── SOURCES ───────────────────────────────────── -->
+<section class="wrap" id="src">
+  <div class="shead rise"><span class="snum">·</span><h2 class="stitle">出处</h2></div>
+  <ol class="srcs rise">
+    <li><span class="k">设计与研究说明</span><span><a href="https://fyp.z-chen.dev/research">fyp.z-chen.dev/research</a>，含七个阶段、四个研究问题、三个测量工具</span></li>
+    <li><span class="k">论文</span><span>From MOOC to MAIC: Reimagine Online Teaching and Learning Through LLM-Driven Agents. <em>JCST</em> 41(1): 394–414, Jan. 2026</span></li>
+    <li><span class="k">仓库</span><span><a href="https://github.com/THU-MAIC/OpenMAIC">github.com/THU-MAIC/OpenMAIC</a></span></li>
+    <li><span class="k">引用的 issue</span><span><a href="https://github.com/THU-MAIC/OpenMAIC/issues/202">#202 逐场景编辑与重生成</a> · <a href="https://github.com/THU-MAIC/OpenMAIC/issues/204">#204 多语言生成与字幕</a></span></li>
+  </ol>
+
+  <footer>
+    <span class="sig">陈泽铭</span>
+    <a href="mailto:contact@z-chen.dev">contact@z-chen.dev</a>
+    <a href="https://z-chen.dev">z-chen.dev</a>
+    <a href="https://fyp.z-chen.dev">fyp.z-chen.dev</a>
+  </footer>
+</section>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.rise');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(e){ e.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+  els.forEach(function(e){ io.observe(e); });
+})();
+</script>
+</body>
+</html>
