@@ -17,11 +17,11 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 ## Research
 
 ### PaperCraft: a teacher-in-the-loop LLM authoring tool for Cambridge KET/PET
-*Final year project · sole developer and research design · teacher study (6 teachers) under way · May 2026 to present*
+*Final year project · sole developer and research design · completed · May to Oct 2026*
 
 - Designed the authoring harness the model runs inside: a fixed call sequence, machine-checked output and typed repair of a named failure.
 - Added a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules and folds accepted ones into later drafts, isolated per teacher across 15 item types.
-- Evaluated the output two ways: structural gates on every draft, an independent audit on every rule.
+- Added answer-correctness checks the structural gates miss, and piloted the system with two practising teachers.
 
 ### IELTS Coach: an open-source agent that interviews the learner before it writes
 *Open-source learning tool (MIT) · sole developer · Jul 2026*
@@ -77,4 +77,4 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 
 ---
 
-*Last updated 2026-10-11.*
+*Last updated 2026-10-19.*

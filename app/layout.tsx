@@ -82,7 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Without JavaScript the IntersectionObserver never runs, so make sure
             every revealed element is simply visible. */}
         <noscript>
-          <style>{'.reveal{opacity:1 !important;transform:none !important}'}</style>
+          <style>{'.reveal,.reveal-stagger>*{opacity:1 !important;transform:none !important}'}</style>
         </noscript>
         {SITE.analytics.plausibleDomain ? (
           <script

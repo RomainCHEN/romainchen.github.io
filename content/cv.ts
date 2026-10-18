@@ -24,7 +24,7 @@ export interface CvSection {
  * reason, as the job résumé's does (see RESUME_UPDATED below), and the reader
  * sees only the date.
  */
-export const CV_UPDATED = '2026-10-11T04:25';
+export const CV_UPDATED = '2026-10-19T02:00';
 
 /** The stamp's date part, which is what gets shown. */
 export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
@@ -43,7 +43,7 @@ export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
  * change when the file changes, and a date cannot distinguish two rebuilds in
  * one day. The résumé prints only its date part.
  */
-export const RESUME_UPDATED = '2026-10-11T04:25';
+export const RESUME_UPDATED = '2026-10-19T02:00';
 
 /**
  * This is the academic CV, written for graduate admissions in learning
@@ -93,25 +93,25 @@ export const RESEARCH: CvSection = {
   heading: { en: 'Research', zh: '研究经历' },
   entries: [
     {
-      when: { en: 'May 2026 to present', zh: '2026.05 至今' },
+      when: { en: 'May to Oct 2026', zh: '2026.05 至 2026.10' },
       title: {
         en: 'PaperCraft: a teacher-in-the-loop LLM authoring tool for Cambridge KET/PET',
         zh: 'PaperCraft：剑桥 KET / PET 教师在环智能出题系统',
       },
       org: {
-        en: 'Final year project · sole developer and research design · teacher study (6 teachers) under way',
-        zh: '毕业设计 · 独立开发与研究设计 · 用户实验进行中（6 位一线教师）',
+        en: 'Final year project · sole developer and research design · completed',
+        zh: '毕业设计 · 独立开发与研究设计 · 已结题',
       },
       points: {
         en: [
           'Designed the authoring harness the model runs inside: a fixed call sequence, machine-checked output and typed repair of a named failure.',
           'Added a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules and folds accepted ones into later drafts, isolated per teacher across 15 item types.',
-          'Evaluated the output two ways: structural gates on every draft, an independent audit on every rule.',
+          'Added answer-correctness checks the structural gates miss, and piloted the system with two practising teachers.',
         ],
         zh: [
-          '模型运行于专为出题场景定制的 harness，调用顺序固定，输出经机器校验，失败按类型修复。',
+          '设计出题用的 harness，模型在其中按固定顺序调用，输出经机器校验，失败按类型修复。',
           '离线读取教师批改记录并归纳候选规则，经教师采纳后进入后续出题；规则按教师隔离，覆盖 15 种剑桥题型。',
-          '每份初稿均经结构校验，每条候选规则均经独立审计。',
+          '在结构校验之外加入答案正确性检查，并与 2 位一线教师完成试点。',
         ],
       },
     },
@@ -176,7 +176,7 @@ export const TEACHING: CvSection = {
         ],
         zh: [
           '主讲两个剑桥 KET 班及《新概念英语》课程，独立完成教案、课件与每周练习的编写。',
-          '通过课堂练习与阶段测评跟踪学生对 KET 各题型的掌握情况，并据此调整教学进度。',
+          '通过课堂练习与阶段测评跟踪学生对 KET 各题型的掌握程度，并据此调整教学进度。',
         ],
       },
     },
@@ -196,7 +196,7 @@ export const TEACHING: CvSection = {
           'Supported middle-school English instruction; maintained a quantitative record of interaction frequency and topic-level mastery; delivered differentiated one-to-one tutoring with error-attribution analysis for parents.',
         ],
         zh: [
-          '协助主讲教师开展中学英语教学；建立学生互动频次与知识点掌握情况的量化记录，据此分层开展一对一辅导，并定期向家长反馈错题归因。',
+          '协助主讲教师开展中学英语教学；建立学生互动频次与知识点掌握程度的量化记录，据此分层开展一对一辅导，并定期向家长反馈错题归因。',
         ],
       },
     },
@@ -222,7 +222,7 @@ export const EXPERIENCE: CvSection = {
         ],
         zh: [
           '使用 Ollama 在企业内网部署并测试量化开源大模型，对比不同配置下的推理吞吐，为模型选型提供依据。',
-          '参与搭建基于本地模型的企业知识库，负责业务文档的预处理与接入；协助 ERP、WMS 系统的日常维护与测试。',
+          '参与用本地模型搭建企业内部知识库，负责业务文档的预处理与接入；协助 ERP、WMS 系统的日常维护与测试。',
         ],
       },
     },

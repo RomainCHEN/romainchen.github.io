@@ -26,7 +26,9 @@ export type Evidence =
   | 'shipped'
   /** Built and instrumented, but no data collected yet. */
   | 'instrumented'
-  /** Study approved and running with participants; data still being collected, no result reported. */
+  /** Run at small scale (a pilot, or an offline test); results reported descriptively with their limits. */
+  | 'piloted'
+  /** Study running with participants; data still being collected, no result reported. */
   | 'collecting'
   /** Instruments and protocol written; study not yet run. */
   | 'designed'

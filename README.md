@@ -59,12 +59,13 @@ out, so content files stay free of markup.
 | State | Meaning |
 |---|---|
 | `shipped` | Built, deployed, in real use |
+| `piloted` | Run at small scale (a pilot or an offline test), results reported descriptively |
 | `instrumented` | Built and instrumented, no data collected yet |
 | `designed` | Protocol and instruments written, study not run |
 | `planned` | Specified, not built |
 
 `tests/content.test.ts` pins the current state of several claims. If an edit
-upgrades one, say, marking the teacher study as run, the test fails. That is
+upgrades one, say, marking the teacher pilot as `shipped`, the test fails. That is
 deliberate: overclaiming should require a conscious decision, not a typo.
 
 ### Adding a note

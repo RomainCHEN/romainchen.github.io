@@ -3,6 +3,7 @@ import type { Evidence, L, Locale } from '@/content/types';
 
 const FILL: Record<Evidence, number> = {
   shipped: 4,
+  piloted: 3,
   instrumented: 3,
   collecting: 3,
   designed: 2,
