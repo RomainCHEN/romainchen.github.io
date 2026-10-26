@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { CaseContents } from '@/components/CaseContents';
 import { ReadingProgress } from '@/components/ReadingProgress';
 import { Reveal } from '@/components/Reveal';
 import { SectionRenderer, sectionId } from '@/components/SectionRenderer';
@@ -192,23 +193,27 @@ export default async function CaseStudy({
       ) : null}
 
       {/* ------------------------------------------------------------------
-          At a glance + contents
+          At a glance, the body, and the contents beside both.
+
+          The contents column is laid over the whole run from the facts to the
+          last section, so `sticky` has the full article to travel in and the
+          list stays beside the text all the way down. Without a margin it
+          becomes a collapsed list after the facts, which a long case study
+          needs more on a phone than anywhere else.
          ------------------------------------------------------------------ */}
+      <div className="relative">
+        {contents.length > 0 ? (
+          <div className="canvas pointer-events-none absolute inset-x-0 top-0 bottom-0 hidden py-12 lg:block">
+            <div className="field h-full">
+              <div className="col-margin pointer-events-auto h-full">
+                <CaseContents entries={contents} label={UI.contents[locale]} />
+              </div>
+            </div>
+          </div>
+        ) : null}
+
       <section className="canvas py-12">
         <div className="field">
-          {/* Beside the text on a wide screen the contents hang in the margin
-              and follow the reader down. Without a margin they become a
-              collapsed list after the facts, which a long case study needs
-              more on a phone than anywhere else. */}
-          <div className="col-margin hidden lg:block">
-            {contents.length > 0 ? (
-              <nav aria-label={UI.contents[locale]} className="sticky under-masthead">
-                <p className="label">{UI.contents[locale]}</p>
-                <ContentsList contents={contents} />
-              </nav>
-            ) : null}
-          </div>
-
           <div className="col-body">
             <p className="label">{UI.facts[locale]}</p>
             {/* Cells keep their natural height. The contents list beside them is
@@ -254,6 +259,7 @@ export default async function CaseStudy({
       {project.sections.map((section, i) => (
         <SectionRenderer key={i} section={section} index={i} locale={locale} />
       ))}
+      </div>
 
       {/* ------------------------------------------------------------------
           Neighbours

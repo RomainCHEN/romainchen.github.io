@@ -70,18 +70,10 @@ export function SectionRenderer({
     case 'prose':
       return (
         <Reveal as="section" className="canvas field py-12">
-          {/* The note hangs in the margin beside the text it glosses. With no
-              margin it follows the prose instead, still ruled, so a scope note
-              (such as the IELTS demo using a fictional learner) is never lost. */}
-          <div className="col-margin hidden lg:block">
-            {section.note ? (
-              <aside className="sticky under-masthead border-l-2 border-accent pl-4">
-                <p className="text-sm leading-relaxed text-muted text-pretty">
-                  {inline(section.note[locale])}
-                </p>
-              </aside>
-            ) : null}
-          </div>
+          {/* The margin belongs to the contents list, which follows the reader
+              down the whole case study. A note therefore closes its section,
+              ruled, at every width, so a scope note (such as the IELTS demo
+              using a fictional learner) is never hidden behind the list. */}
           <div className="col-body">
             {section.heading ? <Heading text={section.heading[locale]} id={id} /> : null}
             <div className="prose-body">
@@ -90,7 +82,7 @@ export function SectionRenderer({
               ))}
             </div>
             {section.note ? (
-              <aside className="mt-8 max-w-md border-l-2 border-accent pl-4 lg:hidden">
+              <aside className="mt-8 max-w-md border-l-2 border-accent pl-4">
                 <p className="text-sm leading-relaxed text-muted text-pretty">
                   {inline(section.note[locale])}
                 </p>

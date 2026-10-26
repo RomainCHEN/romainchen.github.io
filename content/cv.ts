@@ -118,8 +118,8 @@ export const RESEARCH: CvSection = {
     {
       when: { en: 'Jul 2026', zh: '2026.07' },
       title: {
-        en: 'IELTS Coach: an open-source agent that interviews the learner before it writes',
-        zh: 'IELTS Coach：雅思口语与写作备考 Agent Skill',
+        en: 'IELTS Coach: agent skill for customised IELTS Speaking and Writing preparation',
+        zh: 'IELTS Coach：个性化雅思口语与写作备考 agent skill',
       },
       org: {
         en: 'Open-source learning tool (MIT) · sole developer',

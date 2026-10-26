@@ -23,7 +23,7 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 - Added a self-improving loop: an offline pass induces rules from the teacher’s corrections, a second model family audits each, and only rules the teacher accepts reach later drafts, across 15 item types.
 - Piloted with two teachers; two accepted rules changed drafts on 40 paired topics per part. Report and manuscript, Oct 2026.
 
-### IELTS Coach: an open-source agent that interviews the learner before it writes
+### IELTS Coach: agent skill for customised IELTS Speaking and Writing preparation
 *Open-source learning tool (MIT) · sole developer · Jul 2026*
 
 - Released an open-source agent (MIT) that collects the learner’s own material through a structured multi-step form, then generates answers constrained to the four IELTS band criteria. Covers 100 topics in the 2026 Sep–Dec bank.

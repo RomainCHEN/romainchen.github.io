@@ -45,7 +45,7 @@ export const papercraft: Project = {
     src: '/work/papercraft/system-loop.webp',
     w: 1913,
     h: 822,
-    thumb: { src: '/work/papercraft/workspace-bank.webp', w: 2400, h: 1500 },
+    thumb: { src: '/work/papercraft/workspace-generate.webp', w: 2880, h: 1800 },
     alt: {
       en: 'The PaperCraft loop as one diagram: while the teacher waits, the model generates and code checks the draft before the teacher reads and edits it; what is kept is a frozen draft, the edits and the check verdicts; off the generation path, a second model distils and audits rules the teacher then decides on.',
       zh: 'PaperCraft 闭环全景图：在线生成时，模型写出初稿并经代码校验后再呈交教师审阅修改，系统同时保存冻结的原始初稿、修改记录与检查结论。在生成路径之外，另一组模型负责从批改记录中提炼并审计规则，最后交由教师拍板。',
@@ -53,11 +53,12 @@ export const papercraft: Project = {
   },
   links: [
     { label: { en: 'Live system', zh: '在线系统' }, href: 'https://fyp.z-chen.dev/', primary: true },
-    { label: { en: 'Design narrative', zh: '设计阐述' }, href: 'https://fyp.z-chen.dev/research' },
     {
-      label: { en: 'Early progress report', zh: '早期进度报告' },
-      href: '/fyp_progress_report/index.html',
+      label: { en: 'Final presentation', zh: '结题答辩演示' },
+      href: '/work/papercraft/final/presentation.html',
     },
+    { label: { en: 'Poster (PDF)', zh: '结题海报（PDF）' }, href: '/work/papercraft/final/poster.pdf' },
+    { label: { en: 'Design narrative', zh: '设计阐述' }, href: 'https://fyp.z-chen.dev/research' },
   ],
   facts: [
     {
@@ -123,16 +124,16 @@ export const papercraft: Project = {
     },
     {
       kind: 'figure',
-      src: '/work/papercraft/draft-adjudication.webp',
-      w: 1600,
-      h: 633,
+      src: '/work/papercraft/workspace-review.webp',
+      w: 2880,
+      h: 1800,
       alt: {
-        en: 'The foot of a generated draft: the last two questions with the keyed option marked, a note field for what is wrong, a bar reporting how much of the text falls inside the A2 wordlist, and the approve, reject and regenerate controls.',
-        zh: '生成初稿底部的操作区：展示最后两道题及标出的正确答案、填写问题原因的备注框、显示文本符合 A2 词表比例的进度条，以及通过、退回、重新生成三个按钮。',
+        en: 'The review step on the Generate page, final build: the draft with its answer key, the expanded "How this was made" list of checks, the rules in force for this draft, a note field, the CEFR vocabulary bar, and the Approve, Reject and Regenerate buttons.',
+        zh: '最终版本生成页上的审阅环节：初稿及其答案、展开的「How this was made」检查清单、对这份初稿生效的规则、备注框、CEFR 词汇条，以及通过、退回和重新生成三个按钮。',
       },
       caption: {
-        en: 'Nothing reaches a classroom without an approve or reject recorded here, and the reason for a rejection is kept, which is what makes the teacher\'s contribution measurable. Editing the draft happens in the fields above, through the Edit control at the head of the panel.',
-        zh: '任何题目进入课堂前，都必须在此留下通过或退回的记录，退回原因也会一并保存，教师投入了多少精力便由此量化。如需修改初稿内容，可通过面板右上角的 Edit 按钮在上方字段中直接编辑。',
+        en: 'Nothing reaches a classroom without an approve or reject recorded here, and the reason for a rejection is kept. That is what makes the teacher\'s contribution measurable. The teacher can open the check chain, see which accepted rules shaped the draft, and edit any field before deciding. Captured from the final build, 23 October 2026.',
+        zh: '任何题目进入课堂前，都要在这里留下一次通过或退回的记录，退回的理由也会一并保存，教师投入了多少精力因此可以量化。决定之前，教师可以展开检查清单，查看哪些已采纳的规则影响了这份初稿，也可以修改任意字段。截图来自 2026 年 10 月 23 日的最终版本。',
       },
     },
     {
@@ -333,6 +334,20 @@ export const papercraft: Project = {
       },
     },
     {
+      kind: 'figure',
+      src: '/work/papercraft/paper-picture-story.webp',
+      w: 1130,
+      h: 1600,
+      alt: {
+        en: 'A generated A2 Writing Part 7 paper page: three sequential line drawings of the same two children, followed by the task instructions and writing hints.',
+        zh: '一份生成好的 A2 Writing Part 7 试卷页：三幅连续的线描图，画的是同样两个孩子，下面是作文要求和写作提示。',
+      },
+      caption: {
+        en: 'What that prompt produces on paper. The three panels are drawn in order, each conditioned on the one before, so the children stay the same; a vision model then writes the task from the pictures it was given. The page follows the Cambridge layout, three pictures across.',
+        zh: '这段 prompt 最终印在纸上的样子。三幅图按顺序绘制，每一幅都以前一幅为参照，所以两个孩子始终是同一对；之后再由视觉模型根据生成的图片写出作文题。页面沿用剑桥试卷的版式，三幅图横向排开。',
+      },
+    },
+    {
       kind: 'table',
       heading: { en: 'What each check decides, and what it cannot see', zh: '七道检查各自的判定范围与盲区' },
       head: [
@@ -392,16 +407,16 @@ export const papercraft: Project = {
     },
     {
       kind: 'figure',
-      src: '/work/papercraft/generation-trace.webp',
-      w: 1796,
-      h: 358,
+      src: '/work/papercraft/workspace-generate.webp',
+      w: 2880,
+      h: 1800,
       alt: {
-        en: 'The generation record for one exercise, opened from a draft: which accepted rules were applied, how many seconds the writing took, and two checks with their verdicts.',
-        zh: '从初稿上打开的一份生成记录：用了哪几条已采纳的规则、写作花了几秒，以及两道检查各自的结论。',
+        en: 'The PaperCraft authoring workspace, final build: exam, exercise type, topic, difficulty and grammar-focus controls on the left, and a generated A2 Key Part 4 multiple-choice cloze draft on the right.',
+        zh: 'PaperCraft 最终版本的出题工作区：左侧是考试、题型、话题、难度和语法重点的设置，右侧是一份生成好的 A2 Key Part 4 多项选择完形初稿。',
       },
       caption: {
-        en: 'Every generation leaves a record the teacher can open. Here one accepted rule was applied, the writing took 2.5 seconds, and both deterministic checks passed. The pipeline is built to be audited, so the record sits on the draft, not only in a log.',
-        zh: '每次生成都会留下一份记录，教师可以直接打开查看：这次用了一条已采纳的规则，写作耗时 2.5 秒，两道确定性检查均已通过。这条管线本来就是为了接受审查而设计的，所以记录直接附在初稿上，不必去翻日志。',
+        en: 'The specification step (S1). Exam, part, topic, difficulty and grammar focus are explicit parameters, so every request is reproducible and logged. Each draft also carries a record the teacher can open: which accepted rules were applied, how long the writing took, and what each check concluded.',
+        zh: '任务规格定义这一步（S1）。考试、题型、话题、难度和语法重点都是明确的参数，所以每次请求都能复现、都有记录。每份初稿还附有一份教师可以打开的生成记录，写明用了哪些已采纳的规则、写作耗时多久，以及每道检查的结论。',
       },
     },
     {
@@ -503,16 +518,16 @@ export const papercraft: Project = {
     },
     {
       kind: 'figure',
-      src: '/work/papercraft/learned-rules.webp',
-      w: 1600,
-      h: 867,
+      src: '/work/papercraft/workspace-learned.webp',
+      w: 2880,
+      h: 1800,
       alt: {
-        en: 'The page headed "What the system has learned from you": a row of counters from corrections recorded, through proposals the audit refused, to rules waiting for a decision; then the proposals themselves, each with the evidence it was induced from and buttons to start or decline using it.',
-        zh: '标题为「系统从你这里学到了什么」的页面。上方一排计数，依次是已记录的批改、审计拒绝的建议和等待决定的规则。下面列出每条建议本身、归纳它所依据的证据，以及「开始使用」和「谢绝」两个按钮。',
+        en: 'The What it learned page, final build: counters for corrections recorded, proposals made, proposals the audit refused, rules waiting, rules in force and rules retired; below them the proposed rules, each with its reason, exam part and source count, and the buttons Start using this, Reword first and No thanks.',
+        zh: '最终版本的「What it learned」页面：上方一排计数，依次是已记录的批改、产生的建议、审计拒绝的建议、等待决定的规则、正在生效的规则和已撤下的规则；下面是各条建议，每条都写明理由、所属题型和依据的练习数，并附有「开始使用」「先改写」「谢绝」三个按钮。',
       },
       caption: {
-        en: 'What the offline half shows the teacher. Later drafts do not change until the teacher accepts a proposal, and each proposal carries the evidence it was induced from. The counters belong to the demonstration account.',
-        zh: '这是离线那一半呈现给教师的界面。教师采纳之前，后续初稿不会有任何变化；每条建议都附有归纳它所依据的证据。图中的计数来自演示账号。',
+        en: 'What the offline half shows the teacher. Later drafts do not change until the teacher accepts a proposal, and each proposal carries the evidence it was induced from. The teacher can reword it first, and retire it later. The corrections here come from the author\'s own sessions on the demonstration account, not from the pilot.',
+        zh: '这是离线那一半呈现给教师的界面。教师采纳之前，后续初稿不会有任何变化；每条建议都附有归纳它所依据的证据。教师可以先改写措辞再采纳，以后也可以撤下。图中的批改来自作者在演示账号上的操作，不是试点数据。',
       },
     },
     {
@@ -543,12 +558,12 @@ export const papercraft: Project = {
     },
     {
       kind: 'figure',
-      src: '/work/papercraft/analytics-item-analysis.webp',
-      w: 1600,
-      h: 922,
+      src: '/work/papercraft/workspace-item-analysis.webp',
+      w: 2880,
+      h: 1800,
       alt: {
-        en: 'The class analytics view for one shared paper: overall and per-item figures, a banner comparing the difficulty requested with the difficulty observed, and each question with its discrimination value and option counts.',
-        zh: '某份练习的班级分析页面，包括整体和逐题的数据、一条把要求难度与实际难度并列的横幅，以及每道题的区分度和各选项被选次数。',
+        en: 'Per-question analysis for one shared exercise, final build: overall and per-item figures, a banner comparing the difficulty requested with the difficulty observed, and each question with its accuracy, discrimination and option counts.',
+        zh: '最终版本中某份共享练习的逐题分析。顶部横幅把要求的难度和实际难度放在一起，下面逐题列出正确率、区分度和每个选项被选的次数。',
       },
       caption: {
         en: 'Item analysis computed from responses: difficulty, discrimination, how often each option was chosen, and the distractors the class never picks. The banner compares the difficulty the teacher asked for with what the items turned out to be. The responses are the author\'s own demonstration data. No student has taken part.',
@@ -667,6 +682,20 @@ export const papercraft: Project = {
           '书面记录每一轮都提到的问题，是一个空格能填不止一个词。这需要另一种检查，也是唯一一处在初稿和教师之间加入模型的改动。阅读模型拿到去掉答案的初稿，逐空作答。它的答案和标准答案不一致时，初稿自动改写一次，仍有分歧的地方交给教师，教师可以把阅读模型填的词列为另一个可接受的答案。',
           '对开放式完形来说，把选空这一步移出 prompt，比改写 prompt 的效果更好。现在生成器先写出十个候选空格，阅读模型逐个判断，再由代码留下六个只有一种填法的空。评分交给一个产品中从未用过的第三方模型。另一个词也能填入的空格比例，A2 从 0.79 降到 0.67，B1 从 0.71 降到 0.48，在 13 组有差异的配对中，10 组有所改善。这只是方向上的改善，还不显著（符号检验 p ≈ .09），代价是每份初稿多花约十秒。',
         ],
+      },
+    },
+    {
+      kind: 'figure',
+      src: '/work/papercraft/slides-reveal.webp',
+      w: 2824,
+      h: 1588,
+      alt: {
+        en: 'A projected multiple-choice cloze slide: three numbered gaps, each with three options, the correct option marked in green and the key printed beneath it.',
+        zh: '投影在课堂上的一页多项选择完形幻灯片：三个编号的空格，每个空有三个选项，正确选项标成绿色，答案印在下方。',
+      },
+      caption: {
+        en: 'Where an approved exercise ends up. A paper exports to Word, PDF or a self-contained slide deck; on the slide, the key appears on a keypress, not from the start, which is the order a teacher needs when going through answers with a class.',
+        zh: '通过审阅的练习最终会到这里。一份试卷可以导出为 Word、PDF 或一个独立的幻灯片文件；幻灯片上的答案要按一下键才显示，不会一开始就出现，这正是教师和全班对答案时需要的顺序。',
       },
     },
     {

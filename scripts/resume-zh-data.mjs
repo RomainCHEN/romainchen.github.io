@@ -119,7 +119,7 @@ export const SECTIONS = [
         ],
       },
       {
-        title: 'IELTS Coach：雅思口语写作备考 Agent Skill（开源）',
+        title: 'IELTS Coach：个性化雅思口语与写作备考 agent skill（开源）',
         meta: '独立完成教学设计与开发',
         when: '2026.07',
         where: '',
