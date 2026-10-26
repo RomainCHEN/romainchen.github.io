@@ -12,7 +12,7 @@ export const ieltsCoach: Project = {
   title: 'IELTS Coach',
   subtitle: {
     en: 'Agent skill for customised IELTS Speaking and Writing preparation',
-    zh: '雅思口语与写作备考 agent skill，内容因人定制',
+    zh: '个性化雅思口语与写作备考 agent skill',
   },
   blurb: {
     en: 'An open-source agent skill for IELTS speaking and writing, built on the premise that a model answer you cannot remember is worthless.',
