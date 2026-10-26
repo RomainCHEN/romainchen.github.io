@@ -18,6 +18,7 @@
     "layout": "npm run build && node scripts/layout-audit.mjs",
     "zh": "node scripts/chinese-audit.mjs",
     "copy": "tsx scripts/export-copy.ts",
+    "copy:import": "tsx scripts/import-copy.ts",
     "resume": "node scripts/build-resume-zh.mjs"
   },
   "dependencies": {

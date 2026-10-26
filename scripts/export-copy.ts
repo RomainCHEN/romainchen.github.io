@@ -16,27 +16,10 @@ import { PROJECTS } from '../content/projects';
 import { ABOUT_BODY, ABOUT_LEDE, CURRENTLY } from '../content/about';
 import { CV_SECTIONS, SKILLS, WRITING_MEDIA } from '../content/cv';
 import { RESEARCH_INTERESTS, ROLE_LINE, TAGLINE, UI } from '../content/site';
+import { block as entry, pairs, quote, type Pair } from './copy-shared';
 
 const ROOT = process.cwd();
 const OUT = process.argv[2] ?? path.join(ROOT, 'site-copy.md');
-
-type Pair = { trail: string; en: unknown; zh: unknown };
-
-/** Every object with both an `en` and a `zh` key, in document order. */
-function pairs(value: unknown, trail: string, out: Pair[] = []): Pair[] {
-  if (value === null || typeof value !== 'object') return out;
-  if (Array.isArray(value)) {
-    value.forEach((v, i) => pairs(v, `${trail}[${i}]`, out));
-    return out;
-  }
-  const rec = value as Record<string, unknown>;
-  if ('en' in rec && 'zh' in rec) {
-    out.push({ trail, en: rec.en, zh: rec.zh });
-    return out;
-  }
-  for (const [k, v] of Object.entries(rec)) pairs(v, `${trail}.${k}`, out);
-  return out;
-}
 
 /** Strings a project carries untranslated, such as its title, worth seeing in context. */
 function plain(value: unknown, trail: string, out: { trail: string; text: string }[] = []) {
@@ -55,29 +38,7 @@ function plain(value: unknown, trail: string, out: { trail: string; text: string
   return out;
 }
 
-/** A value as Markdown: paragraph arrays become numbered paragraphs. */
-function render(value: unknown): string {
-  if (Array.isArray(value)) {
-    if (value.length === 0) return '_（空）_';
-    return value.map((v, i) => `${i + 1}. ${String(v)}`).join('\n\n');
-  }
-  return String(value);
-}
-
-function quote(text: string): string {
-  return text
-    .split('\n')
-    .map((l) => (l ? `> ${l}` : '>'))
-    .join('\n');
-}
-
-function block(p: Pair): string {
-  const multi = Array.isArray(p.en);
-  if (multi) {
-    return `#### \`${p.trail}\`\n\n**EN**\n\n${quote(render(p.en))}\n\n**ZH**\n\n${quote(render(p.zh))}\n`;
-  }
-  return `#### \`${p.trail}\`\n\n- **EN**: ${render(p.en)}\n- **ZH**: ${render(p.zh)}\n`;
-}
+const block = (p: Pair) => entry(`\`${p.trail}\``, p.en, p.zh);
 
 /**
  * Strings written inside page components. The parser finds every pair of the

@@ -22,7 +22,7 @@ export const papercraft: Project = {
   },
   blurb: {
     en: "A teacher-in-the-loop authoring tool for Cambridge KET/PET exercises that keeps the teacher's corrections and turns the recurring ones into rules the teacher approves.",
-    zh: '面向剑桥 KET / PET 的出题工具。教师的每一处修改都留存下来，反复出现的修改归纳成规则，经教师同意后用于此后的出题。',
+    zh: '面向剑桥 KET / PET 的智能出题工具。系统会记录教师对初稿的每一处修改，将反复出现的修改提炼成规则，经教师确认后用于后续出题。',
   },
   period: { en: 'May to October 2026', zh: '2026 年 5 月至 10 月' },
   role: {
@@ -48,12 +48,12 @@ export const papercraft: Project = {
     thumb: { src: '/work/papercraft/workspace-bank.webp', w: 2400, h: 1500 },
     alt: {
       en: 'The PaperCraft loop as one diagram: while the teacher waits, the model generates and code checks the draft before the teacher reads and edits it; what is kept is a frozen draft, the edits and the check verdicts; off the generation path, a second model distils and audits rules the teacher then decides on.',
-      zh: 'PaperCraft 回路的整体示意：教师等待时，模型生成、代码校验，随后教师阅读并修改；系统保留冻结的初稿、每次改动与检查结论；在生成路径之外，另一个模型归纳并审计规则，最后交给教师决定。',
+      zh: 'PaperCraft 闭环全景图：在线生成时，模型写出初稿并经代码校验后再呈交教师审阅修改，系统同时保存冻结的原始初稿、修改记录与检查结论。在生成路径之外，另一组模型负责从批改记录中提炼并审计规则，最后交由教师拍板。',
     },
   },
   links: [
     { label: { en: 'Live system', zh: '在线系统' }, href: 'https://fyp.z-chen.dev/', primary: true },
-    { label: { en: 'Design narrative', zh: '设计叙事页' }, href: 'https://fyp.z-chen.dev/research' },
+    { label: { en: 'Design narrative', zh: '设计阐述' }, href: 'https://fyp.z-chen.dev/research' },
     {
       label: { en: 'Early progress report', zh: '早期进度报告' },
       href: '/fyp_progress_report/index.html',
@@ -61,30 +61,30 @@ export const papercraft: Project = {
   ],
   facts: [
     {
-      label: { en: 'Exam parts encoded', zh: '已编码的考试部分' },
+      label: { en: 'Exam parts encoded', zh: '涵盖题型' },
       value: { en: '15 item types (KET 7 · PET 8)', zh: '15 种题型（KET 7 种 · PET 8 种）' },
     },
     {
-      label: { en: 'Design', zh: '设计' },
-      value: { en: 'A model inside a harness; 7 stages, one of them human', zh: '模型在 harness 内运行，七个环节中有一个由教师完成' },
+      label: { en: 'Design', zh: '系统架构' },
+      value: { en: 'A model inside a harness; 7 stages, one of them human', zh: '模型在受控框架（harness）内运行，七个环节中有一道由教师把关' },
     },
     {
-      label: { en: 'Checks', zh: '检查' },
-      value: { en: 'Seven on every draft, five of them plain code', zh: '每份初稿经过七道检查，其中五道是普通代码' },
+      label: { en: 'Checks', zh: '质量检查' },
+      value: { en: 'Seven on every draft, five of them plain code', zh: '每份初稿过七道检查，其中五道由代码直接完成' },
     },
     {
       label: { en: 'Specification check', zh: '规格检查' },
-      value: { en: '360 of 373 drafts passed first time', zh: '373 份初稿中 360 份首次通过' },
+      value: { en: '360 of 373 drafts passed first time', zh: '373 份初稿中 360 份首次即通过' },
     },
     {
       label: { en: 'Teacher pilot', zh: '教师试点' },
-      value: { en: 'Two teachers, three sessions, October 2026', zh: '2 位教师，3 轮使用，2026 年 10 月' },
+      value: { en: 'Two teachers, three sessions, October 2026', zh: '2 位教师，3 轮测试，2026 年 10 月' },
     },
     {
       label: { en: 'Rule effect', zh: '规则效果' },
       value: {
         en: 'Two accepted rules changed drafts over 40 paired topics per part',
-        zh: '每个题型 40 组配对话题上，两条已采纳规则改变了初稿',
+        zh: '在各题型 40 组配对话题上，两条已采纳规则改变了初稿输出',
       },
     },
   ],
@@ -99,15 +99,15 @@ export const papercraft: Project = {
           'The evaluation has two results. Over 40 paired topics per part, the two word-class rules the pilot teachers accepted changed what the generator wrote, and a part-of-speech tagger independent of every model agreed. With simulated teachers, an accepted rule ended the correcting for a standard the model can meet while it writes. A standard that only holds across a set of options, such as the key never being the longest option, did not move when written into the prompt, and needed a check in code.',
         ],
         zh: [
-          '读计算机学位的时候，我带过两个剑桥 KET 小班，练习大多是自己出的。有三件事一直没解决，而且都跟出题快慢无关：难度不好控制，真题很快用完，能用的话题也旧了。',
-          'PaperCraft 就是从这里来的毕业设计，2026 年 10 月提交了结题报告，也整理成了一篇论文。它能生成 A2 Key 和 B1 Preliminary 阅读写作卷的全部 15 种题型，每份初稿都由代码对照官方手册检查。教师改过的每一处都有记录，反复出现的修改会被归纳成规则，教师可以采纳、改写或拒绝，采纳之后也能随时撤回。两位教师参加了试点，试点里暴露的问题让系统改了四处。',
-          '评估有两个结果。在每个题型 40 组配对话题上，试点教师采纳的两条词类规则改变了生成结果，一个不依赖任何模型的词性标注器也得出同样的结论。用模拟教师测试时，模型写作时本来就能做到的标准，规则一采纳，后面的初稿就不用再改了。有些标准却只能看整组选项才判断得了，比如正确答案不能是最长的那个选项，这类标准写进 prompt 不起作用，得交给代码检查。',
+          '读计算机学位期间，我带过两个剑桥 KET 小班，每周大多要自己编一套练习题。当时困扰我的有三个问题，而且都跟出题快慢无关：难度拿捏不准、历年真题不够用、现成话题太陈旧。',
+          'PaperCraft 正是由此诞生的毕业设计，于 2026 年 10 月提交结题报告并整理成论文。它覆盖 A2 Key 与 B1 Preliminary 读写卷的全部 15 种题型，每份初稿均由代码对照官方手册核查。系统会记录教师的每一处修改，把反复出现的改动提炼成规则，供教师采纳、改写、拒绝或随时撤回。两位教师参与了试点，试点暴露出的问题促使系统做了四处改进。',
+          '评估得出了两项结果。在各题型 40 组配对话题上，试点教师采纳的两条词类规则切实改变了生成结果，独立于所有模型的词性标注器也印证了这一结论。在模拟教师测试中，只要是模型在逐空生成时能兼顾的标准，规则一经采纳，后续初稿便无需再改。但那些必须通盘比对整组选项才能判定的要求（如正确答案不能是最长选项），写进 prompt 毫无作用，必须靠代码检查把关。',
         ],
       },
     },
     {
       kind: 'prose',
-      heading: { en: 'What kind of system this is', zh: '这是一个什么样的系统' },
+      heading: { en: 'What kind of system this is', zh: '这是一个怎样的系统' },
       body: {
         en: [
           'PaperCraft is an agent system built as a language model inside a harness. It is called in a defined sequence, held to a machine-checkable output shape, checked by ordinary code between the calls, and asked to repair a named failure when one is found. It writes exercises, induces rules from what the teacher changed, and hands each proposal to something built to refute it.',
@@ -115,9 +115,9 @@ export const papercraft: Project = {
           'What this design argues about agent systems is how much it declines to hand to a model. Five of the seven checks on a draft are ordinary code, because handing a decidable question to something that can be fluently wrong adds a failure mode and nothing else. The models write, read, induce rules and try to refute them. When the pilot exposed gaps with two possible answers, the fix kept that division: a reader model judges each candidate gap, and code decides which gaps stay.',
         ],
         zh: [
-          'PaperCraft 是一个范围很窄的 agent 系统，语言模型在 harness 里运行。调用顺序是固定的，输出必须是机器能校验的结构，两次调用之间由普通代码检查；出了错，模型只需要修好被指出的那一处。它负责写题，也会从教师的改动里归纳规则，每条建议都要交给一道独立的审计去尝试推翻。',
-          '做决定的有三方，这套设计的核心就是三方怎么分工。模型负责写和归纳。能判定的事都交给普通代码，比如一个部分有三个选项还是四个、某个词在不在这一级的词表里、答案在各个字母上分没分散。剩下的属于教学判断，归教师决定，任何规则都要教师同意才能写进 prompt。',
-          '这套设计想说明，agent 系统应该少让模型做决定。初稿要过七道检查，其中五道是普通代码。能判定的事交给一个可能说得头头是道、结论却错了的模型，只会多一种出错的方式。模型负责写题、读题、归纳规则，也负责尝试推翻规则。试点暴露出一空多解的问题以后，修复仍按这个分工来：阅读模型逐个判断候选空格，最终留哪几个空由代码决定。',
+          'PaperCraft 是一个运行在受控框架（harness）内的 agent 系统。模型按固定顺序调用，输出必须符合机器可校验的结构，两次调用之间由普通代码把关。一旦出错，模型只需针对指出的具体问题定向修复。它负责出题，也会从教师的修改记录中归纳规则，并将每条候选规则交给专门的审计模块去尝试推翻。',
+          '系统的核心设计，在于划清模型、代码与教师三方的决策边界。模型负责写题和归纳规律。凡是有明确判定标准的事，一律交给普通代码，比如某部分该有三个还是四个选项、用词是否在对应级别词表内、答案在各字母上的分布是否均匀。涉及教学判断的事则全部交还给教师，未经教师同意，任何规则都不会写进 prompt。',
+          '这套设计对 agent 系统的核心主张恰恰在于克制，尽量少让模型做决定。初稿的七道检查中有五道由普通代码完成，因为把本可明确判定的问题交给一个会一本正经说错话的模型，只会凭空多出一种出错方式。模型只负责写题、读题、归纳规则和反驳规则。试点暴露出完形填空「一空多解」的问题后，修复方案依然延续了这一分工：由阅读模型逐个评估候选空格，再由代码决定最终保留哪几个空。',
         ],
       },
     },
@@ -128,11 +128,11 @@ export const papercraft: Project = {
       h: 633,
       alt: {
         en: 'The foot of a generated draft: the last two questions with the keyed option marked, a note field for what is wrong, a bar reporting how much of the text falls inside the A2 wordlist, and the approve, reject and regenerate controls.',
-        zh: '一份生成初稿的底部：最后两道题与标出答案的选项、填写问题的备注框、一条显示文本落在 A2 词表内比例的横条，以及通过、退回、重新生成三个操作。',
+        zh: '生成初稿底部的操作区：展示最后两道题及标出的正确答案、填写问题原因的备注框、显示文本符合 A2 词表比例的进度条，以及通过、退回、重新生成三个按钮。',
       },
       caption: {
         en: 'Nothing reaches a classroom without an approve or reject recorded here, and the reason for a rejection is kept, which is what makes the teacher\'s contribution measurable. Editing the draft happens in the fields above, through the Edit control at the head of the panel.',
-        zh: '任何内容进课堂之前，都要在这里留下一次通过或退回的记录，退回的理由也一起存下，教师出了多少力就能算出来。初稿在上方的字段里修改，入口是初稿抬头右边的 Edit。',
+        zh: '任何题目进入课堂前，都必须在此留下通过或退回的记录，退回原因也会一并保存，教师投入了多少精力便由此量化。如需修改初稿内容，可通过面板右上角的 Edit 按钮在上方字段中直接编辑。',
       },
     },
     {
@@ -143,44 +143,44 @@ export const papercraft: Project = {
           'Generation runs as a staged, typed chain with a human gate. Select a stage to see what it does and why it is there.',
         ],
         zh: [
-          '出题是一条分阶段、带类型约束的链条，中间有一道人工把关。点开任意一个阶段，能看到它做什么、为什么要有它。',
+          '出题流程是一条分阶段、带严格类型约束的链条，末端设有教师把关环节。点开下方任一阶段，即可查看其具体功能与设计考量。',
         ],
       },
       stages: [
         {
           id: 'S1',
-          title: { en: 'Task specification', zh: '任务规格化' },
+          title: { en: 'Task specification', zh: '任务规格定义' },
           what: {
             en: 'A validated request object: exam, part, topic, grammar focus, target difficulty.',
-            zh: '经过校验的请求对象，包含考试、部分、话题、语法重点与目标难度。',
+            zh: '经校验的请求对象，包含考试级别、题型部分、话题、语法重点与目标难度。',
           },
           why: {
             en: 'Makes every generation reproducible and loggable. Later analysis can only reach what was recorded as structured input.',
-            zh: '这样每次生成都能复现、能追查。以后能分析的，只有当时作为结构化输入记下来的内容。',
+            zh: '确保每次生成都可复现、可追查。后续分析能调取的，只有当时作为结构化输入记录下来的内容。',
           },
         },
         {
           id: 'S2',
-          title: { en: 'Personalised prompt assembly', zh: '个性化 prompt 装配' },
+          title: { en: 'Personalised prompt assembly', zh: '个性化 prompt 组装' },
           what: {
             en: "Retrieves this teacher's own material: the rules they approved, what usually needs fixing on this part, their earlier corrections, their usual topics and grammar, the reasons they rejected earlier drafts, and example exercises.",
-            zh: '取回这位教师自己的材料：已采纳的规则、这一题型上通常需要修改之处、早先的改动、常用的话题与语法、退回初稿的理由，以及范例题。',
+            zh: '调取当前教师的专属材料：已采纳的规则、该题型常见的修改项、过往批改记录、常用话题与语法点、退回初稿的理由，以及参考样题。',
           },
           why: {
             en: 'Personalises in context, without fine-tuning, and orders the block so a provider can reuse it: everything invariant for this teacher and part precedes the task line, the only line that changes between drafts. The second of two requests sharing it returns 4,096 cached tokens of 4,336, where the earlier order returned none.',
-            zh: '个性化靠的是上下文里带的材料，不做微调，材料怎么排按缓存复用的需要来定：这位教师、这个题型固定不变的部分放在最前面，任务行放在末尾，两次生成之间只有这一行会变。共用这一段的两次请求里，第二次的 4,336 个 token 命中了 4,096 个；按原来的顺序排，一个都没命中。',
+            zh: '不做微调，仅靠上下文材料实现个性化，且段落顺序专门配合缓存复用：将该教师和题型下固定不变的部分放在最前，每次都会变动的具体任务行放在末尾。共用这段前缀的连续两次请求中，第二次在 4,336 个 token 里命中了 4,096 个缓存 token，而按原先的顺序排列时命中为零。',
           },
         },
         {
           id: 'S3',
-          title: { en: 'Construct-specialised instruction', zh: '构念专用指令集' },
+          title: { en: 'Construct-specialised instruction', zh: '分题型命题指令' },
           what: {
             en: 'One instruction set per Cambridge part, encoding published item-writing rules: paraphrase rather than lift distinctive vocabulary, build distractors by twisting text content, keep option sets to one word class.',
-            zh: '每个剑桥考试部分各有一套指令，写明已公开的命题规则：特征词汇改用同义表达，干扰项由原文内容扭转而来，同一组选项限定在同一词类。',
+            zh: '为每个剑桥题型配备专属指令集，将已公开的命题规则编码入内：特征词汇须作同义改写而非直接照搬，干扰项须基于原文信息改造，同一题的各选项必须限定在同一词类。',
           },
           why: {
             en: 'Non-experts under-specify prompts, so the system carries the specification and the teacher does not have to write it.',
-            zh: '非专家写的 prompt 往往太笼统，所以这部分规格由系统包办，教师不用自己写。',
+            zh: '非测评专家手写的 prompt 往往过于笼统，因此这部分命题规格由系统内置，教师无需自行编写。',
           },
         },
         {
@@ -188,11 +188,11 @@ export const papercraft: Project = {
           title: { en: 'Generation with typed repair', zh: '带类型修复的生成' },
           what: {
             en: 'Schema check, validator error re-injected into the prompt, bounded retries with model routing across providers.',
-            zh: '先做结构校验，将校验报错重新写回 prompt，重试次数设有上限，并在多家服务商的模型之间路由。',
+            zh: '先做数据结构校验，若报错则将校验错误重新注入 prompt 触发重试，设定重试上限，并支持在多家服务商的模型间自动路由。',
           },
           why: {
             en: 'Converts silent format defects into recoverable, logged events, so a malformed item leaves a record. The retry carries the validation error back with it, so the model repairs a named failure.',
-            zh: '格式错误变成了可以恢复、可以追查的事件，结构不合规的题目会留下记录。重试时校验报错会一起送回去，模型要修的是一个已经点明的错误。',
+            zh: '将原本静默发生的格式缺陷转化为可恢复、有日志可查的事件，让结构不合规的题目留下记录。重试时会把具体的校验报错一并送回，让模型针对已点明的错误定向修复。',
           },
         },
         {
@@ -200,11 +200,11 @@ export const papercraft: Project = {
           title: { en: 'Multimodal branch', zh: '多模态分支' },
           what: {
             en: 'Scene decomposition, image synthesis, then a vision model authors the writing task from the images it was given.',
-            zh: '先拆分场景，再合成图像，然后由视觉模型依据生成的图像撰写作文题。',
+            zh: '先拆解场景并合成配图，再交由视觉模型依据实际生成的图像编写对应的作文题。',
           },
           why: {
             en: 'KET picture-story and picture-matching items need text and image to agree. Writing the prompt from the generated image is what keeps them aligned.',
-            zh: '看图写作和图片匹配题要求文字和图像一致。照着生成好的图出题，两者才对得上。',
+            zh: 'KET 的看图写故事和图片匹配题要求图文严丝合缝。先出图、再照着生成好的图出题，图文才对得上。',
           },
         },
         {
@@ -212,11 +212,11 @@ export const papercraft: Project = {
           title: { en: 'CEFR lexical audit', zh: 'CEFR 词汇审计' },
           what: {
             en: 'Content words checked against the level wordlist; up to 10% out-of-list is tolerated and the compliance figure is shown to the teacher.',
-            zh: '实义词逐个比对该等级词表，超纲词不超过 10% 即可接受，并向教师显示合规率。',
+            zh: '将实义词逐一比对对应级别的官方词表，超纲词比例在 10% 以内视为可接受，并将具体的词汇合规率展示给教师。',
           },
           why: {
             en: 'CEFR control of generated text is unreliable, so the audit shows the teacher the figure and leaves the decision with them; the 10% tolerance covers proper nouns and topic vocabulary.',
-            zh: '控制生成文本的 CEFR 等级并不可靠，所以这道审计只把合规率摆给教师看，让教师拿主意；10% 的容差是给专有名词和话题词汇留的。',
+            zh: '靠模型自己控制生成文本的 CEFR 词汇等级并不可靠，因此这道审计直接把合规率亮给教师，由教师拿主意；预留 10% 的容差是为了容纳专有名词与特定话题词汇。',
           },
         },
         {
@@ -224,82 +224,82 @@ export const papercraft: Project = {
           title: { en: 'Teacher adjudication', zh: '教师裁决' },
           what: {
             en: 'Approve, edit or reject with a reason. The pristine model draft is frozen at this moment.',
-            zh: '通过、修改，或者说明理由后退回。模型的原始初稿在这一刻冻结。',
+            zh: '直接通过、修改后通过，或注明理由后退回。模型的原始初稿会在这一刻冻结存档。',
           },
           why: {
             en: 'The measurement baseline for the whole project, and the only stage a teacher has to be present for.',
-            zh: '这是整个项目的度量基线，也是唯一需要教师在场的阶段。',
+            zh: '这是整个项目的度量基线，也是全流程中唯一需要教师亲自在场的环节。',
           },
         },
       ],
     },
     {
       kind: 'prose',
-      heading: { en: 'How a prompt is built', zh: 'prompt 如何装配' },
+      heading: { en: 'How a prompt is built', zh: 'prompt 如何组装' },
       body: {
         en: [
           'Each part\'s prompt is assembled by code. Eight sections go into it, and six appear in every one of the fifteen item types. Item quality is decided by the validity rules, the conditions an item must not fail. Each was checked line by line against both handbooks to establish which ones they state, and almost none are there, because a handbook describes the task and not the ways an item fails.',
           'Two decisions shape the teacher\'s half of that assembly. Approved rules go in grouped by the stage they govern, before writing, during it, or as a check afterwards, because a rule about the whole exercise cannot be satisfied by fixing one question later. The line about what usually needs fixing is a count computed by code, because a model accepts a stated number almost without question.',
         ],
         zh: [
-          '每种题型的 prompt 都是代码拼出来的，没有一份是手写的。一份 prompt 有八段，其中六段十五种题型都用。决定题目质量的是「有效性规则」，规定一道题不能出哪些问题。我把这些规则一条条对照两本手册核查过，看手册明确写了哪几条，结果几乎一条都没有。手册讲的是这一部分考什么，不讲一道题会在哪里出毛病。',
-          '教师相关的那一半有两处取舍。已采纳的规则按管的环节分组写进 prompt，分成写之前、写的过程中和写完后核对三类，因为管整套题的规则，没法靠事后改某一道题来满足。「通常需要修改什么」那一行由代码统计，不让模型去估，因为模型对给它的数字几乎照单全收。',
+          '每种题型的 prompt 均由代码动态拼接而成，没有一份是纯手写的。一份完整的 prompt 包含八个段落，其中六段在全部 15 种题型中通用。决定题目质量的是「有效性规则」，规定了一道题绝不能犯哪些错误。我曾把这些规则与两本官方手册逐行比对，看手册明文写出了哪几条，结果几乎一条都没有：手册只介绍题型考什么，不会交代一道题会在哪里出毛病。',
+          '与教师相关的那一半组装逻辑有两处关键取舍。已采纳的规则按其约束的阶段分组写入 prompt，分为动笔前、写作中和写完后核对三类，因为涉及整套题全局分布的规则，没法靠事后单改某一道题来满足。「通常需要修改什么」那一行则直接填入代码统计出的真实频次，不让模型自己估算，因为模型对明确给出的数字几乎照单全收。',
         ],
       },
     },
     {
       kind: 'table',
-      heading: { en: 'The eight sections of a generation prompt', zh: '一份生成 prompt 的八个段落' },
+      heading: { en: 'The eight sections of a generation prompt', zh: '生成 prompt 的八个组成部分' },
       head: [
         { en: 'Section', zh: '段落' },
-        { en: 'What it fixes', zh: '规定什么' },
-        { en: 'Parts using it', zh: '适用题型' },
+        { en: 'What it fixes', zh: '规定内容' },
+        { en: 'Parts using it', zh: '启用题型数' },
       ],
       rows: [
         [
           { en: 'Output contract', zh: '输出约定' },
-          { en: 'Raw JSON only, no fences, no commentary', zh: '仅输出原始 JSON，不含代码围栏与解释' },
+          { en: 'Raw JSON only, no fences, no commentary', zh: '仅输出原始 JSON，严禁包含代码块标记与额外解释' },
           { en: '15 of 15', zh: '15 / 15' },
         ],
         [
-          { en: 'Role', zh: '角色' },
-          { en: 'The exact Cambridge part being written', zh: '正在生成的剑桥考试部分' },
+          { en: 'Role', zh: '角色设定' },
+          { en: 'The exact Cambridge part being written', zh: '当前正在生成的剑桥考试具体部分' },
           { en: '15 of 15', zh: '15 / 15' },
         ],
         [
-          { en: 'Task focus', zh: '任务焦点' },
-          { en: 'What the part tests, in the handbook\'s own words', zh: '这部分考什么，用手册自己的说法' },
+          { en: 'Task focus', zh: '考查重点' },
+          { en: 'What the part tests, in the handbook\'s own words', zh: '引用官方手册原话，说明该部分考查的能力' },
           { en: '15 of 15', zh: '15 / 15' },
         ],
         [
-          { en: 'Text specification', zh: '文本规格' },
-          { en: 'Length, register and structure of the passage', zh: '语篇的长度、语域与结构' },
+          { en: 'Text specification', zh: '语篇规格' },
+          { en: 'Length, register and structure of the passage', zh: '阅读短文的篇幅、语域与结构要求' },
           { en: '11 of 15', zh: '11 / 15' },
         ],
         [
           { en: 'Validity rules', zh: '有效性规则' },
-          { en: 'How an item must not fail', zh: '一道题不得违反哪些条件' },
+          { en: 'How an item must not fail', zh: '一道合格题目不得违反的命题条件' },
           { en: '15 of 15', zh: '15 / 15' },
         ],
         [
-          { en: 'Count assertion', zh: '数量断言' },
+          { en: 'Count assertion', zh: '题量断言' },
           { en: 'The exact number of items, stated twice', zh: '题目的确切数量，写两遍' },
           { en: '9 of 15', zh: '9 / 15' },
         ],
         [
           { en: 'JSON schema', zh: 'JSON 结构' },
-          { en: 'The shape the answer must take', zh: '答案必须采用的结构' },
+          { en: 'The shape the answer must take', zh: '输出结果必须遵循的数据结构' },
           { en: '15 of 15', zh: '15 / 15' },
         ],
         [
-          { en: 'Self-check', zh: '自检' },
-          { en: 'What the model must verify before it answers', zh: '作答之前模型必须自己核对什么' },
+          { en: 'Self-check', zh: '输出前自检' },
+          { en: 'What the model must verify before it answers', zh: '模型在返回答案前必须自行核对的事项' },
           { en: '15 of 15', zh: '15 / 15' },
         ],
       ],
       caption: {
         en: 'A script counts these from the live prompts when the report is built. That script once reported three PET parts had no validity rules at all; they had them, under headings it did not recognise. It now matches the shape of a heading, so a heading written a new way is still found.',
-        zh: '这些数字是构建报告时脚本从实际的 prompt 里统计出来的，不是手填的。这个脚本曾经报告有三个 PET 题型完全没有有效性规则，其实它们都有，只是标题写法脚本认不出来。现在它按标题的格式来匹配，换个写法也找得到。',
+        zh: '表中数字由脚本在构建报告时直接扫描线上 prompt 自动统计，而非人工填写。该脚本曾一度报告有三个 PET 题型完全没有有效性规则，其实规则都在，只是小标题换了写法导致脚本没认出来。如今脚本改为按标题格式特征匹配，换种写法也照样找得到。',
       },
     },
     {
@@ -309,7 +309,7 @@ export const papercraft: Project = {
           'Two fragments, quoted from the source. The first is the distractor rule from the A2 Reading and Writing Part 1 prompt; the second keeps the three pictures of a picture story showing the same two children.',
         ],
         zh: [
-          '以下两段直接引自源码。第一段是 A2 Reading and Writing Part 1 prompt 中的干扰项规则；第二段用于让三格看图故事中的两个孩子保持一致。',
+          '以下两段直接引自系统源码。第一段是 A2 Reading and Writing Part 1 prompt 中的干扰项编写规则；第二段则用于在三格看图写故事中保持两名儿童的外观一致。',
         ],
       },
       blocks: [
@@ -329,59 +329,59 @@ export const papercraft: Project = {
       ],
       caption: {
         en: 'The second is what the picture branch looks like in practice: three images are three separate calls, so the two children have to be held fixed by hand, and the drawing model has to be told not to label the shop it was asked to draw.',
-        zh: '第二段能看出图像分支实际是什么样子：三张图是三次独立调用画出来的，两个孩子长得一样全靠 prompt；还得专门叮嘱一句，别在画出来的商店上写店名。',
+        zh: '从第二段源码能看出图像分支在实际工程中的做法：三张配图由三次独立调用分别生成，要让两个孩子在三张图里长相一致，全靠在 prompt 中固定外貌细节；甚至还得专门叮嘱绘图模型一句，别在画出来的商店招牌上写店名。',
       },
     },
     {
       kind: 'table',
-      heading: { en: 'What each check decides, and what it cannot see', zh: '每道检查判定什么，看不见什么' },
+      heading: { en: 'What each check decides, and what it cannot see', zh: '七道检查各自的判定范围与盲区' },
       head: [
-        { en: 'Check', zh: '检查' },
-        { en: 'What it decides', zh: '判定什么' },
-        { en: 'On failure', zh: '失败时' },
-        { en: 'What it cannot see', zh: '看不见什么' },
+        { en: 'Check', zh: '检查项' },
+        { en: 'What it decides', zh: '判定内容' },
+        { en: 'On failure', zh: '未通过时的处理' },
+        { en: 'What it cannot see', zh: '检查盲区' },
       ],
       rows: [
         [
           { en: 'JSON schema', zh: '结构校验' },
-          { en: 'Whether the answer has the required shape', zh: '答案的结构是否合规' },
-          { en: 'Retry, up to three times', zh: '最多重试三次' },
-          { en: 'Whether the exercise is the exam task', zh: '这道题是否就是手册规定的任务' },
+          { en: 'Whether the answer has the required shape', zh: '输出结果是否符合指定的数据结构' },
+          { en: 'Retry, up to three times', zh: '最多自动重试三次' },
+          { en: 'Whether the exercise is the exam task', zh: '题目内容是否符合手册规定的考试任务' },
         ],
         [
-          { en: 'Handbook specification', zh: '手册规格闸门' },
-          { en: 'Whether it is the published task', zh: '是否为已公开的任务' },
-          { en: 'Retry, then reported', zh: '重试，之后如实报告' },
-          { en: 'Whether the answer is right', zh: '答案是否正确' },
+          { en: 'Handbook specification', zh: '手册规格核查' },
+          { en: 'Whether it is the published task', zh: '是否符合官方手册公开的题型规格' },
+          { en: 'Retry, then reported', zh: '先触发重试，仍失败则如实报告' },
+          { en: 'Whether the answer is right', zh: '设定的参考答案是否正确' },
         ],
         [
           { en: 'CEFR vocabulary', zh: 'CEFR 词汇审计' },
-          { en: 'Whether at least 90% of the words are on the level\'s list', zh: '至少 90% 的词是否在该等级词表内' },
-          { en: 'Warn the teacher', zh: '向教师告警' },
+          { en: 'Whether at least 90% of the words are on the level\'s list', zh: '实义词是否至少有 90% 在该等级词表内' },
+          { en: 'Warn the teacher', zh: '向教师发出告警' },
           { en: 'Syntactic complexity', zh: '句法复杂度' },
         ],
         [
-          { en: 'Vision inspection', zh: '视觉检查' },
-          { en: 'Whether a picture is exam material', zh: '配图是否可作考试材料' },
+          { en: 'Vision inspection', zh: '视觉质量检查' },
+          { en: 'Whether a picture is exam material', zh: '生成的配图是否可用作考试材料' },
           { en: 'Redraw, fall back, or warn', zh: '重绘、降级或告警' },
-          { en: 'Anything about the text', zh: '与文字有关的任何问题' },
+          { en: 'Anything about the text', zh: '任何与文字内容相关的问题' },
         ],
         [
-          { en: 'Answer key spread', zh: '答案分布' },
-          { en: 'Whether the key varies across the set', zh: '整套题的正确答案是否分布在不同选项上' },
-          { en: 'Letters rebalanced, then warn', zh: '先由代码重排字母，再告警' },
-          { en: 'Whether any single answer is right', zh: '任何一道题的答案是否正确' },
+          { en: 'Answer key spread', zh: '答案字母分布' },
+          { en: 'Whether the key varies across the set', zh: '整套题的正确答案是否均匀分布在不同选项上' },
+          { en: 'Letters rebalanced, then warn', zh: '先由代码重排选项字母，再告警' },
+          { en: 'Whether any single answer is right', zh: '任何单道题本身的答案是否正确' },
         ],
         [
           { en: 'Answer against passage', zh: '答案与原文核对' },
-          { en: 'Whether each gap\'s key is the word in the completed passage', zh: '每个空的答案是否就是完整原文里的那个词' },
-          { en: 'Retry naming the gap, then warn', zh: '指明该空后重试，再告警' },
-          { en: 'Whether that word is the only defensible answer', zh: '这个词是否是唯一说得通的答案' },
+          { en: 'Whether each gap\'s key is the word in the completed passage', zh: '每个空格的答案是否与完整原文里的词一致' },
+          { en: 'Retry naming the gap, then warn', zh: '指明具体题号重试，仍失败则告警' },
+          { en: 'Whether that word is the only defensible answer', zh: '该词是否为唯一说得通的答案' },
         ],
         [
           { en: 'Answer uniqueness (cloze)', zh: '答案唯一性（完形）' },
-          { en: 'Whether a reader without the key reaches the key and only the key', zh: '不看答案的阅读模型能否得出答案，且只得出这一个' },
-          { en: 'One rewrite, then shown to the teacher', zh: '改写一次，之后交给教师' },
+          { en: 'Whether a reader without the key reaches the key and only the key', zh: '不看答案的阅读模型能否填出且仅填出标准答案' },
+          { en: 'One rewrite, then shown to the teacher', zh: '自动改写一次，仍存疑则交给教师' },
           { en: 'Whether its reading is a teacher\'s', zh: '它的读法是否与教师一致' },
         ],
       ],

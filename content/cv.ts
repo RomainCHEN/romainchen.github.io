@@ -80,8 +80,8 @@ export const EDUCATION: CvSection = {
           'Computer science (MPU): data structures and algorithms, Python and Java, computer organisation, databases, discrete mathematics, networks, software engineering, web development, AI, data science. In progress: NLP, machine translation, computer security.',
         ],
         zh: [
-          '广外翻译方向：英汉对比翻译、基础笔译、中国文化英译、翻译与国际传播、交替传译、同声传译、计算机辅助翻译、语言学导论；在读课程为翻译数据挖掘与应用。毕业论文 2026 年 10 月起步，选题尚未确定，初步方向是多模态伴随文本与大模型的片名翻译。',
-          '澳门理工计算机方向：数据结构与算法、Python / Java 程序设计、计算机组成原理、数据库设计、离散数学、电脑网络、软件工程、网页设计与开发、人工智能、数据科学与商业分析；在读课程为自然语言处理、机器翻译、电脑安全。',
+          '广外翻译方向：主修英汉对比翻译、基础笔译、中国文化英译、翻译与国际传播、交替传译、同声传译、计算机辅助翻译、语言学导论，目前在修翻译数据挖掘与应用。毕业论文于 2026 年 10 月启动，选题尚未最终确定，初步方向为多模态伴随文本与大模型的片名翻译。',
+          '澳门理工计算机方向：主修数据结构与算法、Python / Java 程序设计、计算机组成原理、数据库设计、离散数学、电脑网络、软件工程、网页设计与开发、人工智能、数据科学与商业分析；目前在修自然语言处理、机器翻译、电脑安全。',
         ],
       },
     },
@@ -109,9 +109,9 @@ export const RESEARCH: CvSection = {
           'Piloted with two teachers; two accepted rules changed drafts on 40 paired topics per part. Report and manuscript, Oct 2026.',
         ],
         zh: [
-          '设计出题用的 harness，模型在其中按固定顺序调用，输出经机器校验，失败按类型修复。',
-          '从教师批改记录离线归纳规则，经另一家厂商的模型审计，教师采纳后才进入后续出题，覆盖 15 种剑桥题型。',
-          '与 2 位教师完成试点；每个题型 40 组配对话题上，教师采纳的两条词类规则改变了初稿（Holm 校正后成立）。2026 年 10 月完成结题报告与 IEEE 格式论文稿。',
+          '设计受控的出题运行框架（harness），按固定次序调用模型，用代码自动校验输出结构，并针对具体报错类型触发定向修复。',
+          '构建自演进闭环：从教师批改记录中离线归纳命题规则，交由另一家厂商的模型交叉审计，经教师确认采纳后才进入后续出题，覆盖 15 种剑桥题型。',
+          '与 2 位一线教师完成试点。在各题型 40 组配对话题测试中，教师采纳的两条词类规则切实改变了生成的初稿（经 Holm 校正后成立）。于 2026 年 10 月完成结题报告与 IEEE 格式论文稿。',
         ],
       },
     },
@@ -131,8 +131,8 @@ export const RESEARCH: CvSection = {
           'Persisted per-topic state in JSON so study plans carry across sessions and exam seasons; built a validated bank parser, a one-click summary-site generator and an MCP vision proxy that lets text-only models handle Writing Task 1.',
         ],
         zh: [
-          '以结构化多步表单采集学习者自身素材，再按雅思四项评分标准生成范文；题库覆盖 2026 年 9–12 月季度的 100 个话题。',
-          '以 JSON 按话题保存学习状态，学习计划可跨会话、跨考试季度延续；实现带校验的题库解析、一键生成备考总结站点，以及供纯文本模型处理写作 Task 1 图表的 MCP 视觉服务。',
+          '先通过结构化多步表单采集学习者个人经历与素材，再严格对照雅思四项评分标准生成定制范文。内置题库覆盖 2026 年 9–12 月换题季的 100 个话题。',
+          '以 JSON 格式按话题持久化学习状态，支持跨会话、跨考试季度延续备考计划。实现带数据校验的题库解析、一键生成备考复盘站点，以及供纯文本模型处理写作 Task 1 图表的 MCP 视觉服务。',
         ],
       },
     },
@@ -152,8 +152,8 @@ export const RESEARCH: CvSection = {
           'Reviewed work on functionalist title translation, regional norms across Greater China and cultural bias in frontier models; argued that overlap metrics such as BLEU penalise the divergence that professional judgement produces.',
         ],
         zh: [
-          '构建三层认知语言学框架，区分翻译策略、认知操作与文化图式，并依认知负荷为四类图式操作分级。',
-          '梳理功能主义片名翻译、两岸三地的译名规范差异及前沿模型的文化偏见等研究；论证 BLEU 等参考重叠类指标不适用于译创评估，因其惩罚的恰是体现专业判断的偏离。',
+          '构建三层认知语言学分析框架，将翻译策略、认知操作与文化图式解耦，并按认知负荷高低对四类图式操作进行分级。',
+          '系统梳理功能主义片名翻译、两岸三地译名规范差异及前沿大模型文化偏见等研究。论证 BLEU 等基于字面重合度的指标为何不适用于译创评估：它们惩罚的恰恰是体现专业判断的创造性偏离。',
         ],
       },
     },
@@ -175,8 +175,8 @@ export const TEACHING: CvSection = {
           'Tracked mastery of KET item types through classwork and periodic assessments; adjusted instructional pacing accordingly.',
         ],
         zh: [
-          '主讲两个剑桥 KET 班及《新概念英语》课程，独立完成教案、课件与每周练习的编写。',
-          '通过课堂练习与阶段测评跟踪学生对 KET 各题型的掌握程度，并据此调整教学进度。',
+          '主讲两个剑桥 KET 班及《新概念英语》课程，独立完成教案、课件与每周配套练习的编写。',
+          '通过随堂练习与阶段测评跟踪学生对 KET 各题型的掌握情况，并据此动态调整教学节奏。',
         ],
       },
     },
@@ -196,7 +196,7 @@ export const TEACHING: CvSection = {
           'Supported middle-school English instruction; maintained a quantitative record of interaction frequency and topic-level mastery; delivered differentiated one-to-one tutoring with error-attribution analysis for parents.',
         ],
         zh: [
-          '协助主讲教师开展中学英语教学；建立学生互动频次与知识点掌握程度的量化记录，据此分层开展一对一辅导，并定期向家长反馈错题归因。',
+          '协助主讲教师开展中学英语教学，建立课堂互动频次与知识点掌握情况的量化档案，据此开展分层一对一辅导，并定期向家长反馈错题归因分析。',
         ],
       },
     },
@@ -221,8 +221,8 @@ export const EXPERIENCE: CvSection = {
           'Helped build a retrieval-augmented generation knowledge base over internal business documents, covering preprocessing and ingestion; supported ERP and WMS maintenance and testing.',
         ],
         zh: [
-          '使用 Ollama 在企业内网部署并测试量化开源大模型，对比不同配置下的推理吞吐，为模型选型提供依据。',
-          '参与用本地模型搭建企业内部知识库，负责业务文档的预处理与接入；协助 ERP、WMS 系统的日常维护与测试。',
+          '基于 Ollama 在企业内网部署并测试量化开源大模型，对比不同配置下的推理吞吐表现，为模型选型提供数据依据。',
+          '参与搭建基于检索增强生成（RAG）的企业内部知识库，负责业务文档的预处理与入库，并协助维护与测试 ERP、WMS 系统。',
         ],
       },
     },
@@ -287,8 +287,8 @@ export const WRITING_MEDIA: CvSection = {
           'One video passed 100,000 views on the Canton Fair’s official overseas accounts. Also helped run the awards ceremony and two cultural-experience activities.',
         ],
         zh: [
-          '带领三人小组建立从策划到现场执行的标准化流程，在展会期间采访境外采购商，交付 20 余条宣传视频。',
-          '其中一条在广交会官方海外账号播放量超过十万；另协助筹办颁奖典礼及两项传统文化体验活动。',
+          '带领三人小组建立从策划到现场执行的标准化流程，在展会期间采访境外采购商，累计交付 20 余条宣传视频。',
+          '其中一条视频在广交会官方海外账号播放量破十万；另协助筹办颁奖典礼及两项传统文化体验活动。',
         ],
       },
     },
@@ -299,7 +299,7 @@ export const WRITING_MEDIA: CvSection = {
         en: [
           'Long-form technology and digital-practice essays on a leading Chinese technology platform; four pieces, more than 181,000 cumulative reads.',
         ],
-        zh: ['在国内主流科技媒体少数派发表技术与数字生活类长文四篇，累计阅读 18.1 万+。'],
+        zh: ['在国内知名科技媒体少数派发表四篇技术与数字生活深度长文，累计阅读量超 18.1 万。'],
       },
     },
     {
@@ -310,7 +310,7 @@ export const WRITING_MEDIA: CvSection = {
       },
       points: {
         en: ['Essays on English etymology and historical linguistics for a subscriber audience.'],
-        zh: ['面向订阅读者撰写英语词源与历史语言学文章。'],
+        zh: ['面向订阅读者撰写英语词源考据与历史语言学专栏文章。'],
       },
     },
     {
