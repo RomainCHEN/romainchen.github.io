@@ -28,7 +28,7 @@ export const ieltsCoach: Project = {
     { en: 'Agent skill', zh: 'Agent skill' },
     'MCP',
     'Python',
-    { en: 'Rubric alignment', zh: '对齐评分标准' },
+    { en: 'Rubric alignment', zh: '对照评分标准' },
     { en: 'Open source', zh: '开源' },
   ],
   hero: {
@@ -92,17 +92,17 @@ export const ieltsCoach: Project = {
         en: [
           'A model answer has to satisfy two constraints that pull against each other. It must be calibrated to an external standard, meaning the four public band criteria: task response, coherence and cohesion, lexical resource, grammatical range and accuracy. And it must be *retrievable* by one specific person under time pressure, months later.',
           'Generic generation satisfies the first and ignores the second. What needs changing is what the model is allowed to invent: the argument, the examples and the stance come from the learner, and the model contributes calibration and polish. That is the same division of labour I am studying on the teacher side, applied to a learner.',
-          'The consequence is a genuinely different interaction. Each new topic opens a structured mini-interview, delivered as a multi-step web form rather than a chat interrogation, because a form lets you think at your own pace and revise, which a conversational turn does not. Only then does generation begin, and it begins from your material.',
+          'This changes the interaction. Each new topic opens a structured mini-interview, delivered as a multi-step web form rather than a chat interrogation, because a form lets you think at your own pace and revise, which a conversational turn does not. Only then does generation begin, and it begins from your material.',
         ],
         zh: [
-          '一篇范文要同时满足两个互相冲突的要求。一是对齐外部标准，也就是雅思公开的四项评分维度：任务回应、连贯与衔接、词汇资源、语法多样性与准确性。二是更难做到的一点，它必须让某个具体的人在数月之后的考场上**仍能回想起来**。',
-          '通用生成只满足了前者，忽略了后者。需要调整的是模型获准生成的范围，而不是文笔：论点、例子和立场都来自学习者本人，模型只负责校准与打磨。这与我在教师一侧研究的分工属于同一类问题，只是把对象从教师换成了学习者。',
-          '由此带来的交互方式完全不同。每进入一个新话题，系统先做一轮结构化的小型访谈，形式是多步网页表单，而非聊天式追问。表单让学习者可以按自己的节奏思考、随时修改，一问一答的对话做不到这一点。访谈完成之后才开始生成，而且是从学习者自己的素材出发。',
+          '一篇范文要同时满足两个互相冲突的要求。一是符合外部标准，也就是雅思公开的四项评分维度：任务回应、连贯与衔接、词汇资源、语法多样性与准确性。二是让某个具体的人在数月之后的考场上**仍能回想起来**。',
+          '通用生成只满足了前者，忽略了后者。需要调整的是模型获准生成的范围：论点、例子和立场都来自学习者本人，模型只负责校准与打磨。这与我在教师一侧研究的分工属于同一类问题，只是把对象从教师换成了学习者。',
+          '交互方式也随之改变。每进入一个新话题，系统先做一轮结构化的小型访谈，形式是多步网页表单，而非聊天式追问。表单让学习者可以按自己的节奏思考、随时修改，一问一答的对话做不到这一点。访谈完成之后才开始生成，而且是从学习者自己的素材出发。',
         ],
       },
       note: {
-        en: 'The elicitation step is where the pedagogy lives. Everything the model can calibrate afterwards comes out of it.',
-        zh: '先采集、再生成，教学法就在这一步。模型之后能够校准的，也只有这一步采集到的内容。',
+        en: 'The elicitation step carries the pedagogy. Everything the model can calibrate afterwards comes out of it.',
+        zh: '教学设计的关键在先采集。模型之后能校准的内容，都来自这一步。',
       },
     },
     {
@@ -121,7 +121,7 @@ export const ieltsCoach: Project = {
     },
     {
       kind: 'prose',
-      heading: { en: 'Three problems worth naming', zh: '三个值得明确指出的问题' },
+      heading: { en: 'Three design problems', zh: '三个设计问题' },
       body: {
         en: [
           'Detectability is a design target. The skill screens its own output for the tells: dashes used as interruptions, scare quotes, mechanical linkers, "this essay will discuss" openings. Enforcing an anti-pattern list at generation time works better than asking a model to "write naturally", because the list is checkable and the instruction is not.',
@@ -145,7 +145,7 @@ export const ieltsCoach: Project = {
         zh: '学习文档里的一张答案卡片，带高亮词汇和结构说明。',
       },
       caption: {
-        en: 'Output is a printable document, not a chat log. Answers stay reviewable months later, which is the only timescale that matters for exam preparation.',
+        en: 'Output is a printable document, not a chat log. Answers stay reviewable months later, which is the timescale exam preparation runs on.',
         zh: '产出的是一份可打印的文档，而不是一段对话记录。答案在数月之后仍可查阅复习，备考关心的正是这个时间尺度。',
       },
     },
@@ -155,11 +155,11 @@ export const ieltsCoach: Project = {
       body: {
         en: [
           'The content is only useful if it matches the live exam. The current bank is the 2026 September–December season, cut off on 24 September and parsed straight from the season PDF: 100 speaking topics, of which 88 apply to mainland candidates. 48 of them carried over from the May–August season, so a learner who prepared under the previous bank keeps that work.',
-          'When a new season arrives, a validated builder reparses the PDF and refuses to write if any section count disagrees with the count printed in the source, so a silent parser error cannot corrupt the bank. A migration step then carries prepared topics over. The point is maintenance: a question bank that cannot be updated honestly is stale the moment the exam board rotates its topics.',
+          'When a new season arrives, a validated builder reparses the PDF and refuses to write if any section count disagrees with the count printed in the source, so a silent parser error cannot corrupt the bank. A migration step then carries prepared topics over. A question bank that cannot be updated goes stale as soon as the exam board rotates its topics.',
         ],
         zh: [
           '内容只有与当下的真题相符才有价值。当前使用的是 2026 年 9 至 12 月这一季，截止日期为 9 月 24 日，直接从季度 PDF 解析而来，共 100 个口语话题，其中 88 个适用于内地考生。有 48 个沿用自 5 至 8 月那一季，因此在上一季题库下准备过的学习者，这部分准备仍然有效。',
-          '新一季到来时，带校验的构建脚本会重新解析 PDF，只要某一部分的话题数与 PDF 中标注的数目不符，就拒绝写入，解析静默出错也不会把错误带进题库。随后的迁移步骤会把已准备的话题沿用过来。题库要能可靠地更新，否则考试方轮换话题之后，它立即过时。',
+          '新一季到来时，带校验的构建脚本会重新解析 PDF，只要某一部分的话题数与 PDF 中标注的数目不符，就拒绝写入，解析静默出错也不会把错误带进题库。随后的迁移步骤会把已准备的话题沿用过来。题库如果不能更新，考试方一轮换话题就过时了。',
         ],
       },
     },

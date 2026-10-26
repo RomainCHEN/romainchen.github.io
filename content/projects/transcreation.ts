@@ -12,7 +12,7 @@ export const transcreation: Project = {
   index: '02',
   title: 'Transcreation in the Age of Generative AI',
   subtitle: {
-    en: 'Where a language model stops being a translator and starts being a pattern matcher',
+    en: 'Evaluating generative AI on film title transcreation, and where its ability ends',
     zh: '评估生成式 AI 在影视片名译创中的表现与能力边界',
   },
   blurb: {
@@ -74,11 +74,11 @@ export const transcreation: Project = {
       body: {
         en: [
           'A film title is a hard translation problem disguised as a trivial one. It is four words long and it has to do three incompatible jobs: describe the film, land emotionally in a culture that did not produce it, and sell tickets.',
-          'Titles are therefore the cleanest available probe for a question translation studies keeps arguing badly. When a translator abandons the literal meaning, is that a failure of fidelity or an act of expertise? And can a model that has never lived inside a culture do the same thing?',
+          'Titles are therefore a clean probe for a question translation studies has long debated. When a translator abandons the literal meaning, is that a failure of fidelity or an act of expertise? And can a model that has never lived inside a culture do the same thing?',
         ],
         zh: [
           '电影片名只有几个字，看似只是小问题，却要同时完成三件互相冲突的任务：说明影片讲什么、在陌生的文化里产生情感效果、把观众带进影院。',
-          '译者放弃字面意义，究竟是失信于原文，还是专业判断的体现，翻译研究对此争论已久。片名篇幅短、争议集中，是考察这一问题最清晰的入口。由此还可追问，从未在目标文化中生活过的模型，能否做到同样的事。',
+          '译者放弃字面意义，究竟是失信于原文，还是专业判断的体现，翻译研究对此争论已久。片名篇幅短、争议集中，是考察这个问题最清晰的入口。另一个问题是，从未在目标文化中生活过的模型，能不能做到同样的事。',
         ],
       },
     },
@@ -91,13 +91,13 @@ export const transcreation: Project = {
           'This study measures the **operation** instead. It classifies what the translator did, then asks whether that operation fits the cultural gap in front of it.',
         ],
         zh: [
-          '常用的机器翻译指标在这里完全失效。BLEU 和 ROUGE 计算的是译文与参考译文的重合度，而好片名的价值恰恰在于偏离参考。《Ghost》的中文译名《人鬼情未了》，对照任何字面参考都得分很低，但它正是正确的译法。',
+          '常用的机器翻译指标在这里不适用。BLEU 和 ROUGE 计算译文与参考译文的重合度，好片名却往往要偏离参考。《Ghost》的中文译名《人鬼情未了》，对照任何字面参考都得分很低，却是正确的译法。',
           '这项研究衡量的是**操作**本身。先判定译者做了哪一类操作，再判断这类操作是否适合眼前的文化差距。',
         ],
       },
       note: {
-        en: 'Reference-overlap metrics penalise the behaviour that constitutes expertise. That observation is the reason the study needs a different measure.',
-        zh: '按重合度打分的指标，惩罚的正是专业能力本身。仅此一点，就足以说明这项研究需要另一套衡量方式。',
+        en: 'Reference-overlap metrics penalise the behaviour that constitutes expertise, so the study needs a different measure.',
+        zh: '按重合度打分的指标会惩罚体现专业能力的做法，所以这项研究需要另一套衡量方式。',
       },
     },
     {
@@ -111,8 +111,8 @@ export const transcreation: Project = {
         zh: '最初那张课程海报《电影标题的中英翻译》，版式仿剪贴簿，十个编号的策略类别。每一类都写了策略、理论依据、示例，以及与机器翻译的对比。',
       },
       caption: {
-        en: 'Where this started: a course poster for an English-Chinese contrastive translation class. It is printed small, so open the full sheet to read it. The poster did more than sort titles into ten categories. Each category carries a stated rationale and a comparison against machine output, so the human-versus-AI question was there from the beginning. What it lacks is a mechanism. The rationale is asserted case by case, so the categories predict nothing about a title they have not already seen. The distance between this poster and the three-tier model is the work of turning those assertions into an account of what the translator does cognitively.',
-        zh: '这项研究的起点是这张海报，英汉对比翻译课上的小组展示。原件排版密集，正文需打开完整原图才能看清。海报做的不只是把片名分成十类，每一类都给出理论依据，并与机器翻译的输出对照，人工与 AI 的比较从那时起就已存在。欠缺的是机制。依据是逐例给出的，这套分类因此无法预测未曾见过的片名。把这些逐例的判断整理成对译者认知过程的说明，就是这张海报与三层模型之间的距离。',
+        en: 'Where this started: a course poster for an English-Chinese contrastive translation class. It is printed small, so open the full sheet to read it. The poster sorts titles into ten categories, and each one carries a stated rationale and a comparison against machine output, so the human-versus-AI question was there from the beginning. What it lacks is a mechanism. The rationale is asserted case by case, so the categories predict nothing about a title they have not already seen. The distance between this poster and the three-tier model is the work of turning those assertions into an account of what the translator does cognitively.',
+        zh: '这项研究的起点是这张海报，英汉对比翻译课上的小组展示。原件排版密集，正文需打开完整原图才能看清。海报把片名分成十类，每一类都给出理论依据，并与机器翻译的输出对照，人工与 AI 的比较从那时起就已存在。欠缺的是机制。依据是逐例给出的，这套分类因此无法预测未曾见过的片名。把这些逐例的判断整理成对译者认知过程的说明，就是这张海报与三层模型之间的距离。',
       },
     },
     {
@@ -129,7 +129,7 @@ export const transcreation: Project = {
           '第一层是策略，即译者做了什么：直译、归化、异化、音译、意译，乃至彻底的再创作。这一层既有研究描述得最细，解释力却最弱。',
           '第二层是认知操作，即译者如何做到：隐喻映射、转喻、意象图式，以及最关键的概念整合。好片名多半是整合空间中新生成的结构，单靠移植原文的结构无法得到。',
           '第三层是文化图式，译法成败最终取决于它。隐喻可以调用哪些源域、某次整合在文化上是否可行，都由图式决定。我们把译者面对的问题归为对图式的四种操作，各类操作所需的认知投入相差很大。',
-          '三层之间有方向：第一层的策略是**手段**，用来完成第二层的认知操作，而认知操作的**目的**是处理第三层的文化图式。多数既有研究止于第一层，只描述决定的表面，不及其机制。',
+          '三层之间有方向：第一层的策略是**手段**，用来完成第二层的认知操作，而认知操作的**目的**是处理第三层的文化图式。多数既有研究止于第一层，只描述决策的表面，没有触及机制。',
         ],
       },
     },
@@ -163,7 +163,7 @@ export const transcreation: Project = {
           human: '人鬼情未了',
           machine: '鬼',
           reading: {
-            en: 'The English schema here is a tender revenant in a romance; the Chinese 鬼 schema is primarily one of horror. The two overlap and conflict. The human translator diagnosed that the emotional focus is the love and not the ghost, suppressed the horror reading, and blended three inputs, human, ghost and unfinished love, into a structure that neither language contained on its own. The literal rendering activates the wrong schema and misfiles the genre.',
+            en: 'The English schema here is a tender revenant in a romance; the Chinese 鬼 schema is primarily one of horror. The two overlap and conflict. The human translator judged that the emotional centre of the film is the love, not the ghost, suppressed the horror reading, and blended three inputs, human, ghost and unfinished love, into a structure that neither language contained on its own. The literal rendering activates the wrong schema and misfiles the genre.',
             zh: '英语的图式是爱情故事中深情的亡灵，中文的“鬼”则以恐怖为主，两者部分重叠又相互冲突。译者判断影片的情感重心在“情”而非“鬼”，抑制了恐怖的读法，再将“人”“鬼”“情未了”整合为一个两种语言原本都不具备的结构。字面直译激活的是错误的图式，连影片类型也判断错了。',
           },
         },
@@ -256,7 +256,7 @@ export const transcreation: Project = {
       body: {
         en: [
           'Traditional translation theory loads far too much onto the term *free translation*. It covers everything from mild paraphrase to total re-creation, which makes it a black box: naming it explains nothing about what happened inside.',
-          '**Transcreation**, understood as cognitive-cultural orchestration, supplies the mechanism. The translator diagnoses how the source builds meaning, judges whether that structure can survive the crossing, and then recomposes. Each of those three competencies can be examined on its own, and a model can fail at each of them differently.',
+          '**Transcreation**, understood as a cognitive and cultural process of recomposition, supplies the mechanism. The translator diagnoses how the source builds meaning, judges whether that structure can survive the crossing, and then recomposes. Each of those three competencies can be examined on its own, and a model can fail at each of them differently.',
           'Human and machine output differ in *character*, not in quality. Human decisions in the corpus are diagnostic and staged. Machine decisions are arbitrary in a specific technical sense: the model applies a default mapping without testing whether the source schema survives the crossing.',
         ],
         zh: [
@@ -271,10 +271,10 @@ export const transcreation: Project = {
       heading: { en: 'Where this stands', zh: '目前的进展' },
       intro: {
         en: [
-          'A paper in preparation on a three-person team with faculty supervision. The framework, the literature, the corpus and both models\' outputs are complete. Coding is under way, and the human-machine comparison follows it.',
+          'This is a paper in preparation, written by a three-person team under faculty supervision. The framework, the literature, the corpus and both models\' outputs are complete. Coding is under way, and the human-machine comparison follows it.',
         ],
         zh: [
-          '论文仍在写作中，三人小组，导师指导。理论框架、文献综述、语料和两个模型的输出都已完成，目前正在编码，编码之后再做人机对比。',
+          '论文仍在写作中，由三人小组在导师指导下完成。理论框架、文献综述、语料和两个模型的输出都已完成，目前正在编码，编码之后再做人机对比。',
         ],
       },
       items: [
@@ -314,7 +314,7 @@ export const transcreation: Project = {
           label: { en: 'Coding manual and reliability check', zh: '编码手册与信度检验' },
           state: 'instrumented',
           detail: {
-            en: 'The three-tier scheme is written down to the level of named strategy codes, each defined by its relationship to the cultural schema, and pre-coded on the hardest cases to test whether the definitions survive contact with data. Full inter-coder reliability is pending.',
+            en: 'The three-tier scheme is written down to the level of named strategy codes, each defined by its relationship to the cultural schema, and pre-coded on the hardest cases to test whether the definitions hold up on real data. Full inter-coder reliability is pending.',
             zh: '三层方案已细化到具名策略代码，每个代码依其与文化图式的关系定义。我们在最难的几个案例上先行试编，检验这些定义面对真实数据是否仍然成立。完整的编码者间信度检验尚未开展。',
           },
         },
@@ -335,11 +335,11 @@ export const transcreation: Project = {
         en: [
           'It looks like the odd one out, a humanities paper between two pieces of software. It is the same question in a different instrument.',
           'PaperCraft asks where a teacher\'s judgement remains irreplaceable inside a generation pipeline, and answers it with edit distances. This study asks where a translator\'s cultural judgement remains irreplaceable, and answers it with schema operations. Both evaluate a model by the operation it performs rather than the output it produces. Both put the human contribution on the dependent-variable side, where it can be measured instead of asserted.',
-          'The translation work is also where I learned that a construct has to be operationalised before it can be studied, the most transferable lesson I have carried into building learning systems.',
+          'The translation work is also where I learned that a construct has to be operationalised before it can be studied, the lesson I use most when building learning systems.',
         ],
         zh: [
           '两个软件项目中间夹一篇人文论文，看起来并不相称，但它们问的是同一个问题，只是换了工具。',
-          'PaperCraft 要回答的是教师判断在生成流程中有多少不可替代，衡量方式是编辑距离；这项研究要回答的是译者的文化判断有多少不可替代，衡量方式是图式操作。两者评价模型，依据的是它执行了哪一类操作，而不是它产出了什么；也都把人的贡献放在因变量一侧，使其可以测量，不停留在主张。',
+          'PaperCraft 要回答的是教师判断在生成流程中有多少不可替代，衡量方式是编辑距离；这项研究要回答的是译者的文化判断有多少不可替代，衡量方式是图式操作。两者评价模型，看的是它执行了哪一类操作，不是它产出了什么。两者也都把人的贡献放在因变量一侧，使其可以测量，不停留在主张。',
           '翻译方向的工作让我明白，构念不经操作化就无法研究。这是我后来开发学习系统时最常用到的一条经验。',
         ],
       },

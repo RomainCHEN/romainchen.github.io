@@ -24,7 +24,7 @@ export interface CvSection {
  * reason, as the job résumé's does (see RESUME_UPDATED below), and the reader
  * sees only the date.
  */
-export const CV_UPDATED = '2026-10-19T02:00';
+export const CV_UPDATED = '2026-10-26T19:00';
 
 /** The stamp's date part, which is what gets shown. */
 export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
@@ -43,7 +43,7 @@ export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
  * change when the file changes, and a date cannot distinguish two rebuilds in
  * one day. The résumé prints only its date part.
  */
-export const RESUME_UPDATED = '2026-10-19T02:00';
+export const RESUME_UPDATED = '2026-10-26T19:00';
 
 /**
  * This is the academic CV, written for graduate admissions in learning
@@ -76,11 +76,11 @@ export const EDUCATION: CvSection = {
       },
       points: {
         en: [
-          'Translation (GDUFS): EN–ZH contrastive translation, foundations of translation, English translation of Chinese culture, translation and international communication, interpreting, CAT. In progress: translation data mining.',
+          'Translation (GDUFS): EN–ZH contrastive translation, foundations of translation, Chinese culture in English, translation and international communication, interpreting, CAT. In progress: data mining; thesis begun Oct 2026.',
           'Computer science (MPU): data structures and algorithms, Python and Java, computer organisation, databases, discrete mathematics, networks, software engineering, web development, AI, data science. In progress: NLP, machine translation, computer security.',
         ],
         zh: [
-          '广外翻译方向：英汉对比翻译、基础笔译、中国文化英译、翻译与国际传播、交替传译、同声传译、计算机辅助翻译、语言学导论；在读课程为翻译数据挖掘与应用。',
+          '广外翻译方向：英汉对比翻译、基础笔译、中国文化英译、翻译与国际传播、交替传译、同声传译、计算机辅助翻译、语言学导论；在读课程为翻译数据挖掘与应用。毕业论文 2026 年 10 月起步，选题尚未确定，初步方向是多模态伴随文本与大模型的片名翻译。',
           '澳门理工计算机方向：数据结构与算法、Python / Java 程序设计、计算机组成原理、数据库设计、离散数学、电脑网络、软件工程、网页设计与开发、人工智能、数据科学与商业分析；在读课程为自然语言处理、机器翻译、电脑安全。',
         ],
       },
@@ -105,13 +105,13 @@ export const RESEARCH: CvSection = {
       points: {
         en: [
           'Designed the authoring harness the model runs inside: a fixed call sequence, machine-checked output and typed repair of a named failure.',
-          'Added a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules and folds accepted ones into later drafts, isolated per teacher across 15 item types.',
-          'Added answer-correctness checks the structural gates miss, and piloted the system with two practising teachers.',
+          'Added a self-improving loop: an offline pass induces rules from the teacher’s corrections, a second model family audits each, and only rules the teacher accepts reach later drafts, across 15 item types.',
+          'Piloted with two teachers; two accepted rules changed drafts on 40 paired topics per part. Report and manuscript, Oct 2026.',
         ],
         zh: [
           '设计出题用的 harness，模型在其中按固定顺序调用，输出经机器校验，失败按类型修复。',
-          '离线读取教师批改记录并归纳候选规则，经教师采纳后进入后续出题；规则按教师隔离，覆盖 15 种剑桥题型。',
-          '在结构校验之外加入答案正确性检查，并与 2 位一线教师完成试点。',
+          '从教师批改记录离线归纳规则，经另一家厂商的模型审计，教师采纳后才进入后续出题，覆盖 15 种剑桥题型。',
+          '与 2 位教师完成试点；每个题型 40 组配对话题上，教师采纳的两条词类规则改变了初稿（Holm 校正后成立）。2026 年 10 月完成结题报告与 IEEE 格式论文稿。',
         ],
       },
     },

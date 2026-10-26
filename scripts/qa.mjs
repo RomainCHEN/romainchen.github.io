@@ -194,8 +194,6 @@ for (const locale of ['en', 'zh']) {
     `/${locale}/work/ielts-coach/`,
     `/${locale}/about/`,
     `/${locale}/cv/`,
-    `/${locale}/notes/`,
-    `/${locale}/notes/two-hours/`,
   );
 }
 

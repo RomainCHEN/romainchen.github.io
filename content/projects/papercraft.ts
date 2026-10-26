@@ -4,9 +4,12 @@ import type { Project } from '../types';
  * PaperCraft. The spine of the portfolio.
  *
  * Evidence discipline: the project finished in October 2026 with a final
- * report. The teacher pilot ran with two teachers in three sessions, so its
- * findings are reported descriptively and without questionnaire scores; the
- * rule-effect and cloze results come from model judges and say so. The
+ * report (submitted 24 October) and an IEEE-format manuscript drawn from it.
+ * The teacher pilot ran with two teachers in three sessions, so its findings
+ * are reported descriptively and without questionnaire scores. The rule-effect
+ * results come from 40 paired offline generations per part, scored by model
+ * judges and, for the two countable rules, by a part-of-speech tagger; the
+ * closed-loop results come from simulated teachers. Each says so. The
  * "evidence" section states the status of each research component explicitly.
  */
 export const papercraft: Project = {
@@ -63,7 +66,7 @@ export const papercraft: Project = {
     },
     {
       label: { en: 'Design', zh: '设计' },
-      value: { en: 'A model inside a harness; 7 stages, one of them human', zh: '定制化模型 harness & 教师参与的大模型生成管线' },
+      value: { en: 'A model inside a harness; 7 stages, one of them human', zh: '模型在 harness 内运行，七个环节中有一个由教师完成' },
     },
     {
       label: { en: 'Checks', zh: '检查' },
@@ -78,8 +81,18 @@ export const papercraft: Project = {
       value: { en: 'Two teachers, three sessions, October 2026', zh: '2 位教师，3 轮使用，2026 年 10 月' },
     },
     {
+      label: { en: 'Rule effect', zh: '规则效果' },
+      value: {
+        en: 'Two accepted rules changed drafts over 40 paired topics per part',
+        zh: '每个题型 40 组配对话题上，两条已采纳规则改变了初稿',
+      },
+    },
+    {
       label: { en: 'Status', zh: '状态' },
-      value: { en: 'Final report completed, October 2026', zh: '2026 年 10 月完成结题报告' },
+      value: {
+        en: 'Final report submitted October 2026, with an IEEE-format paper manuscript',
+        zh: '2026 年 10 月提交结题报告，并整理成一篇 IEEE 格式的论文稿',
+      },
     },
   ],
   featured: true,
@@ -89,11 +102,13 @@ export const papercraft: Project = {
       body: {
         en: [
           'I taught two small Cambridge KET classes while doing a computer science degree, and wrote a set of practice exercises most weeks. Three things were wrong, and none of them was speed: I could not control difficulty, past papers ran out, and the topics were stale.',
-          'PaperCraft is the final-year project that came out of it, finished in October 2026. It writes all fifteen Reading and Writing item types of A2 Key and B1 Preliminary, checks every draft in code against the published handbooks, records every correction the teacher makes, and turns corrections that recur into rules the teacher can accept, refuse or withdraw. Two teachers piloted it, and their sessions changed the system in four places.',
+          'PaperCraft is the final-year project that came out of it, submitted as a final report in October 2026 and written up as a paper. It writes all fifteen Reading and Writing item types of A2 Key and B1 Preliminary, checks every draft in code against the published handbooks, records every correction the teacher makes, and turns corrections that recur into rules the teacher can accept, reword, refuse or withdraw. Two teachers piloted it, and their sessions changed the system in four places.',
+          'The evaluation has two results. Over 40 paired topics per part, the two word-class rules the pilot teachers accepted changed what the generator wrote, and a part-of-speech tagger independent of every model agreed. With simulated teachers, an accepted rule ended the correcting for a standard the model can meet while it writes. A standard that only holds across a set of options, such as the key never being the longest option, did not move when written into the prompt, and needed a check in code.',
         ],
         zh: [
           '攻读计算机学位期间我带两个剑桥 KET 小班，练习多半自己出。有三件事始终没能解决，都与出题速度无关：难度难以控制，真题很快用尽，可用的话题也已陈旧。',
-          'PaperCraft 是由此而来的毕业设计，2026 年 10 月结题。它能生成 A2 Key 与 B1 Preliminary 阅读写作卷的全部 15 种题型，每份初稿都由代码对照官方手册检查。教师的每一处修改都有记录，反复出现的修改归纳成规则，教师可以采纳、拒绝，也可以随时撤回。两位教师参加了试点，试点中暴露的问题让系统改动了四处。',
+          'PaperCraft 是由此而来的毕业设计，2026 年 10 月提交结题报告，并整理成一篇论文。它能生成 A2 Key 与 B1 Preliminary 阅读写作卷的全部 15 种题型，每份初稿都由代码对照官方手册检查。教师的每一处修改都有记录，反复出现的修改归纳成规则，教师可以采纳、改写、拒绝，也可以随时撤回。两位教师参加了试点，试点中暴露的问题让系统改动了四处。',
+          '评估得出两个结果。在每个题型 40 组配对话题上，试点教师采纳的两条词类规则改变了生成结果。一个独立于所有模型的词性标注器，也得出了同样的结论。用模拟教师测试时，凡是模型写作时就能做到的标准，规则一经采纳，后续初稿便不再需要修改。有些标准只能放在整组选项上判断，例如正确答案不能是最长的选项。这类标准写进 prompt 没有效果，需要交给代码检查。',
         ],
       },
     },
@@ -571,7 +586,7 @@ export const papercraft: Project = {
           'Each teacher was offered four rules and accepted all four, and the audit had passed all eight by three votes to none. Two of the rules came from the notes rather than the edits: six of Teacher A\'s seven notes said five of the six gaps tested verbs, and the distiller turned that into a rule to spread the gaps across word classes. No teacher refused a proposal, so a person never exercised the refusal path.',
           'The one usable answer on control was negative. Teacher A wrote that they had no direct say in which observations became rules, how the rules were worded, how they were ranked when they conflicted, or where they applied. Accepting or refusing a finished rule did not feel like control to a teacher who could not shape it, and that answer sets the next piece of work.',
           'The third session went differently. In 13 minutes Teacher B generated five open-cloze drafts, rejected four with a written reason each, and edited none. Every reason named the genre: the handbook sets an email, and the part\'s prompt said the text must never be one. That line sat in a section of the prompt the handbook audit had not covered. Distillation as it then stood learned nothing from a teacher who explained instead of editing, so it now reads rejected drafts too.',
-          'Whether an accepted rule changes what the generator writes was tested offline: each rule on and off over 16 paired topics, with everything else in the request identical, scored by two model judges (table below). The word-class rules moved the drafts. The rules asking that every distractor be wrong in its gap, which is what both teachers corrected most, did not. A requirement that can be counted across a set seems to move drafts, and a gap-by-gap judgement does not, but eight rules cannot show that.',
+          'Whether an accepted rule changes what the generator writes was tested offline. Each topic was generated twice, with the teacher\'s accepted rules and without them, and the two prompts were checked in code to differ by the rule block alone. The test began at 16 topics per part and was extended to 40, with the analysis fixed in a hashed file before the new drafts existed. A judge from another vendor scored each draft against each rule, and a second judge rescored the pairs the first called different (table below).',
         ],
         zh: [
           '2026 年 10 月，两位一线教师参加了试点。两人各自独立按研究表单操作：生成并修改四份初稿，请系统归纳一次规则并逐条决定是否采纳，再生成两份。教师 A 教龄十年，试用的是 B1 Reading Part 5；教师 B 教龄四年，试用的是 A2 Reading and Writing Part 4，第二天又做了一轮 A2 开放式完形。整个过程无人在场，事件日志、书面回答和审计投票三者对照阅读，任何一项都不当作定论。',
@@ -579,7 +594,7 @@ export const papercraft: Project = {
           '系统给每位教师各提出四条规则，教师全部采纳，这八条也都以三票对零票通过了审计。其中两条来自书面记录而非修改。教师 A 的七条记录里有六条提到，六个空里有五个考的是动词，蒸馏器据此归纳出「各空应覆盖不同词类」的规则。两位教师都没有拒绝过任何建议，拒绝这条路径因此一直没有人实际走过。',
           '关于掌控感，唯一可用的回答是负面的。教师 A 写道，哪些观察会变成规则、规则如何措辞、相互冲突时以哪条为准、在哪里生效，自己都没有直接的话语权。面对一条写好的规则，只能选择采纳或拒绝，对一位无法参与塑造规则的教师来说，这算不上掌控。这个回答决定了下一步的工作。',
           '第三轮的情况完全不同。13 分钟里，教师 B 生成了五份开放式完形初稿，退回四份并各写了理由，一处也没有改。每条理由都指向文体问题。手册规定这一部分是电子邮件，这一题型的 prompt 却写着文本绝不能是邮件。这句话所在的段落，恰好不在当初对照手册核查的范围内。当时的蒸馏只从修改中学习，教师只写理由而不动手修改时，它便无从归纳；现在蒸馏也会读取退回的初稿。',
-          '采纳的规则是否真的改变了生成结果，另做了离线测试。每条规则在 16 个配对话题上各开一次、关一次，请求中的其他内容完全相同，由两个模型评判（见下表）。两条词类规则让初稿有了变化。要求每个干扰项在空格里都必须是错的那几条，恰好是两位教师修改最多的地方，却没有带来变化。可以在整套题上计数的要求似乎能改变初稿，需要逐空判断的则不能，但八条规则还说明不了这一点。',
+          '采纳的规则是否真的改变了生成结果，另做了离线测试。每个话题生成两次，一次带上教师已采纳的规则，一次不带，两份 prompt 先由代码确认只差规则那一段。测试最初每个题型只有 16 个话题，只能看出很大的效应，后来扩展到 40 个。新初稿生成之前，分析方案已写进一份记录了哈希值的文件。评判由另一家厂商的模型逐条打分，它判为有差异的配对，再交给第二个模型复评（见下表）。',
         ],
       },
     },
@@ -591,20 +606,58 @@ export const papercraft: Project = {
         { en: 'Accepted rule', zh: '已采纳的规则' },
         { en: 'Off', zh: '关闭' },
         { en: 'On', zh: '开启' },
+        { en: 'p, Holm', zh: 'p（Holm 校正）' },
       ],
       rows: [
-        [{ en: 'A', zh: 'A' }, { en: 'Spread the gaps over word classes', zh: '各空覆盖不同词类' }, { en: '4 / 16', zh: '4 / 16' }, { en: '13 / 16', zh: '13 / 16' }],
-        [{ en: 'B', zh: 'B' }, { en: 'Vary the word classes tested', zh: '考查的词类要有变化' }, { en: '8 / 16', zh: '8 / 16' }, { en: '16 / 16', zh: '16 / 16' }],
-        [{ en: 'A', zh: 'A' }, { en: 'Distractors plausible, same class', zh: '干扰项合理且词类一致' }, { en: '11 / 15', zh: '11 / 15' }, { en: '12 / 15', zh: '12 / 15' }],
-        [{ en: 'A', zh: 'A' }, { en: 'No option word repeated', zh: '选项词不重复' }, { en: '12 / 15', zh: '12 / 15' }, { en: '11 / 15', zh: '11 / 15' }],
-        [{ en: 'A', zh: 'A' }, { en: 'Every distractor ruled out', zh: '每个干扰项都可排除' }, { en: '0 / 15', zh: '0 / 15' }, { en: '4 / 15', zh: '4 / 15' }],
-        [{ en: 'B', zh: 'B' }, { en: 'Every distractor objectively wrong', zh: '每个干扰项都客观错误' }, { en: '2 / 15', zh: '2 / 15' }, { en: '2 / 15', zh: '2 / 15' }],
-        [{ en: 'B', zh: 'B' }, { en: 'Options within A2 vocabulary', zh: '选项限于 A2 词汇' }, { en: '14 / 15', zh: '14 / 15' }, { en: '15 / 15', zh: '15 / 15' }],
-        [{ en: 'B', zh: 'B' }, { en: 'Re-insert each option and check', zh: '把每个选项代回原文核对' }, { en: '2 / 16', zh: '2 / 16' }, { en: '1 / 16', zh: '1 / 16' }],
+        [{ en: 'A', zh: 'A' }, { en: 'Spread the gaps over word classes', zh: '各空覆盖不同词类' }, { en: '7 / 40', zh: '7 / 40' }, { en: '36 / 40', zh: '36 / 40' }, { en: '< .001', zh: '< .001' }],
+        [{ en: 'B', zh: 'B' }, { en: 'Vary the word classes tested', zh: '考查的词类要有变化' }, { en: '27 / 40', zh: '27 / 40' }, { en: '39 / 40', zh: '39 / 40' }, { en: '.003', zh: '.003' }],
+        [{ en: 'A', zh: 'A' }, { en: 'Every distractor ruled out', zh: '每个干扰项都可排除' }, { en: '2 / 39', zh: '2 / 39' }, { en: '16 / 39', zh: '16 / 39' }, { en: '.003', zh: '.003' }],
+        [{ en: 'B', zh: 'B' }, { en: 'Re-insert each option and check', zh: '把每个选项代回原文核对' }, { en: '1 / 39', zh: '1 / 39' }, { en: '10 / 39', zh: '10 / 39' }, { en: '.059', zh: '.059' }],
+        [{ en: 'A', zh: 'A' }, { en: 'Distractors plausible, same class', zh: '干扰项合理且词类一致' }, { en: '31 / 40', zh: '31 / 40' }, { en: '33 / 40', zh: '33 / 40' }, { en: '1.00', zh: '1.00' }],
+        [{ en: 'A', zh: 'A' }, { en: 'No option word repeated', zh: '选项词不重复' }, { en: '30 / 38', zh: '30 / 38' }, { en: '30 / 38', zh: '30 / 38' }, { en: '1.00', zh: '1.00' }],
+        [{ en: 'B', zh: 'B' }, { en: 'Every distractor objectively wrong', zh: '每个干扰项都客观错误' }, { en: '6 / 40', zh: '6 / 40' }, { en: '9 / 40', zh: '9 / 40' }, { en: '1.00', zh: '1.00' }],
+        [{ en: 'B', zh: 'B' }, { en: 'Options within A2 vocabulary', zh: '选项限于 A2 词汇' }, { en: '35 / 39', zh: '35 / 39' }, { en: '38 / 39', zh: '38 / 39' }, { en: '1.00', zh: '1.00' }],
       ],
       caption: {
-        en: 'Judged by two models, not by the teachers. Only the first two rows hold when both judges agree (exact McNemar p = .012 and .031, uncorrected); neither survives correction for eight tests. Denominators below 16 exclude pairs a judge could not score.',
-        zh: '由模型评判，不是教师评判。只有前两行在两个评判模型一致的配对上成立（精确 McNemar 检验 p = .012 与 .031），按八次检验校正后都不再显著。分母小于 16，是因为剔除了评判模型无法打分的配对。',
+        en: 'Scored by the first model judge, not by the teachers; p is the exact McNemar test, Holm-adjusted over the eight rules. The two word-class rules also hold on the pairs the second judge agreed with. The third row does not: the second judge agreed on one of its sixteen changed pairs. Denominators below 40 exclude pairs a judge left unscored.',
+        zh: '由第一个评判模型打分，不是教师打分；p 为精确 McNemar 检验，按八条规则做 Holm 校正。只保留第二个评判模型意见一致的配对时，两条词类规则依然成立。第三行则不然，它的十六组变化中，第二个模型只认同一组。分母小于 40，是因为剔除了评判模型未打分的配对。',
+      },
+    },
+    {
+      kind: 'prose',
+      body: {
+        en: [
+          'Both word-class rules can also be counted without a judge. A part-of-speech tagger, independent of the generator and of both judges, read the class of each keyed word: the mean number of verbs among the six keys fell from 4.00 to 0.60 and from 3.50 to 1.32, and in Teacher A\'s part the drafts with at least one grammar-word key rose from 8 of 37 to 37 of 37. The judge agreed with the tagger on 91 and 89 per cent of draft-arms.',
+          'Counting also found what the judge missed. With the four rules on together, drafts with no repeated option word fell from 30 to 13 of 40. The likely cause is the word-class rule beside it: grammar-word gaps draw from a small closed set, so in, on and at recur from gap to gap. The conflict check did not flag the pair, and the interaction showed only when the rules ran together.',
+          'The recent-work summary that also reaches the prompt was separated by generating the same topics again without it. For Teacher A it moved 8 drafts on its own; for Teacher B it showed no reliable shift, and once the rule was in force it added nothing for either. The rules account for almost all of the change.',
+        ],
+        zh: [
+          '两条词类规则也可以不靠评判模型直接计数。词性标注器独立于生成模型和两个评判模型，逐个读取答案词的词类。六个答案中动词的平均个数，从 4.00 降到 0.60，从 3.50 降到 1.32。在教师 A 的题型里，至少有一个功能词答案的初稿从 37 份中的 8 份升到 37 份。评判模型与标注器的结论在 91% 和 89% 的初稿上一致。',
+          '计数还发现了评判模型没有看到的问题。四条规则同时开启时，选项词不重复的初稿从 40 份中的 30 份降到 13 份。很可能是旁边那条词类规则造成的：功能词答案只能从很小的封闭词类里取，in、on、at 就会在不同空格之间反复出现。冲突检查没有标出这一对规则，这种相互影响只在规则一起运行时才显现。',
+          'prompt 里还带着一段近期修改的摘要。为了把它和规则分开，同样的话题在去掉摘要后又生成了一遍。对教师 A，摘要单独就让 8 份初稿朝同一方向变化；对教师 B，看不出可靠的变化。规则生效之后，摘要对两人都不再有额外作用。变化几乎全部来自规则。',
+        ],
+      },
+    },
+    {
+      kind: 'prose',
+      heading: { en: 'Closing the loop without a person in it', zh: '没有真人参与时，回路能否闭合' },
+      body: {
+        en: [
+          'Whether accepted rules reduce a teacher\'s correcting over time needs several sessions per teacher, and the pilot had one per part. The mechanism\'s half of that question was measured offline, with simulated teachers: a model from a family the product never uses, holding a standard program code can count, and correcting a draft only when the count fails.',
+          'D1, on B1 Reading Part 5, required at least two of the six keys to be grammar words. D2, on A2 Reading Part 3, forbade the key from being the longest option, the cue a candidate can follow without reading.',
+          'Each corrected eight drafts, asked once for rules and accepted what the audit passed, as both pilot teachers had. Every later topic was then generated four ways: rules and summary, summary only, rules only, and neither. For D1, with the rule in force, the teacher corrected none of 32 later drafts, against 30 of 31 for a teacher who had refused it, and the summary alone changed one pair. For D2 the rule reached every prompt and 29 of 32 drafts still needed correcting, against 27 of 32 without it.',
+          'The difference is where the standard lives. A model writing one gap at a time can meet a constraint on each gap, and cannot see the lengths of a set of options it has not finished writing. So the D2 rule was moved out of the prompt.',
+          'On 16 frozen specifications, the rule as text left the cue unchanged, 31 of 84 questions against 32. As a blocking check in code that names the failing questions and spends the retry, it cut the cue to 17 of 84 at 2.8 times the model calls. As a warning it found the same questions at 1.25 calls without reducing them.',
+          'Code can verify the property and point at the question, but it cannot write the longer distractor, and the model cannot always write it even when told. The product ships the warning by default and offers blocking per part.',
+        ],
+        zh: [
+          '已采纳的规则能否让教师的修改量随时间下降，需要每位教师在同一题型上使用多轮，而试点中每个题型只有一轮。这个问题里属于机制的那一半，改用模拟教师离线测量。模拟教师由一个产品从未使用过的模型家族扮演，各自持有一条可由代码计数的标准，只在计数不达标时才修改初稿。',
+          'D1 用 B1 Reading Part 5，要求六个答案中至少两个是功能词。D2 用 A2 Reading Part 3，规定答案不能是最长的选项，因为考生不读文章也能顺着这条线索猜对。',
+          '两位模拟教师各修改八份初稿，请系统归纳一次规则，并采纳审计通过的规则，做法与两位试点教师相同。此后每个话题生成四个版本：规则加摘要、只有摘要、只有规则、两者都没有。D1 在规则生效后，后续 32 份初稿一份都不必再改；拒绝规则的教师面对同样的话题，31 份里有 30 份要改，只有摘要时仅一组配对有变化。D2 的规则进入了每一份 prompt，32 份初稿仍有 29 份要改，不带规则时是 27 份。',
+          '区别在于标准作用在哪一层。模型一次写一个空，能满足针对单个空格的约束；一组选项还没写完，它就看不到各个选项的长度。于是 D2 的规则被移出 prompt。',
+          '在 16 份冻结的题目规格上，规则写成文字时，线索毫无变化，84 道题里 31 道，不带规则时是 32 道。改成代码里的阻断检查后，检查会指明不合格的题并消耗一次重试，线索降到 84 道里的 17 道，模型调用次数是原来的 2.8 倍。改成告警时，只需 1.25 次调用就能找出同样的题，但不会减少它们。',
+          '代码能核实这个性质，也能指出是哪一道题，却写不出那个更长的干扰项；就算明确告诉模型，它也未必写得出。产品默认采用告警，阻断模式可以按题型开启。',
+        ],
       },
     },
     {
@@ -639,8 +692,8 @@ export const papercraft: Project = {
           label: { en: 'Authoring and practice, 15 item types, exports', zh: '出题与练习、15 种题型、导出功能' },
           state: 'shipped',
           detail: {
-            en: 'Deployed and used for classroom materials, with Word, PDF, PowerPoint and HTML slide export and a separate answer sheet. Of 373 logged text generations, 360 passed the specification check first time and 11 after a repair. Every field is editable at the point of generation, and 48 regression scripts run the shipped code on real inputs.',
-            zh: '已上线并用于产出课堂材料，可导出 Word、PDF、PowerPoint 与 HTML 幻灯片，答案单独成页。记录在案的 373 次文本生成中，360 次首次即通过规格检查，11 次经修复后通过。初稿的每个字段在生成页面上都可直接编辑，48 个回归脚本用真实输入运行线上代码。',
+            en: 'Deployed and used for classroom materials, with Word, PDF, PowerPoint and HTML slide export and a separate answer sheet. Of 373 logged text generations, 360 passed the specification check first time and 11 after a repair. Every field is editable at the point of generation, and 48 regression scripts run the shipped code on real inputs. Each generation keeps a trace that names the first check to fail: of 612 traces with a model call, 79.7 per cent needed no repair.',
+            zh: '已上线并用于产出课堂材料，可导出 Word、PDF、PowerPoint 与 HTML 幻灯片，答案单独成页。记录在案的 373 次文本生成中，360 次首次即通过规格检查，11 次经修复后通过。初稿的每个字段在生成页面上都可直接编辑，48 个回归脚本用真实输入运行线上代码。每次生成都留有一份记录，写明最先失败的是哪一道检查。在 612 份调用了模型的记录中，79.7% 无需任何修复。',
           },
         },
         {
@@ -663,16 +716,24 @@ export const papercraft: Project = {
           label: { en: 'Effect of accepted rules on generation', zh: '已采纳规则对生成的影响' },
           state: 'piloted',
           detail: {
-            en: 'Two of the eight accepted rules, both on word classes, improved drafts in model-judged offline tests; neither effect survives correction for eight tests.',
-            zh: '在由模型评判的离线测试中，八条已采纳规则里有两条（都与词类有关）让初稿有所改善，按八次检验校正后都不再显著。',
+            en: 'Over 40 paired offline topics per part, the two word-class rules changed drafts after Holm correction across eight rules, and a part-of-speech tagger confirmed both. The judgement-heavy rules were not replicated by a second judge.',
+            zh: '每个题型 40 组离线配对话题上，两条词类规则在八条规则的 Holm 校正后仍让初稿发生了变化，词性标注器也证实了这两条。依赖语义判断的规则，没有得到第二个评判模型的复现。',
+          },
+        },
+        {
+          label: { en: 'Rule versus code check', zh: '规则与代码检查' },
+          state: 'piloted',
+          detail: {
+            en: 'With simulated teachers, an accepted rule ended correction for a standard the model meets while writing, and changed nothing for one that holds across a set of options. As a blocking code check, that second standard\'s cue fell from 32 to 17 of 84 questions at 2.8 times the model calls; the product ships it as a warning.',
+            zh: '用模拟教师测试时，对于模型写作时就能满足的标准，规则一经采纳便不再需要修改；对于要在整组选项上判断的标准，规则毫无作用。后一种标准改成代码阻断检查后，线索从 84 道题中的 32 道降到 17 道，模型调用次数为原来的 2.8 倍。产品中以告警形式提供。',
           },
         },
         {
           label: { en: 'Teacher intervention metric', zh: '教师干预度量' },
           state: 'instrumented',
           detail: {
-            en: 'The event log and frozen drafts record what the measure needs. Whether correction falls as accepted rules accumulate needs several sessions per teacher in one part; the pilot had one per part, so the question stays open.',
-            zh: '事件日志与冻结初稿已经记录了这项度量所需的数据。修改量是否随已采纳规则的累积而下降，需要每位教师在同一题型上使用多轮；试点中每个题型只有一轮，这个问题仍未回答。',
+            en: 'The event log and frozen drafts record what the measure needs. Whether a practising teacher\'s correction falls as accepted rules accumulate needs several sessions per teacher in one part; the pilot had one per part, and the next study is designed for it.',
+            zh: '事件日志与冻结初稿已经记录了这项度量所需的数据。一线教师的修改量是否随已采纳规则的累积而下降，需要每位教师在同一题型上使用多轮；试点中每个题型只有一轮，下一项研究就是为此设计的。',
           },
         },
         {
@@ -692,12 +753,14 @@ export const papercraft: Project = {
         en: [
           'The lexical audit checks wordlist membership, so a text can be fully compliant and still too hard: syntax, cultural load and cognitive demand sit outside it. Encoding item-writing rules per exam part buys content validity; showing that the items measure what Cambridge intends would need a far larger response pool.',
           'Each prompt also carries a bounded summary of the same teacher\'s recent corrections, rejections and approvals, and the generation record does not show it. Unlike a rule, it never passes through the teacher\'s decision, yet it shapes drafts without being visible, refusable or retirable. Showing it in the generation record, with a switch to turn it off, is on the list of further work.',
-          'The next study is the one the pilot was cut down from: several sessions per teacher in one part, or a moderated design that withholds accepted rules from a random share of drafts with consent checked in person. Alongside it, the teacher should be able to reword a proposal and rank rules that conflict, which is what the one answer on control asked for.',
+          'The model judges were measured against 104 items the author labelled blind. The second-answer judge found 16 of 18 items with a second answer and flagged 22 sound ones, so its counts are an upper bound; the cloze reader errs the other way. Over-flagging is the safer error in assessment, because a flagged item goes to a teacher and a missed one goes to students, but one rater who built the system is not a panel of teachers.',
+          'The next study is the one the pilot was cut down from: several sessions per teacher in one part, or a moderated design that withholds accepted rules from a random share of drafts with consent checked in person. Teachers can now reword a proposal before accepting it; ranking rules that conflict, and switching off the recent-work summary, are what the one answer on control still asks for.',
         ],
         zh: [
           '词汇审计只检查词是否在表内，句法、文化负载与认知需求都不在审计的范围内，所以一段文本可以完全合规而依然偏难。按考试部分编码命题规则，换来的是内容效度；要证明这些题目真的测到了剑桥想测的内容，需要大得多的作答池。',
           '每次出题的 prompt 里，还带着同一位教师近期修改、退回和通过的简短摘要，生成记录里却看不到它。这段摘要不像规则那样要经过教师同意，却同样在影响初稿，而教师既看不到它，也无法拒绝或撤下。把它显示在生成记录里，并提供关闭开关，已列入后续工作。',
-          '下一项研究，就是试点当初缩减掉的那部分：每位教师在同一题型上使用多轮，或者有人在场主持，事先当面确认同意，再对随机一部分初稿暂停已采纳的规则。同时应当让教师能够改写建议的措辞，并给相互冲突的规则排定先后，那条关于掌控感的回答，要的正是这些。',
+          '几个评判模型都和作者盲标的 104 道题对照过。判断第二答案的模型找出了 18 道有第二答案的题中的 16 道，同时把 22 道没有问题的题也标了出来，所以它给出的数字是上限；完形阅读模型的偏差方向正好相反。在测评中，多标是更安全的一种错误：被标出的题会交给教师复核，漏掉的题则会到学生手里。不过，标注者只有一人，而且是系统的作者，代替不了一组教师。',
+          '下一项研究，就是试点当初缩减掉的那部分：每位教师在同一题型上使用多轮，或者有人在场主持，事先当面确认同意，再对随机一部分初稿暂停已采纳的规则。教师现在已经可以在采纳之前改写建议的措辞。给相互冲突的规则排定先后、关闭近期修改摘要，是那条关于掌控感的回答仍在要求的。',
         ],
       },
     },

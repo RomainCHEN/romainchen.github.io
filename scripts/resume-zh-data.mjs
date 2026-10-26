@@ -20,7 +20,7 @@
  * several rebuilds, and the second one would keep the first one's URL and be
  * served from cache. The footer prints only the date part.
  */
-export const UPDATED = '2026-10-19T02:00';
+export const UPDATED = '2026-10-26T19:00';
 
 export const HEADER = {
   name: '陈泽铭',
@@ -55,7 +55,7 @@ export const SECTIONS = [
         points: [
           '**翻译方向**：英汉对比翻译、基础笔译、交替传译、同声传译、计算机辅助翻译、应用翻译、语言学导论。',
           '**计算机方向**：数据结构与算法、数据库设计、离散数学、人工智能、数据科学与商业分析、项目管理、Python / Java 程序设计。',
-          '**在读课程**：自然语言处理、机器翻译、翻译数据挖掘与应用。',
+          '**在读**：自然语言处理、机器翻译、翻译数据挖掘；毕业论文已起步（多模态与大模型片名翻译）。',
         ],
       },
     ],
@@ -115,7 +115,7 @@ export const SECTIONS = [
         points: [
           '**Human-in-the-loop 设计**：教师裁决是不可跳过的一环，初稿、每次改动与终稿全程留痕，教师贡献可量化；系统已上线用于真实课堂。',
           '**自进化 Agent 与定制化 Harness**：模型运行在专为出题场景定制的 Harness 中（固定调用顺序、输出校验、类型化修复），覆盖 15 种剑桥题型；离线学习回路从教师批改记录归纳候选规则，采纳后自动进入后续生成。',
-          '**规则审计与教师试点**：候选规则经独立审计后由教师决定是否采纳；2 位一线英语教师参与试点，项目已结题。',
+          '**审计与试点**：规则经另一家厂商的模型审计，再由教师决定是否采纳；2 位教师参与试点，已提交结题报告与论文稿。',
         ],
       },
       {

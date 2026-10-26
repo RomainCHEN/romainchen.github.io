@@ -3,11 +3,11 @@ import type { L, Paragraphs } from './types';
 export const ABOUT_LEDE: Paragraphs = {
   en: [
     'I study translation at one university and computer science at another.',
-    'AI broke out during my undergraduate years, and working with it, and using it well, keeps letting me create more than before. The two disciplines gave me an unusually wide vantage: enough of the humanities to read people, enough of computer science to work inside the machine.',
+    'AI arrived in force during my undergraduate years. The more I work with it and learn to use it well, the more I can make. The two disciplines let me look at it from both sides: the humanities for reading people, computer science for working inside the machine.',
   ],
   zh: [
     '我在两所大学分别修读翻译和计算机科学。',
-    '我读本科的这几年，正赶上 AI 爆发。越是上手使用、越是研究如何用好，我能做成的事情就越多。文理两个专业给了我不太常见的视角：人文让我读得懂人，计算机让我进入机器内部。',
+    '我读本科的这几年，正赶上 AI 爆发。越是上手使用、越是研究如何用好，我能做成的事情就越多。文理两个专业让我能从两头看它：人文帮我读懂人，计算机让我明白机器怎样运转。',
   ],
 };
 
@@ -17,8 +17,8 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
     body: {
       en: [
         "In 2024 I was taking data structures and translation theory while teaching Cambridge KET to two small classes of primary students. Preparing a week's practice meant finding past papers, adapting items and assembling them into a set at the right level, and it took hours every week. Even then the difficulty was hard to pitch, past papers ran out, and the available topics rarely held a child's interest.",
-        'Most teachers know these problems. The question I kept returning to was a different one: *which decisions in that process had to be mine*, and which a model could make. That question is measurable and rarely measured, so I built a tool to record the answer.',
-        'The same question was waiting for me in translation. My programme trains us in a craft that machine translation is supposed to have solved, and the usual defence, that human translators are more "sensitive", comes without an instrument. Working on film titles gave me one. Classify what the translator did to the cultural schema, and the difference between a professional judgement and a default rendering can be checked against evidence.',
+        'Most teachers know these problems. The question I kept returning to was *which decisions in that process had to be mine*, and which a model could make. It can be measured, and seldom is, so I built a tool that records the answer.',
+        'I met the same question in translation. My programme trains us in a craft that machine translation is supposed to have solved, and the usual reply, that human translators are more "sensitive", offers no way to measure it. Film titles gave me one. Once each title is classified by what the translator did to its cultural schema, a professional judgement and a default rendering can be told apart on the evidence.',
       ],
       zh: [
         '2024 年，我一边修读数据结构和翻译理论，一边给两个剑桥 KET 小班上课。备课相当繁琐，每周都要找真题、改题目，再按难度组成一套练习。即便如此，难度仍不好把握，可用的真题有限，现成的话题也很难引起孩子的兴趣。',
@@ -31,9 +31,9 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
     heading: { en: 'What I bring', zh: '能力与积累' },
     body: {
       en: [
-        'Turning a vague construct into something that can be recorded. "Teacher effort", "cultural sensitivity" and "item quality" are widely used and rarely defined. Much of my work is deciding what would count as evidence, then building the instrument that captures it.',
-        'Building a research instrument end to end on my own: authentication, database design, LLM routing with typed repair, Word and PDF export, deployment. An instrument has to be usable before it can collect data, so I treat the engineering as part of the research. This summer I applied the same skills at a listed manufacturer, deploying quantised models on its internal network.',
-        'Six years of writing for a general readership: technology essays read by six-figure audiences, etymology pieces, alumni features and a short film. It trained me to support an argument with evidence, and to explain technical ideas to readers outside the field.',
+        'I am good at turning a vague construct into something that can be recorded. "Teacher effort", "cultural sensitivity" and "item quality" are widely used and rarely defined. Much of my work is deciding what would count as evidence, then building the instrument that captures it.',
+        'I can build a research instrument end to end on my own: authentication, database design, LLM routing with typed repair, Word and PDF export, deployment. An instrument has to be usable before it can collect data, so I treat the engineering as part of the research. This summer I used the same skills at a listed manufacturer, deploying quantised models on its internal network.',
+        'I have also written for a general readership for six years: technology essays with six-figure readerships, etymology pieces, alumni features and a short film. That work taught me to back an argument with evidence, and to explain technical ideas to readers outside the field.',
       ],
       zh: [
         '我擅长把模糊的概念转化为可以记录的数据。教师投入、文化敏感度、题目质量，这些词人人都在用，却很少有人明确定义。我的大部分工作，是先界定什么可以算作证据，再设计并搭建采集这些证据的工具。',
@@ -59,14 +59,14 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
 
 export const CURRENTLY: L<string[]> = {
   en: [
-    'PaperCraft is complete: the final report was finished in October 2026, after a pilot with two teachers.',
-    'Interning on the IT team at Guangdong Dowstone, working on on-premise LLM deployment and a document-retrieval knowledge base.',
+    'PaperCraft is complete: the final report was submitted in October 2026, after a pilot with two teachers, and is written up as an IEEE-format manuscript.',
+    'Starting my translation thesis at GDUFS. The topic is not settled yet; the working direction is how multimodal co-text, such as posters and synopses, changes a model\'s handling of film titles.',
     'Coding the film title corpus against the three-tier scheme.',
     'Reading on evidence-centred design and item response theory.',
   ],
   zh: [
-    'PaperCraft 已完成，2 位教师参与试点后，结题报告于 2026 年 10 月定稿。',
-    '在广东道氏技术 IT 部实习，负责本地大模型部署，并用内部文档搭建检索增强（RAG）知识库。',
+    'PaperCraft 已完成：2 位教师参与试点后，结题报告于 2026 年 10 月提交，并整理成一篇 IEEE 格式的论文稿。',
+    '广外的翻译学毕业论文刚刚起步，选题还没有最终确定。初步方向是：海报、剧情简介等多模态伴随文本，会怎样改变大模型对片名的处理。',
     '按三层标注方案编码电影片名语料。',
     '研读以证据为中心的设计（ECD）与项目反应理论（IRT）的相关文献。',
   ],

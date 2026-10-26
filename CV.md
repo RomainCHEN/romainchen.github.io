@@ -11,7 +11,7 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 ### Dual bachelor’s degree: Translation Studies and Computer Science
 *Guangdong University of Foreign Studies · Macao Polytechnic University · Guangzhou and Macao · Sep 2023 to Jun 2027 (expected)*
 
-- Translation (GDUFS): EN–ZH contrastive translation, foundations of translation, English translation of Chinese culture, translation and international communication, interpreting, CAT. In progress: translation data mining.
+- Translation (GDUFS): EN–ZH contrastive translation, foundations of translation, Chinese culture in English, translation and international communication, interpreting, CAT. In progress: data mining; thesis begun Oct 2026.
 - Computer science (MPU): data structures and algorithms, Python and Java, computer organisation, databases, discrete mathematics, networks, software engineering, web development, AI, data science. In progress: NLP, machine translation, computer security.
 
 ## Research
@@ -20,8 +20,8 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 *Final year project · sole developer and research design · completed · May to Oct 2026*
 
 - Designed the authoring harness the model runs inside: a fixed call sequence, machine-checked output and typed repair of a named failure.
-- Added a self-improving loop: an offline pass reads the teacher’s correction log, induces candidate rules and folds accepted ones into later drafts, isolated per teacher across 15 item types.
-- Added answer-correctness checks the structural gates miss, and piloted the system with two practising teachers.
+- Added a self-improving loop: an offline pass induces rules from the teacher’s corrections, a second model family audits each, and only rules the teacher accepts reach later drafts, across 15 item types.
+- Piloted with two teachers; two accepted rules changed drafts on 40 paired topics per part. Report and manuscript, Oct 2026.
 
 ### IELTS Coach: an open-source agent that interviews the learner before it writes
 *Open-source learning tool (MIT) · sole developer · Jul 2026*
@@ -77,4 +77,4 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 
 ---
 
-*Last updated 2026-10-19.*
+*Last updated 2026-10-26.*

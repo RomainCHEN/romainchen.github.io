@@ -8,10 +8,9 @@ import { ThemeToggle } from './ThemeToggle';
 
 interface MastheadProps {
   locale: Locale;
-  hasNotes: boolean;
 }
 
-export function Masthead({ locale, hasNotes }: MastheadProps) {
+export function Masthead({ locale }: MastheadProps) {
   const pathname = usePathname() ?? path(locale);
   const other = otherLocale(locale);
 
@@ -19,9 +18,6 @@ export function Masthead({ locale, hasNotes }: MastheadProps) {
     { href: path(locale, 'work'), label: UI.nav.work[locale], seg: 'work' },
     { href: path(locale, 'about'), label: UI.nav.about[locale], seg: 'about' },
     { href: path(locale, 'cv'), label: UI.nav.cv[locale], seg: 'cv' },
-    ...(hasNotes
-      ? [{ href: path(locale, 'notes'), label: UI.nav.writing[locale], seg: 'notes' }]
-      : []),
   ];
 
   /** Swap only the locale segment so the visitor stays on the same page. */

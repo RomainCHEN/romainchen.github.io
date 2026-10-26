@@ -218,19 +218,6 @@ for (const file of SOURCES) {
   });
 }
 
-// 随笔正文
-const NOTES = path.join(process.cwd(), 'content', 'notes');
-if (fs.existsSync(NOTES)) {
-  for (const f of fs.readdirSync(NOTES).filter((n) => n.endsWith('.zh.md'))) {
-    const raw = fs.readFileSync(path.join(NOTES, f), 'utf8').replace(/^---[\s\S]*?---/, '');
-    raw
-      .split(/\n{2,}/)
-      .map((s) => s.trim())
-      .filter((s) => s && !s.startsWith('#'))
-      .forEach((para, i) => STRINGS.push({ trail: `notes/${f}[${i}]`, text: para }));
-  }
-}
-
 console.log(`检查 ${STRINGS.length} 段中文\n`);
 
 const counts = new Map();

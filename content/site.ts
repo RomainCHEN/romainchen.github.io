@@ -53,7 +53,6 @@ export const UI = {
     work: { en: 'Work', zh: '作品' },
     about: { en: 'About', zh: '关于' },
     cv: { en: 'CV', zh: '简历' },
-    writing: { en: 'Notes', zh: '随笔' },
   },
   skipToContent: { en: 'Skip to content', zh: '跳到主要内容' },
   toggleTheme: { en: 'Toggle colour scheme', zh: '切换配色' },
@@ -102,10 +101,6 @@ export const UI = {
   fullSize: { en: 'Full sheet', zh: '查看完整原图' },
   what: { en: 'What it does', zh: '作用' },
   why: { en: 'Why it matters for the research', zh: '对研究的意义' },
-  writingEmpty: {
-    en: 'Nothing published here yet.',
-    zh: '这里还没有发表内容。',
-  },
 } as const;
 
 export function t(dict: L, locale: Locale): string {

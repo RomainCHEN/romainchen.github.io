@@ -54,14 +54,12 @@ const ROUTES = [
   '/en/work/ielts-coach/',
   '/en/about/',
   '/en/cv/',
-  '/en/notes/two-hours/',
   '/zh/',
   '/zh/work/papercraft/',
   '/zh/work/transcreation/',
   '/zh/work/ielts-coach/',
   '/zh/about/',
   '/zh/cv/',
-  '/zh/notes/two-hours/',
 ];
 
 const VIEWPORTS = [
