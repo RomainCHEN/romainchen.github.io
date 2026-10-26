@@ -11,8 +11,8 @@ export const ieltsCoach: Project = {
   index: '03',
   title: 'IELTS Coach',
   subtitle: {
-    en: 'An IELTS agent that interviews the learner before it writes a word',
-    zh: '雅思口语和写作范文，素材取自学习者本人',
+    en: 'Agent skill for customised IELTS Speaking and Writing preparation',
+    zh: '雅思口语与写作备考 agent skill，内容因人定制',
   },
   blurb: {
     en: 'An open-source agent skill for IELTS speaking and writing, built on the premise that a model answer you cannot remember is worthless.',

@@ -17,8 +17,8 @@ export const papercraft: Project = {
   index: '01',
   title: 'PaperCraft',
   subtitle: {
-    en: 'The model drafts, the teacher decides, and the decision is recorded',
-    zh: '会向教师学习的剑桥英语出题系统',
+    en: 'A teacher-in-the-loop LLM agent for Cambridge exam-item authoring',
+    zh: '有教师把关的剑桥英语命题 LLM agent',
   },
   blurb: {
     en: "A teacher-in-the-loop authoring tool for Cambridge KET/PET exercises that keeps the teacher's corrections and turns the recurring ones into rules the teacher approves.",
