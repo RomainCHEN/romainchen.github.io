@@ -16,7 +16,7 @@ export const ieltsCoach: Project = {
   },
   blurb: {
     en: 'An open-source agent skill for IELTS speaking and writing, built on the premise that a model answer you cannot remember is worthless.',
-    zh: '面向雅思口语与写作的开源 agent skill，出发点是一篇记不住的范文没有价值。',
+    zh: '一个面向雅思口语与写作的开源 agent skill，出发点很简单：记不住的范文没有用。',
   },
   period: { en: 'July 2026', zh: '2026 年 7 月' },
   role: { en: 'Sole author', zh: '独立完成' },
@@ -80,8 +80,8 @@ export const ieltsCoach: Project = {
           'So this tool inverts the interaction. Before it writes a single sentence, it interviews you.',
         ],
         zh: [
-          '请任意一个 AI 助手写一篇雅思作文，四秒钟就能得到 250 个通顺的英文词，Firstly、Secondly、In conclusion 一应俱全。这样的文章在机器评分中分数不低，却对考生没有帮助，原因只有一个：在考场的时间压力下，一个人只能调用真正属于自己的内容。',
-          '所以这个工具颠倒了交互的顺序。在写下第一句之前，它先访谈学习者。',
+          '随便找一个 AI 助手写雅思作文，四秒钟就能拿到 250 个通顺的英文词，Firstly、Secondly、In conclusion 一应俱全。这样的文章机器打分不低，对考生却没什么用：考场上时间紧，人能用上的只有真正属于自己的内容。',
+          '所以这个工具把交互的顺序倒了过来，动笔之前，它会先访谈学习者。',
         ],
       },
     },
@@ -95,14 +95,14 @@ export const ieltsCoach: Project = {
           'This changes the interaction. Each new topic opens a structured mini-interview, delivered as a multi-step web form rather than a chat interrogation, because a form lets you think at your own pace and revise, which a conversational turn does not. Only then does generation begin, and it begins from your material.',
         ],
         zh: [
-          '一篇范文要同时满足两个互相冲突的要求。一是符合外部标准，也就是雅思公开的四项评分维度：任务回应、连贯与衔接、词汇资源、语法多样性与准确性。二是让某个具体的人在数月之后的考场上**仍能回想起来**。',
-          '通用生成只满足了前者，忽略了后者。需要调整的是模型获准生成的范围：论点、例子和立场都来自学习者本人，模型只负责校准与打磨。这与我在教师一侧研究的分工属于同一类问题，只是把对象从教师换成了学习者。',
-          '交互方式也随之改变。每进入一个新话题，系统先做一轮结构化的小型访谈，形式是多步网页表单，而非聊天式追问。表单让学习者可以按自己的节奏思考、随时修改，一问一答的对话做不到这一点。访谈完成之后才开始生成，而且是从学习者自己的素材出发。',
+          '一篇范文要同时满足两个互相拉扯的要求。一是达到外部标准，也就是雅思公开的四项评分维度：任务回应、连贯与衔接、词汇资源、语法多样性与准确性。二是让一个具体的人几个月后在考场上**还记得起来**。',
+          '通用生成只顾得上前者。要改的是模型可以生成哪些内容：论点、例子和立场都来自学习者本人，模型只做校准和打磨。我在教师那边研究的也是这种分工，只是这里的对象换成了学习者。',
+          '交互方式也跟着变了。每开始一个新话题，系统会做一次结构化的小访谈。访谈用的是多步网页表单，不是聊天式的追问，学习者可以按自己的节奏想、随时改，一问一答的对话给不了这种余地。访谈结束才开始生成，用的也是学习者自己的素材。',
         ],
       },
       note: {
         en: 'The elicitation step carries the pedagogy. Everything the model can calibrate afterwards comes out of it.',
-        zh: '教学设计的关键在先采集。模型之后能校准的内容，都来自这一步。',
+        zh: '教学设计的关键在采集这一步，模型后面能校准的一切都出自这里。',
       },
     },
     {
@@ -116,7 +116,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'Elicitation before generation, running locally. The questions ask for a specific afternoon in a car, not an opinion on music. The form supports chart upload and clipboard paste so Writing Task 1 material enters the same pipeline, and answers persist as JSON so a topic never has to be re-interviewed.',
-        zh: '先采集、再生成，全程在本机运行。这些问题问的是车里那个具体的下午，而不是对音乐的笼统看法。表单支持上传图表、粘贴剪贴板，写作 Task 1 的材料经由同一条管线处理。答案以 JSON 存储，同一话题无需再次访谈。',
+        zh: '采集和生成都在本机运行。表单问的是车里那个具体的下午，不是对音乐的泛泛看法。它也能上传图表、粘贴剪贴板内容，写作 Task 1 的材料走的是同一条管线。回答存成 JSON，同一个话题不用再访谈一遍。',
       },
     },
     {
@@ -129,9 +129,9 @@ export const ieltsCoach: Project = {
           'Vision capability should not dictate which model a learner uses. Writing Task 1 requires reading a chart, which locks a learner into a multimodal model. The skill ships a small MCP server that proxies images through a separate vision endpoint, so a text-only model can still handle chart tasks. That is plumbing, and it decides whether the tool runs on the model a learner already has.',
         ],
         zh: [
-          '让输出不被识别为 AI 生成，是一开始就定下的设计目标。这个 skill 会主动筛查自己的输出，针对的是几类典型特征：当作插入语使用的破折号、带讽刺意味的引号、机械的连接词，以及 this essay will discuss 之类的开头。在生成阶段执行一份反模式清单，比要求模型「写得自然一些」更有效，因为清单可以逐条核查，后一种要求无法核查。',
-          '学习计划必须经得住中断。学习者难免错过某几次练习，而不会自动重排的计划，在第一次错过之后往往就被弃用了。状态以 JSON 的形式跨会话保存，遗漏的内容重新排入计划，薄弱环节提前安排，不会就此消失。同一套状态也经得住考试季度的更替：新题库到来时，此前准备过、本季仍沿用的话题继续计入进度，换季不会让已有进度清零。',
-          '模型能否读图，不应决定学习者选用哪个模型。写作 Task 1 需要读图，这会把学习者限制在多模态模型上。为此，这个 skill 自带一个轻量的 MCP 服务，将图片转交给独立的视觉端点处理，使纯文本模型同样能完成图表题。这属于工程层面的衔接工作，却决定了这个工具能否运行在学习者手头已有的模型上。',
+          '输出读起来不能像 AI 写的，这是一开始就定下的目标。这个 skill 会自查几类典型痕迹：当插入语用的破折号、带讽刺意味的引号、机械的连接词，以及 this essay will discuss 一类的开头。生成时对照一份反模式清单，比让模型「写得自然一点」管用，因为清单能逐条核查，「自然一点」查不了。',
+          '学习计划要经得起中断。练习总会漏掉几次，不能自动重排的计划，往往第一次漏掉就没人再用了。学习状态以 JSON 跨会话保存，漏掉的内容会重新排进计划，薄弱的地方提前安排，不会就这样搁下。换季也一样：新题库上线后，之前准备过、这一季仍然沿用的话题照样计入进度，不会清零。',
+          '用哪个模型，不该取决于它能不能读图。写作 Task 1 要读图，本来只有多模态模型能做。所以这个 skill 带了一个轻量的 MCP 服务，把图片转给单独的视觉端点处理，纯文本模型也能做图表题。这是工程上的衔接，却决定了学习者能不能用手头已有的模型。',
         ],
       },
     },
@@ -146,7 +146,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'Output is a printable document, not a chat log. Answers stay reviewable months later, which is the timescale exam preparation runs on.',
-        zh: '产出的是一份可打印的文档，而不是一段对话记录。答案在数月之后仍可查阅复习，备考关心的正是这个时间尺度。',
+        zh: '最后得到的是一份能打印的文档，不是一段聊天记录。几个月后还能翻出来复习，备考恰好需要这么长的时间。',
       },
     },
     {
@@ -158,8 +158,8 @@ export const ieltsCoach: Project = {
           'When a new season arrives, a validated builder reparses the PDF and refuses to write if any section count disagrees with the count printed in the source, so a silent parser error cannot corrupt the bank. A migration step then carries prepared topics over. A question bank that cannot be updated goes stale as soon as the exam board rotates its topics.',
         ],
         zh: [
-          '内容只有与当下的真题相符才有价值。当前使用的是 2026 年 9 至 12 月这一季，截止日期为 9 月 24 日，直接从季度 PDF 解析而来，共 100 个口语话题，其中 88 个适用于内地考生。有 48 个沿用自 5 至 8 月那一季，因此在上一季题库下准备过的学习者，这部分准备仍然有效。',
-          '新一季到来时，带校验的构建脚本会重新解析 PDF，只要某一部分的话题数与 PDF 中标注的数目不符，就拒绝写入，解析静默出错也不会把错误带进题库。随后的迁移步骤会把已准备的话题沿用过来。题库如果不能更新，考试方一轮换话题就过时了。',
+          '内容要和眼下的真题对得上才有用。现在用的是 2026 年 9 至 12 月这一季的题库，截至 9 月 24 日，直接从季度 PDF 解析得到，共 100 个口语话题，其中 88 个适用于内地考生。有 48 个话题沿用自 5 至 8 月，上一季准备过的学习者，这部分功夫没有白费。',
+          '换季时，带校验的构建脚本会重新解析 PDF。某一部分的话题数和 PDF 上标的对不上，脚本就拒绝写入，解析悄悄出错也不会混进题库。之后的迁移步骤再把已经准备过的话题接过来。题库要是不能更新，考试方一换题就过时了。',
         ],
       },
     },
@@ -202,13 +202,13 @@ export const ieltsCoach: Project = {
           'A learner walks away with something they can open on a phone the week before the exam, which is when it is actually needed, instead of a chat transcript to scroll back through. The data stays local by default, and publishing the site is the learner\'s own call.',
         ],
         zh: [
-          '备考周期结束时，这个 skill 会用学习者练过的全部内容生成一个总结站点。倒计时主页汇总目标与练习统计，口语冲刺页收录学习者自己的故事卡片，Task 1 与 Task 2 各有模板页。覆盖情况复盘页用红色标出尚未练习的话题，另有一个可搜索的高亮表达合集。',
-          '学习者最终带走的，是考前一周可以在手机上直接打开的材料，而那正是最需要它的时候，不是一段需要反复回翻的对话记录。数据默认保留在本机，站点是否公开由学习者自行决定。',
+          '备考结束时，这个 skill 会把学习者练过的所有内容做成一个总结站点。倒计时主页汇总目标和练习数据，口语冲刺页收着学习者自己的故事卡片，Task 1 和 Task 2 各有一页模板。覆盖情况复盘页用红色标出还没练过的话题，另外还有一个可以搜索的高亮表达合集。',
+          '考前一周最需要材料的时候，学习者手机上就能直接打开它，不必在聊天记录里来回翻找。数据默认存在本机，站点公不公开由学习者自己决定。',
         ],
       },
       note: {
         en: 'The published demo uses a fictional learner. The real artefact contains your personal stories, so it stays private unless you choose otherwise.',
-        zh: '公开的演示使用的是虚构的学习者。真实产物包含学习者本人的故事，因此除非主动选择公开，否则始终保持私有。',
+        zh: '公开的演示用的是一位虚构的学习者。真实的站点里有学习者本人的故事，除非本人选择公开，否则一直是私有的。',
       },
     },
   ],

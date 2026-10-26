@@ -99,9 +99,9 @@ export const papercraft: Project = {
           'The evaluation has two results. Over 40 paired topics per part, the two word-class rules the pilot teachers accepted changed what the generator wrote, and a part-of-speech tagger independent of every model agreed. With simulated teachers, an accepted rule ended the correcting for a standard the model can meet while it writes. A standard that only holds across a set of options, such as the key never being the longest option, did not move when written into the prompt, and needed a check in code.',
         ],
         zh: [
-          '攻读计算机学位期间我带两个剑桥 KET 小班，练习多半自己出。有三件事始终没能解决，都与出题速度无关：难度难以控制，真题很快用尽，可用的话题也已陈旧。',
-          'PaperCraft 是由此而来的毕业设计，2026 年 10 月提交结题报告，并整理成一篇论文。它能生成 A2 Key 与 B1 Preliminary 阅读写作卷的全部 15 种题型，每份初稿都由代码对照官方手册检查。教师的每一处修改都有记录，反复出现的修改归纳成规则，教师可以采纳、改写、拒绝，也可以随时撤回。两位教师参加了试点，试点中暴露的问题让系统改动了四处。',
-          '评估得出两个结果。在每个题型 40 组配对话题上，试点教师采纳的两条词类规则改变了生成结果。一个独立于所有模型的词性标注器，也得出了同样的结论。用模拟教师测试时，凡是模型写作时就能做到的标准，规则一经采纳，后续初稿便不再需要修改。有些标准只能放在整组选项上判断，例如正确答案不能是最长的选项。这类标准写进 prompt 没有效果，需要交给代码检查。',
+          '读计算机学位的时候，我带过两个剑桥 KET 小班，练习大多是自己出的。有三件事一直没解决，而且都跟出题快慢无关：难度不好控制，真题很快用完，能用的话题也旧了。',
+          'PaperCraft 就是从这里来的毕业设计，2026 年 10 月提交了结题报告，也整理成了一篇论文。它能生成 A2 Key 和 B1 Preliminary 阅读写作卷的全部 15 种题型，每份初稿都由代码对照官方手册检查。教师改过的每一处都有记录，反复出现的修改会被归纳成规则，教师可以采纳、改写或拒绝，采纳之后也能随时撤回。两位教师参加了试点，试点里暴露的问题让系统改了四处。',
+          '评估有两个结果。在每个题型 40 组配对话题上，试点教师采纳的两条词类规则改变了生成结果，一个不依赖任何模型的词性标注器也得出同样的结论。用模拟教师测试时，模型写作时本来就能做到的标准，规则一采纳，后面的初稿就不用再改了。有些标准却只能看整组选项才判断得了，比如正确答案不能是最长的那个选项，这类标准写进 prompt 不起作用，得交给代码检查。',
         ],
       },
     },
@@ -115,9 +115,9 @@ export const papercraft: Project = {
           'What this design argues about agent systems is how much it declines to hand to a model. Five of the seven checks on a draft are ordinary code, because handing a decidable question to something that can be fluently wrong adds a failure mode and nothing else. The models write, read, induce rules and try to refute them. When the pilot exposed gaps with two possible answers, the fix kept that division: a reader model judges each candidate gap, and code decides which gaps stay.',
         ],
         zh: [
-          'PaperCraft 是一个界定很窄的 agent 系统，语言模型在 harness 内运行。调用顺序固定，输出必须是机器可校验的结构，两次调用之间由普通代码检查；出错时，模型只需修复已指明的那一处。它负责写题，也从教师的改动中归纳规则，再把每条建议交给一道独立的审计去证伪。',
-          '做决定的有三方，三方之间的分界就是这套设计本身。模型负责写与归纳；凡是可判定的事交给普通代码，例如某个部分是三个选项还是四个、词是否在该级别的词表内、答案在各字母之间是否分散。其余属于教学判断，由教师决定，任何规则进入 prompt 之前都要经教师同意。',
-          '这套设计想说明的是，agent 系统应当少把事交给模型。初稿要经过七道检查，其中五道是普通代码。把可以判定的事交给可能表述流畅而结论错误的模型，只会多出一种失效方式。模型负责写题、读题、归纳规则，也负责尝试推翻规则。试点暴露出一空多解的问题后，修复仍沿用这条分工。由阅读模型逐个判断候选空格，留下哪几个空由代码决定。',
+          'PaperCraft 是一个范围很窄的 agent 系统，语言模型在 harness 里运行。调用顺序是固定的，输出必须是机器能校验的结构，两次调用之间由普通代码检查；出了错，模型只需要修好被指出的那一处。它负责写题，也会从教师的改动里归纳规则，每条建议都要交给一道独立的审计去尝试推翻。',
+          '做决定的有三方，这套设计的核心就是三方怎么分工。模型负责写和归纳。能判定的事都交给普通代码，比如一个部分有三个选项还是四个、某个词在不在这一级的词表里、答案在各个字母上分没分散。剩下的属于教学判断，归教师决定，任何规则都要教师同意才能写进 prompt。',
+          '这套设计想说明，agent 系统应该少让模型做决定。初稿要过七道检查，其中五道是普通代码。能判定的事交给一个可能说得头头是道、结论却错了的模型，只会多一种出错的方式。模型负责写题、读题、归纳规则，也负责尝试推翻规则。试点暴露出一空多解的问题以后，修复仍按这个分工来：阅读模型逐个判断候选空格，最终留哪几个空由代码决定。',
         ],
       },
     },
@@ -132,7 +132,7 @@ export const papercraft: Project = {
       },
       caption: {
         en: 'Nothing reaches a classroom without an approve or reject recorded here, and the reason for a rejection is kept, which is what makes the teacher\'s contribution measurable. Editing the draft happens in the fields above, through the Edit control at the head of the panel.',
-        zh: '任何内容进入课堂之前，都要在此处留下一次通过或退回的记录，退回的理由一并保存，教师的贡献因此可以计量。初稿的修改在上方的字段中完成，入口是初稿抬头右侧的 Edit。',
+        zh: '任何内容进课堂之前，都要在这里留下一次通过或退回的记录，退回的理由也一起存下，教师出了多少力就能算出来。初稿在上方的字段里修改，入口是初稿抬头右边的 Edit。',
       },
     },
     {
@@ -143,7 +143,7 @@ export const papercraft: Project = {
           'Generation runs as a staged, typed chain with a human gate. Select a stage to see what it does and why it is there.',
         ],
         zh: [
-          '出题是一条分阶段、带类型约束的链条，中间设有一道人工闸门。点开任意阶段可以看到它做什么、为何存在。',
+          '出题是一条分阶段、带类型约束的链条，中间有一道人工把关。点开任意一个阶段，能看到它做什么、为什么要有它。',
         ],
       },
       stages: [
@@ -156,7 +156,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'Makes every generation reproducible and loggable. Later analysis can only reach what was recorded as structured input.',
-            zh: '每次生成因此可复现、可追查。日后能分析的，只有当时记录为结构化输入的内容。',
+            zh: '这样每次生成都能复现、能追查。以后能分析的，只有当时作为结构化输入记下来的内容。',
           },
         },
         {
@@ -168,7 +168,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'Personalises in context, without fine-tuning, and orders the block so a provider can reuse it: everything invariant for this teacher and part precedes the task line, the only line that changes between drafts. The second of two requests sharing it returns 4,096 cached tokens of 4,336, where the earlier order returned none.',
-            zh: '不做微调，个性化依靠上下文携带的材料，排列顺序按缓存复用的要求确定：对这位教师和这一题型固定不变的部分排在最前，任务行放在末尾，那是两次生成之间唯一变动的一行。共享这一段的两次请求，第二次在 4,336 个 token 中命中 4,096，旧的排列顺序一次都没有命中。',
+            zh: '个性化靠的是上下文里带的材料，不做微调，材料怎么排按缓存复用的需要来定：这位教师、这个题型固定不变的部分放在最前面，任务行放在末尾，两次生成之间只有这一行会变。共用这一段的两次请求里，第二次的 4,336 个 token 命中了 4,096 个；按原来的顺序排，一个都没命中。',
           },
         },
         {
@@ -180,7 +180,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'Non-experts under-specify prompts, so the system carries the specification and the teacher does not have to write it.',
-            zh: '非专家写出的 prompt 往往过于笼统，因此这部分规格由系统承担，不需要教师自己撰写。',
+            zh: '非专家写的 prompt 往往太笼统，所以这部分规格由系统包办，教师不用自己写。',
           },
         },
         {
@@ -192,7 +192,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'Converts silent format defects into recoverable, logged events, so a malformed item leaves a record. The retry carries the validation error back with it, so the model repairs a named failure.',
-            zh: '格式错误转为可恢复、可追查的事件，结构不合规的题目会留下记录。重试时把校验报错一并送回，模型修的是一处已经指明的失败。',
+            zh: '格式错误变成了可以恢复、可以追查的事件，结构不合规的题目会留下记录。重试时校验报错会一起送回去，模型要修的是一个已经点明的错误。',
           },
         },
         {
@@ -204,7 +204,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'KET picture-story and picture-matching items need text and image to agree. Writing the prompt from the generated image is what keeps them aligned.',
-            zh: '看图写作与图片匹配题要求文字与图像一致。先生成图像，再依图命题，两者才能对应。',
+            zh: '看图写作和图片匹配题要求文字和图像一致。照着生成好的图出题，两者才对得上。',
           },
         },
         {
@@ -216,7 +216,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'CEFR control of generated text is unreliable, so the audit shows the teacher the figure and leaves the decision with them; the 10% tolerance covers proper nouns and topic vocabulary.',
-            zh: '生成文本的 CEFR 等级控制并不可靠，因此这道审计把合规率显示给教师，由教师决定；10% 的容差留给专有名词和话题词汇。',
+            zh: '控制生成文本的 CEFR 等级并不可靠，所以这道审计只把合规率摆给教师看，让教师拿主意；10% 的容差是给专有名词和话题词汇留的。',
           },
         },
         {
@@ -228,7 +228,7 @@ export const papercraft: Project = {
           },
           why: {
             en: 'The measurement baseline for the whole project, and the only stage a teacher has to be present for.',
-            zh: '整个项目的度量基线，也是唯一要求教师在场的阶段。',
+            zh: '这是整个项目的度量基线，也是唯一需要教师在场的阶段。',
           },
         },
       ],
@@ -242,8 +242,8 @@ export const papercraft: Project = {
           'Two decisions shape the teacher\'s half of that assembly. Approved rules go in grouped by the stage they govern, before writing, during it, or as a check afterwards, because a rule about the whole exercise cannot be satisfied by fixing one question later. The line about what usually needs fixing is a count computed by code, because a model accepts a stated number almost without question.',
         ],
         zh: [
-          '每一种题型的 prompt 都由代码装配而成，没有一份出自手写。一份 prompt 分八段，其中六段为十五种题型通用。决定题目质量的是「有效性规则」，它规定一道题不得违反什么。每条规则都逐条对照两本手册核查过，确认手册明确写出了哪几条，结果几乎没有一条写在手册里。手册说明的是这一部分考什么，不涉及一道题会在哪里失效。',
-          '属于教师的那一半有两处取舍。已采纳的规则按约束的环节分组写入 prompt，分为写作之前、写作过程中和写完之后的核对三类，因为约束整套题的规则，无法靠事后修改某一道题来满足。「通常需要修改什么」那一行由代码统计得出，不交给模型估算，因为模型对给定的数字几乎不加质疑。',
+          '每种题型的 prompt 都是代码拼出来的，没有一份是手写的。一份 prompt 有八段，其中六段十五种题型都用。决定题目质量的是「有效性规则」，规定一道题不能出哪些问题。我把这些规则一条条对照两本手册核查过，看手册明确写了哪几条，结果几乎一条都没有。手册讲的是这一部分考什么，不讲一道题会在哪里出毛病。',
+          '教师相关的那一半有两处取舍。已采纳的规则按管的环节分组写进 prompt，分成写之前、写的过程中和写完后核对三类，因为管整套题的规则，没法靠事后改某一道题来满足。「通常需要修改什么」那一行由代码统计，不让模型去估，因为模型对给它的数字几乎照单全收。',
         ],
       },
     },
@@ -299,7 +299,7 @@ export const papercraft: Project = {
       ],
       caption: {
         en: 'A script counts these from the live prompts when the report is built. That script once reported three PET parts had no validity rules at all; they had them, under headings it did not recognise. It now matches the shape of a heading, so a heading written a new way is still found.',
-        zh: '这些计数在构建报告时由脚本从实际 prompt 中统计，并非人工填写。同一个脚本曾报告三个 PET 题型完全没有有效性规则，而这三个题型都有，只是标题写法不在它的识别范围内。现在它按标题的形式匹配，换一种写法也能找到。',
+        zh: '这些数字是构建报告时脚本从实际的 prompt 里统计出来的，不是手填的。这个脚本曾经报告有三个 PET 题型完全没有有效性规则，其实它们都有，只是标题写法脚本认不出来。现在它按标题的格式来匹配，换个写法也找得到。',
       },
     },
     {
@@ -329,7 +329,7 @@ export const papercraft: Project = {
       ],
       caption: {
         en: 'The second is what the picture branch looks like in practice: three images are three separate calls, so the two children have to be held fixed by hand, and the drawing model has to be told not to label the shop it was asked to draw.',
-        zh: '第二段是图像分支的实际情形：三张图来自三次独立调用，两个孩子只能依靠 prompt 维持一致；还要特别说明，不要在画出的商店上写店名。',
+        zh: '第二段能看出图像分支实际是什么样子：三张图是三次独立调用画出来的，两个孩子长得一样全靠 prompt；还得专门叮嘱一句，别在画出来的商店上写店名。',
       },
     },
     {
@@ -387,7 +387,7 @@ export const papercraft: Project = {
       ],
       caption: {
         en: 'Transcribed from the checks as they run. Five are plain code; vision inspection and the cloze reader ask a model, and the reader was added after the pilot. The last column is what each check leaves to the teacher.',
-        zh: '依实际运行的检查转写。其中五道是普通代码，视觉检查和完形阅读两道调用模型，后者是试点之后新增的。最后一列是每道检查留给教师的部分。',
+        zh: '按实际运行的检查整理。五道是普通代码，视觉检查和完形阅读要调用模型，完形阅读是试点之后加的。最后一列是每道检查留给教师判断的部分。',
       },
     },
     {
@@ -401,7 +401,7 @@ export const papercraft: Project = {
       },
       caption: {
         en: 'Every generation leaves a record the teacher can open: one accepted rule was applied, the writing took 2.5 seconds, and both deterministic checks passed. The pipeline is built to be audited, which is why the record sits on the draft and not only in a log.',
-        zh: '每次生成都留下一份记录，教师可以直接打开：应用了一条已采纳的规则，写作耗时 2.5 秒，两道确定性检查都通过。这条管线原本就要接受审查，所以记录直接放在初稿上，不必翻查日志。',
+        zh: '每次生成都会留一份记录，教师可以直接打开：这次用了一条已采纳的规则，写作花了 2.5 秒，两道确定性检查都过了。这条管线本来就是要让人检查的，所以记录就放在初稿上，不用去翻日志。',
       },
     },
     {
@@ -418,13 +418,13 @@ export const papercraft: Project = {
           'A teacher can retire an accepted rule, which removes it from every later prompt. Each new rule version carries the earlier ones forward, so a retired rule stays retired and an unanswered proposal stays pending; nothing in the loop has standing to change a verdict the teacher already gave. One defect let a single refused proposal silently withdraw every accepted rule while seven browser tests passed, each asserting only on its own action. Its replacement builds a version from the one before and checks what survives.',
         ],
         zh: [
-          '生成只占这个系统的一半。另一半读的是批改日志，离线运行，每晚自动执行一次，教师也可以在页面上手动触发。一个模式要在至少三次不同的生成中反复出现，才能成为候选规则，计数依据是生成次数：同一道题里改了四处选项，仍然只算一个决定。蒸馏器除了改动，还会拿到该题型的手册规格；没有规格，它最多只能推出文字有过改动。',
-          '退回的初稿同样计入。三份退回初稿上写明的理由可以单独构成一个模式，教师说明为什么退回，和动手修改一样是在纠正初稿。这个缺口是在试点中暴露出来的。',
-          '每条候选规则都要先经过一道审计，才能送到教师面前。审计运行在另一家厂商的模型上，任务是推翻这条规则。拒绝时必须写明依据，例如只是等价替换、改动本身引入了错误、证据里没有这个事实、重复了手册规格、与已有规则重复，或者只是个人口味。审计只能拒绝或通过，不能撰写、修改或应用规则；无法访问或返回截断时，不产生任何建议。',
-          '每条建议交给三次独立调用，按多数决定。之所以要三票，是因为温度为 0 时，同一批十一条建议运行两次，有两条的结论相反。规则只归采纳它的那位教师，不在用户之间汇总。',
-          '为测试写的三次替换，九改成十、红改成蓝、公园改成海滩，让蒸馏器推出一条「事实细节应当准确」的规则。证据里只有这三次替换，既无原始材料，也没有任何一处说明原值是错的。审计拒绝了它，依据是该规则的说明断言了证据中并不存在的事实。把出现频率当作认可，文献预见过这种失误，这里出现了一例。',
-          '结题前在最终版本上把两组材料各重新运行了五次。三次替换那一组，蒸馏器四次没有提出任何规则，第五次提出的规则被三票全部否决。成立的那条规则要求同一空的选项词类一致，五次里通过三次，另外两次被拒，用的都是证据并不支持的理由。拒绝一条成立的规则，代价是再做一轮蒸馏；接纳一条不成立的规则，此后每一次出题都会带上一条凭空编出的约束。审计因此有意偏向前一种错误。',
-          '已采纳的规则，教师可以随时撤下，撤下后它不再进入任何 prompt。每一版规则集都继承前一版，撤下的规则保持撤下，未答复的建议保持待定，回路里没有哪一环有资格改动教师已经做出的决定。有一处缺陷就是这样查出来的：一条被拒的建议会静默撤销所有已采纳的规则，而当时七个浏览器测试全部通过，因为每个测试只检查自己那一步操作。取代它们的测试从上一版构建新版本，再检查哪些规则得以保留。',
+          '生成只是这个系统的一半。另一半读批改日志，离线运行，每晚自动跑一次，教师也可以在页面上手动启动。一个模式至少要在三次不同的生成里反复出现，才能成为候选规则。按生成次数算，是因为同一道题里改了四处选项，也只是一个决定。蒸馏器除了拿到改动，还会拿到这个题型的手册规格；没有规格，它最多只能看出文字被改过。',
+          '退回的初稿也算数。三份退回初稿上写的理由，本身就能构成一个模式：教师写明为什么退回，和动手修改一样是在纠正初稿。这个漏洞是试点时发现的。',
+          '每条候选规则都要先过一道审计，才会送到教师面前。审计用的是另一家厂商的模型，任务就是推翻这条规则。拒绝时必须写明依据，比如只是等价替换、改动本身带进了错误、证据里没有这回事、和手册规格重复、和已有规则重复，或者只是个人口味。审计只能拒绝或放行，不能写规则、改规则或者启用规则；连不上或者返回被截断时，什么建议也不提。',
+          '每条建议都交给三次独立调用投票，少数服从多数。要投三次，是因为温度设为 0 时，同一批十一条建议跑两遍，有两条的结论正好相反。规则只属于采纳它的那位教师，不会在用户之间汇总。',
+          '我为测试写了三处替换：九改成十，红改成蓝，公园改成海滩。蒸馏器据此推出一条「事实细节应当准确」的规则。可证据里只有这三处替换，没有原始材料，也没有哪里说原来的值是错的。审计拒绝了这条规则，理由是它的说明里断言了证据中根本没有的事实。文献早就提醒过，出现得多不等于被认可，这里就是一个实例。',
+          '结题前，我在最终版本上把这两组材料各重跑了五次。三处替换那一组，蒸馏器有四次什么规则都没提，第五次提的规则被三票全部否决。站得住的那条规则要求同一空的选项词类一致，五次里通过三次，另外两次被拒，拒绝的理由证据都不支持。错拒一条好规则，代价是多做一轮蒸馏；错收一条坏规则，以后每次出题都会带上一条凭空编出来的约束。所以审计有意偏向前一种错误。',
+          '已采纳的规则，教师随时可以撤下，撤下后它就不会再进入任何 prompt。每一版规则集都继承上一版，撤下的规则一直是撤下的，没答复的建议一直是待定的，回路里没有哪一环能改动教师已经做过的决定。有个缺陷就是这样查出来的：一条被拒的建议会悄悄撤掉所有已采纳的规则，可当时七个浏览器测试全都通过了，因为每个测试只检查自己那一步。换上的新测试会在上一版的基础上构建新版本，再检查哪些规则留了下来。',
         ],
       },
     },
@@ -436,7 +436,7 @@ export const papercraft: Project = {
           'The two halves form one circuit. While a draft is being made the work travels left to right; what the teacher changed travels back along the lower band, and an accepted rule re-enters at prompt assembly.',
         ],
         zh: [
-          '两半合起来是一个回路。制作初稿时流程自左向右，教师的改动沿下方的带状路径回流，已采纳的规则从 prompt 装配处重新进入。',
+          '两半合在一起是一个回路。做初稿时流程从左往右走，教师的改动沿着下面那条带子流回去，已采纳的规则在 prompt 装配那里重新接进来。',
         ],
       },
       alt: {
@@ -498,7 +498,7 @@ export const papercraft: Project = {
       },
       caption: {
         en: 'Nothing in the lower band can write an exercise, and nothing in the upper band can settle a rule. The teacher appears once on each side, and that is where the two halves meet.',
-        zh: '下方这条带上的任何一环都不能写题，上方这条带上的任何一环也不能裁定规则。教师在两侧各出现一次，两半就在那里相连。',
+        zh: '下面那条带上没有哪一环能写题，上面那条带上也没有哪一环能决定规则。教师在两边各出现一次，两半就在那里接上。',
       },
     },
     {
@@ -512,7 +512,7 @@ export const papercraft: Project = {
       },
       caption: {
         en: 'What the offline half shows the teacher. Nothing changes about later drafts until the teacher accepts a proposal, and each one carries the evidence it was induced from. The counters here belong to the demonstration account.',
-        zh: '离线那一半呈现给教师的界面。教师采纳之前，之后的初稿不会有任何变化；每条建议都附上它据以归纳的证据。图中的计数属于演示账号。',
+        zh: '这是离线那一半给教师看的界面。教师不采纳，后面的初稿就不会有任何变化；每条建议都附着它是根据哪些证据归纳出来的。图里的数字来自演示账号。',
       },
     },
     {
@@ -530,14 +530,14 @@ export const papercraft: Project = {
           'The checks also read the teacher\'s version. As a teacher edits, the code checks run again and report only what changed against the untouched draft, including repairs, because an edit can create a second defensible answer as easily as a model can. Nothing blocks: the checks encode a specification and a word list, so a teacher who overrides one may be right. In the pilot the comparison recorded six disagreements, two of them substantive.',
         ],
         zh: [
-          '教师的干预记录在两处。一处是只追加的事件日志，每次修改发生时就写入，包括后来又被覆盖的修改，以及退回初稿上的修改。另一处是模型初稿的冻结副本，教师通过初稿时，据此算出净改动。日志没有更新或删除的权限，能在事后改写的记录算不上证据。',
-          '结构检查针对的是形式。没有哪道检查判定答案是否正确，还有一类缺陷属于整套题，逐题检查看不到。两类都会进入课堂。代价最大的是一道题有两个都说得通的答案。它读起来没有问题，一直没人发现，直到学生为判错的那个选项申辩，而且申辩成立，这时课堂只能中断。',
-          '求解器拿到去掉答案的题目作答，挑战者则为每个错误选项构造一种能让它成立的读法。题库的 77 道题里，它们标出两道，其中一道确是缺陷。一则通知写着周五下午四点游泳俱乐部集合、请带泳衣，答案是「要带泳衣」，而「集合在下午」同样成立。这道题通过了所有结构检查，每道检查的判断也都没错。',
-          '另一次排查发现四份已通过的练习有重复选项，其中两份重复的正是答案，两个字母都对应正确答案。现在代码会拒绝重复选项，在当时保存的 79 份练习上，它恰好标出这四份。',
-          '更大的问题出在答案分布上。9 月 11 日生成的 33 份 A2 Reading and Writing Part 4 初稿中，13 份把六个答案全放在 A 上。不读文章、全选 A 的考生也能得满分。在 prompt 里加一句要求答案分散之后，接下来的 72 个答案仍有 41 个是 A。prompt 里的要求只是请求，算不上检查。',
-          '现在初稿写完后由代码重新分配选项字母，先均衡、再打乱，因为 ABCABC 这样的轮换同样容易猜中。这项改动上线后生成的 20 份带字母选项的初稿，没有一份答案分布失衡，114 个答案在 A 到 D 上分别是 33、34、30 和 17 个。',
-          '编写检查程序本身就不容易。最初几轮运行有三处错误，把有争议答案的比例从 2% 推高到 12%。第四处错误不报错，局部结果也没有算错：它跳过了所有完形填空，却不打印任何提示，那个计数看起来像是覆盖了整个题库。现在脚本会打印跳过了什么、为什么跳过。',
-          '这些检查也会复核教师的版本。教师修改时，代码检查重新运行，只报告相对原始初稿发生变化的地方，已修复的问题也一并报告，因为教师的改动同样可能产生第二个说得通的答案。检查不拦截任何操作。它们依据的是规格和词表，教师否决其中一项，可能恰恰是对的。试点中这套比对记录了六处分歧，其中两处是实质性的。',
+          '教师的干预有两处记录。一处是只能追加的事件日志，每次修改当场写入，后来又被覆盖的修改、退回初稿上的修改都算在内。另一处是模型初稿的冻结副本，教师通过初稿时，拿它算出净改动。日志没有更新或删除的权限：事后还能改的记录，算不上证据。',
+          '结构检查只管形式。没有一道检查判断答案对不对；还有一类缺陷出在整套题上，一道一道地查是查不出来的。这两类问题都会带进课堂。最要命的是一道题有两个都说得通的答案：读起来没毛病，一直没人发现，直到学生为被判错的选项申辩，而且有理，课只能停下来。',
+          '求解器拿去掉答案的题目来做，挑战者则给每个错误选项找一种能让它成立的读法。题库 77 道题里，它们标出了两道，其中一道确实有问题。一则通知说周五下午四点游泳俱乐部集合，记得带泳衣，答案是「要带泳衣」，可「集合在下午」也对。这道题所有结构检查都过了，而且每道检查的判断都没错。',
+          '另一次排查发现，四份已经通过的练习有重复选项，其中两份重复的正好是答案，两个字母都是正确答案。现在代码会拒收重复选项，在当时存下的 79 份练习上，它标出的恰好就是这四份。',
+          '更大的问题在答案分布上。9 月 11 日生成的 33 份 A2 Reading and Writing Part 4 初稿里，有 13 份六个答案全是 A，考生不读文章、一律选 A 也能拿满分。在 prompt 里加上一句要求答案分散，接下来的 72 个答案里还是有 41 个是 A。写在 prompt 里的要求只是请求，不是检查。',
+          '现在初稿写完后，由代码重新分配选项字母：均衡之后再打乱，因为 ABCABC 这样的轮换一样容易猜。这项改动上线后生成的 20 份带字母选项的初稿，答案分布没有一份失衡，114 个答案落在 A、B、C、D 上分别是 33、34、30、17 个。',
+          '写检查程序本身就不轻松。头几轮运行有三处错误，把有争议答案的比例从 2% 抬到了 12%。第四处错误既不报错，局部结果也没算错：它跳过了所有完形填空，却一声不吭，那个计数看上去像是覆盖了整个题库。现在脚本会打印出跳过了什么、为什么跳过。',
+          '这些检查也会复核教师的版本。教师修改时，代码检查重新跑一遍，只报告和原始初稿相比有变化的地方，修好的问题也会报，因为教师的改动一样可能弄出第二个说得通的答案。检查不拦任何操作：它们依据的只是规格和词表，教师否掉其中一项，说不定恰恰是对的。试点中这套比对记下了六处分歧，其中两处是实质性的。',
         ],
       },
     },
@@ -552,7 +552,7 @@ export const papercraft: Project = {
       },
       caption: {
         en: 'Item analysis computed from responses: difficulty, discrimination, how often each option was chosen, and the distractors the class never picks. The banner compares the difficulty the teacher asked for with what the items turned out to be. The responses are the author\'s own demonstration data; no student has taken part.',
-        zh: '依据作答算出的项目分析：难度、区分度、各选项被选的次数，以及全班从不选的干扰项。上方横幅将教师当初要求的难度与题目实际的难度并列。作答数据是作者自己录入的演示数据，没有学生参与。',
+        zh: '根据作答算出的项目分析：难度、区分度、每个选项被选了几次，以及全班从来不选的干扰项。上方横幅把教师当初要的难度和题目实际的难度放在一起。作答是作者自己录的演示数据，没有学生参与。',
       },
     },
     {
@@ -566,7 +566,7 @@ export const papercraft: Project = {
       },
       caption: {
         en: 'The warning comes from the answer-key check, which runs before the teacher sees the draft. Since this capture, code re-letters the options first, so a key like this one no longer reaches the teacher.',
-        zh: '这条告警来自答案分布检查，在教师看到初稿之前就已运行。截图之后，代码会先重排选项字母，这样的答案分布已经不会出现在教师面前。',
+        zh: '这条告警来自答案分布检查，教师看到初稿之前它就跑完了。这张截图之后，代码会先重排选项字母，教师已经不会再看到这样的答案分布。',
       },
     },
     {
@@ -582,11 +582,11 @@ export const papercraft: Project = {
           'Whether an accepted rule changes what the generator writes was tested offline. Each topic was generated twice, with the teacher\'s accepted rules and without them, and the two prompts were checked in code to differ by the rule block alone. The test began at 16 topics per part and was extended to 40, with the analysis fixed in a hashed file before the new drafts existed. A judge from another vendor scored each draft against each rule, and a second judge rescored the pairs the first called different (table below).',
         ],
         zh: [
-          '2026 年 10 月，两位一线教师参加了试点。两人各自独立按研究表单操作：生成并修改四份初稿，请系统归纳一次规则并逐条决定是否采纳，再生成两份。教师 A 教龄十年，试用的是 B1 Reading Part 5；教师 B 教龄四年，试用的是 A2 Reading and Writing Part 4，第二天又做了一轮 A2 开放式完形。整个过程无人在场，事件日志、书面回答和审计投票三者对照阅读，任何一项都不当作定论。',
-          '修改大多落在干扰项上。教师 A 的 13 处修改全部是替换干扰项；教师 B 的 14 处里有 9 处是替换干扰项，3 处是把答案改到已有的另一个选项上。三轮试点的书面记录都指出，有的题目不止一个说得通的答案，前面那些检查要找的正是这类问题。',
-          '系统给每位教师各提出四条规则，教师全部采纳，这八条也都以三票对零票通过了审计。其中两条来自书面记录而非修改。教师 A 的七条记录里有六条提到，六个空里有五个考的是动词，蒸馏器据此归纳出「各空应覆盖不同词类」的规则。两位教师都没有拒绝过任何建议，拒绝这条路径因此一直没有人实际走过。',
-          '关于掌控感，唯一可用的回答是负面的。教师 A 写道，哪些观察会变成规则、规则如何措辞、相互冲突时以哪条为准、在哪里生效，自己都没有直接的话语权。面对一条写好的规则，只能选择采纳或拒绝，对一位无法参与塑造规则的教师来说，这算不上掌控。这个回答决定了下一步的工作。',
-          '第三轮的情况完全不同。13 分钟里，教师 B 生成了五份开放式完形初稿，退回四份并各写了理由，一处也没有改。每条理由都指向文体问题。手册规定这一部分是电子邮件，这一题型的 prompt 却写着文本绝不能是邮件。这句话所在的段落，恰好不在当初对照手册核查的范围内。当时的蒸馏只从修改中学习，教师只写理由而不动手修改时，它便无从归纳；现在蒸馏也会读取退回的初稿。',
+          '2026 年 10 月，两位一线教师参加了试点。两人各自按研究表单操作：生成并修改四份初稿，让系统归纳一次规则、逐条决定要不要采纳，再生成两份。教师 A 教了十年书，试用的是 B1 Reading Part 5；教师 B 教了四年，试用的是 A2 Reading and Writing Part 4，第二天又做了一轮 A2 开放式完形。整个过程没有人在场，事件日志、书面回答和审计投票三样对照着看，哪一样都不当作定论。',
+          '修改大多集中在干扰项上。教师 A 的 13 处修改都是换干扰项；教师 B 的 14 处里，9 处是换干扰项，3 处是把答案改成已有的另一个选项。三轮试点的书面记录都提到，有些题不止一个说得通的答案，前面那些检查要找的就是这类问题。',
+          '系统给两位教师各提了四条规则，两人全部采纳，这八条也都以三比零通过了审计。其中两条来自书面记录，不是来自修改：教师 A 的七条记录里有六条说，六个空有五个考的是动词，蒸馏器据此归纳出「各空应覆盖不同词类」这条规则。两位教师一条建议都没拒绝过，所以拒绝这条路实际上还没有人走过。',
+          '关于掌控感，唯一能用的回答是负面的。教师 A 写道，哪些观察会变成规则、规则怎么措辞、冲突时听哪一条、在哪里生效，自己都没有直接的发言权。规则写好了摆在面前，只能选采纳或拒绝；没法参与制定规则的教师，不会觉得这是掌控。下一步的工作就由这个回答定了。',
+          '第三轮完全是另一回事。教师 B 在 13 分钟里生成了五份开放式完形初稿，退回四份，每份都写了理由，一个字也没改。每条理由说的都是文体：手册规定这一部分是电子邮件，这个题型的 prompt 却写着文本绝不能是邮件。这句话所在的段落，正好不在当初对照手册核查的范围里。那时的蒸馏只从修改里学，教师光写理由不动手改，它就无从归纳；现在蒸馏也会读退回的初稿。',
           '采纳的规则是否真的改变了生成结果，另做了离线测试。每个话题生成两次，一次带上教师已采纳的规则，一次不带，两份 prompt 先由代码确认只差规则那一段。测试最初每个题型只有 16 个话题，只能看出很大的效应，后来扩展到 40 个。新初稿生成之前，分析方案已写进一份记录了哈希值的文件。评判由另一家厂商的模型逐条打分，它判为有差异的配对，再交给第二个模型复评（见下表）。',
         ],
       },

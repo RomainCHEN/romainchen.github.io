@@ -77,8 +77,8 @@ export const transcreation: Project = {
           'Titles are therefore a clean probe for a question translation studies has long debated. When a translator abandons the literal meaning, is that a failure of fidelity or an act of expertise? And can a model that has never lived inside a culture do the same thing?',
         ],
         zh: [
-          '电影片名只有几个字，看似只是小问题，却要同时完成三件互相冲突的任务：说明影片讲什么、在陌生的文化里产生情感效果、把观众带进影院。',
-          '译者放弃字面意义，究竟是失信于原文，还是专业判断的体现，翻译研究对此争论已久。片名篇幅短、争议集中，是考察这个问题最清晰的入口。另一个问题是，从未在目标文化中生活过的模型，能不能做到同样的事。',
+          '电影片名只有几个字，看着是小事，却要同时办成三件互相打架的事：交代影片讲什么，在陌生的文化里打动人，还要把观众拉进影院。',
+          '译者丢开字面意思，算是背离原文，还是专业判断？翻译研究为此争了很久。片名短，争议又集中，最适合拿来看清这个问题。还有一个问题：从没在目标文化里生活过的模型，能不能做到同样的事。',
         ],
       },
     },
@@ -91,8 +91,8 @@ export const transcreation: Project = {
           'This study measures the **operation** instead. It classifies what the translator did, then asks whether that operation fits the cultural gap in front of it.',
         ],
         zh: [
-          '常用的机器翻译指标在这里不适用。BLEU 和 ROUGE 计算译文与参考译文的重合度，好片名却往往要偏离参考。《Ghost》的中文译名《人鬼情未了》，对照任何字面参考都得分很低，却是正确的译法。',
-          '这项研究衡量的是**操作**本身。先判定译者做了哪一类操作，再判断这类操作是否适合眼前的文化差距。',
+          '常用的机器翻译指标在这里用不上。BLEU 和 ROUGE 算的是译文和参考译文有多少重合，好片名却往往偏离参考。《Ghost》译成《人鬼情未了》，拿哪个字面参考来比分数都很低，可它译对了。',
+          '这项研究衡量的是**操作**本身：判定译者做了哪一类操作，看这类操作和眼前的文化差距对不对得上。',
         ],
       },
       note: {
@@ -112,7 +112,7 @@ export const transcreation: Project = {
       },
       caption: {
         en: 'Where this started: a course poster for an English-Chinese contrastive translation class. It is printed small, so open the full sheet to read it. The poster sorts titles into ten categories, and each one carries a stated rationale and a comparison against machine output, so the human-versus-AI question was there from the beginning. What it lacks is a mechanism. The rationale is asserted case by case, so the categories predict nothing about a title they have not already seen. The distance between this poster and the three-tier model is the work of turning those assertions into an account of what the translator does cognitively.',
-        zh: '这项研究的起点是这张海报，英汉对比翻译课上的小组展示。原件排版密集，正文需打开完整原图才能看清。海报把片名分成十类，每一类都给出理论依据，并与机器翻译的输出对照，人工与 AI 的比较从那时起就已存在。欠缺的是机制。依据是逐例给出的，这套分类因此无法预测未曾见过的片名。把这些逐例的判断整理成对译者认知过程的说明，就是这张海报与三层模型之间的距离。',
+        zh: '这项研究始于英汉对比翻译课上的一次小组展示，就是这张海报。原件排得很密，正文要打开完整原图才看得清。海报把片名分成十类，每类都写了理论依据，也和机器翻译的输出做了对照，人工和 AI 的比较那时就有了。缺的是机制：依据一例一例地给，这套分类就没法预测没见过的片名。把这些零散的判断整理成对译者认知过程的解释，是从这张海报走到三层模型要做的事。',
       },
     },
     {
@@ -126,10 +126,10 @@ export const transcreation: Project = {
           'The tiers are directional: a strategy at Tier 1 is a *means* of performing a cognitive operation at Tier 2, whose *goal* is handling a cultural schema at Tier 3. Most existing work stops at Tier 1 and therefore describes the surface of a decision without its mechanism.',
         ],
         zh: [
-          '第一层是策略，即译者做了什么：直译、归化、异化、音译、意译，乃至彻底的再创作。这一层既有研究描述得最细，解释力却最弱。',
-          '第二层是认知操作，即译者如何做到：隐喻映射、转喻、意象图式，以及最关键的概念整合。好片名多半是整合空间中新生成的结构，单靠移植原文的结构无法得到。',
-          '第三层是文化图式，译法成败最终取决于它。隐喻可以调用哪些源域、某次整合在文化上是否可行，都由图式决定。我们把译者面对的问题归为对图式的四种操作，各类操作所需的认知投入相差很大。',
-          '三层之间有方向：第一层的策略是**手段**，用来完成第二层的认知操作，而认知操作的**目的**是处理第三层的文化图式。多数既有研究止于第一层，只描述决策的表面，没有触及机制。',
+          '第一层是策略，也就是译者做了什么：直译、归化、异化、音译、意译，直到彻底的再创作。已有研究把这一层描述得最细，但它的解释力最弱。',
+          '第二层是认知操作，也就是译者怎么做到的：隐喻映射、转喻、意象图式，还有最关键的概念整合。好片名大多是在整合空间里新长出来的结构，光搬原文的结构得不到。',
+          '第三层是文化图式，一个译法成不成，最后要看它。隐喻能借用哪些源域、一次整合在文化上行不行得通，都取决于图式。我们把译者遇到的问题归成对图式的四种操作，每种操作需要的认知投入差别很大。',
+          '三层之间有先后：第一层的策略是**手段**，为第二层的认知操作服务，认知操作的**目的**则是处理第三层的文化图式。多数已有研究停在第一层，只描述了决策的表面，没有碰到机制。',
         ],
       },
     },
@@ -141,7 +141,7 @@ export const transcreation: Project = {
           'These are the cases the framework is built to separate. Select one to see the source title, what a human translator did, what a literal or default machine rendering produces, and what the difference tells us. The bars indicate how much cognitive work the operation demands.',
         ],
         zh: [
-          '这四类正是框架要区分的情形。点选任意一项，可以看到原片名、人工译者的处理、字面或机器默认输出，以及这一差别说明了什么。条形长度代表这类操作所需的认知投入。',
+          '框架要区分的就是这四种情形。点开任意一项，能看到原片名、人工译者的处理、字面或机器的默认输出，以及这个差别说明了什么。条形越长，这类操作需要的认知投入越多。',
         ],
       },
       cases: [
@@ -153,7 +153,7 @@ export const transcreation: Project = {
           machine: '狮子王',
           reading: {
             en: 'The lion-as-sovereign schema is shared across both cultures, so a direct metaphor mapping suffices. Machine and human converge, because statistical association is enough when the schemas already agree. Any evaluation built only on cases like this will conclude that the problem is solved.',
-            zh: '狮子象征王权，这一图式两种文化共有，直接做隐喻映射即可，不需要概念整合。图式本就一致时，统计关联足以应付，人与机器因此给出相同的译名。只用这类案例做评估，自然会得出问题已经解决的结论。',
+            zh: '狮子象征王权，两种文化都有这个图式，直接做隐喻映射就行，用不着概念整合。图式本来一致，统计关联就够用了，所以人和机器给出的译名一样。只拿这类案例来评估，自然会以为问题已经解决了。',
           },
         },
         {
@@ -247,7 +247,7 @@ export const transcreation: Project = {
       ],
       caption: {
         en: 'Each strategy code is defined by its relationship to the cultural schema, not by surface form, so one code means the same thing across two coders and two translation directions.',
-        zh: '策略代码依其与文化图式的关系定义，不以表面形式为准。因此同一个代码在不同编码者、不同翻译方向下所指相同。',
+        zh: '策略代码按它与文化图式的关系来定义，不看表面形式，所以同一个代码换了编码者、换了翻译方向，指的还是同一件事。',
       },
     },
     {
@@ -260,9 +260,9 @@ export const transcreation: Project = {
           'Human and machine output differ in *character*, not in quality. Human decisions in the corpus are diagnostic and staged. Machine decisions are arbitrary in a specific technical sense: the model applies a default mapping without testing whether the source schema survives the crossing.',
         ],
         zh: [
-          '传统翻译理论让意译一词承担了过多含义，从轻度改写到彻底再创作都归入其中，这个词因此成了黑箱。给出这个名称，并不能说明其中发生了什么。',
-          '改用**译创**这一概念，把它理解为认知与文化层面的重新组构，现象才有机制可言。译者先判断原文如何构建意义，再判断这一结构能否在目标文化中成立，然后重组。三种能力各自可以单独检验，模型在每一种上失败的方式也各不相同。',
-          '人机输出的差别在**性质**，不在优劣。语料中人工译者的决策是诊断式的，分步完成；模型的决策是武断的，直接套用默认映射，不检验源语图式能否在跨语言转换中保留。',
+          '传统翻译理论里，意译一词装了太多东西，轻度改写和彻底再创作都算在里面，结果成了一个黑箱。叫它意译，并不能说明里面发生了什么。',
+          '换成**译创**这个概念，把它看作认知和文化层面的重新组构，现象背后的机制才说得清。译者要判断原文怎样构建意义，判断这个结构在目标文化里能否成立，然后重新组合。三种能力都能单独检验，模型在每一种上出错的方式也不一样。',
+          '人机输出的差别在**性质**，不在优劣。语料里人工译者的决策是诊断式的，一步步做出来；模型的决策是武断的，直接套用默认映射，不去检验源语图式能不能在跨语言转换中保住。',
         ],
       },
     },
@@ -307,7 +307,7 @@ export const transcreation: Project = {
           state: 'shipped',
           detail: {
             en: 'DeepSeek R1 and Gemini 2.5 Pro have both been run across the corpus, so every source title sits in one row beside the human release title and two machine renderings. That side-by-side arrangement is the instrument.',
-            zh: 'DeepSeek R1 与 Gemini 2.5 Pro 已在全部语料上运行，每个原片名与官方人工译名、两份机器输出并列在同一行。这种并列本身就是研究的工具。',
+            zh: 'DeepSeek R1 和 Gemini 2.5 Pro 已经跑完全部语料。每个原片名和官方人工译名、两份机器输出排在同一行，这样并排放着，本身就是研究工具。',
           },
         },
         {
@@ -315,7 +315,7 @@ export const transcreation: Project = {
           state: 'instrumented',
           detail: {
             en: 'The three-tier scheme is written down to the level of named strategy codes, each defined by its relationship to the cultural schema, and pre-coded on the hardest cases to test whether the definitions hold up on real data. Full inter-coder reliability is pending.',
-            zh: '三层方案已细化到具名策略代码，每个代码依其与文化图式的关系定义。我们在最难的几个案例上先行试编，检验这些定义面对真实数据是否仍然成立。完整的编码者间信度检验尚未开展。',
+            zh: '三层方案已经细化成具名的策略代码，每个代码都按它和文化图式的关系来定义。我们拿最难的几个案例做了试编，看这些定义碰上真实数据还站不站得住。完整的编码者间信度检验还没有做。',
           },
         },
         {
@@ -338,9 +338,9 @@ export const transcreation: Project = {
           'The translation work is also where I learned that a construct has to be operationalised before it can be studied, the lesson I use most when building learning systems.',
         ],
         zh: [
-          '两个软件项目中间夹一篇人文论文，看起来并不相称，但它们问的是同一个问题，只是换了工具。',
-          'PaperCraft 要回答的是教师判断在生成流程中有多少不可替代，衡量方式是编辑距离；这项研究要回答的是译者的文化判断有多少不可替代，衡量方式是图式操作。两者评价模型，看的是它执行了哪一类操作，不是它产出了什么。两者也都把人的贡献放在因变量一侧，使其可以测量，不停留在主张。',
-          '翻译方向的工作让我明白，构念不经操作化就无法研究。这是我后来开发学习系统时最常用到的一条经验。',
+          '两个软件项目中间夹着一篇人文论文，乍看不太搭，其实它们问的是同一个问题，只是用的工具不同。',
+          'PaperCraft 想知道，生成流程里教师的判断有多少无可替代，拿编辑距离来量；这项研究想知道，译者的文化判断有多少无可替代，拿图式操作来量。两边评价模型时，看的都是它做了哪一类操作，不是它产出了什么。两边也都把人的贡献当作因变量，让它可以测量，而不只是一句主张。',
+          '做翻译研究让我明白，构念不先操作化就没法研究。后来开发学习系统，这是我用得最多的一条经验。',
         ],
       },
     },
