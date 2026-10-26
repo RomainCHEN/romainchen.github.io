@@ -17,8 +17,8 @@ export const papercraft: Project = {
   index: '01',
   title: 'PaperCraft',
   subtitle: {
-    en: 'The model drafts, the teacher decides, and the decision is recorded',
-    zh: '模型负责起草，教师负责定夺，每个决定都有记录',
+    en: 'A Cambridge exam authoring tool that learns from the teacher who uses it',
+    zh: '会向教师学习的剑桥英语出题系统',
   },
   blurb: {
     en: "A teacher-in-the-loop authoring tool for Cambridge KET/PET exercises that keeps the teacher's corrections and turns the recurring ones into rules the teacher approves.",
@@ -85,13 +85,6 @@ export const papercraft: Project = {
       value: {
         en: 'Two accepted rules changed drafts over 40 paired topics per part',
         zh: '每个题型 40 组配对话题上，两条已采纳规则改变了初稿',
-      },
-    },
-    {
-      label: { en: 'Status', zh: '状态' },
-      value: {
-        en: 'Final report submitted October 2026, with an IEEE-format paper manuscript',
-        zh: '2026 年 10 月提交结题报告，并整理成一篇 IEEE 格式的论文稿',
       },
     },
   ],
@@ -741,7 +734,7 @@ export const papercraft: Project = {
           state: 'instrumented',
           detail: {
             en: 'Difficulty, discrimination and distractor analysis are implemented end to end and shown to the teacher, and wait on real class responses.',
-            zh: '难度、区分度与干扰项分析已从数据到界面完整实现，并展示给教师，等待真实的班级作答数据。',
+            zh: '难度、区分度与干扰项分析都已做好，教师在界面上就能看到，只差真实的班级作答数据。',
           },
         },
       ],
