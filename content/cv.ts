@@ -385,6 +385,13 @@ export const SKILLS = {
         zh: ['经典测量理论项目分析', 'SUS、NASA-TLX 量表与评分量规设计', 'SQL', 'R'],
       } as L<string[]>,
     },
+    {
+      label: { en: 'Translation tools', zh: '翻译工具' } as L,
+      items: {
+        en: ['CAT tools: Trados, Déjà Vu'],
+        zh: ['计算机辅助翻译（CAT）：Trados、Déjà Vu'],
+      } as L<string[]>,
+    },
   ],
 };
 

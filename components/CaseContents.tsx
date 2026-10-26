@@ -52,26 +52,31 @@ export function CaseContents({ entries, label }: { entries: Entry[]; label: stri
     };
   }, [entries]);
 
+  // Set a size and a tone below the body text and kept to a narrow column, so
+  // the list reads as furniture beside the article rather than a second column
+  // of prose competing with it. Only the current entry is raised to ink.
   return (
     <nav
       aria-label={label}
-      className="sticky under-masthead max-h-[calc(100dvh-var(--masthead-h)-6rem)] overflow-y-auto pr-2 no-scrollbar"
+      className="sticky under-masthead max-h-[calc(100dvh-var(--masthead-h)-6rem)] max-w-[13rem] overflow-y-auto no-scrollbar"
     >
       <p className="label">{label}</p>
-      <ol className="mt-3 space-y-2 border-l border-rule">
+      <ol className="mt-3 space-y-1.5 border-l border-rule">
         {entries.map((entry, i) => {
           const on = entry.id !== null && entry.id === current;
           return (
-            <li key={entry.id ?? i} className="-ml-px flex gap-2.5 text-sm leading-snug">
+            <li key={entry.id ?? i} className="-ml-px">
               <a
                 href={`#${entry.id}`}
                 aria-current={on ? 'location' : undefined}
-                className={`flex gap-2.5 border-l pl-3 transition-colors duration-200 ${
-                  on ? 'border-accent text-ink' : 'border-transparent text-muted hover:text-ink'
+                className={`flex gap-2 border-l py-0.5 pl-3 text-2xs leading-relaxed transition-colors duration-200 ${
+                  on
+                    ? 'border-accent text-ink'
+                    : 'border-transparent text-muted hover:text-ink-soft'
                 }`}
               >
                 <span className="font-mono text-2xs tnum">{String(i + 1).padStart(2, '0')}</span>
-                <span>{entry.label}</span>
+                <span className="text-pretty">{entry.label}</span>
               </a>
             </li>
           );

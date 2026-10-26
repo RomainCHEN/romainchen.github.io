@@ -24,10 +24,6 @@ const OUT = path.join(process.cwd(), 'public', 'work', 'papercraft');
 const SHOTS = [
   { out: 'workspace-generate', from: 'workspace-generate-2026-10-23.png' },
   { out: 'workspace-review', from: 'workspace-review-2026-10-23.png' },
-  { out: 'workspace-learned', from: 'workspace-learned-2026-10-23.png' },
-  { out: 'workspace-item-analysis', from: 'workspace-item-analysis-2026-10-23.png' },
-  { out: 'paper-picture-story', from: 'paper-ket-picture-story.png' },
-  { out: 'slides-reveal', from: 'slides-reveal.png' },
 ];
 
 await mkdir(OUT, { recursive: true });

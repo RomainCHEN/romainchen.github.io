@@ -158,7 +158,7 @@ export const SKILLS = [
   {
     label: '技能',
     value:
-      'Python · Java · TypeScript · React / Next.js · PostgreSQL / Supabase · 大模型部署与量化 (Ollama) · RAG 与 Agent 工作流 · SQL · R · Git / Linux · Final Cut Pro',
+      'Python · Java · TypeScript · React / Next.js · PostgreSQL / Supabase · 大模型部署与量化 (Ollama) · RAG 与 Agent 工作流 · SQL · R · Git / Linux · Final Cut Pro · CAT 工具 (Trados、Déjà Vu)',
   },
   {
     label: '语言',

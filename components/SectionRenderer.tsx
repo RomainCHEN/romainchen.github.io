@@ -156,12 +156,14 @@ export function SectionRenderer({
                   <dd className="font-display text-3xl text-ink tnum">
                     {item.value}
                     {item.unit ? (
-                      <span className="ml-1 text-base text-muted">{item.unit[locale]}</span>
+                      <span className="ml-1 text-sm text-muted">{item.unit[locale]}</span>
                     ) : null}
                   </dd>
-                  <dt className="mt-2 text-sm text-ink-soft">{item.label[locale]}</dt>
+                  <dt className="mt-2 text-sm leading-snug text-ink-soft text-pretty">
+                    {item.label[locale]}
+                  </dt>
                   {item.note ? (
-                    <p className="mt-1.5 text-xs leading-relaxed text-muted">
+                    <p className="mt-1.5 font-mono text-2xs leading-relaxed text-muted">
                       {item.note[locale]}
                     </p>
                   ) : null}

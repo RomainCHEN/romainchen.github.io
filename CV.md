@@ -75,6 +75,8 @@ contact@z-chen.dev · romain.is-a.dev · GitHub: github.com/RomainCHEN · Linked
 
 **Measurement**, Classical item analysis · SUS, NASA-TLX and rubric design · SQL · R
 
+**Translation tools**, CAT tools: Trados, Déjà Vu
+
 ---
 
 *Last updated 2026-10-26.*
