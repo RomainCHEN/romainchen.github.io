@@ -18,7 +18,7 @@ export const papercraft: Project = {
   title: 'PaperCraft',
   subtitle: {
     en: 'A teacher-in-the-loop LLM agent for Cambridge exam-item authoring',
-    zh: '面向剑桥 KET / PET 考试的人工在环 LLM 辅助出题 Agent',
+    zh: '面向剑桥 KET/PET 考试的人工在环 LLM 辅助出题 Agent',
   },
   blurb: {
     en: "A teacher-in-the-loop authoring tool for Cambridge KET/PET exercises that keeps the teacher's corrections and turns the recurring ones into rules the teacher approves.",
