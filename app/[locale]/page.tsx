@@ -54,17 +54,10 @@ export default async function Home({
          ------------------------------------------------------------------ */}
       <section className="canvas pt-20 pb-24 sm:pt-28 lg:pt-36">
         <div className="field">
-          <Reveal className="col-margin" as="div">
-            <p className="label">
-              {locale === "en" ? "Zeming (Romain) Chen" : "陈泽铭"}
-            </p>
-            <p className="mt-3 font-mono text-2xs leading-relaxed text-muted">
-              {locale === "en" ? SITE.nameZh : SITE.name}
-            </p>
-          </Reveal>
-
           {/* The heading takes the wide column so it can be set at display
-              size; the facts that qualify it return to the body column. */}
+              size; the facts that qualify it return to the body column. The
+              margin beside it stays empty: the masthead already carries the
+              name, and a second copy of it here said nothing new. */}
           <div className="col-wide">
             <Reveal>
               {/* The heading scales with its column so the discipline line always
@@ -81,10 +74,10 @@ export default async function Home({
                 >
                   {/* The discipline line sits on its own line at display size
                     and never breaks; the sentence after it is set smaller, as
-                    the line that explains it. In English that sentence also
-                    stays on one line (under 90% of the column wide at every
-                    width from a 320px phone up); the Chinese one is held to a
-                    measure instead. */}
+                    the line that explains it. On a phone that sentence would
+                    shrink below the 12px floor if it were held to one line, so
+                    there it has a floor of its own and wraps; from sm up the
+                    English stays on one line. */}
                   {(() => {
                     const text = TAGLINE[locale];
                     const cut =
@@ -100,10 +93,10 @@ export default async function Home({
                           {text.slice(0, cut)}
                         </span>
                         <span
-                          className={`mt-[0.45em] block text-[0.46em] leading-[1.22] tracking-[-0.01em] text-ink-soft ${
+                          className={`mt-[0.45em] block text-[max(0.46em,1rem)] leading-[1.3] tracking-[-0.01em] text-ink-soft sm:text-[0.46em] sm:leading-[1.22] ${
                             locale === "zh"
                               ? "max-w-[34ch] break-keep text-balance"
-                              : "whitespace-nowrap"
+                              : "text-balance sm:whitespace-nowrap"
                           }`}
                         >
                           {text.slice(cut).trim()}
@@ -164,7 +157,7 @@ export default async function Home({
          ------------------------------------------------------------------ */}
       <section className="canvas pb-8" aria-labelledby="currently-heading">
         <div className="field">
-          <Reveal className="col-margin" as="div">
+          <Reveal className="col-margin mb-3 lg:mb-0" as="div">
             <h2 id="currently-heading" className="label">
               {UI.currently[locale]}
             </h2>

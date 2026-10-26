@@ -42,13 +42,11 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
     <>
       <header className="canvas pt-16 pb-14 sm:pt-24">
         <div className="field">
-          <div className="col-margin">
-            <h1 className="label">
+          <div className="col-body">
+            <h1 className="label mb-4">
               {UI.nav.work[locale]}
               <span className="sr-only">: {SITE.name}</span>
             </h1>
-          </div>
-          <div className="col-body">
             {INTRO[locale].map((paragraph, i) => (
               <p
                 key={i}
@@ -73,14 +71,14 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
             delay={i * 60}
             className="field border-t border-rule py-14 first:border-t-0 lg:py-20"
           >
-            <div className="col-margin">
-              <p className="font-display text-5xl leading-none text-rule-strong tnum">
+            <div className="col-margin flex items-baseline gap-4 lg:block">
+              <p className="font-display text-3xl leading-none text-muted tnum">
                 {project.index}
               </p>
-              <p className="mt-5 font-mono text-2xs leading-relaxed text-muted">
+              <p className="font-mono text-2xs leading-relaxed text-muted lg:mt-4">
                 {project.period[locale]}
               </p>
-              <p className="mt-2 max-w-[16rem] text-sm leading-relaxed text-muted text-pretty">
+              <p className="mt-2 hidden max-w-[16rem] text-sm leading-relaxed text-muted text-pretty lg:block">
                 {project.role[locale]}
               </p>
             </div>

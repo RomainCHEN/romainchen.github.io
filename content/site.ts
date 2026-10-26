@@ -101,6 +101,7 @@ export const UI = {
   fullSize: { en: 'Full sheet', zh: '查看完整原图' },
   what: { en: 'What it does', zh: '作用' },
   why: { en: 'Why it matters for the research', zh: '对研究的意义' },
+  scrollTable: { en: 'Scroll sideways', zh: '左右滑动查看' },
 } as const;
 
 export function t(dict: L, locale: Locale): string {

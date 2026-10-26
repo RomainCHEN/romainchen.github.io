@@ -41,7 +41,7 @@ export function EvidenceLedger({
 }) {
   return (
     <div className="mt-8">
-      <p className="font-mono text-2xs leading-relaxed text-muted">
+      <p className="text-sm leading-relaxed text-muted text-pretty">
         {UI.evidenceLegend[locale]}
       </p>
       <ul className="mt-5 border-t border-rule">

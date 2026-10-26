@@ -70,7 +70,10 @@ export function SectionRenderer({
     case 'prose':
       return (
         <Reveal as="section" className="canvas field py-12">
-          <div className="col-margin">
+          {/* The note hangs in the margin beside the text it glosses. With no
+              margin it follows the prose instead, still ruled, so a scope note
+              (such as the IELTS demo using a fictional learner) is never lost. */}
+          <div className="col-margin hidden lg:block">
             {section.note ? (
               <aside className="sticky under-masthead border-l-2 border-accent pl-4">
                 <p className="text-sm leading-relaxed text-muted text-pretty">
@@ -86,6 +89,13 @@ export function SectionRenderer({
                 <p key={i}>{inline(paragraph)}</p>
               ))}
             </div>
+            {section.note ? (
+              <aside className="mt-8 max-w-md border-l-2 border-accent pl-4 lg:hidden">
+                <p className="text-sm leading-relaxed text-muted text-pretty">
+                  {inline(section.note[locale])}
+                </p>
+              </aside>
+            ) : null}
           </div>
         </Reveal>
       );
@@ -93,12 +103,18 @@ export function SectionRenderer({
     /* ------------------------------------------------------------------ */
     case 'figure': {
       const box = figureBox(section.w, section.h);
+      // A strip much wider than it is tall (a single row of interface) shrinks
+      // to an unreadable sliver on a phone. Below sm it keeps a readable width
+      // and scrolls sideways inside its frame instead.
+      const strip = section.w && section.h ? section.w / section.h > 3 : false;
 
       return (
         <Reveal as="section" className="canvas field py-12">
           <figure className="col-body">
             <div
-              className="relative overflow-hidden border border-rule bg-paper-sunk"
+              className={`relative border border-rule bg-paper-sunk ${
+                strip ? 'overflow-x-auto sm:overflow-hidden' : 'overflow-hidden'
+              }`}
               style={{ maxWidth: `${box.width}px` }}
             >
               <Image
@@ -107,9 +123,14 @@ export function SectionRenderer({
                 width={section.w ?? 2400}
                 height={section.h ?? 1500}
                 sizes={box.sizes}
-                className="h-auto w-full"
+                className={`h-auto w-full ${strip ? 'min-w-[44rem] sm:min-w-0' : ''}`}
               />
             </div>
+            {strip ? (
+              <p className="mt-2 font-mono text-2xs text-muted sm:hidden" aria-hidden="true">
+                {UI.scrollTable[locale]} →
+              </p>
+            ) : null}
             <figcaption className="mt-3 measure text-sm leading-relaxed text-muted text-pretty">
               {inline(section.caption[locale])}
               {section.full ? (
@@ -148,7 +169,7 @@ export function SectionRenderer({
                   </dd>
                   <dt className="mt-2 text-sm text-ink-soft">{item.label[locale]}</dt>
                   {item.note ? (
-                    <p className="mt-1.5 font-mono text-2xs leading-relaxed text-muted">
+                    <p className="mt-1.5 text-xs leading-relaxed text-muted">
                       {item.note[locale]}
                     </p>
                   ) : null}
@@ -267,6 +288,13 @@ export function SectionRenderer({
         <Reveal as="section" className="canvas field py-12">
           <div className="col-body">
             {section.heading ? <Heading text={section.heading[locale]} id={id} /> : null}
+            {/* A wide table scrolls on a phone. The hint says so, because a
+                table cut at the screen edge otherwise looks complete. */}
+            {section.head.length > 3 ? (
+              <p className="mb-2 font-mono text-2xs text-muted sm:hidden" aria-hidden="true">
+                {UI.scrollTable[locale]} →
+              </p>
+            ) : null}
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-left text-sm">
                 <thead>
@@ -299,7 +327,9 @@ export function SectionRenderer({
               </table>
             </div>
             {section.caption ? (
-              <p className="mt-3 measure text-sm text-muted">{section.caption[locale]}</p>
+              <p className="mt-3 measure text-sm leading-relaxed text-muted text-pretty">
+                {inline(section.caption[locale])}
+              </p>
             ) : null}
           </div>
         </Reveal>

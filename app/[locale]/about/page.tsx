@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Reveal } from '@/components/Reveal';
-import { ABOUT_BODY, ABOUT_LEDE, CURRENTLY } from '@/content/about';
+import { ABOUT_BODY, ABOUT_LEDE } from '@/content/about';
 import { EXPERIENCE, TEACHING, WRITING_MEDIA } from '@/content/cv';
-import { RESEARCH_INTERESTS, ROLE_LINE, SITE, SOCIAL, UI, path } from '@/content/site';
+import { RESEARCH_INTERESTS, SITE, SOCIAL, UI, path } from '@/content/site';
 import { inline } from '@/lib/inline';
 import { asLocale, localeParams } from '@/lib/locale';
 import type { CvSection } from '@/content/cv';
@@ -64,7 +64,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
     <>
       <header className="canvas pt-16 pb-12 sm:pt-24">
         <div className="field">
-          <Reveal className="col-margin" as="div">
+          <Reveal className="col-margin hidden lg:block" as="div">
             <div className="relative aspect-4/5 w-full max-w-[15rem] overflow-hidden border border-rule bg-paper-sunk">
               <Image
                 src="/portrait.jpg"
@@ -79,11 +79,6 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 className="object-cover object-[center_18%]"
               />
             </div>
-            <p className="mt-4 font-mono text-2xs leading-relaxed text-muted">
-              {SITE.name}
-              <br />
-              {SITE.nameZh}
-            </p>
           </Reveal>
 
           <div className="col-body">
@@ -105,8 +100,8 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             ))}
 
             <div className="mt-10 rule-tick pt-5">
-              <p className="text-sm text-muted text-pretty">{ROLE_LINE[locale]}</p>
-              <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-1.5">
+              <p className="label">{UI.interests[locale]}</p>
+              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5">
                 {RESEARCH_INTERESTS.map((interest) => (
                   <li key={interest.en} className="text-sm text-ink-soft">
                     {interest[locale]}
@@ -132,22 +127,6 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           </div>
         </Reveal>
       ))}
-
-      <Reveal as="section" className="canvas field py-10">
-        <div className="col-margin">
-          <p className="label">{UI.currently[locale]}</p>
-        </div>
-        <div className="col-body">
-          <ul className="space-y-3 border-t border-rule pt-5">
-            {CURRENTLY[locale].map((item, i) => (
-              <li key={i} className="flex gap-3.5 text-base leading-relaxed text-ink-soft">
-                <span aria-hidden="true" className="mt-3 h-px w-5 shrink-0 bg-accent" />
-                <span className="max-w-2xl measure-display text-pretty">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Reveal>
 
       {/* ------------------------------------------------------------------
           Teaching and communication. Kept deliberately separate from the case
