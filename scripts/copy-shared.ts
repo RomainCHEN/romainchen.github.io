@@ -113,7 +113,7 @@ export function parseCopy(markdown: string): Map<string, { en?: Value; zh?: Valu
   while (i < lines.length) {
     const file = INLINE_FILE.exec(lines[i]);
     if (file) inlineFile = file[1];
-    if (/^## /.test(lines[i])) inlineFile = null;
+    if (/^#{1,2} /.test(lines[i])) inlineFile = null;
     const head = HEAD.exec(lines[i]);
     if (!head) {
       i += 1;
@@ -122,11 +122,9 @@ export function parseCopy(markdown: string): Map<string, { en?: Value; zh?: Valu
     const key = head[1] ?? `${inlineFile}:${head[2]}`;
     i += 1;
     const body: string[] = [];
-    while (
-      i < lines.length &&
-      !HEAD.test(lines[i]) &&
-      !/^##+ /.test(lines[i])
-    ) {
+    // Any heading ends an entry, including a level-one title: files edited
+    // in parts are often concatenated, and each part brings its own title.
+    while (i < lines.length && !HEAD.test(lines[i]) && !/^#{1,3} /.test(lines[i])) {
       body.push(lines[i]);
       i += 1;
     }
