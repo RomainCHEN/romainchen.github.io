@@ -116,7 +116,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'The interview comes before generation, and both run locally. The questions ask for one specific afternoon in a car, not an opinion on music. The form takes chart uploads and clipboard paste, so Writing Task 1 material goes through the same pipeline. Answers are saved as JSON, so a topic never has to be covered twice.',
-        zh: '先访谈，后生成，两步都在本机运行。表单问的是车里那个具体的下午，而不是对音乐的泛泛看法。它也支持上传图表和粘贴剪贴板内容，写作 Task 1 的材料走的是同一条流程。回答保存为 JSON，同一个话题不用再访谈一次。',
+        zh: '访谈和生成都在本机运行。表单问的是车里那个具体的下午，而不是对音乐的泛泛看法。它也支持上传图表和粘贴剪贴板内容，写作 Task 1 的材料走的是同一条流程。回答保存为 JSON，同一个话题不用再访谈一次。',
       },
     },
     {
@@ -158,7 +158,7 @@ export const ieltsCoach: Project = {
           'When a new season arrives, a validating build script reparses the PDF and refuses to write if any section\'s count disagrees with the count printed in the source, so a silent parser error cannot corrupt the bank. A migration step then carries prepared topics over. A bank that cannot be updated goes stale the moment the exam board rotates its topics.',
         ],
         zh: [
-          '内容只有和眼下的考题对得上才有用。现在用的是 2026 年 9 至 12 月这一季的题库，截至 9 月 24 日，直接从当季的 PDF 解析而来，共 100 个口语话题，其中 88 个适用于内地考生。其中 48 个话题沿用自 5 至 8 月那一季，在上一季题库下做过的准备，这部分仍然有效。',
+          '内容只有和眼下的考题对得上才有用。现在用的是 2026 年 9 至 12 月这一季的题库，截至 9 月 24 日，直接从当季的 PDF 解析而来，共 100 个口语话题，其中 88 个适用于内地考生。有 48 个话题沿用自 5 至 8 月那一季，上一季做过的准备依然有效。',
           '换季时，带校验的构建脚本会重新解析 PDF。只要某一部分的话题数和 PDF 上标注的不一致，脚本就拒绝写入，解析时悄悄出的错不会混进题库。之后的迁移步骤再把已经准备过的话题接过来。题库如果不能更新，考试方一换题就过时了。',
         ],
       },

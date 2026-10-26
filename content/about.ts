@@ -3,7 +3,7 @@ import type { L, Paragraphs } from './types';
 export const ABOUT_LEDE: Paragraphs = {
   en: [
     'I study translation at one university and computer science at another.',
-    'AI arrived in force during my undergraduate years. The more I work with it and learn to use it well, the more I can make. The two disciplines let me look at it from both sides: the humanities for reading people, computer science for working inside the machine.',
+    'AI arrived in force during my undergraduate years. The more I work with it, and the better I learn to use it, the more I can make. The two disciplines let me look at it from both ends: the humanities for reading people, computer science for working inside the machine.',
   ],
   zh: [
     '我目前在两所大学攻读双学位，一边学翻译，一边学计算机科学。',
@@ -46,12 +46,12 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
     heading: { en: 'What I want to do next', zh: '研究方向' },
     body: {
       en: [
-        'My current work, and the work I want to pursue, is human-centred human–AI interaction: designing the interfaces and tools through which people work and learn with AI and agents, and studying the new ways of producing and learning that emerge from that collaboration. I care about what the model can do, and equally about what the person decides and learns along the way.',
+        'The work I do now, and want to keep doing, is human-centred human–AI interaction. I design the interfaces and tools people use to work and learn with AI and agents, and I study the new ways of working and learning that come out of that collaboration. I care about what the model can do. I care just as much about what the person decides and learns along the way.',
         'This work needs tools that are built well and designs that are tested properly. I have experience with the first. The second is what I want graduate training for: measurement, experimental design, and the analysis of learning data at a scale where the statistics mean something.',
       ],
       zh: [
         '我目前在做、未来也希望深耕的方向，是以人为本的人机交互：设计供人与 AI 及 agent 协同工作和学习的界面与工具，并探究这种协作催生了哪些新的生产与学习方式。我关心模型能做到什么，也同样关心人在协作过程中做出了哪些判断、收获了什么成长。',
-        '这类研究既要求工具本身工程扎实，又要求实验设计经得起推敲。前者我已经有不少实战积累。后者正是我希望在研究生阶段系统深造的，包括科学测量、实验设计，以及真正具有统计意义的规模化学习数据分析。',
+        '这类研究既要求工具本身工程扎实，又要求实验设计经得起推敲。前者我已经有不少实战积累。后者正是我希望在研究生阶段系统深造的，包括测量方法、实验设计，以及真正具有统计意义的规模化学习数据分析。',
       ],
     },
   },
@@ -59,13 +59,13 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
 
 export const CURRENTLY: L<string[]> = {
   en: [
-    'PaperCraft is complete: the final report was submitted in October 2026, after a pilot with two teachers, and is written up as an IEEE-format manuscript.',
+    'PaperCraft is complete. After a pilot with two teachers, the final report went in in October 2026, and the work is written up as an IEEE-format manuscript.',
     'Starting my translation thesis at GDUFS. The topic is not settled yet; the working direction is how multimodal co-text, such as posters and synopses, changes a model\'s handling of film titles.',
     'Coding the film title corpus against the three-tier scheme.',
     'Reading on evidence-centred design and item response theory.',
   ],
   zh: [
-    'PaperCraft 已于 2026 年 10 月结题：完成了两位教师参与的试点测试，已提交结题报告，并整理成一篇 IEEE 格式的论文手稿。',
+    'PaperCraft 已于 2026 年 10 月结题：完成了两位教师参与的试点，已提交结题报告，并整理成一篇 IEEE 格式的论文稿。',
     '广外的翻译学毕业论文刚刚起步，具体选题尚未最终敲定，初步打算研究海报、剧情简介等多模态伴随文本会如何影响大模型翻译电影片名。',
     '对照三层分类方案，对电影片名语料库进行编码标注。',
     '研读以证据为中心的设计（ECD）与项目反应理论（IRT）相关文献。',

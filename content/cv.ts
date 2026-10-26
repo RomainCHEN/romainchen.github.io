@@ -96,7 +96,7 @@ export const RESEARCH: CvSection = {
       when: { en: 'May to Oct 2026', zh: '2026.05 至 2026.10' },
       title: {
         en: 'PaperCraft: a teacher-in-the-loop LLM authoring tool for Cambridge KET/PET',
-        zh: 'PaperCraft：剑桥 KET / PET 教师在环智能出题系统',
+        zh: 'PaperCraft：剑桥 KET / PET 人工在环智能出题系统',
       },
       org: {
         en: 'Final year project · sole developer and research design · completed',

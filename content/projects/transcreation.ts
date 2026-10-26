@@ -92,7 +92,7 @@ export const transcreation: Project = {
         ],
         zh: [
           '常用的机器翻译指标在这里不管用。BLEU 和 ROUGE 衡量的是译文和参考译文的重合程度，而好片名往往恰恰要偏离参考。《Ghost》在中文市场叫《人鬼情未了》，拿任何字面参考来比，它的分数都很低，可它偏偏是对的。',
-          '所以这项研究衡量的是**操作**本身：先分清译者做了哪一类操作，再看这类操作是否契合眼前的文化差距。',
+          '所以这项研究衡量的是**操作**本身：译者做了哪一类操作，这类操作是否契合眼前的文化差距。',
         ],
       },
       note: {
@@ -175,7 +175,7 @@ export const transcreation: Project = {
           machine: 'Rivers and Lakes',
           reading: {
             en: 'The 江湖 schema, a roving world with its own code of loyalty and violence, does not exist in English. There is no source domain to map onto. The human translator gave up the literal level entirely, worked out what the film is actually about, and built a new image that could carry it. The literal output fails in a different way: "Rivers and Lakes" activates a geographical schema and turns a dense cultural sign into an empty one. This is the widest human-machine gap in the corpus.',
-            zh: '「江湖」指一个自有忠义和暴力法则的流动世界，英语里没有对应的图式，也就没有源域可以映射。译者完全放弃了字面，先弄清影片真正讲的是什么，再另造一个能承载它的意象。直译的失败方式不同：Rivers and Lakes 唤起的是地理图式，一个意义丰富的文化符号就此变得空洞。这是整个语料中人机差距最大的一类。',
+            zh: '「江湖」指一个自有忠义和暴力法则的流动世界，英语里没有对应的图式，也就没有源域可以映射。译者完全放弃了字面，抓住影片真正要讲的东西，另造一个能承载它的意象。直译的失败方式不同：Rivers and Lakes 唤起的是地理图式，一个意义丰富的文化符号就此变得空洞。这是整个语料中人机差距最大的一类。',
           },
         },
         {

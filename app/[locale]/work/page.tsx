@@ -13,12 +13,12 @@ export function generateStaticParams() {
 
 const INTRO: L<string[]> = {
   en: [
-    'In the age of AI, almost anyone can produce a usable artefact. The question these three projects pursue is what a person still adds: what the human contributes to the machine, what is lost if that contribution goes, and why I keep finding that a person and a machine together are worth more than either alone.',
-    "One answers it from the teacher's side with edit distances, one from the translator's side with cultural schemas, one from the learner's side by listening before it generates. Each page states plainly what has been built, what has been measured, and what has not.",
+    'In the age of AI, almost anyone can make something that works. These three projects ask what a person still adds: what the human gives the machine, and what is lost when that contribution goes. The more of this work I do, the more I find that a person and a machine together beat either alone.',
+    "Each answers from a different side. The teacher's, measured in edit distance. The translator's, measured in cultural schemas. The learner's, in a tool that listens before it writes. Every page says what has been built, what has been measured, and what has not.",
   ],
   zh: [
-    'AI 时代，几乎人人都能做出看得过去的产品。这三个项目旨在探索人在其中还能发挥什么作用，人对机器的贡献还能到什么程度，这份贡献一旦消失又会怎样。我始终相信，人和机器的协作能发挥出 1+1>2 的效果。',
-    '第一个从教师的角度入手，用编辑距离衡量批改的改动量；第二个从译者的角度入手，追踪文化图式发生了哪些改动；第三个从学习者的角度入手，让系统先听完再动笔。做了什么、测了什么、哪些还没测，三页都如实写明。',
+    '在 AI 时代，几乎人人都能做出一个能用的东西。这三个项目追问的是，人在其中还能贡献什么：人给机器补上了什么，这份贡献一旦缺席会丢掉什么。做得越多，我越相信人和机器合作的结果，胜过任何一方单干。',
+    '三个项目从三个角度回答这个问题：教师的角度，用编辑距离衡量；译者的角度，用文化图式衡量；学习者的角度，系统动笔之前会先听学习者讲。每一页都写明了哪些已经建成、哪些已经测过、哪些还没有测。',
   ],
 };
 
