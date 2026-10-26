@@ -297,9 +297,9 @@ export const WRITING_MEDIA: CvSection = {
       title: { en: 'Contracted author, sspai Matrix', zh: '少数派 Matrix 签约作者' },
       points: {
         en: [
-          'Long-form technology and digital-practice essays on a leading Chinese technology platform; four pieces, more than 181,000 cumulative reads.',
+          'Technology and digital-practice articles on a leading Chinese technology platform; four pieces, more than 181,000 cumulative reads.',
         ],
-        zh: ['在国内知名科技媒体少数派发表四篇技术与数字生活深度长文，累计阅读量超 18.1 万。'],
+        zh: ['在国内知名科技媒体少数派发表四篇技术与数字生活类文章，累计阅读量超 18.1 万。'],
       },
     },
     {
