@@ -21,8 +21,8 @@ export const papercraft: Project = {
     zh: '面向剑桥 KET/PET 考试的人工在环 LLM 辅助出题 Agent',
   },
   blurb: {
-    en: "A teacher-in-the-loop authoring tool for Cambridge KET/PET exercises that keeps the teacher's corrections and turns the recurring ones into rules the teacher approves.",
-    zh: '面向剑桥 KET / PET 的智能出题工具。系统会记录教师对初稿的每一处修改，将反复出现的修改提炼成规则，经教师确认后用于后续出题。',
+    en: "An authoring tool for Cambridge KET and PET exercises. It keeps every correction a teacher makes, and turns the ones that recur into rules the teacher can accept.",
+    zh: '一个剑桥 KET / PET 出题工具。教师的每一处修改都会被记下来，反复出现的修改归纳成规则，教师同意后才用于以后的出题。',
   },
   period: { en: 'May to October 2026', zh: '2026 年 5 月至 10 月' },
   role: {

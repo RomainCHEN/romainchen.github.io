@@ -3,11 +3,11 @@ import type { L, Paragraphs } from './types';
 export const ABOUT_LEDE: Paragraphs = {
   en: [
     'I study translation at one university and computer science at another.',
-    'AI arrived in force during my undergraduate years. The more I work with it, and the better I learn to use it, the more I can make. The two disciplines let me look at it from both ends: the humanities for reading people, computer science for working inside the machine.',
+    'AI arrived in force during my undergraduate years, and the more I learned to use it, the more I could build. The two degrees let me look at it from both ends. Translation trains me to read what people mean. Computer science lets me see what the machine is actually doing.',
   ],
   zh: [
-    '我目前在两所大学攻读双学位，一边学翻译，一边学计算机科学。',
-    '本科这几年恰逢 AI 浪潮席卷而来。越是深入使用、摸清它的脾性，我能动手做出来的东西就越多。一文一理的双重背景让我得以从两端审视这项技术：人文训练教我读懂人心，计算机科学则带我深入机器内部。',
+    '我在两所大学读双学位，一边学翻译，一边学计算机科学。',
+    '我读本科的这几年，正好赶上 AI 爆发，越会用它，能做成的事就越多。两个专业让我能从两头看这件事：翻译训练我读懂人想说什么，计算机让我看清机器实际在做什么。',
   ],
 };
 

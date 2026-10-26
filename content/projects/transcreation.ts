@@ -16,8 +16,8 @@ export const transcreation: Project = {
     zh: '评估生成式 AI 在影视片名译创中的表现与能力边界',
   },
   blurb: {
-    en: 'A corpus study of film title translation that uses cultural schema theory to locate which cognitive operations human translators perform and language models cannot.',
-    zh: '一项关于电影片名翻译的语料研究。它借助文化图式理论梳理译者的认知操作，看其中哪些大模型做得到，哪些做不到。',
+    en: 'A corpus study of how film titles are translated. Cultural schema theory sorts what a translator does into operations, and the comparison asks which of them a language model can do.',
+    zh: '一项电影片名翻译的语料研究。借助文化图式理论，把译者的处理拆成几类认知操作，再看其中哪些大模型做得到，哪些做不到。',
   },
   period: { en: 'Oct 2025 to present', zh: '2025 年 10 月至今' },
   role: {
