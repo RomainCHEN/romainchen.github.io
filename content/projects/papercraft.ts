@@ -17,7 +17,7 @@ export const papercraft: Project = {
   index: '01',
   title: 'PaperCraft',
   subtitle: {
-    en: 'A Cambridge exam authoring tool that learns from the teacher who uses it',
+    en: 'The model drafts, the teacher decides, and the decision is recorded',
     zh: '会向教师学习的剑桥英语出题系统',
   },
   blurb: {
@@ -734,7 +734,7 @@ export const papercraft: Project = {
           state: 'instrumented',
           detail: {
             en: 'Difficulty, discrimination and distractor analysis are implemented end to end and shown to the teacher, and wait on real class responses.',
-            zh: '难度、区分度与干扰项分析都已做好，教师在界面上就能看到，只差真实的班级作答数据。',
+            zh: '难度、区分度与干扰项分析已从数据到界面完整实现，并展示给教师，等待真实的班级作答数据。',
           },
         },
       ],

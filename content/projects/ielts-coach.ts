@@ -11,7 +11,7 @@ export const ieltsCoach: Project = {
   index: '03',
   title: 'IELTS Coach',
   subtitle: {
-    en: 'IELTS speaking and writing practice, built on the learner’s own stories',
+    en: 'An IELTS agent that interviews the learner before it writes a word',
     zh: '雅思口语和写作范文，素材取自学习者本人',
   },
   blurb: {
@@ -116,7 +116,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'Elicitation before generation, running locally. The questions ask for a specific afternoon in a car, not an opinion on music. The form supports chart upload and clipboard paste so Writing Task 1 material enters the same pipeline, and answers persist as JSON so a topic never has to be re-interviewed.',
-        zh: '表单和生成都在本机运行。这些问题问的是车里那个具体的下午，不是对音乐的笼统看法。表单支持上传图表、粘贴剪贴板，写作 Task 1 的材料经由同一条管线处理。答案以 JSON 存储，同一话题无需再次访谈。',
+        zh: '先采集、再生成，全程在本机运行。这些问题问的是车里那个具体的下午，而不是对音乐的笼统看法。表单支持上传图表、粘贴剪贴板，写作 Task 1 的材料经由同一条管线处理。答案以 JSON 存储，同一话题无需再次访谈。',
       },
     },
     {
