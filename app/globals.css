@@ -218,8 +218,17 @@
     grid-column: 1 / -1;
   }
 
-  /* Margin column: hidden on small screens, columns 1–3 on large. */
+  /* Margin column: columns 1–3 on large screens. Below that there is no
+     margin, so its content (section names, notes, a page's label) runs in the
+     flow above the body instead of disappearing. Anything that only makes
+     sense beside the text, such as the index's hover plate, opts out with
+     `hidden lg:block`. */
   .col-margin {
+    grid-column: 1 / -1;
+    margin-bottom: 1rem;
+  }
+
+  .col-margin:empty {
     display: none;
   }
 
@@ -242,6 +251,7 @@
     .col-margin {
       display: block;
       grid-column: 1 / 4;
+      margin-bottom: 0;
     }
   }
 
@@ -278,7 +288,12 @@
     background-color: var(--accent);
   }
 
-  /* Prose. Set in the display serif: this is a site for reading. */
+  /* Mono labels and dates are letterspaced for Latin capitals. Spacing pulls
+     Han characters and digit groups apart, so Chinese pages set them close. */
+  :lang(zh) .font-mono[class*='tracking-'] {
+    letter-spacing: 0.02em;
+  }
+
   /* Highlighted keywords: strong gets an accent underline wash,
      em gets the accent colour. Both are used sparingly in content to
      draw the eye to key claims and terms. */
@@ -298,12 +313,23 @@
     color: var(--accent-ink);
   }
 
+  /* Prose. Latin is set in the display serif: this is a site for reading.
+     Chinese running text is set in the interface sans (PingFang and its
+     peers): a screen Songti depends on which serif the reader's system
+     happens to have, and at paragraph length it reads worse than a good
+     Hei. Headings keep the serif, as Chinese print usually does. */
   .prose-body {
     font-family: var(--font-display);
     font-size: var(--text-lg);
     line-height: 1.72;
     color: var(--ink-soft);
     max-width: 40rem;
+  }
+
+  :lang(zh) .prose-body {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.85;
   }
 
   .prose-body > * + * {
@@ -682,7 +708,9 @@
     max-width: 46ch;
   }
 
-  /* Anything sticky in the margin column hangs from the masthead. */
+  /* Anything sticky in the margin column hangs from the masthead. The offset
+     is harmless on an element that is not sticky, so a heading that sticks
+     only from lg up can carry it unconditionally. */
   .under-masthead {
     top: calc(var(--masthead-h) + 3rem);
   }
@@ -699,11 +727,27 @@
     text-wrap: pretty;
   }
 
+  /* Chinese wraps more often per heading and has no ascenders to spare, so
+     the snug and tight leadings built for Latin titles crowd it. */
+  :lang(zh) .leading-snug {
+    line-height: 1.5;
+  }
+
+  :lang(zh) .leading-tight {
+    line-height: 1.38;
+  }
+
+  /* Small Chinese text is harder to read than small Latin text at the same
+     size: 14px Han is close to the floor. Chinese pages set it at 15px. */
+  :lang(zh) .text-sm {
+    font-size: 0.9375rem;
+  }
+
   /* Entrance animation, driven by IntersectionObserver in <Reveal>.
-     Deliberately small: 14px and 0.6s. Anything larger reads as a template. */
+     Deliberately small: 10px and 0.6s. Anything larger reads as a template. */
   .reveal {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(10px);
     transition:
       opacity 620ms var(--ease-out-soft),
       transform 620ms var(--ease-out-soft);
@@ -719,7 +763,7 @@
      direct child then follows 70ms after the one before. */
   .reveal-stagger > * {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
     transition:
       opacity 560ms var(--ease-out-soft),
       transform 560ms var(--ease-out-soft);

@@ -32,13 +32,11 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
     <>
       <header className="canvas pt-16 pb-10 sm:pt-24">
         <div className="field">
-          <div className="col-margin">
-            <p className="label" data-print="hide">
-              {UI.nav.cv[locale]}
-            </p>
+          <div className="col-margin" data-print="hide">
+            <p className="label">{UI.nav.cv[locale]}</p>
             {/* On paper this moves into the running footer, where it costs no
                 line of the single page it has to fit on. */}
-            <p className="mt-3 font-mono text-2xs leading-relaxed text-muted" data-print="hide">
+            <p className="mt-3 font-mono text-2xs leading-relaxed text-muted">
               {UI.lastUpdated[locale]} {CV_UPDATED_ON}
             </p>
           </div>
@@ -94,8 +92,8 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
 
       {CV_SECTIONS.map((section, i) => (
         <Reveal as="section" key={section.id} className="canvas field py-8" delay={i * 30}>
-          <div className="col-margin">
-            <h2 className="sticky under-masthead label">{section.heading[locale]}</h2>
+          <div className="col-margin mb-3 lg:mb-0">
+            <h2 className="label under-masthead lg:sticky">{section.heading[locale]}</h2>
           </div>
           <div className="col-body border-t border-rule">
             {section.entries.map((entry) => (
@@ -136,8 +134,8 @@ export default async function CvPage({ params }: { params: Promise<{ locale: str
       ))}
 
       <Reveal as="section" className="canvas field py-8">
-        <div className="col-margin">
-          <h2 className="sticky under-masthead label">{SKILLS.heading[locale]}</h2>
+        <div className="col-margin mb-3 lg:mb-0">
+          <h2 className="label under-masthead lg:sticky">{SKILLS.heading[locale]}</h2>
         </div>
         <div className="col-body border-t border-rule pt-6">
           <dl data-skills className="grid gap-x-10 gap-y-6 sm:grid-cols-2">

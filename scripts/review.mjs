@@ -64,7 +64,6 @@ const SHOTS = [
   ['about', '/en/about/', null, 'light', 1280],
   ['zh-home', '/zh/', null, 'light', 1280],
   ['zh-case', '/zh/work/papercraft/', 'h2', 'light', 1280],
-  ['note', '/en/notes/two-hours/', null, 'light', 1280],
 ];
 
 await mkdir(OUT, { recursive: true });

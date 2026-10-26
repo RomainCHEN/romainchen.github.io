@@ -3,7 +3,6 @@ import { Masthead } from '@/components/Masthead';
 import { Footer } from '@/components/Footer';
 import { UI } from '@/content/site';
 import { asLocale, isLocale, localeParams, HTML_LANG } from '@/lib/locale';
-import { hasNotes } from '@/lib/notes';
 
 export function generateStaticParams() {
   return localeParams();
@@ -19,7 +18,6 @@ export default async function LocaleLayout({
   const { locale: raw } = await params;
   if (!isLocale(raw)) notFound();
   const locale = asLocale(raw);
-  const notes = hasNotes();
 
   return (
     // The <html> lang attribute is set on the root; this mirrors it onto the
@@ -31,7 +29,7 @@ export default async function LocaleLayout({
       >
         {UI.skipToContent[locale]}
       </a>
-      <Masthead locale={locale} hasNotes={notes} />
+      <Masthead locale={locale} />
       <main id="main">{children}</main>
       <Footer locale={locale} />
     </div>

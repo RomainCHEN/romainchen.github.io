@@ -51,7 +51,7 @@ export function WorkIndex({ locale, projects }: { locale: Locale; projects: Proj
 
   return (
     <div className="field">
-      <aside className="col-margin sticky under-masthead self-start" aria-hidden="true">
+      <aside className="col-margin sticky under-masthead hidden self-start lg:block" aria-hidden="true">
         {/* A plate rather than a box: the picture sits on the paper with a
             hairline frame inset over it, so an image with its own dark ground
             and one with a white ground both read as mounted the same way. */}
@@ -132,12 +132,12 @@ export function WorkIndex({ locale, projects }: { locale: Locale; projects: Proj
                   </div>
 
                   {project.hero ? (
-                    <div className="relative hidden h-20 w-28 shrink-0 overflow-hidden border border-rule bg-paper-sunk sm:block lg:hidden">
+                    <div className="relative h-16 w-20 shrink-0 overflow-hidden border border-rule bg-paper-sunk sm:h-20 sm:w-28 lg:hidden">
                       <Image
                         src={indexImage(project.hero).src}
                         alt=""
                         fill
-                        sizes="112px"
+                        sizes="(min-width: 640px) 112px, 80px"
                         className={indexImage(project.hero).className}
                       />
                     </div>

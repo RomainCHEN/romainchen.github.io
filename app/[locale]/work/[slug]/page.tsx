@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { CaseContents } from '@/components/CaseContents';
 import { ReadingProgress } from '@/components/ReadingProgress';
 import { Reveal } from '@/components/Reveal';
 import { SectionRenderer, sectionId } from '@/components/SectionRenderer';
@@ -13,6 +14,23 @@ import { asLocale } from '@/lib/locale';
 
 export function generateStaticParams() {
   return LOCALES.flatMap((locale) => projectSlugs().map((slug) => ({ locale, slug })));
+}
+
+function ContentsList({ contents }: { contents: { id: string | null; label: string }[] }) {
+  return (
+    <ol className="mt-3 space-y-2">
+      {contents.map((entry, i) => (
+        <li key={entry.id ?? i} className="flex gap-2.5 text-sm leading-snug">
+          <span className="font-mono text-2xs text-muted tnum">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <a href={`#${entry.id}`} className="link-draw text-muted hover:text-ink">
+            {entry.label}
+          </a>
+        </li>
+      ))}
+    </ol>
+  );
 }
 
 export async function generateMetadata({
@@ -66,7 +84,7 @@ export default async function CaseStudy({
          ------------------------------------------------------------------ */}
       <header className="canvas pt-14 pb-10 sm:pt-20">
         <div className="field">
-          <div className="col-margin">
+          <div className="col-margin mb-8 lg:mb-0">
             <Link
               href={path(locale, 'work')}
               className="link-draw font-mono text-2xs uppercase tracking-[0.14em] text-muted hover:text-ink"
@@ -175,30 +193,27 @@ export default async function CaseStudy({
       ) : null}
 
       {/* ------------------------------------------------------------------
-          At a glance + contents
+          At a glance, the body, and the contents beside both.
+
+          The contents column is laid over the whole run from the facts to the
+          last section, so `sticky` has the full article to travel in and the
+          list stays beside the text all the way down. Without a margin it
+          becomes a collapsed list after the facts, which a long case study
+          needs more on a phone than anywhere else.
          ------------------------------------------------------------------ */}
+      <div className="relative">
+        {contents.length > 0 ? (
+          <div className="canvas pointer-events-none absolute inset-x-0 top-0 bottom-0 hidden py-12 lg:block">
+            <div className="field h-full">
+              <div className="col-margin pointer-events-auto h-full">
+                <CaseContents entries={contents} label={UI.contents[locale]} />
+              </div>
+            </div>
+          </div>
+        ) : null}
+
       <section className="canvas py-12">
         <div className="field">
-          <div className="col-margin">
-            {contents.length > 0 ? (
-              <nav aria-label={UI.contents[locale]} className="sticky under-masthead">
-                <p className="label">{UI.contents[locale]}</p>
-                <ol className="mt-3 space-y-2">
-                  {contents.map((entry, i) => (
-                    <li key={entry.id ?? i} className="flex gap-2.5 text-sm leading-snug">
-                      <span className="font-mono text-2xs text-muted tnum">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <a href={`#${entry.id}`} className="link-draw text-muted hover:text-ink">
-                        {entry.label}
-                      </a>
-                    </li>
-                  ))}
-                </ol>
-              </nav>
-            ) : null}
-          </div>
-
           <div className="col-body">
             <p className="label">{UI.facts[locale]}</p>
             {/* Cells keep their natural height. The contents list beside them is
@@ -215,6 +230,25 @@ export default async function CaseStudy({
                 </div>
               ))}
             </dl>
+
+            {contents.length > 2 ? (
+              <details className="group mt-8 border-y border-rule lg:hidden">
+                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 [&::-webkit-details-marker]:hidden">
+                  <span className="label">
+                    {UI.contents[locale]} · {contents.length}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="font-mono text-sm text-muted transition-transform duration-200 group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <nav aria-label={UI.contents[locale]} className="pb-5">
+                  <ContentsList contents={contents} />
+                </nav>
+              </details>
+            ) : null}
           </div>
         </div>
       </section>
@@ -225,6 +259,7 @@ export default async function CaseStudy({
       {project.sections.map((section, i) => (
         <SectionRenderer key={i} section={section} index={i} locale={locale} />
       ))}
+      </div>
 
       {/* ------------------------------------------------------------------
           Neighbours

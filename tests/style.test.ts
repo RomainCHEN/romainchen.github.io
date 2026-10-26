@@ -1,6 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import fs from 'node:fs';
-import path from 'node:path';
 import { PROJECTS } from '@/content/projects';
 import { CV_SECTIONS, SKILLS, WRITING_MEDIA } from '@/content/cv';
 import { ABOUT_BODY, ABOUT_LEDE, CURRENTLY } from '@/content/about';
@@ -53,11 +51,6 @@ const SOURCES: [string, unknown][] = [
 
 const ALL = SOURCES.flatMap(([name, value]) => walk(value, name));
 
-const NOTES_DIR = path.join(process.cwd(), 'content', 'notes');
-const NOTE_FILES = fs.existsSync(NOTES_DIR)
-  ? fs.readdirSync(NOTES_DIR).filter((f) => f.endsWith('.md'))
-  : [];
-
 describe('house style', () => {
   it('has strings to check', () => {
     expect(ALL.length).toBeGreaterThan(200);
@@ -65,13 +58,6 @@ describe('house style', () => {
 
   it('uses no em dash anywhere in content', () => {
     const offenders = ALL.filter((s) => s.text.includes('\u2014')).map((s) => s.trail);
-    expect(offenders).toEqual([]);
-  });
-
-  it('uses no em dash in the notes', () => {
-    const offenders = NOTE_FILES.filter((file) =>
-      fs.readFileSync(path.join(NOTES_DIR, file), 'utf8').includes('\u2014'),
-    );
     expect(offenders).toEqual([]);
   });
 

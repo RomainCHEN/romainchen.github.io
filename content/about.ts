@@ -3,11 +3,11 @@ import type { L, Paragraphs } from './types';
 export const ABOUT_LEDE: Paragraphs = {
   en: [
     'I study translation at one university and computer science at another.',
-    'AI broke out during my undergraduate years, and working with it, and using it well, keeps letting me create more than before. The two disciplines gave me an unusually wide vantage: enough of the humanities to read people, enough of computer science to work inside the machine.',
+    'AI arrived in force during my undergraduate years, and the more I learned to use it, the more I could build. The two degrees let me look at it from both ends. Translation trains me to read what people mean. Computer science lets me see what the machine is actually doing.',
   ],
   zh: [
-    '我在两所大学分别修读翻译和计算机科学。',
-    '我读本科的这几年，正赶上 AI 爆发。越是上手使用、越是研究如何用好，我能做成的事情就越多。文理两个专业给了我不太常见的视角：人文让我读得懂人，计算机让我进入机器内部。',
+    '我在两所大学读双学位，一边学翻译，一边学计算机科学。',
+    '我读本科的这几年，正好赶上 AI 爆发，越会用它，能做成的事就越多。两个专业让我能从两头看这件事：翻译训练我读懂人想说什么，计算机让我看清机器实际在做什么。',
   ],
 };
 
@@ -17,13 +17,13 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
     body: {
       en: [
         "In 2024 I was taking data structures and translation theory while teaching Cambridge KET to two small classes of primary students. Preparing a week's practice meant finding past papers, adapting items and assembling them into a set at the right level, and it took hours every week. Even then the difficulty was hard to pitch, past papers ran out, and the available topics rarely held a child's interest.",
-        'Most teachers know these problems. The question I kept returning to was a different one: *which decisions in that process had to be mine*, and which a model could make. That question is measurable and rarely measured, so I built a tool to record the answer.',
-        'The same question was waiting for me in translation. My programme trains us in a craft that machine translation is supposed to have solved, and the usual defence, that human translators are more "sensitive", comes without an instrument. Working on film titles gave me one. Classify what the translator did to the cultural schema, and the difference between a professional judgement and a default rendering can be checked against evidence.',
+        'Most teachers know these problems. The question I kept returning to was *which decisions in that process had to be mine*, and which a model could make. It can be measured, and seldom is, so I built a tool that records the answer.',
+        'I met the same question in translation. My programme trains us in a craft that machine translation is supposed to have solved, and the usual reply, that human translators are more "sensitive", offers no way to measure it. Film titles gave me one. Once each title is classified by what the translator did to its cultural schema, a professional judgement and a default rendering can be told apart on the evidence.',
       ],
       zh: [
-        '2024 年，我一边修读数据结构和翻译理论，一边给两个剑桥 KET 小班上课。备课相当繁琐，每周都要找真题、改题目，再按难度组成一套练习。即便如此，难度仍不好把握，可用的真题有限，现成的话题也很难引起孩子的兴趣。',
-        '这些问题几乎每位老师都遇到过。我更在意的是另一件事：在这套备课流程里，**哪些判断必须由我来做**，哪些可以交给模型。这个问题可以测量，却很少有人认真去测，于是我动手做了工具，把答案记录下来。',
-        '在翻译研究里，我遇到的是同一个问题。外界认为机器翻译已能胜任这门专业的大部分工作，常见的回应是人工译者更有文化敏感度，但这种敏感度体现在哪里，一直缺少可以衡量的工具。电影片名研究提供了一种办法。把译者处理文化图式的方式逐一分类标注，哪些是专业判断，哪些只是沿用常规译法，就有了可以核查的依据。',
+        '2024 年，我一边上着数据结构和翻译理论课，一边带两个小学剑桥 KET 小班。每周备课都要花上几个小时：找真题、改题目，再拼成一套难度合适的练习。即便花这么多工夫，深浅依然很难拿捏，真题越用越少，现成的话题也很难吸引小学生的注意力。',
+        '这些痛点几乎每位老师都深有体会。但我一直在想：备课全流程里，**到底哪些判断非我不可**，哪些其实可以放手交给模型？这件事本可以量化，却很少有人真正去测，于是我自己写了一套工具来记录答案。',
+        '学翻译时我也撞上了同样的疑问。外界常觉得机器翻译已经取代了我们苦练的手艺，而业内习惯拿「人工译者更具文化敏感度」来反驳，却说不出怎么衡量这种敏感度。电影片名给了我一个切入点：只要按译者处理文化图式的方式逐一分类标注，哪些体现了专业判断、哪些只是套用常规译法，就能凭证据区分开来。',
       ],
     },
   },
@@ -31,14 +31,14 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
     heading: { en: 'What I bring', zh: '能力与积累' },
     body: {
       en: [
-        'Turning a vague construct into something that can be recorded. "Teacher effort", "cultural sensitivity" and "item quality" are widely used and rarely defined. Much of my work is deciding what would count as evidence, then building the instrument that captures it.',
-        'Building a research instrument end to end on my own: authentication, database design, LLM routing with typed repair, Word and PDF export, deployment. An instrument has to be usable before it can collect data, so I treat the engineering as part of the research. This summer I applied the same skills at a listed manufacturer, deploying quantised models on its internal network.',
-        'Six years of writing for a general readership: technology essays read by six-figure audiences, etymology pieces, alumni features and a short film. It trained me to support an argument with evidence, and to explain technical ideas to readers outside the field.',
+        'I am good at turning a vague construct into something that can be recorded. "Teacher effort", "cultural sensitivity" and "item quality" are widely used and rarely defined. Much of my work is deciding what would count as evidence, then building the instrument that captures it.',
+        'I can build a research instrument end to end on my own: authentication, database design, LLM routing with typed repair, Word and PDF export, deployment. An instrument has to be usable before it can collect data, so I treat the engineering as part of the research. This summer I used the same skills at a listed manufacturer, deploying quantised models on its internal network.',
+        'I have also written for a general readership for six years: technology essays with six-figure readerships, etymology pieces, alumni features and a short film. That work taught me to back an argument with evidence, and to explain technical ideas to readers outside the field.',
       ],
       zh: [
-        '我擅长把模糊的概念转化为可以记录的数据。教师投入、文化敏感度、题目质量，这些词人人都在用，却很少有人明确定义。我的大部分工作，是先界定什么可以算作证据，再设计并搭建采集这些证据的工具。',
-        '我能独立完成研究工具从设计到上线的全部工程，包括身份认证、数据库设计、带类型修复的模型调用路由、Word 与 PDF 导出和部署。研究工具只有真正可用，才能采集到数据，所以我把工程实现视为研究的一部分。今年夏天，我在一家上市制造企业实习，在内网环境部署量化大模型。',
-        '我还有六年面向公众写作的经历，写过阅读量逾十万的科技长文、词源随笔和校友专访，也拍过一部短片。这段经历让我习惯用证据支撑论点，也习惯把专业问题讲给领域之外的读者听。',
+        '我擅长把模糊的学术概念转化为可记录的具体指标。「教师投入」「文化敏感度」「题目质量」这类词人人挂在嘴边，却很少有人界定清楚。我的核心工作，就是先厘清什么才算有效的证据，再亲手搭建工具把它采集下来。',
+        '我能独立完成研究工具从底层到上线的全栈开发，涵盖身份认证、数据库设计、带类型修复的大模型路由、Word 与 PDF 导出以及部署上线。工具必须先做到好用，才谈得上收集真实数据，因此我一直把工程实现视作研究本身的一部分。今年夏天，我也把这套技术带到一家上市制造企业，在其内网部署了量化大模型。',
+        '我还面向大众读者写了六年文章，写过阅读量破十万的科技文章、英语词源随笔、校友人物特稿，也拍过一部短片。这些经历让我养成了拿证据说话的习惯，也学会了怎么把硬核的专业问题讲给外行听。',
       ],
     },
   },
@@ -46,12 +46,12 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
     heading: { en: 'What I want to do next', zh: '研究方向' },
     body: {
       en: [
-        'My current work, and the work I want to pursue, is human-centred human–AI interaction: designing the interfaces and tools through which people work and learn with AI and agents, and studying the new ways of producing and learning that emerge from that collaboration. I care about what the model can do, and equally about what the person decides and learns along the way.',
+        'The work I do now, and want to keep doing, is human-centred human–AI interaction. I design the interfaces and tools people use to work and learn with AI and agents, and I study the new ways of working and learning that come out of that collaboration. I care about what the model can do. I care just as much about what the person decides and learns along the way.',
         'This work needs tools that are built well and designs that are tested properly. I have experience with the first. The second is what I want graduate training for: measurement, experimental design, and the analysis of learning data at a scale where the statistics mean something.',
       ],
       zh: [
-        '我现在做、将来也想继续做的，是以人为中心的人机交互研究。一方面设计人与 AI、与 agent 协作时用的界面和工具，一方面观察人在这种协作里怎样形成新的做事方式和学习方式。模型能做什么我关心，人在其中做了哪些判断、学到了什么，我同样关心。',
-        '这类研究既需要把工具做好，也需要用严谨的方法检验设计是否有效。前一部分我已有一定积累，后一部分正是我希望在研究生阶段系统学习的内容，包括测量方法、实验设计，以及如何在较大样本上分析学习数据。',
+        '我目前在做、未来也希望深耕的方向，是以人为本的人机交互：设计供人与 AI 及 agent 协同工作和学习的界面与工具，并探究这种协作催生了哪些新的生产与学习方式。我关心模型能做到什么，也同样关心人在协作过程中做出了哪些判断、收获了什么成长。',
+        '这类研究既要求工具本身工程扎实，又要求实验设计经得起推敲。前者我已经有不少实战积累。后者正是我希望在研究生阶段系统深造的，包括测量方法、实验设计，以及真正具有统计意义的规模化学习数据分析。',
       ],
     },
   },
@@ -59,15 +59,15 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
 
 export const CURRENTLY: L<string[]> = {
   en: [
-    'PaperCraft is complete: the final report was finished in October 2026, after a pilot with two teachers.',
-    'Interning on the IT team at Guangdong Dowstone, working on on-premise LLM deployment and a document-retrieval knowledge base.',
+    'PaperCraft is complete. After a pilot with two teachers, the final report went in in October 2026, and the work is written up as an IEEE-format manuscript.',
+    'Starting my translation thesis at GDUFS. The topic is not settled yet; the working direction is how multimodal co-text, such as posters and synopses, changes a model\'s handling of film titles.',
     'Coding the film title corpus against the three-tier scheme.',
     'Reading on evidence-centred design and item response theory.',
   ],
   zh: [
-    'PaperCraft 已完成，2 位教师参与试点后，结题报告于 2026 年 10 月定稿。',
-    '在广东道氏技术 IT 部实习，负责本地大模型部署，并用内部文档搭建检索增强（RAG）知识库。',
-    '按三层标注方案编码电影片名语料。',
-    '研读以证据为中心的设计（ECD）与项目反应理论（IRT）的相关文献。',
+    'PaperCraft 已于 2026 年 10 月结题：完成了两位教师参与的试点，已提交结题报告，并整理成一篇 IEEE 格式的论文稿。',
+    '广外的翻译学毕业论文刚刚起步，具体选题尚未最终敲定，初步打算研究海报、剧情简介等多模态伴随文本会如何影响大模型翻译电影片名。',
+    '对照三层分类方案，对电影片名语料库进行编码标注。',
+    '研读以证据为中心的设计（ECD）与项目反应理论（IRT）相关文献。',
   ],
 };

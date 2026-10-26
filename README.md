@@ -1,7 +1,7 @@
 # romain.is-a.dev
 
-Personal academic site of Zeming (Romain) Chen, case studies, CV, and notes,
-in English and Chinese. Static Next.js build deployed to GitHub Pages.
+Personal academic site of Zeming (Romain) Chen: case studies and a CV, in
+English and Chinese. Static Next.js build deployed to GitHub Pages.
 
 ## Running it
 
@@ -39,8 +39,6 @@ content/
 │   ├── papercraft.ts
 │   ├── transcreation.ts
 │   └── ielts-coach.ts
-└── notes/
-    └── <slug>.<en|zh>.md Markdown notes, one file per language
 ```
 
 Every string is a `{ en, zh }` pair. `npm test` walks the whole content tree and
@@ -67,24 +65,6 @@ out, so content files stay free of markup.
 `tests/content.test.ts` pins the current state of several claims. If an edit
 upgrades one, say, marking the teacher pilot as `shipped`, the test fails. That is
 deliberate: overclaiming should require a conscious decision, not a typo.
-
-### Adding a note
-
-Create `content/notes/my-slug.en.md` and `content/notes/my-slug.zh.md` with
-front matter:
-
-```yaml
----
-title: 'Title'
-date: '2026-08-01'
-summary: 'One or two sentences.'
----
-```
-
-The Notes link appears in the navigation only when at least one note exists.
-Note that a static export cannot prerender `notes/[slug]` with zero notes, so if
-you delete every note you must also delete `app/[locale]/notes/`. `npm test`
-says so explicitly if it happens.
 
 ## Design notes
 

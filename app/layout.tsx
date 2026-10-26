@@ -62,6 +62,10 @@ export const metadata: Metadata = {
  * Applied before first paint so a dark-mode visitor never sees a white flash.
  * Explicit user choice wins over the OS preference; absent a choice we follow
  * the OS and keep following it if it changes mid-session.
+ *
+ * It also sets the document language. The root layout sits above the [locale]
+ * segment and never learns which locale it is rendering, so the server markup
+ * carries `lang` only on the locale wrapper; the path settles it for <html>.
  */
 const themeScript = `(function(){try{
 var s=localStorage.getItem('theme');
@@ -69,6 +73,7 @@ var d=window.matchMedia('(prefers-color-scheme: dark)');
 var on=s==='dark'||(!s&&d.matches);
 document.documentElement.classList.toggle('dark',on);
 document.documentElement.style.colorScheme=on?'dark':'light';
+document.documentElement.lang=location.pathname.indexOf('/zh/')===0?'zh-Hans':'en';
 if(!s&&d.addEventListener)d.addEventListener('change',function(e){
 document.documentElement.classList.toggle('dark',e.matches);
 document.documentElement.style.colorScheme=e.matches?'dark':'light';});
@@ -76,7 +81,14 @@ document.documentElement.style.colorScheme=e.matches?'dark':'light';});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html suppressHydrationWarning>
+    // The font variables live on <html> because globals.css resolves
+    // --font-display, --font-sans and --font-mono at :root. Declared on <body>
+    // they arrive one level too late, every stack built from them is invalid,
+    // and the page silently falls back to the system font.
+    <html
+      suppressHydrationWarning
+      className={`${newsreader.variable} ${instrumentSans.variable} ${plexMono.variable}`}
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* Without JavaScript the IntersectionObserver never runs, so make sure
@@ -92,11 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         ) : null}
       </head>
-      <body
-        className={`${newsreader.variable} ${instrumentSans.variable} ${plexMono.variable}`}
-      >
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
