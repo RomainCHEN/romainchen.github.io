@@ -123,7 +123,7 @@ export const papercraft: Project = {
           value: '31 → 17',
           unit: { en: 'of 84', zh: '/ 84' },
           label: { en: 'questions giving the answer away by length, rule in the prompt and as a code check', zh: '道题能凭选项长短猜出答案（写进 prompt → 改成代码检查）' },
-          note: { en: 'at 2.8 times the model calls', zh: '模型调用次数为原来的 2.8 倍' },
+          note: { en: 'at 2.65 times the model calls', zh: '模型调用次数为原来的 2.65 倍' },
         },
       ],
     },
@@ -350,12 +350,14 @@ export const papercraft: Project = {
         en: [
           'Whether accepted rules reduce a practising teacher\'s correcting over time needs several sessions per teacher, and the pilot had one per part. So the mechanism was tested offline with simulated teachers, each played by a model the product never uses and each holding one standard that code can count.',
           'For a standard the model can meet while writing, such as at least two grammar-word answers among six, the loop closed. With the rule accepted, the simulated teacher corrected none of 32 later drafts, against 30 of 31 when the rule was refused.',
-          'For a standard that only holds across a set of options, such as the answer never being the longest option, the rule reached every prompt and changed nothing. A model writes one option at a time and cannot see the set. The same rule as a blocking check in code cut the cue from 31 to 17 of 84 questions, at 2.8 times the model calls. The product ships it as a warning.',
+          'For a standard that only holds across a set of options, such as the answer never being the longest option, the rule reached every prompt and changed nothing. A model writes one option at a time and cannot see the set. The same rule as a blocking check in code cut the cue from 31 to 17 of 84 questions, at 2.65 times the model calls.',
+          'Put back inside the loop, the check halved what the simulated teacher had to do, from 3.0 edits per draft to 1.5. It did not remove the need: drafts still needing correction fell only from 30 of 32 to 25 of 32, not a significant change. Code can verify a set-level standard but cannot write the longer distractor for it. The product ships the check as a warning.',
         ],
         zh: [
           '已采纳的规则能不能让一线教师的修改量随时间减少，需要每位教师在同一题型上使用多轮，而试点中每个题型只有一轮。所以机制本身改用模拟教师离线测试：每位模拟教师由一个产品从未用过的模型扮演，各自持有一条可以用代码计数的标准。',
           '如果标准是模型写作时就能满足的，比如六个答案里至少两个是功能词，闭环就成立。采纳规则之后，模拟教师在后续 32 份初稿里一份都不用改；拒绝规则时，31 份里有 30 份要改。',
-          '如果标准只能看整组选项才能判断，比如正确答案不能是最长的选项，规则进入了每一份 prompt，结果毫无变化，因为模型是一个选项一个选项地写，看不到整组。把同一条规则改成代码里的阻断检查后，能凭长度猜出答案的题从 84 道中的 31 道降到 17 道，模型调用次数是原来的 2.8 倍。产品中以告警的形式提供。',
+          '如果标准只能看整组选项才能判断，比如正确答案不能是最长的选项，规则进入了每一份 prompt，结果毫无变化，因为模型是一个选项一个选项地写，看不到整组。把同一条规则改成代码里的阻断检查后，能凭长度猜出答案的题从 84 道中的 31 道降到 17 道，模型调用次数是原来的 2.65 倍。',
+          '把这道检查放回闭环里，模拟教师要做的修改减少了一半，每份初稿从 3.0 处降到 1.5 处。但需要修改的初稿只从 32 份中的 30 份降到 25 份，差异并不显著。代码能核实一条针对整组选项的标准，却写不出那个更长的干扰项。产品中以告警的形式提供这道检查。',
         ],
       },
     },
@@ -365,11 +367,11 @@ export const papercraft: Project = {
       body: {
         en: [
           'Two practising teachers piloted the system in October 2026, each working alone from a study form: correct four drafts, ask once for rules, generate two more. Most corrections replaced a distractor, and in all three sessions the notes named items with more than one defensible answer. Each teacher accepted all four rules offered. Two came from written notes, not edits: six of one teacher\'s seven notes said five of the six gaps tested verbs.',
-          'The one usable answer about control was negative. Teacher A wrote that they had no say in which observations became rules, how the rules were worded, or which won when two conflicted. Accepting or refusing a finished rule did not feel like control. Teachers can now reword a proposal first; ranking conflicting rules is the next piece of work. The pilot also exposed three faults the checks had missed, and each now has a check.',
+          'The one usable answer about control was negative. Teacher A wrote that they had no say in which observations became rules, how the rules were worded, or which won when two conflicted. Accepting or refusing a finished rule did not feel like control. Teachers can now reword and rank their rules, and each draft lists the summary of recent edits that reached its prompt, with a switch to turn it off. The pilot also exposed three faults the checks had missed, and each now has a check.',
         ],
         zh: [
           '2026 年 10 月，两位一线教师参加了试点。两人各自按研究表单独立操作：修改四份初稿，让系统归纳一次规则，然后再生成两份。修改大多是替换干扰项；三轮试点的书面记录都提到，有些题不止一个说得通的答案。系统给两位教师各提出四条规则，两人全部采纳。其中两条来自书面记录，不是来自修改。一位教师的七条记录里有六条提到，六个空里有五个考的是动词，系统据此归纳出「各空应覆盖不同词类」的规则。',
-          '关于掌控感，唯一可用的回答是负面的。教师 A 写道，哪些观察会变成规则、规则怎么措辞、两条规则冲突时以哪条为准，自己都没有发言权。面对一条已经写好的规则，只能采纳或拒绝，这算不上掌控。现在教师已经可以先改写建议的措辞再采纳；给冲突的规则排定先后，是下一步的工作。试点还暴露出三个检查漏掉的问题，其中一个是 prompt 要求模型绝不能写电子邮件，而手册规定的恰恰是邮件。这三个问题现在都有了对应的检查。',
+          '关于掌控感，唯一可用的回答是负面的。教师 A 写道，哪些观察会变成规则、规则怎么措辞、两条规则冲突时以哪条为准，自己都没有发言权。面对一条已经写好的规则，只能采纳或拒绝，这算不上掌控。现在教师可以改写规则、给规则排定先后；每份初稿也会列出进入 prompt 的近期修改摘要，教师可以把它关掉。试点还暴露出三个检查漏掉的问题，其中一个是 prompt 要求模型绝不能写电子邮件，而手册规定的恰恰是邮件。这三个问题现在都有了对应的检查。',
         ],
       },
     },
@@ -389,8 +391,8 @@ export const papercraft: Project = {
           label: { en: 'Authoring and practice, 15 item types, exports', zh: '出题与练习、15 种题型、导出功能' },
           state: 'shipped',
           detail: {
-            en: 'Deployed and used for classroom materials, with Word, PDF, PowerPoint and slide export. 360 of 373 logged generations passed the specification check first time, and 48 regression scripts run the shipped code on real inputs.',
-            zh: '已上线并用于制作课堂材料，可导出 Word、PDF、PowerPoint 和幻灯片。记录在案的 373 次生成中，360 次一次通过规格检查；48 个回归脚本用真实输入运行线上代码。',
+            en: 'Deployed and used for classroom materials, with Word, PDF, PowerPoint and slide export. 360 of 373 logged generations passed the specification check first time, and 54 regression scripts run the shipped code on real inputs.',
+            zh: '已上线并用于制作课堂材料，可导出 Word、PDF、PowerPoint 和幻灯片。记录在案的 373 次生成中，360 次一次通过规格检查；54 个回归脚本用真实输入运行线上代码。',
           },
         },
         {
@@ -421,16 +423,16 @@ export const papercraft: Project = {
           label: { en: 'Rule versus code check', zh: '规则与代码检查' },
           state: 'piloted',
           detail: {
-            en: 'With simulated teachers: a rule ended correction for a standard the model meets while writing, and did nothing for one that holds across a set of options. As a code check, that second standard\'s cue fell from 31 to 17 of 84 questions.',
-            zh: '用模拟教师测试：模型写作时就能满足的标准，规则一经采纳便不必再改；需要看整组选项才能判断的标准，规则毫无作用。后者改成代码检查后，线索从 84 道题中的 31 道降到 17 道。',
+            en: 'With simulated teachers: a rule ended correction for a standard the model meets while writing, and did nothing for one that holds across a set of options. As a code check, that second standard\'s cue fell from 31 to 17 of 84 questions; inside the loop it halved the teacher\'s edits but left 25 of 32 drafts to fix.',
+            zh: '用模拟教师测试：模型写作时就能满足的标准，规则一经采纳便不必再改；需要看整组选项才能判断的标准，规则毫无作用。后者改成代码检查后，线索从 84 道题中的 31 道降到 17 道；放回闭环里，教师的修改量减半，但 32 份初稿仍有 25 份要改。',
           },
         },
         {
           label: { en: 'Teacher intervention metric', zh: '教师干预度量' },
           state: 'instrumented',
           detail: {
-            en: 'The event log and frozen drafts record what the measure needs. Whether a teacher\'s correcting falls over time needs several sessions per teacher; the pilot had one per part.',
-            zh: '事件日志和冻结初稿已经记下了这项度量需要的数据。教师的修改量是否会随时间下降，需要每位教师使用多轮，而试点中每个题型只有一轮。',
+            en: 'The event log and frozen drafts record what the measure needs, and the product now carries the randomised comparison that would answer it. Whether a teacher\'s correcting falls needs several sessions per teacher; the pilot had one per part.',
+            zh: '事件日志和冻结初稿已经记下了这项度量需要的数据，产品里也已经内置了能回答这个问题的随机对照。教师的修改量是否会下降，需要每位教师使用多轮，而试点中每个题型只有一轮。',
           },
         },
         {
@@ -448,12 +450,12 @@ export const papercraft: Project = {
       heading: { en: 'What I would argue with', zh: '这个设计里我自己也会质疑的地方' },
       body: {
         en: [
-          'The vocabulary check only asks whether words are on the level\'s list, so a fully compliant text can still be too hard. And each prompt carries a short summary of the teacher\'s recent edits that never passes through their decision and does not show in the generation record. Showing it, with a switch to turn it off, is further work.',
-          'The model judges were measured against 104 items I labelled blind. One rater who built the system is not a panel of teachers. The next study is the one the pilot was cut down from: several sessions per teacher in one part, with accepted rules withheld from a random share of drafts.',
+          'The vocabulary check only asks whether words are on the level\'s list, so a fully compliant text can still be too hard. A sentence-length check now flags drafts that run longer than Cambridge\'s own texts, but sentence length does not separate the levels in those texts, so it is a reason to read again, not a level boundary. The model judges were measured against 104 items I labelled blind, and one rater who built the system is not a panel of teachers.',
+          'The next study is the comparison the pilot could not make, and the product now runs it: a third of each consenting teacher\'s drafts have their accepted rules withheld at random. Simulated from the pilot\'s rates, eight teachers over four sessions of six drafts would detect a rule that removes the need for correction in a fifth of drafts, with power 0.83.',
         ],
         zh: [
-          '词汇审计只检查词在不在该级别的词表里，所以一段完全合规的文本，读起来可能依然偏难。另外，每次出题的 prompt 里还附带一段该教师近期修改的摘要，它不经过教师同意，生成记录里也看不到。把它显示出来，并提供关闭开关，已列入后续工作。',
-          '几个评判模型都和我盲标的 104 道题做过对照。可标注者只有一个人，而且是系统的作者，代替不了一组教师。下一项研究就是试点当初缩减掉的那部分：让每位教师在同一题型上使用多轮，并对随机一部分初稿暂停已采纳的规则。',
+          '词汇审计只检查词在不在该级别的词表里，所以一段完全合规的文本，读起来可能依然偏难。现在新增了一道句子长度检查，初稿的句子比剑桥官方文本更长时会提示教师。但在官方文本里，句子长度本身分不出 A2 和 B1，所以这道检查只是提醒教师再读一遍，不能当作级别的界线。几个评判模型都和我盲标的 104 道题做过对照，可标注者只有一个人，而且是系统的作者，代替不了一组教师。',
+          '下一项研究要做的，正是试点没能做的那项对比，产品里已经内置了：对于同意参加的教师，每三份初稿中随机有一份不使用已采纳的规则。按试点的数据模拟，八位教师各用四轮、每轮六份初稿，如果一条规则能让五分之一的初稿不再需要修改，这项研究有 0.83 的把握检测出来。',
         ],
       },
     },
