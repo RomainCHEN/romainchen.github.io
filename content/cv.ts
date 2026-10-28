@@ -314,7 +314,7 @@ export const WRITING_MEDIA: CvSection = {
       },
     },
     {
-      when: { en: 'Oct 2023 to present', zh: '2023.10 至今' },
+      when: { en: 'Oct 2023 to Dec 2025', zh: '2023.10 – 2025.12' },
       title: {
         en: 'Head of News & Communication, Student Alumni Association',
         zh: '学生校友工作联合会新闻传播部部长',
