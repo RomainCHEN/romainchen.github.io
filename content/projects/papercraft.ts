@@ -312,9 +312,11 @@ export const papercraft: Project = {
       body: {
         en: [
           'Each topic was generated twice, with a teacher\'s accepted rules and without them, everything else identical, over 40 topics per part. A model from another vendor scored whether each draft followed each rule. The two rules about word classes changed what the generator wrote, and a part-of-speech tagger that uses no language model agreed. The rules that need a judgement at every gap, which is what both teachers corrected most, did not hold up when a second judge rescored them.',
+          'The split was then tested directly, in one model over all eight rules. On verdicts both judges share, rules on a countable standard raised compliance from 63 to 89 per cent, and rules needing a judgement from 25 to 27 per cent (p < .001 for the difference).',
         ],
         zh: [
           '两条和词类有关的规则确实起了作用，其余规则都看不出可靠的效果。测试时每个话题生成两次，一次带上教师采纳的规则，一次不带，其他条件完全一样，每个题型做 40 个话题，由另一家厂商的模型逐份判断初稿是否遵循了规则。词类规则的效果，一个不用语言模型的词性标注器也能证实。那些要逐个空格判断的规则，偏偏是两位教师改得最多的地方，换第二个评判模型复核，却没能站住。',
+          '这个区别后来又用一个统计模型，在全部八条规则上直接检验了一次。只看两个评判模型意见一致的结果，可以计数的规则让遵循率从 63% 升到 89%，需要逐空判断的规则只从 25% 升到 27%，两者的差异显著（p < .001）。',
         ],
       },
     },
