@@ -7,7 +7,7 @@ export const ABOUT_LEDE: Paragraphs = {
   ],
   zh: [
     '我在两所大学读双学位，一边学翻译，一边学计算机科学。',
-    '我读本科的这几年，正好赶上 AI 爆发。我越会用它，能做成的事就越多。两个专业让我从两头看这件事：翻译教我读懂人想说什么，计算机让我看清机器到底在做什么。',
+    '我读本科的这几年，正好赶上 AI 爆发。我越会用它，能做成的事就越多。两个专业让我从两头看这件事。翻译教我读懂人想说什么，计算机让我看清机器到底在做什么。',
   ],
 };
 
@@ -37,7 +37,7 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
       ],
       zh: [
         '我擅长把模糊的学术概念转化为可记录的具体指标。「教师投入」「文化敏感度」「题目质量」这类词人人挂在嘴边，却很少有人界定清楚。我的核心工作，就是先厘清什么才算有效的证据，再亲手搭建工具把它采集下来。',
-        '我能独立完成研究工具从底层到上线的全栈开发，涵盖身份认证、数据库设计、带类型修复的大模型路由、Word 与 PDF 导出以及部署上线。工具必须先做到好用，才谈得上收集真实数据，因此我一直把工程实现视作研究本身的一部分。今年夏天，我也把这套技术带到一家上市制造企业，在其内网部署了量化大模型。',
+        '我能独立完成研究工具从底层到上线的全栈开发，涵盖身份认证、数据库设计、带自动重试的大模型路由、Word 与 PDF 导出以及部署上线。工具必须先做到好用，才谈得上收集真实数据，因此我一直把工程实现视作研究本身的一部分。今年夏天，我也把这套技术带到一家上市制造企业，在其内网部署了量化大模型。',
         '我还面向大众读者写了六年文章，写过阅读量破十万的科技文章、英语词源随笔、校友人物特稿，也拍过一部短片。这些经历让我养成了拿证据说话的习惯，也学会了怎么把硬核的专业问题讲给外行听。',
       ],
     },
@@ -59,13 +59,13 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
 
 export const CURRENTLY: L<string[]> = {
   en: [
-    'PaperCraft is complete. After a pilot with two teachers, the final report went in in October 2026, and the work is written up as an IEEE-format manuscript.',
+    'PaperCraft is complete. After a pilot with two teachers, the final report went in in November 2026, and the work is written up as an IEEE-format manuscript.',
     'Starting my translation thesis at GDUFS. The topic is not settled yet; the working direction is how multimodal co-text, such as posters and synopses, changes a model\'s handling of film titles.',
     'Coding the film title corpus against the three-tier scheme.',
     'Reading on evidence-centred design and item response theory.',
   ],
   zh: [
-    'PaperCraft 已于 2026 年 10 月结题：完成了两位教师参与的试点，已提交结题报告，并整理成一篇 IEEE 格式的论文稿。',
+    'PaperCraft 已于 2026 年 11 月结题：完成了两位教师参与的试点，已提交结题报告，并整理成一篇 IEEE 格式的论文稿。',
     '广外的翻译学毕业论文刚刚起步，具体选题尚未最终敲定，初步打算研究海报、剧情简介等多模态伴随文本会如何影响大模型翻译电影片名。',
     '对照三层分类方案，对电影片名语料库进行编码标注。',
     '研读以证据为中心的设计（ECD）与项目反应理论（IRT）相关文献。',

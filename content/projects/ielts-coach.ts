@@ -16,7 +16,7 @@ export const ieltsCoach: Project = {
   },
   blurb: {
     en: 'An open-source agent skill for IELTS Speaking and Writing, built on one premise: a model answer you cannot remember is worthless.',
-    zh: '一个面向雅思口语和写作的开源 agent skill，出发点很简单：记不住的范文没有用。',
+    zh: '一个面向雅思口语和写作的开源 agent skill。记不住的范文没有用。',
   },
   period: { en: 'July 2026', zh: '2026 年 7 月' },
   role: { en: 'Sole author', zh: '独立完成' },
@@ -38,7 +38,7 @@ export const ieltsCoach: Project = {
     thumb: { src: '/work/ielts-coach/cover-thumb.webp', w: 1248, h: 936 },
     alt: {
       en: 'The IELTS Coach cover: the tagline "Interviews you first, then writes band-calibrated model answers in your own voice", four feature tags, and a Part 2 cue card from the 2026 September to December bank with a target band 7.0 badge.',
-      zh: 'IELTS Coach 的封面。标语是「先访谈你，再用你自己的声音写出对准目标分数的范文」，下面是四个功能标签；右侧是一张 2026 年 9 至 12 月题库的 Part 2 话题卡，标着目标分数 7.0。',
+      zh: 'IELTS Coach 的封面。标语是「先访谈你，再用你自己的声音写出对准目标分数的范文」，下面是四个功能标签。右侧是一张 2026 年 9 至 12 月题库的 Part 2 话题卡，标着目标分数 7.0。',
     },
   },
   links: [
@@ -80,7 +80,7 @@ export const ieltsCoach: Project = {
           'So this tool inverts the interaction. Before it writes a single sentence, it interviews you.',
         ],
         zh: [
-          '随便让一个 AI 助手写一篇雅思作文，四秒钟就能拿到 250 个通顺的英文单词，Firstly、Secondly、In conclusion 一应俱全。这样的文章机器打分不低，对考生却没什么用，原因只有一个：考场上时间紧，人能调用的只有真正属于自己的内容。',
+          '随便让一个 AI 助手写一篇雅思作文，四秒钟就能拿到 250 个通顺的英文单词，Firstly、Secondly、In conclusion 一应俱全。这样的文章机器打分不低，对考生却没什么用，因为考场上时间紧，人能调用的只有真正属于自己的内容。',
           '所以这个工具把交互的顺序倒了过来。动笔之前，它会先访谈学习者。',
         ],
       },
@@ -146,7 +146,7 @@ export const ieltsCoach: Project = {
       },
       caption: {
         en: 'The output is a printable document, not a chat log. Answers can still be reviewed months later, the timescale exam preparation runs on.',
-        zh: '最终得到的是一份可以打印的文档，而不是一段聊天记录。几个月后还能翻出来复习，备考需要的正是这么长的时间。',
+        zh: '最终得到的是一份可以打印的文档。几个月后还能翻出来复习，备考需要的正是这么长的时间。',
       },
     },
     {
@@ -195,7 +195,7 @@ export const ieltsCoach: Project = {
     },
     {
       kind: 'prose',
-      heading: { en: 'A website at the end, not a chat log', zh: '最后交付一个站点，不只是一段对话' },
+      heading: { en: 'A website at the end, not a chat log', zh: '最后交付一个站点' },
       body: {
         en: [
           'At the end of a preparation cycle, the skill builds a summary website from everything you practised. A countdown page holds your targets and practice stats. A speaking sprint page holds your own story cards. Task 1 and Task 2 each get a template page. A coverage review marks in red the topics you have not touched, and a searchable page collects every highlighted expression.',
