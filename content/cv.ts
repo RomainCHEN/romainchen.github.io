@@ -24,7 +24,7 @@ export interface CvSection {
  * reason, as the job résumé's does (see RESUME_UPDATED below), and the reader
  * sees only the date.
  */
-export const CV_UPDATED = '2026-11-09T01:00';
+export const CV_UPDATED = '2026-11-09T01:10';
 
 /** The stamp's date part, which is what gets shown. */
 export const CV_UPDATED_ON = CV_UPDATED.split('T')[0];
@@ -288,7 +288,7 @@ export const WRITING_MEDIA: CvSection = {
         ],
         zh: [
           '带领三人小组建立从策划到现场执行的标准化流程，在展会期间采访境外采购商，累计交付 20 余条宣传视频。',
-          '其中一条视频在广交会官方海外账号播放量破十万；另协助筹办颁奖典礼及两项传统文化体验活动。',
+          '其中一条视频在广交会官方海外账号播放量破十万。另协助筹办颁奖典礼及两项传统文化体验活动。',
         ],
       },
     },
@@ -325,7 +325,7 @@ export const WRITING_MEDIA: CvSection = {
           'Wrote and published widely read features; interviewed community figures including the president of the United Chinese Association of Southern California; ran homecoming reception.',
         ],
         zh: [
-          '撰写并发布多篇高阅读量报道，采访美国南加州华人联合总会会长等人士；负责校友返校接待工作。',
+          '撰写并发布多篇高阅读量报道，采访美国南加州华人联合总会会长等人士，并负责校友返校接待工作。',
         ],
       },
     },

@@ -27,7 +27,7 @@ export const papercraft: Project = {
   },
   blurb: {
     en: "An authoring tool for Cambridge KET and PET exercises. It keeps every correction a teacher makes, and turns the ones that recur into rules the teacher can accept.",
-    zh: '一个给剑桥 KET / PET 出题的工具。它记下教师的每一处修改，把反复出现的修改总结成规则；规则要教师同意，才会用到以后的出题里。',
+    zh: '一个给剑桥 KET / PET 出题的工具。它记下教师的每一处修改，把反复出现的修改总结成规则。规则要教师同意，才会用到以后的出题里。',
   },
   period: { en: 'May to November 2026', zh: '2026 年 5 月至 11 月' },
   role: {
@@ -53,7 +53,7 @@ export const papercraft: Project = {
     thumb: { src: '/work/papercraft/workspace-generate.webp', w: 2880, h: 1800 },
     alt: {
       en: 'PaperCraft in three parts. Authoring, while the teacher works: the teacher chooses exam, part, topic and grammar; prompt assembly adds accepted rules and a recent-work summary; the model drafts one candidate; program checks test schema, handbook counts, vocabulary, answer-key spread and the key against the passage, and a model reads cloze gaps with the key withheld; a failure is described back, up to three tries; the teacher edits, approves or rejects with a reason. Classroom: approved exercises go to the bank, papers and exports, and class results. Distillation, offline and on a schedule: the edit log feeds a program that counts the same change in three or more drafts; one model words a rule and a second votes three times; refused rules are kept with their reason; the teacher accepts, rewords or rejects, and only accepted rules reach a prompt.',
-      zh: 'PaperCraft 分三部分。出题部分在教师操作时进行。教师选好考试、题型、话题和语法点，prompt 组装时加入已采纳的规则和近期修改摘要，模型写出一份候选题。程序检查结构、手册规定的数量、词汇、答案分布，以及答案和原文是否一致；另有一个模型在看不到答案的情况下做完形。不通过就把问题说明发回去重写，最多三次。最后由教师修改、通过，或写明理由退回。课堂部分包括题库、组卷导出和班级成绩。蒸馏部分离线定时运行。程序在批改日志里数同一种修改，出现在三份以上初稿里，就由一个模型写成规则，另一个模型投票三次。被否决的规则连同理由一起保留。教师可以采纳、改写或拒绝，只有采纳的规则会进入 prompt。',
+      zh: 'PaperCraft 分三部分。出题部分在教师操作时进行。教师选好考试、题型、话题和语法点，prompt 组装时加入已采纳的规则和近期修改摘要，模型写出一份候选题。程序检查结构、手册规定的数量、词汇、答案分布，以及答案和原文是否一致，另有一个模型在看不到答案的情况下做完形。不通过就把问题说明发回去重写，最多三次。最后由教师修改、通过，或写明理由退回。课堂部分包括题库、组卷导出和班级成绩。蒸馏部分离线定时运行。程序在批改日志里数同一种修改，出现在三份以上初稿里，就由一个模型写成规则，另一个模型投票三次。被否决的规则连同理由一起保留。教师可以采纳、改写或拒绝，只有采纳的规则会进入 prompt。',
     },
   },
   links: [
@@ -93,8 +93,8 @@ export const papercraft: Project = {
           'PaperCraft is the final-year project that came out of it. It writes all fifteen Reading and Writing item types of A2 Key and B1 Preliminary, checks each draft against the official handbooks with deterministic programs, and keeps every correction the teacher makes. When the same correction recurs, it proposes a rule. A second model tries to refute it, and only the rules the teacher accepts shape later drafts. The final report was submitted in November 2026, after a pilot with two teachers.',
         ],
         zh: [
-          '读计算机学位期间，我带过两个剑桥 KET 小班，练习大多是自己出。有三个问题一直解决不了，而且都和出题快慢无关：难度拿捏不准，真题不够用，现成的话题太旧。语言模型几秒钟就能写出一份像样的练习，可我晚上还得花时间去改，每周改的还都是那几处。',
-          'PaperCraft 就是为这件事做的毕业设计。它能生成 A2 Key 和 B1 Preliminary 阅读写作卷的全部 15 种题型，每份初稿都由程序对照官方手册检查，教师改过的每一处都会记下来。同一种修改反复出现，系统就提出一条规则，交给另一个模型去挑错；只有教师采纳的规则，才会影响以后的初稿。两位教师参加了试点，结题报告在 2026 年 11 月提交。',
+          '读计算机学位期间，我带过两个剑桥 KET 小班，练习大多是自己出。有三个问题一直解决不了，而且都和出题快慢无关。难度拿捏不准，真题不够用，现成的话题太旧。语言模型几秒钟就能写出一份像样的练习，可我晚上还得花时间去改，每周改的还都是那几处。',
+          'PaperCraft 就是为这件事做的毕业设计。它能生成 A2 Key 和 B1 Preliminary 阅读写作卷的全部 15 种题型，每份初稿都由程序对照官方手册检查，教师改过的每一处都会记下来。同一种修改反复出现，系统就提出一条规则，交给另一个模型去挑错。只有教师采纳的规则，才会影响以后的初稿。两位教师参加了试点，结题报告在 2026 年 11 月提交。',
         ],
       },
     },
@@ -151,7 +151,7 @@ export const papercraft: Project = {
         ],
         zh: [
           '这个系统里有三方在做决定：模型、确定性程序和教师。模型负责写初稿、提规则。能用固定规则判定对错的事，都交给确定性程序检查，同样的输入总得到同样的结论，也不调用模型。比如一个部分该有三个还是四个选项、某个词在不在这一级的词表里、答案有没有扎堆在同一个字母上。教学上的判断全部留给教师，任何规则没有教师同意，都进不了 prompt，也就是发给模型的那段指令。',
-          '所以一份初稿要过的七道检查里，有五道不调用语言模型。能用程序判定的问题，交给一个可能说得头头是道、结论却是错的模型，只会平白多出一种出错的方式。',
+          '一份初稿要过的七道检查里，有五道不调用语言模型。能用程序判定的问题，交给一个可能说得头头是道、结论却是错的模型，只会平白多出一种出错的方式。',
         ],
       },
     },
@@ -163,7 +163,7 @@ export const papercraft: Project = {
           'While a draft is being made, the work runs left to right. What the teacher changed runs back along the lower band, and an accepted rule re-enters at prompt assembly.',
         ],
         zh: [
-          '上面那条带是生成初稿的流程，从左往右走；下面那条带把教师的改动送回去，已采纳的规则在 prompt 组装那一步重新接进来。',
+          '上面那条带是生成初稿的流程，从左往右走。下面那条带把教师的改动送回去，已采纳的规则在 prompt 组装那一步重新接进来。',
         ],
       },
       alt: {
@@ -288,7 +288,7 @@ export const papercraft: Project = {
           'The other defect belongs to the whole set. On 11 September, 13 of 33 drafts of A2 Reading and Writing Part 4 put all six answers on A, so a candidate who never read the passage would score full marks. A prompt asking for a spread still left 41 of the next 72 answers on A. A deterministic program step now reorders the answer choices after drafting and updates the key letter; the options and the answer stay the same. None of the next 20 drafts has a skewed key.',
         ],
         zh: [
-          '结构检查只看形式，不管答案对不对。最耽误上课的偏偏是答案出错：一道题有两个说得通的答案，读起来毫无破绽，直到学生拿着被判错的选项来申辩，而且说得有理。',
+          '结构检查只看形式，不管答案对不对。最耽误上课的偏偏是答案出错，比如一道题有两个说得通的答案，读起来毫无破绽，直到学生拿着被判错的选项来申辩，而且说得有理。',
           '我让一个评判模型离线筛查题库，每道题调用两次，一次遮住答案自己做题，一次专门替每个干扰项找成立的理由。77 道题里，它标出了两道。其中一道只看原文就能确认：一则通知写着周五下午四点游泳俱乐部集合，记得带泳衣，标准答案是「要带泳衣」，可「集合在下午」也对。另一道还没有确认。标记不会改动题目，改不改由人决定。',
           '另一类问题出在整套题上。9 月 11 日生成的 33 份 A2 Reading and Writing Part 4 初稿里，有 13 份的六个答案全是 A，考生不读文章、一律选 A 也能拿满分。我在 prompt 里加了一句要求答案分散，接下来的 72 个答案里还是有 41 个是 A。现在初稿写完后，由一个确定性程序打乱选项顺序，并相应更新答案字母，选项文字和正确答案都不变。这一步上线后生成的 20 份初稿，没有一份答案分布失衡。',
         ],
@@ -359,7 +359,7 @@ export const papercraft: Project = {
         ],
         zh: [
           '要知道规则能不能让教师越改越少，得让每位教师在同一题型上用好几轮，而试点里每个题型只有一轮。所以这套机制改用模拟教师离线测试。所谓模拟教师，就是让一个产品从没用过的模型扮演教师，给它一条可以用程序计数的标准，初稿不达标它才动手改。',
-          '模型写作时就能满足的标准，闭环是成立的。比如「六个答案里至少两个是功能词」，也就是介词、冠词这类虚词。规则采纳之后，模拟教师在后面 32 份初稿里一份都不用改；规则被拒绝时，31 份里有 30 份要改。',
+          '模型写作时就能满足的标准，闭环是成立的。比如「六个答案里至少两个是功能词」，也就是介词、冠词这类虚词。规则采纳之后，模拟教师在后面 32 份初稿里一份都不用改。规则被拒绝时，31 份里有 30 份要改。',
           '另一种标准只能看整组选项才能判断，比如正确答案不能是最长的选项。这条规则写进了每一份 prompt，结果毫无变化，因为模型是一个选项接一个选项地写，看不到整组的长短。同一条规则改成阻断式的确定性程序检查后，能凭长度猜出答案的题从 84 道中的 31 道降到 17 道。代价是每份初稿平均调用模型 2.81 次，不加规则时只要 1.06 次，是 2.65 倍。',
           '把这道检查放回闭环，模拟教师的修改量减少了一半，平均每份初稿从 3.0 处降到 1.5 处。但还要改的初稿只从 30 份降到 25 份（共 32 份），差异并不显著。程序检查能发现问题，也能指出是哪一道题，却写不出那个更长的干扰项。产品默认把这道检查做成告警，需要时可以按题型改成阻断。',
         ],
@@ -396,7 +396,7 @@ export const papercraft: Project = {
           state: 'shipped',
           detail: {
             en: 'Deployed and used for classroom materials, with Word, PDF, PowerPoint and slide export. 360 of 373 logged generations passed the specification check first time, and 54 regression scripts run the shipped code on real inputs.',
-            zh: '已上线并用于制作课堂材料，可导出 Word、PDF、PowerPoint 和幻灯片。记录在案的 373 次生成中，360 次一次通过规格检查；54 个回归脚本用真实输入运行线上代码。',
+            zh: '已上线并用于制作课堂材料，可导出 Word、PDF、PowerPoint 和幻灯片。记录在案的 373 次生成中，360 次一次通过规格检查。54 个回归脚本用真实输入运行线上代码。',
           },
         },
         {
@@ -428,7 +428,7 @@ export const papercraft: Project = {
           state: 'piloted',
           detail: {
             en: 'With simulated teachers: a rule ended correction for a standard the model meets while writing, and did nothing for one that holds across a set of options. As a blocking program check, that second standard\'s cue fell from 31 to 17 of 84 questions; inside the loop it halved the teacher\'s edits but left 25 of 32 drafts to fix.',
-            zh: '用模拟教师测试：模型写作时就能满足的标准，规则一经采纳便不必再改；需要看整组选项才能判断的标准，规则毫无作用。后者改成阻断式程序检查后，线索从 84 道题中的 31 道降到 17 道；放回闭环里，教师的修改量减半，但 32 份初稿仍有 25 份要改。',
+            zh: '用模拟教师测试：模型写作时就能满足的标准，规则一经采纳便不必再改。需要看整组选项才能判断的标准，规则毫无作用。后者改成阻断式程序检查后，线索从 84 道题中的 31 道降到 17 道。放回闭环里，教师的修改量减半，但 32 份初稿仍有 25 份要改。',
           },
         },
         {
@@ -459,7 +459,7 @@ export const papercraft: Project = {
         ],
         zh: [
           '词汇审计只看词在不在该级别的词表里，一段完全合规的文本，读起来照样可能偏难。我加了一道句子长度检查，初稿的句子比剑桥官方文本更长，就提示教师。不过在官方文本里，单看句子长度分不出 A2 和 B1，这道检查只能提醒教师再读一遍，当不了级别的界线。评判模型都和我盲标的 104 道题对照过，可标注者只有我一个人，又是系统的作者，代替不了一组教师。',
-          '下一项研究要补上试点没做成的那项对比，产品已经准备好了：同意参加的教师，每三份初稿里会随机抽一份不用已采纳的规则。按试点的数据模拟，找八位教师，每人用四轮、每轮六份初稿；如果一条规则能让五分之一的初稿不必再改，这样的研究有 83% 的把握发现它。',
+          '下一项研究要补上试点没做成的那项对比，产品已经准备好了：同意参加的教师，每三份初稿里会随机抽一份不用已采纳的规则。按试点的数据模拟，找八位教师，每人用四轮、每轮六份初稿。如果一条规则能让五分之一的初稿不必再改，这样的研究有 83% 的把握发现它。',
         ],
       },
     },

@@ -77,7 +77,7 @@ export const transcreation: Project = {
           'That makes titles a clean probe for a question translation studies has argued over for a long time. When a translator abandons the literal meaning, is that a failure of fidelity or an act of expertise? And can a model that has never lived inside a culture do the same?',
         ],
         zh: [
-          '电影片名只有寥寥几个字，看起来是个小问题，其实很难译。它要同时完成三件互相拉扯的事：交代影片讲什么，在另一种文化里打动观众，还要卖出电影票。',
+          '电影片名只有寥寥几个字，却很难译。它要同时完成三件互相拉扯的事：交代影片讲什么，在另一种文化里打动观众，还要卖出电影票。',
           '译者放弃字面意思，是背离原文，还是专业判断？翻译研究为此争论了很久。片名篇幅短、矛盾集中，正好拿来检验这个问题。由此还能追问一步：一个从没在目标文化中生活过的模型，能不能做到同样的事？',
         ],
       },
@@ -92,7 +92,7 @@ export const transcreation: Project = {
         ],
         zh: [
           '常用的机器翻译指标在这里不管用。BLEU 和 ROUGE 衡量的是译文和参考译文的重合程度，而好片名往往恰恰要偏离参考。《Ghost》在中文市场叫《人鬼情未了》，拿任何字面参考来比，它的分数都很低，可它偏偏是对的。',
-          '所以这项研究衡量的是**操作**本身：译者做了哪一类操作，这类操作是否契合眼前的文化差距。',
+          '所以这项研究衡量的是**操作**本身，看译者做了哪一类操作，这类操作是否契合眼前的文化差距。',
         ],
       },
       note: {
@@ -247,7 +247,7 @@ export const transcreation: Project = {
       ],
       caption: {
         en: 'Each strategy code is defined by its relationship to the cultural schema, not by its surface form. So one code means the same thing to two coders and in both translation directions.',
-        zh: '每个策略代码都按它和文化图式的关系来定义，而不看表面形式。因此，同一个代码换了编码者、换了翻译方向，指的仍是同一件事。',
+        zh: '每个策略代码都按它和文化图式的关系来定义，而不看表面形式。同一个代码换了编码者、换了翻译方向，指的仍是同一件事。',
       },
     },
     {
@@ -262,7 +262,7 @@ export const transcreation: Project = {
         zh: [
           '传统翻译理论给「意译」这个词塞了太多东西，从轻度改写到彻底再创作都算在里面，结果它成了一个黑箱。叫它「意译」，并不能说明里面发生了什么。',
           '改用**译创**这个概念，把它理解为认知和文化层面的重新组合，机制就说得清了。译者要判断原文是怎样构建意义的，判断这个结构能否在目标文化中立住，然后重新组合。这三种能力都能单独检验，模型在每一种上出错的方式也各不相同。',
-          '人机译法的差别在于**性质**，而不在优劣。语料中人工译者的决策是诊断式的，一步一步做出来；模型的决策则相当随意，它直接套用默认映射，不去检验源语图式在跨语言转换后还能不能保留。',
+          '人机译法的差别在于**性质**。语料中人工译者的决策是诊断式的，一步一步做出来；模型的决策则相当随意，它直接套用默认映射，不去检验源语图式在跨语言转换后还能不能保留。',
         ],
       },
     },
@@ -338,8 +338,8 @@ export const transcreation: Project = {
           'The translation work is also where I learned that a construct has to be operationalised before it can be studied. It is the lesson I use most when building learning systems.',
         ],
         zh: [
-          '两个软件项目之间夹着一篇人文论文，乍看格格不入。其实它们问的是同一个问题，只是用的工具不同。',
-          'PaperCraft 想知道，生成流程里教师的哪些判断替代不了，用编辑距离来量；这项研究想知道，译者的哪些文化判断替代不了，用图式操作来量。两者评价模型时，看的都是它做了哪一类操作，而不是它产出了什么。两者也都把人的贡献当成要测量的结果，让它有数据可查，不只是一句断言。',
+          '两个软件项目之间夹着一篇人文论文。它们问的是同一个问题，只是用的工具不同。',
+          'PaperCraft 想知道，生成流程里教师的哪些判断替代不了，用编辑距离来量；这项研究想知道，译者的哪些文化判断替代不了，用图式操作来量。两者评价模型时，看的都是它做了哪一类操作，而不是它产出了什么。两者也都把人的贡献当成要测量的结果，让它有数据可查。',
           '也是在翻译研究里，我明白了一个道理：说不清怎么测量的概念，没法拿来研究，学术上把这一步叫作操作化。后来做学习系统，这是我用得最多的一条经验。',
         ],
       },
