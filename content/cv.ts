@@ -93,7 +93,7 @@ export const RESEARCH: CvSection = {
   heading: { en: 'Research', zh: '研究经历' },
   entries: [
     {
-      when: { en: 'May to Oct 2026', zh: '2026.05 至 2026.10' },
+      when: { en: 'May to Nov 2026', zh: '2026.05 至 2026.11' },
       title: {
         en: 'PaperCraft: a teacher-in-the-loop LLM authoring tool for Cambridge KET/PET',
         zh: 'PaperCraft：剑桥 KET / PET 人工在环智能出题系统',
@@ -104,14 +104,14 @@ export const RESEARCH: CvSection = {
       },
       points: {
         en: [
-          'Designed the authoring harness the model runs inside: a fixed call sequence, machine-checked output and typed repair of a named failure.',
+          'Designed the authoring harness the model runs inside: a fixed call sequence, deterministic program checks on the output, and an automatic retry that names the failed requirement.',
           'Added a self-improving loop: an offline pass induces rules from the teacher’s corrections, a second model family audits each, and only rules the teacher accepts reach later drafts, across 15 item types.',
-          'Piloted with two teachers; two accepted rules changed drafts on 40 paired topics per part. Report and manuscript, Oct 2026.',
+          'Piloted with two teachers; two accepted rules changed drafts on 40 paired topics per part. Report and manuscript, Nov 2026.',
         ],
         zh: [
-          '设计受控的出题运行框架（harness），按固定次序调用模型，用代码自动校验输出结构，并针对具体报错类型触发定向修复。',
+          '设计受控的出题运行框架（harness），按固定次序调用模型，用确定性程序校验输出；校验不通过时自动重试，并在新请求里写明没达到的要求。',
           '构建自演进闭环：从教师批改记录中离线归纳命题规则，交由另一家厂商的模型交叉审计，经教师确认采纳后才进入后续出题，覆盖 15 种剑桥题型。',
-          '与 2 位一线教师完成试点。在各题型 40 组配对话题测试中，教师采纳的两条词类规则切实改变了生成的初稿（经 Holm 校正后成立）。于 2026 年 10 月完成结题报告与 IEEE 格式论文稿。',
+          '与 2 位一线教师完成试点。在各题型 40 组配对话题测试中，教师采纳的两条词类规则切实改变了生成的初稿（经 Holm 校正后成立）。于 2026 年 11 月完成结题报告与 IEEE 格式论文稿。',
         ],
       },
     },

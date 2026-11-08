@@ -59,13 +59,13 @@ export const ABOUT_BODY: { heading: L; body: Paragraphs }[] = [
 
 export const CURRENTLY: L<string[]> = {
   en: [
-    'PaperCraft is complete. After a pilot with two teachers, the final report went in in October 2026, and the work is written up as an IEEE-format manuscript.',
+    'PaperCraft is complete. After a pilot with two teachers, the final report went in in November 2026, and the work is written up as an IEEE-format manuscript.',
     'Starting my translation thesis at GDUFS. The topic is not settled yet; the working direction is how multimodal co-text, such as posters and synopses, changes a model\'s handling of film titles.',
     'Coding the film title corpus against the three-tier scheme.',
     'Reading on evidence-centred design and item response theory.',
   ],
   zh: [
-    'PaperCraft 已于 2026 年 10 月结题：完成了两位教师参与的试点，已提交结题报告，并整理成一篇 IEEE 格式的论文稿。',
+    'PaperCraft 已于 2026 年 11 月结题：完成了两位教师参与的试点，已提交结题报告，并整理成一篇 IEEE 格式的论文稿。',
     '广外的翻译学毕业论文刚刚起步，具体选题尚未最终敲定，初步打算研究海报、剧情简介等多模态伴随文本会如何影响大模型翻译电影片名。',
     '对照三层分类方案，对电影片名语料库进行编码标注。',
     '研读以证据为中心的设计（ECD）与项目反应理论（IRT）相关文献。',
